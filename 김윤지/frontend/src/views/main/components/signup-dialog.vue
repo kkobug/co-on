@@ -1,7 +1,7 @@
 <template>
 <!-- 소속, 직책, 이름 -->
   <el-dialog custom-class="signup-dialog" title="회원가입" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
+    <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
       <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.id" autocomplete="off"></el-input>
       </el-form-item>
@@ -119,7 +119,6 @@ export default {
           store.dispatch('root/requestSignup', {
             id: state.form.id,
             password: state.form.password,
-            passwordCheck: state.form.passwordCheck,
             department: state.form.department,
             position: state.form.position,
             name: state.form.name
