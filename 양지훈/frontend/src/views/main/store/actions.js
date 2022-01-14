@@ -7,3 +7,10 @@ export function requestLogin ({ state }, payload) {
   let body = payload
   return $axios.post(url, body)
 }
+
+// export function requestSignup ({ state }, payload) {
+//   console.log('requestSignup', state, payload)
+//   const url = '/auth/signup'
+//   let body = payload
+//   return $axios.post(url, body)
+// }

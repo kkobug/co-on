@@ -14,7 +14,7 @@
           </el-input>
         </div>
         <div class="button-wrapper">
-          <el-button>회원가입</el-button>
+          <el-button @click="clickSignup">회원가입</el-button>
           <el-button type="primary" @click="clickLogin">로그인</el-button>
         </div>
       </div>
@@ -110,11 +110,15 @@ export default {
       emit('openLoginDialog')
     }
 
+    const clickSignup = () => {
+      emit('openSignupDialog')
+    }
+
     const changeCollapse = () => {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, changeCollapse }
+    return { state, menuSelect, clickLogo, clickLogin, changeCollapse, clickSignup }
   }
 }
 </script>
@@ -129,7 +133,7 @@ export default {
     position: relative;
     top: 14px;
   }
-  
+
   .main-header .hide-on-big .logo-wrapper {
     display: inline-block;
     margin: 0 calc(50% - 51px)
