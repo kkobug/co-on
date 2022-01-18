@@ -1,6 +1,7 @@
 package com.ssafy.api.service; //비즈니스 로직 처리를 위한 서비스
 
 import com.ssafy.api.request.StudentRegisterPostReq;
+import com.ssafy.api.request.StudentUpdatePutReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.User;
@@ -11,5 +12,6 @@ import com.ssafy.db.entity.User;
 public interface StudentService {
 	Student createStudent(StudentRegisterPostReq studentRegisterInfo);
 	Student findById(String stId);
-//	void deleteStudent(String st_id);
+	void deleteStudent(String st_id);
+	Student updateStudent(StudentUpdatePutReq studentUpdatePutReq);
 }

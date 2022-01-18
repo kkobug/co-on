@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -17,13 +18,18 @@ import java.io.Serializable;
 @Setter
 public class Teacher implements Serializable { //Teacher Table 속성 정의
     @Id
-    String tchr_id;
-    String tchr_name;
-    String tchr_email;
-    String tchr_contact;
-    String tchr_signup_date;
-    String tchr_school;
+    @Column(name = "tchr_id")
+    String tchrId;
+    @Column(name = "tchr_name")
+    String tchrName;
+    @Column(name = "tchr_email")
+    String tchrEmail;
+    @Column(name = "tchr_contact")
+    String tchrContact;
+    @Column(name = "tchr_school")
+    String tchrSchool;
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    String tchr_password;
+    @Column(name = "tchr_password")
+    String tchrPassword;
 }

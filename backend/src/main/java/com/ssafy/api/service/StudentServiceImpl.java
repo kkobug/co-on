@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.StudentRegisterPostReq;
+import com.ssafy.api.request.StudentUpdatePutReq;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.repository.StudentRepository;
 import com.ssafy.db.repository.StudentRepositorySupport;
@@ -36,8 +37,20 @@ public class StudentServiceImpl implements StudentService{
         return student;
     }
 
-//    @Override
-//    public void deleteStudent(String st_id) {
-//        studentRepository.deleteById(st_id);
-//    }
+    @Override
+    public void deleteStudent(String st_id) {
+        studentRepository.deleteById(st_id);
+    }
+
+    @Override
+    public Student updateStudent(StudentUpdatePutReq studentUpdatePutReq) {
+        Student student = new Student();
+        student.setStId(studentUpdatePutReq.getSt_id());
+        student.setStName(studentUpdatePutReq.getSt_name());
+        student.setStEmail(studentUpdatePutReq.getSt_email());
+        student.setStPassword(passwordEncoder.encode(studentUpdatePutReq.getSt_password()));
+        student.setStContact(studentUpdatePutReq.getSt_contact());
+        student.setStSchool(studentUpdatePutReq.getSt_school());
+        return studentRepository.save(student);
+    }
 }

@@ -20,7 +20,7 @@ public class QStudent extends EntityPathBase<Student> {
 
     public static final QStudent student = new QStudent("student");
 
-    public final QBaseEntity _super = new QBaseEntity();
+    public final QBaseEntity _super = new QBaseEntity(this);
 
     public final StringPath st_id = createString("st_id");
 
