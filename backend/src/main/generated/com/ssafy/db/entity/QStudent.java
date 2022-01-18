@@ -10,7 +10,6 @@ import com.querydsl.core.types.Path;
 
 
 /**
-/**
  * QUser is a Querydsl query type for User
  */
 @Generated("com.querydsl.codegen.EntitySerializer")

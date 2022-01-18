@@ -5,8 +5,10 @@ import com.ssafy.api.response.StudentDeleteRes;
 import com.ssafy.api.response.StudentRes;
 import com.ssafy.api.service.MailService;
 import com.ssafy.api.service.StudentService;
+import com.ssafy.api.service.TeacherService;
 import com.ssafy.common.auth.SsafyStudentDetails;
 import com.ssafy.db.entity.Student;
+import com.ssafy.db.entity.Teacher;
 import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +39,9 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(value = "유저 API", tags = {"User"})
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1")
 public class UserController {
-	
+
 	@Autowired
 	UserService userService;
 
@@ -50,9 +52,26 @@ public class UserController {
 	MailService mailService;
 
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	TeacherService teacherService;
 
-	@PostMapping("/signup")
+
+	@PostMapping("/teacher/signup")
+	@ApiOperation(value = "교사 회원 가입", notes = "<strong>아이디,패스워드,이름, 연락처, 이메일, 학교이름</strong>를 통해 회원가입 한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> register(
+			@RequestBody @ApiParam(value="회원가입 정보", required = true)  TeacherRegisterPostReq teacherRegisterInfo) {
+		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
+		Teacher teacher = teacherService.createTeacher(teacherRegisterInfo);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+
+	@PostMapping("/student/signup")
 	@ApiOperation(value = "학생 회원 가입", notes = "<strong>아이디,패스워드,이름, 연락처, 이메일, 학교이름</strong>를 통해 회원가입 한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -68,7 +87,69 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	@GetMapping("/me")
+
+	@PutMapping("/teacher/modify")
+	@ApiOperation(value = "교사 정보 수정", notes = "<strong>아이디,패스워드,이름, 연락처, 이메일, 학교이름</strong>를 통해 정보를 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> modify(
+			@RequestBody @ApiParam(value="회원가입 정보", required = true) TeacherModifyPutReq teacherModifyInfo) {
+		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
+		Teacher teacher = teacherService.modifyTeacher(teacherModifyInfo);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+
+	@PutMapping("/student/modify")
+	@ApiOperation(value = "학생 회원 정보 수정", notes = "회원 정보를 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> modify(
+			@RequestBody @ApiParam(value="회원수정 정보", required = true) StudentUpdatePutReq studentUpdatePutReq) {
+
+		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
+		Student student = studentService.updateStudent(studentUpdatePutReq);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+
+	@DeleteMapping("/teacher/withdrawal/{tchrId}")
+	@ApiOperation(value = "교사 회원 정보 삭제", notes = "회원 정보를 삭제한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<?> removeteacher(@ApiParam(value = "삭제할 교사 아이디", required = true)@PathVariable String tchrId){
+		teacherService.deleteTeacher(tchrId);
+		return ResponseEntity.status(200).body(200);
+	}
+
+
+	@DeleteMapping("/student/withdrawal/{stId}")
+	@ApiOperation(value = "학생 회원 정보 삭제", notes = "회원 정보를 삭제한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<?> removestudent(@ApiParam(value = "삭제할 학생 아이디", required = true)@PathVariable String stId){
+		studentService.deleteStudent(stId);
+		return ResponseEntity.status(200).body("OK");
+	}
+
+
+	@GetMapping("/student/me")
 	@ApiOperation(value = "학생 회원 본인 정보 조회", notes = "로그인한 학생 본인의 정보를 응답한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -85,35 +166,6 @@ public class UserController {
 		String studentId =studentDetails.getUsername();
 		Student student = studentService.findById(studentId);
 		return ResponseEntity.status(200).body(StudentRes.of(student));
-	}
-
-	@DeleteMapping("/withdrawal/{stId}")
-	@ApiOperation(value = "학생 회원 정보 삭제", notes = "회원 정보를 삭제한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<?> delete(@ApiParam(value = "삭제할 학생 아이디", required = true)@PathVariable String stId){
-		studentService.deleteStudent(stId);
-		return ResponseEntity.status(200).body("OK");
-	}
-
-	@PutMapping("/update")
-	@ApiOperation(value = "학생 회원 정보 수정", notes = "회원 정보를 수정한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<? extends BaseResponseBody> update(
-			@RequestBody @ApiParam(value="회원수정 정보", required = true) StudentUpdatePutReq studentUpdatePutReq) {
-
-		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
-		Student student = studentService.updateStudent(studentUpdatePutReq);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
 	@GetMapping("/findId")

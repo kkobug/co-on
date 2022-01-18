@@ -1,4 +1,4 @@
-package com.ssafy.db.entity; //DB table과 매핑돠는 Entity Class
+package com.ssafy.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import javax.persistence.MappedSuperclass;
 @Getter
 @Setter
 @MappedSuperclass
-public class BaseEntity { //공통 Entity 속성 정의
+public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id = null;
