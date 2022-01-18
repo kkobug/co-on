@@ -1,0 +1,23 @@
+{
+  "home" : {
+    "name" : "메인",
+    "hidden" : false,
+    "path" : "/",
+    "icon" : "el-icon-s-home",
+    "children" : []
+  },
+  "history" : {
+    "name" : "과제제출",
+    "hidden" : false,
+    "path" : "/history",
+    "icon" : "el-icon-s-order",
+    "children" : []
+  },
+  "class" : {
+    "name" : "수업",
+    "hidden" : false,
+    "path" : "/history",
+    "icon" : "el-icon-s-order",
+    "children" : []
+  }
+}
