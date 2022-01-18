@@ -53,4 +53,16 @@ public class StudentServiceImpl implements StudentService{
         student.setStSchool(studentUpdatePutReq.getSt_school());
         return studentRepository.save(student);
     }
+
+    @Override
+    public String findstIdBystName(String stName) {
+        String StId = studentRepositorySupport.findstIdBystName(stName);
+        return StId;
+    }
+
+    @Override
+    public Student changeStudentPassword(Student student) {
+        student.setStPassword(passwordEncoder.encode(student.getStPassword()));
+        return studentRepository.save(student);
+    }
 }

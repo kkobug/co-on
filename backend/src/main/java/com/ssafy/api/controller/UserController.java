@@ -1,9 +1,9 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.StudentRegisterPostReq;
-import com.ssafy.api.request.StudentUpdatePutReq;
+import com.ssafy.api.request.*;
 import com.ssafy.api.response.StudentDeleteRes;
 import com.ssafy.api.response.StudentRes;
+import com.ssafy.api.service.MailService;
 import com.ssafy.api.service.StudentService;
 import com.ssafy.common.auth.SsafyStudentDetails;
 import com.ssafy.db.entity.Student;
@@ -16,8 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.ssafy.api.request.UserLoginPostReq;
-import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.UserService;
@@ -48,22 +46,11 @@ public class UserController {
 	@Autowired
 	StudentService studentService;
 
-//	@PostMapping("/signup")
-//	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
-//    @ApiResponses({
-//        @ApiResponse(code = 200, message = "성공"),
-//        @ApiResponse(code = 401, message = "인증 실패"),
-//        @ApiResponse(code = 404, message = "사용자 없음"),
-//        @ApiResponse(code = 500, message = "서버 오류")
-//    })
-//	public ResponseEntity<? extends BaseResponseBody> register(
-//			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
-//
-//		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
-//		User user = userService.createUser(registerInfo);
-//		logger.debug("register 호출.........................................");
-//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-//	}
+	@Autowired
+	MailService mailService;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@PostMapping("/signup")
 	@ApiOperation(value = "학생 회원 가입", notes = "<strong>아이디,패스워드,이름, 연락처, 이메일, 학교이름</strong>를 통해 회원가입 한다.")
@@ -80,27 +67,6 @@ public class UserController {
 		Student student = studentService.createStudent(studentRegisterInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
-
-
-//	@GetMapping("/me")
-//	@ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.")
-//	@ApiResponses({
-//			@ApiResponse(code = 200, message = "성공"),
-//			@ApiResponse(code = 401, message = "인증 실패"),
-//			@ApiResponse(code = 404, message = "사용자 없음"),
-//			@ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<UserRes> getStudentInfo(@ApiIgnore Authentication authentication) {
-//		/**
-//		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
-//		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
-//		 */
-//		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
-//		String userId = userDetails.getUsername();
-//		User user = userService.getUserByUserId(userId);
-//
-//		return ResponseEntity.status(200).body(UserRes.of(user));
-//	}
 
 	@GetMapping("/me")
 	@ApiOperation(value = "학생 회원 본인 정보 조회", notes = "로그인한 학생 본인의 정보를 응답한다.")
@@ -131,10 +97,10 @@ public class UserController {
 	})
 	public ResponseEntity<?> delete(@ApiParam(value = "삭제할 학생 아이디", required = true)@PathVariable String stId){
 		studentService.deleteStudent(stId);
-		return ResponseEntity.status(200).body(200);
+		return ResponseEntity.status(200).body("OK");
 	}
 
-	@PutMapping
+	@PutMapping("/update")
 	@ApiOperation(value = "학생 회원 정보 수정", notes = "회원 정보를 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -147,6 +113,41 @@ public class UserController {
 
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
 		Student student = studentService.updateStudent(studentUpdatePutReq);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+	@GetMapping("/findId")
+	@ApiOperation(value = "회원 아이디 찾기", notes = "회원 이메일로 아이디를 포함한 메일을 전송한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<?> findId(@RequestBody StudentFindIdPostReq studentFindIdPostReq){
+		String stName = studentFindIdPostReq.getStName();
+		String stEmail = studentFindIdPostReq.getStEmail();
+		//이름 정보로 회원 Id 찾고, Mail 보내기
+		String stId = studentService.findstIdBystName(stName);
+		mailService.sendMail(stId, stEmail);
+		return ResponseEntity.status(200).body(stId);
+	}
+
+	@PutMapping("/findPassword")
+	@ApiOperation(value = "회원 비밀번호 변경", notes = "회원 아이디로 비밀번호를 변경한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public  ResponseEntity<? extends BaseResponseBody> findPassword(@RequestParam String stId, @RequestParam String stPassword) {
+
+		//1. 회원 아이디에 해당하는 회원 정보 가져오기
+		Student student = studentService.findById(stId);
+		//2. 변경할 비밀번호
+		student.setStPassword(stPassword);
+		Student updateStudent = studentService.changeStudentPassword(student);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 }

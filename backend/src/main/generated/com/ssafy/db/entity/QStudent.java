@@ -22,17 +22,17 @@ public class QStudent extends EntityPathBase<Student> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final StringPath st_id = createString("st_id");
+    public final StringPath stId = createString("st_id");
 
-    public final StringPath st_name = createString("st_name");
+    public final StringPath stName = createString("st_name");
 
-    public final StringPath st_email = createString("st_email");
+    public final StringPath stEmail = createString("st_email");
 
-    public final StringPath st_password = createString("st_password");
+    public final StringPath stPassword = createString("st_password");
 
-    public final StringPath st_contact = createString("st_contact");
+    public final StringPath stContact = createString("st_contact");
 
-    public final StringPath st_school = createString("st_school");
+    public final StringPath stSchool = createString("st_school");
 
     public QStudent(String variable) {
         super(Student.class, forVariable(variable));

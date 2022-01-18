@@ -14,4 +14,6 @@ public interface StudentService {
 	Student findById(String stId);
 	void deleteStudent(String st_id);
 	Student updateStudent(StudentUpdatePutReq studentUpdatePutReq);
+	Student changeStudentPassword(Student student);
+	String findstIdBystName(String stName);
 }
