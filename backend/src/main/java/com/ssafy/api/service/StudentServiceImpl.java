@@ -6,6 +6,7 @@ import com.ssafy.db.entity.Student;
 import com.ssafy.db.repository.StudentRepository;
 import com.ssafy.db.repository.StudentRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ public class StudentServiceImpl implements StudentService{
 
     @Autowired
     StudentRepositorySupport studentRepositorySupport;
+
+    @Lazy
     @Autowired
     PasswordEncoder passwordEncoder;
 
