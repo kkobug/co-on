@@ -20,4 +20,11 @@ public class StudentRepositorySupport {
         if(student == null) return Optional.empty();
         return Optional.ofNullable(student);
     }
+
+    public String findstIdBystName(String stName) {
+        String stId = jpaQueryFactory.select(qStudent.stId).from(qStudent)
+                .where(qStudent.stName.eq(stName)).fetchOne();
+        return stId;
+    }
+
 }
