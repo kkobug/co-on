@@ -10,7 +10,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.nio.charset.StandardCharsets;
 
 @SpringBootApplication
-public class GroupCallApplication { //메인 실행 파일
+public class GroupCallApplication {
 	public static void main(String[] args) {
         SpringApplication.run(GroupCallApplication.class, args);
     }

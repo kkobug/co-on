@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("BaseResponseBody")
-public class BaseResponseBody { //공용 RESPONSE BODY CLASS
+public class BaseResponseBody {
 	@ApiModelProperty(name="응답 메시지", example = "정상")
 	String message = null;
 	@ApiModelProperty(name="응답 코드", example = "200")
