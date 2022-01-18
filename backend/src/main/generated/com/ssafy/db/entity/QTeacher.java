@@ -46,4 +46,3 @@ public class QTeacher extends EntityPathBase<Teacher> {
     }
 
 }
-

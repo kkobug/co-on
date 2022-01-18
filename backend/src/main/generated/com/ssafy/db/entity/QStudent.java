@@ -46,4 +46,3 @@ public class QStudent extends EntityPathBase<Student> {
     }
 
 }
-

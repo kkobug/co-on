@@ -58,4 +58,16 @@ public class TeacherServiceImpl implements TeacherService {
 	public void deleteTeacher(String tchr_id) {
 		teacherRepository.deleteById(tchr_id);
 	}
+
+	@Override
+	public Teacher changeTeacherPassword(Teacher teacher) {
+		teacher.setTchrPassword(passwordEncoder.encode(teacher.getTchrPassword()));
+		return teacherRepository.save(teacher);
+	}
+
+	@Override
+	public String findByName(String tchrName) {
+		String tchrId = teacherRepositorySupport.findIdByName(tchrName);
+		return tchrId;
+	}
 }
