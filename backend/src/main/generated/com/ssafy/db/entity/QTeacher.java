@@ -19,19 +19,19 @@ public class QTeacher extends EntityPathBase<Teacher> {
 
     public static final QTeacher teacher = new QTeacher("teacher");
 
-    public final QBaseEntity _super = new QBaseEntity();
+    public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final StringPath tchr_id = createString("tchr_id");
+    public final StringPath tchrId = createString("tchr_id");
 
-    public final StringPath tchr_name = createString("tchr_name");
+    public final StringPath tchrName = createString("tchr_name");
 
-    public final StringPath tchr_email = createString("tchr_email");
+    public final StringPath tchrEmail = createString("tchr_email");
 
-    public final StringPath tchr_password = createString("tchr_password");
+    public final StringPath tchrPassword = createString("tchr_password");
 
-    public final StringPath tchr_contact = createString("tchr_contact");
+    public final StringPath tchrContact = createString("tchr_contact");
 
-    public final StringPath tchr_school = createString("tchr_school");
+    public final StringPath tchrSchool = createString("tchr_school");
 
     public QTeacher(String variable) {
         super(Teacher.class, forVariable(variable));

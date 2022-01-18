@@ -112,7 +112,7 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> update(
+	public ResponseEntity<? extends BaseResponseBody> modify(
 			@RequestBody @ApiParam(value="회원수정 정보", required = true) StudentUpdatePutReq studentUpdatePutReq) {
 
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
@@ -129,7 +129,7 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<?> delete(@ApiParam(value = "삭제할 교사 아이디", required = true)@PathVariable String tchrId){
+	public ResponseEntity<?> removeteacher(@ApiParam(value = "삭제할 교사 아이디", required = true)@PathVariable String tchrId){
 		teacherService.deleteTeacher(tchrId);
 		return ResponseEntity.status(200).body(200);
 	}
@@ -143,7 +143,7 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<?> delete(@ApiParam(value = "삭제할 학생 아이디", required = true)@PathVariable String stId){
+	public ResponseEntity<?> removestudent(@ApiParam(value = "삭제할 학생 아이디", required = true)@PathVariable String stId){
 		studentService.deleteStudent(stId);
 		return ResponseEntity.status(200).body(200);
 	}
