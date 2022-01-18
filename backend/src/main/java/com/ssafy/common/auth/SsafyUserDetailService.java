@@ -20,7 +20,7 @@ import com.ssafy.db.repository.UserRepository;
 public class SsafyUserDetailService implements UserDetailsService{
 	@Autowired
 	UserService userService;
-
+	
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     		User user = userService.getUserByUserId(username);

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.ssafy.db.entity.Student;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,8 +26,7 @@ public class SsafyUserDetails implements UserDetails {
     		super();
     		this.user = user;
     }
-
-
+    
     public User getUser() {
     		return this.user;
     }
@@ -64,5 +61,4 @@ public class SsafyUserDetails implements UserDetails {
 	public void setAuthorities(List<GrantedAuthority> roles) {
 		this.roles = roles;
 	}
-
 }

@@ -1,7 +1,6 @@
 package com.ssafy.common.auth;
 
-import com.ssafy.db.entity.Student;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,31 +12,31 @@ import java.util.List;
 /**
  * 현재 액세스 토큰으로 부터 인증된 유저의 부가 상세정보(활성화 여부, 만료, 롤 등) 정의.
  */
-public class SsafyStudentDetails implements UserDetails {
+public class SsafyTeacherDetails implements UserDetails {
 	@Autowired
-	Student student;
+	Teacher teacher;
 	boolean accountNonExpired;
     boolean accountNonLocked;
     boolean credentialNonExpired;
     boolean enabled = false;
     List<GrantedAuthority> roles = new ArrayList<>();
 
-    public SsafyStudentDetails(Student student) {
+    public SsafyTeacherDetails(Teacher teacher) {
     		super();
-    		this.student = student;
+    		this.teacher = teacher;
     }
 
 
-    public Student getStudent() {
-    		return this.student;
+    public Teacher getTeacher() {
+    		return this.teacher;
     }
 	@Override
 	public String getPassword() {
-		return this.student.getStPassword();
+		return this.teacher.getTchrPassword();
 	}
 	@Override
 	public String getUsername() {
-		return this.student.getStId();
+		return this.teacher.getTchrId();
 	}
 	@Override
 	public boolean isAccountNonExpired() {

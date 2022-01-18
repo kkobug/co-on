@@ -2,11 +2,10 @@ package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -15,15 +14,21 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-public class Teacher implements Serializable { //Teacher Table 속성 정의
+public class Teacher implements Serializable {          // point 1
     @Id
-    String tchr_id;
-    String tchr_name;
-    String tchr_email;
-    String tchr_contact;
-    String tchr_signup_date;
-    String tchr_school;
+    @Column(name = "tchr_id")
+    String tchrId;
+    @Column(name = "tchr_name")             //point 2
+    String tchrName;
+    @Column(name = "tchr_email")
+    String tchrEmail;
+    @Column(name = "tchr_contact")
+    String tchrContact;
+    @Column(name = "tchr_school")
+    String tchrSchool;
+
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    String tchr_password;
+    @Column(name = "tchr_password")
+    String tchrPassword;
 }

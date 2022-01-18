@@ -10,7 +10,6 @@ import com.querydsl.core.types.Path;
 
 
 /**
-/**
  * QUser is a Querydsl query type for User
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
@@ -20,7 +19,7 @@ public class QTeacher extends EntityPathBase<Teacher> {
 
     public static final QTeacher teacher = new QTeacher("teacher");
 
-    public final QBaseEntity _super = new QBaseEntity(this);
+    public final QBaseEntity _super = new QBaseEntity();
 
     public final StringPath tchr_id = createString("tchr_id");
 

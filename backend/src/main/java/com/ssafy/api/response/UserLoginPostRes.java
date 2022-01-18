@@ -1,4 +1,4 @@
-package com.ssafy.api.response; //REST API 응답 모델(DTO)
+package com.ssafy.api.response;
 
 import com.ssafy.common.model.response.BaseResponseBody;
 
@@ -25,4 +25,3 @@ public class UserLoginPostRes extends BaseResponseBody{
 		return res;
 	}
 }
-

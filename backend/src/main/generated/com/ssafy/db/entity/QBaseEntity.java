@@ -8,6 +8,10 @@ import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
 
+
+/**
+ * QBaseEntity is a Querydsl query type for BaseEntity
+ */
 @Generated("com.querydsl.codegen.SupertypeSerializer")
 public class QBaseEntity extends EntityPathBase<BaseEntity> {
 
