@@ -33,5 +33,6 @@ export default {
   isDesktopPlatform: IsDesktop,
   activeMenu: 'home',
   menus: menuData,
-  authToken: '',
+  userid:'',
+  authtoken:'',
 }

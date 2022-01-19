@@ -1,13 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/home/home'
+import Login from '@/views/auth/login'
 import ConferencesDetail from '@/views/conferences/conference-detail'
-import History from '@/views/history/history'
+
+import Mypage from '@/views/history/mypage'
+
+//teacher
+import Tchr_main from '@/views/teacher/tchr_main'
+import Tchr_Lesson from '@/views/teacher/tchr_lesson'
+import Tchr_ourclass from '@/views/teacher/ourclass'
+import Tchr_attend from '@/views/teacher/daily_attend'
+
+// import Main from '@/views/main/main'
+import Main_calendar from '@/views/main/components/calendar'
+import hw_notice from '@/views/hw_notice/hw_notice'
+import Lesson from '@/views/main/components/lesson/lesson'
 
 const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
-  let routes = Object.keys(fullMenu).map((key) => { 
+  let routes = Object.keys(fullMenu).map((key) => {
     if (key === 'home') {
       return { path: fullMenu[key].path, name: key, component: Home  }
+    } else if (key === 'login') {
+      return { path: fullMenu[key].path, name: key, component: Login }
     } else if (key === 'history') {
       return { path: fullMenu[key].path, name: key, component: History }
     } else { // menu.json 에 들어있는 로그아웃 메뉴
@@ -25,7 +40,49 @@ function makeRoutesFromMenu () {
   return routes
 }
 
-const routes = makeRoutesFromMenu()
+// const routes = makeRoutesFromMenu()
+const routes = [
+  {
+    path: '/',
+    name: 'Main_calendar',
+    component: Main_calendar,
+  },
+  {
+    path: '/hw_notice',
+    name: 'hw_notice',
+    component: hw_notice,
+  },
+  {
+    path: '/lesson',
+    name: 'Lesson',
+    component: Lesson,
+  },
+  {
+    path: '/mypage',
+    name: 'Mypage',
+    component: Mypage,
+  },
+  {
+    path: "/tchr_main",
+    name: "Tchr_main",
+    component: Tchr_main,
+  },
+  {
+    path: "/tchr_lesson",
+    name: "Tchr_Lesson",
+    component: Tchr_Lesson,
+  },
+  {
+    path: "/tchr_attend",
+    name: "Tchr_attend",
+    component: Tchr_attend,
+  },
+  {
+    path: "/tchr_ourclass",
+    name: "Tchr_ourclass",
+    component: Tchr_ourclass,
+  },
+]
 
 const router = createRouter({
   history: createWebHistory(),

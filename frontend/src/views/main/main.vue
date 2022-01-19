@@ -1,14 +1,12 @@
 <template>
+<!-- main.vue -->
   <el-container class="main-wrapper">
-    <main-header
-      :height="`70px`"
-      @openLoginDialog="onOpenLoginDialog"
-      @openSignupDialog="onOpenSignupDialog"
-      />
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
         <main-sidebar
-          :width="`240px`"/>
+          :width="`240px`"
+          @logout1="logout2"
+          />
       </el-aside>
       <el-main>
         <router-view></router-view>
@@ -16,14 +14,6 @@
     </el-container>
     <main-footer :height="`110px`"/>
   </el-container>
-  <login-dialog
-    :open="loginDialogOpen"
-    @closeLoginDialog="onCloseLoginDialog"
-    />
-  <signup-dialog
-    :open="signupDialogOpen"
-    @closeSignupDialog="onCloseSignupDialog"
-  />
 
 </template>
 <style>
@@ -34,40 +24,23 @@
 
 </style>
 <script>
-import LoginDialog from './components/login-dialog'
-import MainHeader from './components/main-header'
 import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
-import SignupDialog from './components/signup-dialog.vue'
+import Calendar from './components/calendar.vue'
 
 export default {
   name: 'Main',
   components: {
-    MainHeader,
+    // MainHeader,
     MainSidebar,
     MainFooter,
-    LoginDialog,
-    SignupDialog
+    Calendar,
   },
-  data () {
-    return {
-      loginDialogOpen: false,
-      signupDialogOpen: false
+  setup(props, { emit }) {
+    const logout2 = function(){
+      emit('logout3')
     }
-  },
-  methods: {
-    onOpenLoginDialog () {
-      this.loginDialogOpen = true
-    },
-    onCloseLoginDialog () {
-      this.loginDialogOpen = false
-    },
-    onOpenSignupDialog () {
-      this.signupDialogOpen = true
-    },
-    onCloseSignupDialog () {
-      this.signupDialogOpen = false
-    }
+    return {logout2}
   }
 }
 </script>

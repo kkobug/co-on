@@ -1,22 +1,4 @@
 <template>
-  <!-- <el-row
-    class="main-sidebar"
-    :gutter="10"
-    :style="{ 'width': width }">
-    <div class="hide-on-small">
-      <el-menu
-        :default-active="String(state.activeIndex)"
-        active-text-color="#ffd04b"
-        class="el-menu-vertical-demo"
-        @select="menuSelect">
-        <el-image style="width: 100%" :fit="contain" :src="require(`@/assets/images/프로필테스트.jpeg`)"/>
-        <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
-          <i v-if="item.icon" :class="['ic', item.icon]"/>
-          <span>{{ item.title }}</span>
-        </el-menu-item>
-      </el-menu>
-    </div>
-  </el-row> -->
   <el-row style="height: 100%">
     <el-col :span="24" style="heght: 100%">
       <el-menu
@@ -30,20 +12,32 @@
         <el-container class="profile-card">
           <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; color: white; border-radius: 20px">
             <p>
-              <!-- <img style="width: 100px; height: 130px" :src="require(`@/assets/images/프로필테스트.jpeg`)" alt="FAILED"> -->
-              <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/프로필테스트.jpeg`)"></el-avatar>
+              <!-- <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/프로필테스트.jpeg`)"></el-avatar> -->
             </p>
             <div>
               <span><strong>익명의 학생</strong></span>
             </div>
-            <el-button color="#626aef" style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3">마이페이지</el-button>
+            <el-button
+              color="#626aef"
+              style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
+              @click="goMypage"
+              >마이페이지
+            </el-button>
+            <el-button
+              color="#626aef"
+              style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
+              @click="goTchr"
+              >교사페이지
+            </el-button>
           </el-card>
         </el-container>
+
         <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
           <span>{{ item.title }}</span>
         </el-menu-item>
-        <el-menu-item class="mt-auto" style="position: absolute; bottom: 0; width: 100%">
-          <span @click="clickLogout">로그아웃</span>
+
+        <el-menu-item class="mt-auto" style="position: absolute; bottom: 0; width: 100%" @click="logout">
+          <span >로그아웃</span>
         </el-menu-item>
       </el-menu>
     </el-col>
@@ -86,7 +80,7 @@ export default {
       default: '240px'
     }
   },
-  setup() {
+  setup(props, { emit }) {
     const store = useStore()
     const router = useRouter()
 
@@ -121,12 +115,23 @@ export default {
       })
     }
 
-    const clickLogout = function () {
-      alert('로그아웃 클릭')
-      store.commit('root/removeToken')
+    const goMypage = function(){
+      router.push({
+        name: 'Mypage'
+      })
     }
 
-    return { state, menuSelect, clickLogout }
+    const goTchr = function(){
+      router.push({
+        name: 'Tchr_main'
+      })
+    }
+
+    const logout = function(){
+      emit('logout1')
+    }
+
+    return { state, menuSelect, logout ,goMypage, goTchr}
   }
 }
 </script>

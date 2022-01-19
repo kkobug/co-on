@@ -8,6 +8,9 @@ import VueAxios from './common/lib/axios'
 import axios from './common/lib/axios'
 import i18n from './common/lib/i18n'
 import router from './common/lib/vue-router'
+import VCalendar from 'v-calendar'
+// import GAuth from 'vue-google-oauth2'
+import googleAuth from './authentification'
 
 import 'element-plus/packages/theme-chalk/src/base.scss'
 
@@ -200,6 +203,21 @@ app.use(VueAxios, axios)
 app.use(store)
 app.use(i18n)
 app.use(router)
+app.use(VCalendar)
+
+// app.use(googleAuth, {
+//   clientId: process.env.VUE_APP_CLIENT_ID,
+//   scope: 'profile email https://www.googleapis.com/auth/plus.login'
+// });
+// const prompt = 'select_account'
+// const GoogleAuthConfig = Object.assign({ scope: 'profile email' }, {
+//   clientId: process.env.VUE_APP_CLIENT_ID,
+//   scope: 'profile email https://www.googleapis.com/auth/plus.login',
+// });
+
+// // Install Vue plugin
+// app.config.globalProperties.$gAuth = googleAuth;
+// app.config.globalProperties.$gAuth.load(GoogleAuthConfig, prompt)
 
 components.forEach(component => {
   app.component(component.name, component)
@@ -210,3 +228,4 @@ plugins.forEach(plugin => {
 })
 
 app.mount('#app')
+

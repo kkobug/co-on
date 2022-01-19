@@ -1,4 +1,5 @@
 <template>
+  <!-- conference.vue -->
   <el-card :body-style="{ padding: '0px' }">
     <div class="image-wrapper">
       <el-skeleton style="width: 100%">
@@ -10,10 +11,7 @@
     <div style="text-align: left; padding: 14px;">
       <span class="title">{{ title }}</span>
       <div class="bottom">
-        <!-- <span>{{ desc }}</span> -->
-        <span>
-          상세 설명
-        </span>
+        <span>{{ desc }}</span>
       </div>
     </div>
   </el-card>

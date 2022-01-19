@@ -12,7 +12,15 @@ export function setMenuActiveMenuName (state, menuName) {
 	state.activeMenu = menuName
 }
 
-export function removeToken (state) {
-  localStorage.removeItem("jwt")
-  state.authToken = ""
+export function registerUser (state, id) {
+	state.userid = id
+}
+export function removeUser (state, id) {
+	state.userid = ''
+}
+export function logout (state) {
+	state.authtoken = ''
+}
+export function jwtToken (state,jwt) {
+	state.authtoken = jwt
 }

@@ -1,22 +1,29 @@
 {
-  "home" : {
+  "Main_calendar" : {
     "name" : "메인",
     "hidden" : false,
     "path" : "/",
     "icon" : "el-icon-s-home",
     "children" : []
   },
-  "history" : {
-    "name" : "과제제출",
+  "hw_notice" : {
+    "name" : "과제&공지사항",
     "hidden" : false,
-    "path" : "/history",
+    "path" : "/hw_notice",
     "icon" : "el-icon-s-order",
     "children" : []
   },
-  "class" : {
+  "Lesson" : {
     "name" : "수업",
     "hidden" : false,
-    "path" : "/history",
+    "path" : "/lesson",
+    "icon" : "el-icon-s-order",
+    "children" : []
+  },
+  "Mypage" : {
+    "name" : "마이페이지",
+    "hidden" : false,
+    "path" : "/mypage",
     "icon" : "el-icon-s-order",
     "children" : []
   }
