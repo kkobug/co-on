@@ -23,6 +23,12 @@
               @click="goMypage"
               >마이페이지
             </el-button>
+            <el-button
+              color="#626aef"
+              style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
+              @click="goTchr"
+              >교사페이지
+            </el-button>
           </el-card>
         </el-container>
 
@@ -115,11 +121,17 @@ export default {
       })
     }
 
+    const goTchr = function(){
+      router.push({
+        name: 'Tchr_main'
+      })
+    }
+
     const logout = function(){
       emit('logout1')
     }
 
-    return { state, menuSelect, logout ,goMypage}
+    return { state, menuSelect, logout ,goMypage, goTchr}
   }
 }
 </script>
