@@ -11,5 +11,7 @@ public interface TeacherService {
 	Teacher createTeacher(TeacherRegisterPostReq teacherRegisterInfo);
 	Teacher modifyTeacher(TeacherModifyPutReq teacherModifyInfo);
 	Teacher findById(String tchrId);
+	Teacher changeTeacherPassword(Teacher teacher);
 	void deleteTeacher(String tchr_id);
+	String findByName(String tchrName);
 }

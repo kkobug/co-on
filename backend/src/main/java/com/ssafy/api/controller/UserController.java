@@ -3,9 +3,7 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.*;
 import com.ssafy.api.response.StudentDeleteRes;
 import com.ssafy.api.response.StudentRes;
-import com.ssafy.api.service.MailService;
-import com.ssafy.api.service.StudentService;
-import com.ssafy.api.service.TeacherService;
+import com.ssafy.api.service.*;
 import com.ssafy.common.auth.SsafyStudentDetails;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Teacher;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.response.UserRes;
-import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.JwtTokenUtil;
@@ -50,6 +47,10 @@ public class UserController {
 
 	@Autowired
 	MailService mailService;
+
+
+	@Autowired
+	TeacherMailService teachermailService;
 
 	@Autowired
 	TeacherService teacherService;
@@ -168,8 +169,8 @@ public class UserController {
 		return ResponseEntity.status(200).body(StudentRes.of(student));
 	}
 
-	@GetMapping("/findId")
-	@ApiOperation(value = "회원 아이디 찾기", notes = "회원 이메일로 아이디를 포함한 메일을 전송한다.")
+	@PostMapping("/findId")
+	@ApiOperation(value = "회원 아이디 찾기", notes = "<strong>회원 이메일로</strong> 아이디를 포함한 메일을 전송한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -183,6 +184,24 @@ public class UserController {
 		String stId = studentService.findstIdBystName(stName);
 		mailService.sendMail(stId, stEmail);
 		return ResponseEntity.status(200).body(stId);
+	}
+
+	@PostMapping("/findteacherId")
+	@ApiOperation(value = "교사 아이디 찾기", notes = "<strong>회원 이메일로</strong>아이디를 포함한 메일을 전송한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<?> findteacherId(
+			@RequestBody TeacherFindIdPostReq teacherFindIdPostReq) {
+		String tchrName = teacherFindIdPostReq.getTchrName();
+		String tchrEmail = teacherFindIdPostReq.getTchrEmail();
+
+		String tchrId = teacherService.findByName(tchrName);
+		teachermailService.sendMail(tchrId, tchrEmail);
+		return ResponseEntity.status(200).body(200);
 	}
 
 	@PutMapping("/findPassword")
@@ -200,6 +219,24 @@ public class UserController {
 		//2. 변경할 비밀번호
 		student.setStPassword(stPassword);
 		Student updateStudent = studentService.changeStudentPassword(student);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+	@PutMapping("/findTeacherPassword")
+	@ApiOperation(value = "교사 비밀번호 변경", notes = "교사 아이디로 비밀번호를 변경한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public  ResponseEntity<? extends BaseResponseBody> findTeacherPassword(@RequestParam String tchrId, @RequestParam String tchrPassword) {
+
+		//1. 교사 아이디에 해당하는 회원 정보 가져오기
+		Teacher teacher = teacherService.findById(tchrId);
+		//2. 변경할 비밀번호
+		teacher.setTchrPassword(tchrPassword);
+		Teacher modifyTeacher = teacherService.changeTeacherPassword(teacher);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 }

@@ -22,6 +22,10 @@ public class Student implements Serializable{ //Student Table 속성 정의
     String stContact;
     @Column(name = "st_school")
     String stSchool;
+    @Column(name = "st_birthday")
+    String stBirthday;
+    @Column(name = "st_img")
+    String stImg;
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "st_password")

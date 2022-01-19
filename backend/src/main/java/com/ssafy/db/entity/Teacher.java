@@ -22,6 +22,10 @@ public class Teacher implements Serializable {          // point 1
     String tchrContact;
     @Column(name = "tchr_school")
     String tchrSchool;
+    @Column(name = "tchr_birthday")
+    String tchrBirthday;
+    @Column(name = "tchr_img")
+    String tchrImg;
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "tchr_password")
