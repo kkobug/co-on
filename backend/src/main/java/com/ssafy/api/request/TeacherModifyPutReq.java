@@ -12,16 +12,18 @@ import lombok.Setter;
 @Setter
 @ApiModel("TeacherModifyPutRequest")
 public class TeacherModifyPutReq {
-	@ApiModelProperty(name="교사 ID", example="Teacher_id")
+	@ApiModelProperty(name="교사 ID", example="tea_id")
 	String tchr_id;
-	@ApiModelProperty(name="교사 name", example="Teacher_name")
+	@ApiModelProperty(name="교사 name", example="kimssafy")
 	String tchr_name;
-	@ApiModelProperty(name="교사 email", example="Teacher_email")
+	@ApiModelProperty(name="교사 email", example="ssafy@ssafy.com")
 	String tchr_email;
-	@ApiModelProperty(name="교사 Password", example="Teacher_password")
+	@ApiModelProperty(name="교사 Password", example="1234")
 	String tchr_password;
-	@ApiModelProperty(name="교사 contact", example="Teacher_contact")
+	@ApiModelProperty(name="교사 contact", example="010-1234-1234")
 	String tchr_contact;
-	@ApiModelProperty(name="교사 school", example="Teacher_school")
+	@ApiModelProperty(name="교사 school", example="싸피중학교")
 	String tchr_school;
+	@ApiModelProperty(name = "교사 birthday", example = "20050305")
+	String tchr_birthday;
 }

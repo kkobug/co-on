@@ -10,9 +10,6 @@ import com.ssafy.db.entity.Teacher;
 import com.ssafy.db.repository.TeacherRepository;
 import com.ssafy.db.repository.TeacherRepositorySupport;
 
-/**
- *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
- */
 @Service("teacherService")
 public class TeacherServiceImpl implements TeacherService {
 	@Autowired
@@ -33,6 +30,7 @@ public class TeacherServiceImpl implements TeacherService {
 		teacher.setTchrPassword(passwordEncoder.encode(teacherRegisterInfo.getTchr_password()));
 		teacher.setTchrContact(teacherRegisterInfo.getTchr_contact());
 		teacher.setTchrSchool(teacherRegisterInfo.getTchr_school());
+		teacher.setTchrBirthday(teacherRegisterInfo.getTchr_birthday());
 		return teacherRepository.save(teacher);
 	}
 
@@ -45,6 +43,7 @@ public class TeacherServiceImpl implements TeacherService {
 		teacher.setTchrPassword(passwordEncoder.encode(teacherModifyInfo.getTchr_password()));
 		teacher.setTchrContact(teacherModifyInfo.getTchr_contact());
 		teacher.setTchrSchool(teacherModifyInfo.getTchr_school());
+		teacher.setTchrBirthday(teacherModifyInfo.getTchr_birthday());
 		return teacherRepository.save(teacher);
 	}
 
@@ -57,5 +56,17 @@ public class TeacherServiceImpl implements TeacherService {
 	@Override
 	public void deleteTeacher(String tchr_id) {
 		teacherRepository.deleteById(tchr_id);
+	}
+
+	@Override
+	public Teacher changeTeacherPassword(Teacher teacher) {
+		teacher.setTchrPassword(passwordEncoder.encode(teacher.getTchrPassword()));
+		return teacherRepository.save(teacher);
+	}
+
+	@Override
+	public String findByName(String tchrName) {
+		String tchrId = teacherRepositorySupport.findIdByName(tchrName);
+		return tchrId;
 	}
 }
