@@ -17,6 +17,7 @@
     @closeLoginDialog="onCloseLoginDialog"
     @openSignupDialog="onOpenSignupDialog"
     @openFindidDialog="onOpenFindidDialog"
+    @openChangePasswordDialog="onOpenChangePasswordDialog"
     @login="onLogin"
   />
 <!-- 회원가입 -->
@@ -29,6 +30,11 @@
     :open="findidDialogOpen"
     @closeFindidDialog="onCloseFindidDialog"
   />
+  <!-- 비밀번호 재설정 -->
+  <change-password-dialog
+    :open="changePasswordOpen"
+    @closeChangePasswordDialog="onCloseChangePasswordDialog"
+  />
 </template>
 
 <script>
@@ -37,6 +43,7 @@ import Login from './views/auth/login.vue'
 import LoginDialog from './views/auth/components/login-dialog.vue'
 import SignupDialog from './views/auth/components/signup-dialog.vue'
 import FindidDialog from './views/auth/components/findid-dialog.vue'
+import ChangePasswordDialog from './views/auth/components/changepassword-dialog.vue'
 
 import { useStore } from 'vuex'
 
@@ -47,6 +54,7 @@ export default {
     LoginDialog,
     SignupDialog,
     FindidDialog,
+    ChangePasswordDialog,
     Login,
     Main,
   },
@@ -58,7 +66,7 @@ export default {
       loginDialogOpen: false,
       signupDialogOpen: false,
       findidDialogOpen: false,
-
+      changePasswordOpen: false,
     }
   },
   methods: {
@@ -79,6 +87,12 @@ export default {
     },
     onCloseFindidDialog () {
       this.findidDialogOpen = false
+    },
+    onOpenChangePasswordDialog () {
+      this.changePasswordOpen = true
+    },
+    onCloseChangePasswordDialog () {
+      this.changePasswordOpen = false
     },
     onLogin(){
       this.isLogin = true

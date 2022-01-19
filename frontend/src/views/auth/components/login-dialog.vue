@@ -15,6 +15,7 @@
           <el-button @click="clickSignup">회원가입</el-button>
           <el-button @click="handleLogin">Google ID로 로그인</el-button>
           <el-button @click="clickFindid">회원 ID 찾기</el-button>
+          <el-button @click="clickChangePassword">비밀번호 재설정</el-button>
         </span>
       </template>
     </el-dialog>
@@ -132,6 +133,10 @@ export default {
       handleClose()
       emit('openFindidDialog')
     }
+    const clickChangePassword = () => {
+      handleClose()
+      emit('openChangePasswordDialog')
+    }
 
     const handleClose = function () {
       state.form.id = ''
@@ -139,7 +144,7 @@ export default {
       emit('closeLoginDialog')
     }
 
-    return { loginForm, state, clickLogin, clickSignup, handleClose, clickFindid}
+    return { loginForm, state, clickLogin, clickSignup, handleClose, clickFindid, clickChangePassword }
   },
 
   methods: {

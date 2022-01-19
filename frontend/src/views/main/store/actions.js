@@ -15,8 +15,9 @@ export function requestFindid ({ state }, payload) {
   return $axios.post(url, body)
 }
 
-export function requestFindpassword ({ state }, payload) {
-  console.log('requestFindpassword', state, payload)
+
+export function requestChangePassword ({ state }, payload) {
+  console.log('requestChangePassword', state, payload)
   const url = '/findPassword'
   let body = payload
   return $axios.put(url, body)
