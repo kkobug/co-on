@@ -9,7 +9,7 @@ CREATE TABLE `notice` (
   `notice_posted` DATETIME DEFAULT current_timestamp,
   `notice_updated` DATETIME DEFAULT current_timestamp ON UPDATE current_timestamp,
   `notice_author` VARCHAR(13) NOT NULL,
-  `notice_file` timestamp NOT NULL DEFAULT current_timestamp,
+  `notice_file` LONGBLOB,
   PRIMARY KEY (`notice_id`),
   FOREIGN KEY (`studyroom_id`)
   REFERENCES studyroom(`study_id`) ON UPDATE CASCADE
