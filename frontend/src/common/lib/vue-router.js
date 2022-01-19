@@ -5,6 +5,12 @@ import ConferencesDetail from '@/views/conferences/conference-detail'
 
 import Mypage from '@/views/history/mypage'
 
+//teacher
+import Tchr_main from '@/views/teacher/tchr_main'
+import Tchr_Lesson from '@/views/teacher/tchr_lesson'
+import Tchr_ourclass from '@/views/teacher/ourclass'
+import Tchr_attend from '@/views/teacher/daily_attend'
+
 // import Main from '@/views/main/main'
 import Main_calendar from '@/views/main/components/calendar'
 import hw_notice from '@/views/hw_notice/hw_notice'
@@ -55,6 +61,26 @@ const routes = [
     path: '/mypage',
     name: 'Mypage',
     component: Mypage,
+  },
+  {
+    path: "/tchr_main",
+    name: "Tchr_main",
+    component: Tchr_main,
+  },
+  {
+    path: "/tchr_lesson",
+    name: "Tchr_Lesson",
+    component: Tchr_Lesson,
+  },
+  {
+    path: "/tchr_attend",
+    name: "Tchr_attend",
+    component: Tchr_attend,
+  },
+  {
+    path: "/tchr_ourclass",
+    name: "Tchr_ourclass",
+    component: Tchr_ourclass,
   },
 ]
 
