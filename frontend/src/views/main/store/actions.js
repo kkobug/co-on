@@ -15,12 +15,10 @@ export function requestFindid ({ state }, payload) {
   return $axios.post(url, body)
 }
 
-
 export function requestChangePassword ({ state }, payload) {
   console.log('requestChangePassword', state, payload)
-  const url = '/findPassword'
-  let body = payload
-  return $axios.put(url, body)
+  const url = `/findPassword?stId=${payload['stId']}&stPassword=${payload['stPassword']}`
+  return $axios.put(url)
 }
 
 export function requestLookupstudent ({ state }, payload) {
