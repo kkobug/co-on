@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserRegisterPostRequest")
 public class StudentRegisterPostReq {
-	@ApiModelProperty(name = "학생 ID", example = "ssafy_web")
+	@ApiModelProperty(name = "학생 ID", example = "st_id")
 	String st_id;
 	@ApiModelProperty(name = "학생 Name", example = "kimssafy")
 	String st_name;
@@ -24,4 +24,6 @@ public class StudentRegisterPostReq {
 	String st_contact;
 	@ApiModelProperty(name = "학생 School", example = "싸피중학교")
 	String st_school;
+	@ApiModelProperty(name = "학생 birthday", example = "20050305")
+	String st_birthday;
 }

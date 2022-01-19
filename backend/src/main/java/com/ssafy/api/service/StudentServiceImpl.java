@@ -31,6 +31,7 @@ public class StudentServiceImpl implements StudentService{
         student.setStPassword(passwordEncoder.encode(studentRegisterInfo.getSt_password()));
         student.setStContact(studentRegisterInfo.getSt_contact());
         student.setStSchool(studentRegisterInfo.getSt_school());
+        student.setStBirthday(studentRegisterInfo.getSt_birthday());
         return studentRepository.save(student);
     }
 
@@ -54,6 +55,7 @@ public class StudentServiceImpl implements StudentService{
         student.setStPassword(passwordEncoder.encode(studentUpdatePutReq.getSt_password()));
         student.setStContact(studentUpdatePutReq.getSt_contact());
         student.setStSchool(studentUpdatePutReq.getSt_school());
+        student.setStBirthday(studentUpdatePutReq.getSt_birthday());
         return studentRepository.save(student);
     }
 
