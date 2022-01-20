@@ -159,16 +159,19 @@ public class UserController {
 	})
 	public ResponseEntity<StudentRes> getStudentInfo(@ApiIgnore Authentication authentication) {
 		/**
+		 * public ResponseEntity<StudentRes> getStudentInfo(@ApiIgnore Authentication authentication) {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 		SsafyStudentDetails studentDetails = (SsafyStudentDetails)authentication.getDetails();
 		String studentId =studentDetails.getUsername();
+		System.out.println(studentId);
 		Student student = studentService.findById(studentId);
+		System.out.println(student.getStEmail());
 		return ResponseEntity.status(200).body(StudentRes.of(student));
 	}
 
-	@GetMapping("/findId")
+	@PostMapping("/findId")
 	@ApiOperation(value = "회원 아이디 찾기", notes = "회원 이메일로 아이디를 포함한 메일을 전송한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
