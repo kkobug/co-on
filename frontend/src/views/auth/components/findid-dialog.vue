@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog custom-class="login-dialog" title="로그인" v-model="state.dialogVisible" @close="handleClose">
+    <el-dialog custom-class="login-dialog" title="ID 찾기" v-model="state.dialogVisible" @close="handleClose">
       <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
         <el-form-item prop="id" label="이메일" :label-width="state.formLabelWidth" >
           <el-input v-model="state.form.email" autocomplete="off"></el-input>
@@ -91,11 +91,14 @@ export default {
       // console.log(loginForm.value)
     })
 
-
     const handleClose = function () {
-      state.form.id = ''
-      state.form.password = ''
+      state.form.email = ''
+      state.form.name = ''
       emit('closeFindidDialog')
+    }
+    const clickLogin = () => {
+      handleClose()
+      emit('openLoginDialog')
     }
     const clickFindid = function () {
       store.dispatch('root/requestFindid', {stEmail: state.form.email, stName: state.form.name })
@@ -110,7 +113,7 @@ export default {
     }
 
 
-    return { loginForm, state, handleClose, clickFindid}
+    return { loginForm, state, handleClose, clickFindid, clickLogin }
   },
 
 }

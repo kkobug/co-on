@@ -4,7 +4,7 @@
       <el-container>
         <el-form label-width="70px" label-position="left">
           <span>
-            <strong style="font-size: xx-large">익명의 학생님의 회원 정보</strong>
+            <strong style="font-size: xx-large">{{ username }}님의 회원 정보</strong>
           </span>
           <el-form-item prop="name" label="이름" >
             <el-input v-model="state.form.name" autocomplete="off"></el-input>
@@ -72,9 +72,10 @@ export default {
         ]
       },
       dialogVisible: computed(() => props.open),
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
     })
     const store = useStore()
+    const username = store.state.root.userid
     // const modifyInfo = function(){
     //   store.dispatch('root/requestModifystudent',{
     //         st_contact: state.form.contact,
@@ -132,7 +133,7 @@ export default {
       // store.dispatch('root/requestLookupstudent')
     })
 
-    return {state,clickModifystudent,clickDeletestudent}
+    return {state,clickModifystudent,clickDeletestudent, username}
   },
   // created: function(){
   //   this.$store.dispatch('root/requestModifystudent')

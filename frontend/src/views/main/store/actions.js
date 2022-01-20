@@ -35,12 +35,20 @@ export function requestModifystudent ({ state }, payload) {
   return $axios.put(url, body)
 }
 
-export function requestSignup ({ state }, payload) {
+export function requestStSignup ({ state }, payload) {
   console.log('requestSignup', state, payload)
   const url = '/student/signup'
   let body = payload
   return $axios.post(url, body)
 }
+
+export function requestTchrSignup ({ state }, payload) {
+  console.log('requestTchrSignup', state, payload)
+  const url = '/teacher/signup'
+  let body = payload
+  return $axios.post(url, body)
+}
+
 
 export function requestDeleteuser ({ state }, payload) {
   console.log('requestDeleteuser', state, payload)

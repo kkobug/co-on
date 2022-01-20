@@ -8,6 +8,10 @@
         <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
           <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
         </el-form-item>
+        <el-radio-group v-model="checkTchr">
+          <el-radio :label="1">학생</el-radio>
+          <el-radio :label="2">교사</el-radio>
+        </el-radio-group>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -54,6 +58,8 @@
 .login-dialog .dialog-footer .el-button {
   width: 120px;
 }
+
+
 </style>
 <script>
 import { reactive, computed, ref, onMounted } from 'vue'
@@ -75,7 +81,7 @@ export default {
     const store = useStore()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const loginForm = ref(null)
-
+    const checkTchr = ref(1)
     /*
       // Element UI Validator
       // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
@@ -111,6 +117,7 @@ export default {
           .then(function (result) {
             alert('로그인성공')
             localStorage.setItem('jwt',result.data.accessToken)
+            store.commit('root/checkTeacher', checkTchr.value)
             store.commit('root/registerUser',state.form.id)
             store.commit('root/jwtToken',result.data.accessToken)
             handleClose()
@@ -124,6 +131,7 @@ export default {
         }
       });
     }
+
 
     const clickSignup = () => {
       handleClose()
@@ -144,7 +152,7 @@ export default {
       emit('closeLoginDialog')
     }
 
-    return { loginForm, state, clickLogin, clickSignup, handleClose, clickFindid, clickChangePassword }
+    return { loginForm, state, clickLogin, clickSignup, handleClose, clickFindid, clickChangePassword, checkTchr }
   },
 
   methods: {

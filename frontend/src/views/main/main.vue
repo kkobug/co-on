@@ -41,6 +41,7 @@ export default {
       emit('logout3')
     }
     return {logout2}
-  }
+  },
+
 }
 </script>
