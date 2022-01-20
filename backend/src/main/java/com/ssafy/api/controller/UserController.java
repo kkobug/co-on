@@ -1,35 +1,22 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.*;
-import com.ssafy.api.response.StudentDeleteRes;
-import com.ssafy.api.response.StudentRes;
+import com.ssafy.api.response.StudentFindID;
+import com.ssafy.api.response.TeacherFindID;
 import com.ssafy.api.service.*;
-import com.ssafy.common.auth.SsafyStudentDetails;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Teacher;
-import org.checkerframework.checker.units.qual.A;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.ssafy.api.response.UserLoginPostRes;
-import com.ssafy.api.response.UserRes;
-import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.common.util.JwtTokenUtil;
-import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.UserRepositorySupport;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -38,9 +25,6 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
-
-	@Autowired
-	UserService userService;
 
 	@Autowired
 	StudentService studentService;
@@ -149,26 +133,6 @@ public class UserController {
 		return ResponseEntity.status(200).body("OK");
 	}
 
-
-	@GetMapping("/student/me")
-	@ApiOperation(value = "학생 회원 본인 정보 조회", notes = "로그인한 학생 본인의 정보를 응답한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<StudentRes> getStudentInfo(@ApiIgnore Authentication authentication) {
-		/**
-		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
-		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
-		 */
-		SsafyStudentDetails studentDetails = (SsafyStudentDetails)authentication.getDetails();
-		String studentId =studentDetails.getUsername();
-		Student student = studentService.findById(studentId);
-		return ResponseEntity.status(200).body(StudentRes.of(student));
-	}
-
 	@PostMapping("/findId")
 	@ApiOperation(value = "회원 아이디 찾기", notes = "<strong>회원 이메일로</strong> 아이디를 포함한 메일을 전송한다.")
 	@ApiResponses({
@@ -238,5 +202,31 @@ public class UserController {
 		teacher.setTchrPassword(tchrPassword);
 		Teacher modifyTeacher = teacherService.changeTeacherPassword(teacher);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+	@GetMapping("/student/{stId}")
+	@ApiOperation(value = "학생 회원 본인 정보 조회", notes = "로그인한 학생 본인의 정보를 응답한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<StudentFindID> findStudentId(@RequestParam String stId) {
+		Student student = studentService.findById(stId);
+		return ResponseEntity.status(200).body(StudentFindID.of(student));
+	}
+
+	@GetMapping("/teacher/{tchrId}")
+	@ApiOperation(value = "교수 회원 본인 정보 조회", notes = "로그인한 교수 본인의 정보를 응답한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<TeacherFindID> findTeaId(@RequestParam String tchrId) {
+		Teacher teacher = teacherService.findById(tchrId);
+		return ResponseEntity.status(200).body(TeacherFindID.of(teacher));
 	}
 }
