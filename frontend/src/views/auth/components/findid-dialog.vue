@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog custom-class="login-dialog" title="로그인" v-model="state.dialogVisible" @close="handleClose">
+    <el-dialog custom-class="login-dialog" title="ID 찾기" v-model="state.dialogVisible" @close="handleClose">
       <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
         <el-form-item prop="id" label="이메일" :label-width="state.formLabelWidth" >
           <el-input v-model="state.form.email" autocomplete="off"></el-input>
@@ -11,7 +11,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="clickFindid">ID 찾기</el-button>
+          <el-button @click="clickFindid">ID 찾기(학생)</el-button>
+          <el-button @click="clickFindTchrid">ID 찾기(교사)</el-button>
         </span>
       </template>
     </el-dialog>
@@ -91,26 +92,38 @@ export default {
       // console.log(loginForm.value)
     })
 
-
     const handleClose = function () {
-      state.form.id = ''
-      state.form.password = ''
+      state.form.email = ''
+      state.form.name = ''
       emit('closeFindidDialog')
+    }
+    const clickLogin = () => {
+      handleClose()
+      emit('openLoginDialog')
     }
     const clickFindid = function () {
       store.dispatch('root/requestFindid', {stEmail: state.form.email, stName: state.form.name })
       .then(function (result) {
-        alert('id 찾기 결과 : 성공')
+        alert('id 찾기(학생) 결과 : 성공')
         handleClose()
       })
       .catch(function (err) {
         alert(err)
       })
-
+    }
+    const clickFindTchrid = function () {
+      store.dispatch('root/requestFindTchrid', {tchrEmail: state.form.email, tchrName: state.form.name })
+      .then(function (result) {
+        alert('id 찾기(교사) 결과 : 성공')
+        handleClose()
+      })
+      .catch(function (err) {
+        alert(err)
+      })
     }
 
 
-    return { loginForm, state, handleClose, clickFindid}
+    return { loginForm, state, handleClose, clickFindid, clickFindTchrid, clickLogin }
   },
 
 }

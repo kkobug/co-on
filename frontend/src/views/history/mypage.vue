@@ -4,7 +4,7 @@
       <el-container>
         <el-form label-width="70px" label-position="left">
           <span>
-            <strong style="font-size: xx-large">익명의 학생님의 회원 정보</strong>
+            <strong style="font-size: xx-large">{{ username }}님의 회원 정보</strong>
           </span>
           <el-form-item prop="name" label="이름" >
             <el-input v-model="state.form.name" autocomplete="off"></el-input>
@@ -49,6 +49,7 @@
 <script>
 import { onMounted,reactive,computed } from 'vue'
 import { useStore } from 'vuex'
+import $axios from 'axios'
 
 export default {
   name: 'History',
@@ -72,9 +73,10 @@ export default {
         ]
       },
       dialogVisible: computed(() => props.open),
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
     })
     const store = useStore()
+    const username = store.state.root.userid
     // const modifyInfo = function(){
     //   store.dispatch('root/requestModifystudent',{
     //         st_contact: state.form.contact,
@@ -130,9 +132,21 @@ export default {
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
       // store.dispatch('root/requestLookupstudent')
+      console.log(store.state.root.userid, store.state.root.whetherTchr)
+      if (store.state.root.whetherTchr) {
+        $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
+        .then(res => {
+          console.log(res.data)
+        })
+      } else {
+        $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
+        .then(res => {
+          console.log(res.data)
+        })
+      }
     })
 
-    return {state,clickModifystudent,clickDeletestudent}
+    return {state,clickModifystudent,clickDeletestudent, username}
   },
   // created: function(){
   //   this.$store.dispatch('root/requestModifystudent')
