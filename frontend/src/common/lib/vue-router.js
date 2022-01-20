@@ -71,16 +71,19 @@ const routes = [
     path: "/tchr_lesson",
     name: "Tchr_Lesson",
     component: Tchr_Lesson,
+    props:true
   },
   {
     path: "/tchr_attend",
     name: "Tchr_attend",
     component: Tchr_attend,
+    props:true
   },
   {
     path: "/tchr_ourclass",
     name: "Tchr_ourclass",
     component: Tchr_ourclass,
+    props:true
   },
 ]
 

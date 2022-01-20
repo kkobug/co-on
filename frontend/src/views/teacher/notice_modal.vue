@@ -1,17 +1,33 @@
 <template>
-
   <div class ="modal">
     <div class="overlay" @click="$emit('close-modal')">X</div>
     <div><p>공지 등록</p></div>
-    <div><label for="title">제목</label><input name="title" type="text"></div>
-    <div><label for="content">제목</label><textarea name="content" id="" cols="30" rows="10"></textarea></div>
+    <div><label for="title">제목</label><input v-model="state.form.title"  name="title" type="text"></div>
+    <div><label for="content">내용</label><textarea v-model="state.form.content" name="content" id="" cols="30" rows="10"></textarea></div>
+    <button @click="addnotice">등록</button>
   </div>
 </template>
 
 <script>
-
+import { reactive, computed, ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 export default {
   name: 'ModalView',
+  setup() {
+    const router = useRouter()
+    const store = useStore()
+    const state = reactive({
+      form:{
+        title:"",
+        content:"",
+      }
+    })
+    const addnotice = function(){
+      console.log(state.form)
+    }
+    return {state, addnotice}
+  },
 
 };
 </script>

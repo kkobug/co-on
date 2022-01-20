@@ -1,12 +1,10 @@
 <template>
   <div class ="modal">
     <div class="overlay" @click="$emit('close-modal')">X</div>
-    <div><p>과제 등록</p></div>
+    <div><p>수업 등록</p></div>
     <div><label for="title">제목</label><input v-model="state.form.title" name="title" type="text"></div>
-    <div><label for="explain">설명</label><input v-model="state.form.explain" name="explain" type="text"></div>
-    <div><label for="target">목표</label><input v-model="state.form.target" name="target" type="text"></div>
-    <div><label for="date">날짜</label><input v-model="state.form.date" name="date" type="text"></div>
-    <button @click="addhomework">등록</button>
+    <div><label for="content">내용</label><textarea v-model="state.form.content" name="content" id="" cols="30" rows="10"></textarea></div>
+    <button @click="addclass">등록</button>
   </div>
 </template>
 
@@ -22,15 +20,13 @@ export default {
     const state = reactive({
       form:{
         title:"",
-        explain:"",
-        target:"",
-        date:"",
+        content:"",
       }
     })
-    const addhomework = function(){
+    const addclass = function(){
       console.log(state.form)
     }
-    return {state, addhomework}
+    return {state, addclass}
   },
 
 };

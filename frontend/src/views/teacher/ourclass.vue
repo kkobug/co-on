@@ -35,10 +35,10 @@ export default {
   name: 'ourClass',
   methods:{
     moveClass: function(){
-      this.$router.push({name:"Tchr_attend"})
+      this.$router.push({name:"Tchr_ourClass"})
     },
     moveAttend: function(){
-      this.$router.push({name:"Tchr_ourclass"})
+      this.$router.push({name:"Tchr_attend"})
     },
     moveLesson: function(){
       this.$router.push({name:"Tchr_Lesson"})

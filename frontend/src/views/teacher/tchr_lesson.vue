@@ -1,47 +1,61 @@
 <template>
   <el-menu class="topnav">
-    <el-menu-item class ="navitem" index="1" @click="moveLesson()">내 수업</el-menu-item>
-    <el-menu-item class ="navitem" index="2" @click="moveClass()">우리반보기</el-menu-item>
-    <el-menu-item class ="navitem" index="3" @click="moveAttend()">출결관리</el-menu-item>
+    <el-menu-item class ="navitem" index="1" @click="moveLesson">내 수업</el-menu-item>
+    <el-menu-item class ="navitem" index="2" @click="moveClass">우리반보기</el-menu-item>
+    <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
     <button class = "lessonstr">수업 시작</button>
   </el-menu>
-  <el-container>
-    수업 입니다.
-  </el-container>
+  <div>{{$route.params.id}}</div>
   <homework></homework>
   <notice></notice>
 
 </template>
 
 <script>
+import { reactive } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 import Tchr_notice from './tchr_notice.vue'
-import thcr_homework from './thcr_homework.vue'
+import Thcr_homework from './thcr_homework.vue'
 
 export default {
-  name: 'Lesson',
-  data: function() {
-    return {
-      sche:{},
-
-    }
-  },
+  name: 'Tchr_sLesson',
   components: {
-    "homework" : thcr_homework,
+    "homework" : Thcr_homework,
     "notice" : Tchr_notice
   },
-  methods:{
-    moveClass: function(){
-      this.$router.push({name:"Tchr_attend"})
-    },
-    moveAttend: function(){
-      this.$router.push({name:"Tchr_ourclass"})
-    },
-    moveLesson: function(){
-      this.$router.push({name:"Tchr_Lesson"})
+  setup() {
+    const router = useRouter()
+    const store = useStore()
+    const state = reactive({
+      classid: ""
+    })
+    // const getClassId = function(){
+    //   state.classid = this.$route.params.id
+    // }
+    const moveClass = function(){
+      router.push({
+        name: 'Tchr_ourclass'
+      })
     }
-  }
+    const moveAttend = function(){
+      router.push({
+        name: 'Tchr_attend'
+      })
+    }
+    const moveLesson = function(){
+      router.push({
+        name: 'Tchr_Lesson'
+      })
+    }
+    return {state, moveClass, moveAttend, moveLesson}
+  },
+  // created:function(){
+  //   this.getClassId()
+  // }
 }
+
 
 </script>
 <style scoped>
