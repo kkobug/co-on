@@ -18,8 +18,12 @@ public class StudentServiceImpl implements StudentService{
     @Autowired
     StudentRepositorySupport studentRepositorySupport;
 
+<<<<<<< HEAD
     @Lazy
     @Autowired
+=======
+    @Autowired @Lazy
+>>>>>>> feature/studyroom
     PasswordEncoder passwordEncoder;
 
     @Override

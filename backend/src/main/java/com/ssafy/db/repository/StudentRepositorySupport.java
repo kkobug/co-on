@@ -26,5 +26,4 @@ public class StudentRepositorySupport {
                 .where(qStudent.stName.eq(stName)).fetchOne();
         return stId;
     }
-
 }
