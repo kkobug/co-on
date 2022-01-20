@@ -13,8 +13,8 @@ import Tchr_attend from '@/views/teacher/daily_attend'
 
 // import Main from '@/views/main/main'
 import Main_calendar from '@/views/main/components/calendar'
-import hw_notice from '@/views/hw_notice/hw_notice'
-import Lesson from '@/views/main/components/lesson/lesson'
+import hw_notice from '@/views/main/components/hw_notice'
+import Lesson from '@/views/main/components/lesson'
 
 const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
