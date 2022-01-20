@@ -25,4 +25,10 @@ public class TeacherRepositorySupport {
         if(teacher == null) return Optional.empty();
         return Optional.ofNullable(teacher);
     }
+
+    public String findIdByName(String tchrName){
+        String tchrId = jpaQueryFactory.select(qTeacher.tchrId).from(qTeacher)
+                .where(qTeacher.tchrId.eq(tchrName)).fetchOne();
+        return tchrId;
+    }
 }

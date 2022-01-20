@@ -49,6 +49,7 @@
 <script>
 import { onMounted,reactive,computed } from 'vue'
 import { useStore } from 'vuex'
+import $axios from 'axios'
 
 export default {
   name: 'History',
@@ -131,6 +132,18 @@ export default {
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
       // store.dispatch('root/requestLookupstudent')
+      console.log(store.state.root.userid, store.state.root.whetherTchr)
+      if (store.state.root.whetherTchr) {
+        $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
+        .then(res => {
+          console.log(res.data)
+        })
+      } else {
+        $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
+        .then(res => {
+          console.log(res.data)
+        })
+      }
     })
 
     return {state,clickModifystudent,clickDeletestudent, username}

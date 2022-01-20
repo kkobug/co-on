@@ -24,6 +24,9 @@ export function logout (state) {
 export function jwtToken (state,jwt) {
 	state.authtoken = jwt
 }
-export function checkTeacher (state, identity) {
-  state.whetherTchr = identity
+export function checkTeacher (state) {
+  state.whetherTchr = true
+}
+export function checkStudent (state) {
+  state.whetherTchr = false
 }

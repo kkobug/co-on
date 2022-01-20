@@ -11,7 +11,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="clickFindid">ID 찾기</el-button>
+          <el-button @click="clickFindid">ID 찾기(학생)</el-button>
+          <el-button @click="clickFindTchrid">ID 찾기(교사)</el-button>
         </span>
       </template>
     </el-dialog>
@@ -103,17 +104,26 @@ export default {
     const clickFindid = function () {
       store.dispatch('root/requestFindid', {stEmail: state.form.email, stName: state.form.name })
       .then(function (result) {
-        alert('id 찾기 결과 : 성공')
+        alert('id 찾기(학생) 결과 : 성공')
         handleClose()
       })
       .catch(function (err) {
         alert(err)
       })
-
+    }
+    const clickFindTchrid = function () {
+      store.dispatch('root/requestFindTchrid', {tchrEmail: state.form.email, tchrName: state.form.name })
+      .then(function (result) {
+        alert('id 찾기(교사) 결과 : 성공')
+        handleClose()
+      })
+      .catch(function (err) {
+        alert(err)
+      })
     }
 
 
-    return { loginForm, state, handleClose, clickFindid, clickLogin }
+    return { loginForm, state, handleClose, clickFindid, clickFindTchrid, clickLogin }
   },
 
 }

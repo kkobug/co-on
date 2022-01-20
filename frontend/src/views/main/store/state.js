@@ -35,5 +35,5 @@ export default {
   menus: menuData,
   userid:'',
   authtoken:'',
-  whetherTchr: '1',
+  whetherTchr: false,
 }

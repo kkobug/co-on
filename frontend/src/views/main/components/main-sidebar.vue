@@ -23,7 +23,7 @@
               @click="goMypage"
               >마이페이지
             </el-button>
-            <el-button v-if="whetherTchr == 2"
+            <el-button v-if="whetherTchr"
               color="#626aef"
               style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
               @click="goTchr"
