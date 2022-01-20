@@ -1,20 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <ModalView v-if ="isVisible" @close-modal="isVisible = false"></ModalView>
-  <button @click="isVisible = true">공지 생성</button>
-  <el-container>
-    <div class ="el-item">
-      <div class="li-left li-sec">
-        <div class ="li-title li-item">긴장하지 않는법</div>
-        <div class ="li-lesson li-item">수업1</div>
-      </div>
-      <div class="li-right li-sec">
-        <div class ="li-time li-item">2022-01-18</div>
-        <div class ="li-button li-item">수정</div>
-      </div>
-    </div>
-  </el-container>
-=======
   <ModalView v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
   <button @click="state.isVisible = true">공지 생성</button>
   <div>
@@ -29,28 +13,18 @@
       </div>
     </div>
   </div>
->>>>>>> develop_frontend
 </template>
 
 <script>
 import ModalView from "./notice_modal"
-<<<<<<< HEAD
-=======
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
->>>>>>> develop_frontend
 export default {
   name: 'Tchr_notice',
   components:{
     ModalView,
   },
-<<<<<<< HEAD
-  data() {
-    return {
-      isVisible:false,
-    };
-=======
   setup() {
     const router = useRouter()
     const store = useStore()
@@ -82,7 +56,6 @@ export default {
     })
 
     return {state}
->>>>>>> develop_frontend
   },
 };
 </script>

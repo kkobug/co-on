@@ -41,11 +41,7 @@ export default {
       emit('logout3')
     }
     return {logout2}
-<<<<<<< HEAD
-  }
-=======
   },
 
->>>>>>> develop_frontend
 }
 </script>

@@ -1,59 +1,17 @@
 <template>
   <el-menu class="topnav">
-<<<<<<< HEAD
-    <el-menu-item class ="navitem" index="1" @click="moveLesson()">내 수업</el-menu-item>
-    <el-menu-item class ="navitem" index="2" @click="moveClass()">우리반보기</el-menu-item>
-    <el-menu-item class ="navitem" index="3" @click="moveAttend()">출결관리</el-menu-item>
-    <button class = "lessonstr">수업 시작</button>
-  </el-menu>
-  <el-container>
-    수업 입니다.
-  </el-container>
-=======
     <el-menu-item class ="navitem" index="1" @click="moveLesson">내 수업</el-menu-item>
     <el-menu-item class ="navitem" index="2" @click="moveClass">우리반보기</el-menu-item>
     <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
     <button class = "lessonstr">수업 시작</button>
   </el-menu>
   <div>{{$route.params.id}}</div>
->>>>>>> develop_frontend
   <homework></homework>
   <notice></notice>
 
 </template>
 
 <script>
-<<<<<<< HEAD
-
-import Tchr_notice from './tchr_notice.vue'
-import thcr_homework from './thcr_homework.vue'
-
-export default {
-  name: 'Lesson',
-  data: function() {
-    return {
-      sche:{},
-
-    }
-  },
-  components: {
-    "homework" : thcr_homework,
-    "notice" : Tchr_notice
-  },
-  methods:{
-    moveClass: function(){
-      this.$router.push({name:"Tchr_attend"})
-    },
-    moveAttend: function(){
-      this.$router.push({name:"Tchr_ourclass"})
-    },
-    moveLesson: function(){
-      this.$router.push({name:"Tchr_Lesson"})
-    }
-  }
-}
-
-=======
 import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -99,7 +57,6 @@ export default {
 }
 
 
->>>>>>> develop_frontend
 </script>
 <style scoped>
 *, html, body {

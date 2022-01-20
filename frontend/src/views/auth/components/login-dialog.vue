@@ -8,12 +8,6 @@
         <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
           <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
         </el-form-item>
-<<<<<<< HEAD
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="clickLogin">로그인</el-button>
-=======
         <!-- <el-radio-group v-model="checkTchr">
           <el-radio :label="1">학생</el-radio>
           <el-radio :label="2">교사</el-radio>
@@ -23,7 +17,6 @@
         <span class="dialog-footer">
           <el-button @click="clickStLogin">로그인(학생)</el-button>
           <el-button @click="clickTchrLogin">로그인(교사)</el-button>
->>>>>>> develop_frontend
           <el-button @click="clickSignup">회원가입</el-button>
           <el-button @click="handleLogin">Google ID로 로그인</el-button>
           <el-button @click="clickFindid">회원 ID 찾기</el-button>
@@ -66,11 +59,8 @@
 .login-dialog .dialog-footer .el-button {
   width: 120px;
 }
-<<<<<<< HEAD
-=======
 
 
->>>>>>> develop_frontend
 </style>
 <script>
 import { reactive, computed, ref, onMounted } from 'vue'
@@ -92,11 +82,7 @@ export default {
     const store = useStore()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const loginForm = ref(null)
-<<<<<<< HEAD
-
-=======
     // const checkTchr = ref(1)
->>>>>>> develop_frontend
     /*
       // Element UI Validator
       // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
@@ -124,16 +110,6 @@ export default {
       // console.log(loginForm.value)
     })
 
-<<<<<<< HEAD
-    const clickLogin = function () {
-      // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
-      loginForm.value.validate((valid) => {
-        if (valid) {
-          store.dispatch('root/requestLogin', { st_id: state.form.id, st_password: state.form.password })
-          .then(function (result) {
-            alert('로그인성공')
-            localStorage.setItem('jwt',result.data.accessToken)
-=======
     const clickStLogin = function () {
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       loginForm.value.validate((valid) => {
@@ -143,7 +119,6 @@ export default {
             alert('학생 로그인성공')
             localStorage.setItem('jwt',result.data.accessToken)
             store.commit('root/checkStudent')
->>>>>>> develop_frontend
             store.commit('root/registerUser',state.form.id)
             store.commit('root/jwtToken',result.data.accessToken)
             handleClose()
@@ -158,8 +133,6 @@ export default {
       });
     }
 
-<<<<<<< HEAD
-=======
     const clickTchrLogin = function () {
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       loginForm.value.validate((valid) => {
@@ -184,7 +157,6 @@ export default {
     }
 
 
->>>>>>> develop_frontend
     const clickSignup = () => {
       handleClose()
       emit('openSignupDialog')
@@ -204,11 +176,7 @@ export default {
       emit('closeLoginDialog')
     }
 
-<<<<<<< HEAD
-    return { loginForm, state, clickLogin, clickSignup, handleClose, clickFindid, clickChangePassword }
-=======
     return { loginForm, state, clickStLogin, clickTchrLogin, clickSignup, handleClose, clickFindid, clickChangePassword }
->>>>>>> develop_frontend
   },
 
   methods: {

@@ -2,27 +2,15 @@
   <div class ="modal">
     <div class="overlay" @click="$emit('close-modal')">X</div>
     <div><p>과제 등록</p></div>
-<<<<<<< HEAD
-    <div><label for="title">제목</label><input name="title" type="text"></div>
-    <div><label for="explain">설명</label><input name="explain" type="text"></div>
-    <div><label for="target">목표</label><input name="target" type="text"></div>
-    <div><label for="date">날짜</label><input name="date" type="text"></div>
-=======
     <div><label for="title">제목</label><input v-model="state.form.title" name="title" type="text"></div>
     <div><label for="explain">설명</label><input v-model="state.form.explain" name="explain" type="text"></div>
     <div><label for="target">목표</label><input v-model="state.form.target" name="target" type="text"></div>
     <div><label for="date">날짜</label><input v-model="state.form.date" name="date" type="text"></div>
     <button @click="addhomework">등록</button>
->>>>>>> develop_frontend
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-
-export default {
-  name: 'ModalView',
-=======
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -44,7 +32,6 @@ export default {
     }
     return {state, addhomework}
   },
->>>>>>> develop_frontend
 
 };
 </script>

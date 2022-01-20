@@ -2,24 +2,6 @@
   <el-container>
     안녕하세요
   </el-container>
-<<<<<<< HEAD
-  <div @click="moveLesson()">수업 가기</div>
-</template>
-
-<script>
-
-export default {
-  name: 'tchr_main',
-  data: function() {
-    return {
-      sche:{},
-    }
-  },
-  methods : {
-    moveLesson: function(){
-      this.$router.push({name:"Tchr_Lesson"})
-    }
-=======
   <div v-for= "scha in state.tchr_scha" :key=scha.id @click="MoveLesson(scha.id)">{{scha.title}}</div>
   <ModalView v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
   <button @click="state.isVisible=true">수업생성</button>
@@ -62,7 +44,6 @@ export default {
       })
     }
     return {state, MoveLesson}
->>>>>>> develop_frontend
   },
 }
 </script>

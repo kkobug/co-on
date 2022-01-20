@@ -34,10 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    private UserService userService;
     @Autowired
     private TeacherService teacherService;
-<<<<<<< HEAD
-=======
-
->>>>>>> develop_frontend
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
     public PasswordEncoder passwordEncoder() {
