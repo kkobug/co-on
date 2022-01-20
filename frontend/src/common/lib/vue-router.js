@@ -13,8 +13,13 @@ import Tchr_attend from '@/views/teacher/daily_attend'
 
 // import Main from '@/views/main/main'
 import Main_calendar from '@/views/main/components/calendar'
+<<<<<<< HEAD
 import hw_notice from '@/views/hw_notice/hw_notice'
 import Lesson from '@/views/main/components/lesson/lesson'
+=======
+import hw_notice from '@/views/main/components/hw_notice'
+import Lesson from '@/views/main/components/lesson'
+>>>>>>> develop_frontend
 
 const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
@@ -71,16 +76,28 @@ const routes = [
     path: "/tchr_lesson",
     name: "Tchr_Lesson",
     component: Tchr_Lesson,
+<<<<<<< HEAD
+=======
+    props:true
+>>>>>>> develop_frontend
   },
   {
     path: "/tchr_attend",
     name: "Tchr_attend",
     component: Tchr_attend,
+<<<<<<< HEAD
+=======
+    props:true
+>>>>>>> develop_frontend
   },
   {
     path: "/tchr_ourclass",
     name: "Tchr_ourclass",
     component: Tchr_ourclass,
+<<<<<<< HEAD
+=======
+    props:true
+>>>>>>> develop_frontend
   },
 ]
 

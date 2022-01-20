@@ -15,7 +15,11 @@
               <!-- <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/프로필테스트.jpeg`)"></el-avatar> -->
             </p>
             <div>
+<<<<<<< HEAD
               <span><strong>익명의 학생</strong></span>
+=======
+              <span><strong>{{ username }}</strong></span>
+>>>>>>> develop_frontend
             </div>
             <el-button
               color="#626aef"
@@ -23,7 +27,11 @@
               @click="goMypage"
               >마이페이지
             </el-button>
+<<<<<<< HEAD
             <el-button
+=======
+            <el-button v-if="whetherTchr"
+>>>>>>> develop_frontend
               color="#626aef"
               style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
               @click="goTchr"
@@ -84,6 +92,12 @@ export default {
     const store = useStore()
     const router = useRouter()
 
+<<<<<<< HEAD
+=======
+    const username = store.state.root.userid
+    const whetherTchr = store.state.root.whetherTchr
+
+>>>>>>> develop_frontend
     const state = reactive({
       searchValue: null,
       menuItems: computed(() => {
@@ -131,7 +145,11 @@ export default {
       emit('logout1')
     }
 
+<<<<<<< HEAD
     return { state, menuSelect, logout ,goMypage, goTchr}
+=======
+    return { state, username, whetherTchr, menuSelect, logout ,goMypage, goTchr}
+>>>>>>> develop_frontend
   }
 }
 </script>

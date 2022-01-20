@@ -35,4 +35,8 @@ export default {
   menus: menuData,
   userid:'',
   authtoken:'',
+<<<<<<< HEAD
+=======
+  whetherTchr: false,
+>>>>>>> develop_frontend
 }

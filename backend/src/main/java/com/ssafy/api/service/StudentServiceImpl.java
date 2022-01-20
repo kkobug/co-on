@@ -19,11 +19,16 @@ public class StudentServiceImpl implements StudentService{
     StudentRepositorySupport studentRepositorySupport;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     @Lazy
     @Autowired
 =======
     @Autowired @Lazy
 >>>>>>> feature/studyroom
+=======
+    @Lazy
+    @Autowired
+>>>>>>> develop_frontend
     PasswordEncoder passwordEncoder;
 
     @Override

@@ -1,6 +1,10 @@
 package com.ssafy.common.auth;
 
 import com.ssafy.db.entity.Student;
+<<<<<<< HEAD
+=======
+import com.ssafy.db.entity.User;
+>>>>>>> develop_frontend
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

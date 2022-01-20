@@ -11,7 +11,12 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
+<<<<<<< HEAD
           <el-button @click="clickChangePassword">비밀번호 재설정</el-button>
+=======
+          <el-button @click="clickChangeStPassword">비밀번호 재설정(학생)</el-button>
+          <el-button @click="clickChangeTchrPassword">비밀번호 재설정(교사)</el-button>
+>>>>>>> develop_frontend
         </span>
       </template>
     </el-dialog>
@@ -97,20 +102,44 @@ export default {
       state.form.newPassword = ''
       emit('closeChangePasswordDialog')
     }
+<<<<<<< HEAD
     const clickChangePassword = function () {
       store.dispatch('root/requestChangePassword', {stId: state.form.id, stPassword: state.form.newPassword })
       .then(function (result) {
         alert('비밀번호 재설정 : 성공')
+=======
+    const clickChangeStPassword = function () {
+      store.dispatch('root/requestChangeStPassword', {stId: state.form.id, stPassword: state.form.newPassword })
+      .then(function (result) {
+        alert('비밀번호 재설정(학생) : 성공')
         handleClose()
       })
       .catch(function (err) {
         alert(err)
       })
+    }
+    const clickChangeTchrPassword = function () {
+      store.dispatch('root/requestChangeTchrPassword', {tchrId: state.form.id, tchrPassword: state.form.newPassword })
+      .then(function (result) {
+        alert('비밀번호 재설정(교사) : 성공')
+>>>>>>> develop_frontend
+        handleClose()
+      })
+      .catch(function (err) {
+        alert(err)
+      })
+<<<<<<< HEAD
 
     }
 
 
     return { loginForm, state, handleClose, clickChangePassword }
+=======
+    }
+
+
+    return { loginForm, state, handleClose, clickChangeStPassword, clickChangeTchrPassword }
+>>>>>>> develop_frontend
   },
 
 }

@@ -1,5 +1,6 @@
 <template>
   <el-menu class="topnav">
+<<<<<<< HEAD
     <el-menu-item class ="navitem" index="1" @click="moveLesson()">내 수업</el-menu-item>
     <el-menu-item class ="navitem" index="2" @click="moveClass()">우리반보기</el-menu-item>
     <el-menu-item class ="navitem" index="3" @click="moveAttend()">출결관리</el-menu-item>
@@ -8,12 +9,21 @@
   <el-container>
     수업 입니다.
   </el-container>
+=======
+    <el-menu-item class ="navitem" index="1" @click="moveLesson">내 수업</el-menu-item>
+    <el-menu-item class ="navitem" index="2" @click="moveClass">우리반보기</el-menu-item>
+    <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
+    <button class = "lessonstr">수업 시작</button>
+  </el-menu>
+  <div>{{$route.params.id}}</div>
+>>>>>>> develop_frontend
   <homework></homework>
   <notice></notice>
 
 </template>
 
 <script>
+<<<<<<< HEAD
 
 import Tchr_notice from './tchr_notice.vue'
 import thcr_homework from './thcr_homework.vue'
@@ -43,6 +53,53 @@ export default {
   }
 }
 
+=======
+import { reactive } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+
+import Tchr_notice from './tchr_notice.vue'
+import Thcr_homework from './thcr_homework.vue'
+
+export default {
+  name: 'Tchr_sLesson',
+  components: {
+    "homework" : Thcr_homework,
+    "notice" : Tchr_notice
+  },
+  setup() {
+    const router = useRouter()
+    const store = useStore()
+    const state = reactive({
+      classid: ""
+    })
+    // const getClassId = function(){
+    //   state.classid = this.$route.params.id
+    // }
+    const moveClass = function(){
+      router.push({
+        name: 'Tchr_ourclass'
+      })
+    }
+    const moveAttend = function(){
+      router.push({
+        name: 'Tchr_attend'
+      })
+    }
+    const moveLesson = function(){
+      router.push({
+        name: 'Tchr_Lesson'
+      })
+    }
+    return {state, moveClass, moveAttend, moveLesson}
+  },
+  // created:function(){
+  //   this.getClassId()
+  // }
+}
+
+
+>>>>>>> develop_frontend
 </script>
 <style scoped>
 *, html, body {

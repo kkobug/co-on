@@ -24,7 +24,12 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
+<<<<<<< HEAD
           <el-button @click="clickSignup">회원가입</el-button>
+=======
+          <el-button @click="clickStSignup">회원가입(학생)</el-button>
+          <el-button @click="clickTchrSignup">회원가입(교사)</el-button>
+>>>>>>> develop_frontend
         </span>
       </template>
     </el-dialog>
@@ -114,12 +119,20 @@ export default {
       // console.log(loginForm.value)
     })
 
+<<<<<<< HEAD
     const clickSignup = function () {
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       signupForm.value.validate((valid) => {
         if (valid) {
           console.log('submit')
           store.dispatch('root/requestSignup', {
+=======
+    const clickStSignup = function () {
+      // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
+      signupForm.value.validate((valid) => {
+        if (valid) {
+          store.dispatch('root/requestStSignup', {
+>>>>>>> develop_frontend
             st_contact: state.form.contact,
             st_email: state.form.email,
             st_id: state.form.id,
@@ -141,6 +154,35 @@ export default {
       });
     }
 
+<<<<<<< HEAD
+=======
+    const clickTchrSignup = function () {
+      // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
+      signupForm.value.validate((valid) => {
+        if (valid) {
+          store.dispatch('root/requestTchrSignup', {
+            tchr_contact: state.form.contact,
+            tchr_email: state.form.email,
+            tchr_id: state.form.id,
+            tchr_name: state.form.name,
+            tchr_password: state.form.password,
+            tchr_school: state.form.school,
+          })
+          .then(function (result) {
+            // alert('accessToken: ' + result.data.accessToken)
+            alert('교사 회원가입 성공')
+            handleClose()
+          })
+          .catch(function (err) {
+            alert(err)
+          })
+        } else {
+          alert('Validate error!')
+        }
+      });
+    }
+
+>>>>>>> develop_frontend
     const handleClose = function () {
       state.form.id = ''
       state.form.password = '',
@@ -151,7 +193,11 @@ export default {
       emit('closeSignupDialog')
     }
 
+<<<<<<< HEAD
     return { signupForm, state, clickSignup, handleClose }
+=======
+    return { signupForm, state, clickStSignup, clickTchrSignup, handleClose }
+>>>>>>> develop_frontend
   }
 }
 </script>

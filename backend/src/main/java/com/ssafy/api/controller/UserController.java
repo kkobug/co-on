@@ -134,6 +134,7 @@ public class UserController {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	@PostMapping("/findId")
 	@ApiOperation(value = "회원 아이디 찾기", notes = "<strong>회원 이메일로</strong> 아이디를 포함한 메일을 전송한다.")
 =======
@@ -163,6 +164,10 @@ public class UserController {
 	@PostMapping("/findId")
 	@ApiOperation(value = "회원 아이디 찾기", notes = "회원 이메일로 아이디를 포함한 메일을 전송한다.")
 >>>>>>> feature/studyroom
+=======
+	@PostMapping("/findId")
+	@ApiOperation(value = "회원 아이디 찾기", notes = "<strong>회원 이메일로</strong> 아이디를 포함한 메일을 전송한다.")
+>>>>>>> develop_frontend
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),

@@ -24,3 +24,12 @@ export function logout (state) {
 export function jwtToken (state,jwt) {
 	state.authtoken = jwt
 }
+<<<<<<< HEAD
+=======
+export function checkTeacher (state) {
+  state.whetherTchr = true
+}
+export function checkStudent (state) {
+  state.whetherTchr = false
+}
+>>>>>>> develop_frontend
