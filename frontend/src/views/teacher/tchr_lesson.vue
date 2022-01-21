@@ -5,14 +5,15 @@
     <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
     <button class = "lessonstr">수업 시작</button>
   </el-menu>
-  <div>{{$route.params.id}}</div>
+  <div>테스트</div>
+  <div>state.classstitle</div>
   <homework></homework>
   <notice></notice>
 
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -29,7 +30,7 @@ export default {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
-      classid: ""
+      classtitle: store.state.root.curClassName
     })
     // const getClassId = function(){
     //   state.classid = this.$route.params.id
