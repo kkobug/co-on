@@ -8,6 +8,7 @@ import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -32,6 +33,8 @@ public class UserController {
 	@Autowired
 	MailService mailService;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Autowired
 	TeacherMailService teachermailService;
@@ -84,7 +87,12 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> modify(
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) TeacherModifyPutReq teacherModifyInfo) {
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
-		Teacher teacher = teacherService.modifyTeacher(teacherModifyInfo);
+		Teacher t = teacherService.findById(teacherModifyInfo.getTchr_id());
+		boolean check = passwordEncoder.matches(teacherModifyInfo.getTchr_password(), t.getTchrPassword());
+		if(!check) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
+		else{
+			Teacher teacher = teacherService.modifyTeacher(teacherModifyInfo);
+		}
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
@@ -100,9 +108,13 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> modify(
 			@RequestBody @ApiParam(value="회원수정 정보", required = true) StudentUpdatePutReq studentUpdatePutReq) {
 
-		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
-		Student student = studentService.updateStudent(studentUpdatePutReq);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		Student st = studentService.findById(studentUpdatePutReq.getSt_id());
+		boolean check = passwordEncoder.matches(studentUpdatePutReq.getSt_password(), st.getStPassword());
+		if(!check) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
+		else {
+			Student student = studentService.updateStudent(studentUpdatePutReq);
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}
 	}
 
 
@@ -229,4 +241,5 @@ public class UserController {
 		Teacher teacher = teacherService.findById(tchrId);
 		return ResponseEntity.status(200).body(TeacherFindID.of(teacher));
 	}
+
 }
