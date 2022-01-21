@@ -52,7 +52,7 @@ export default {
     //       studyName : state.classtitle,
     //       tchrId: store.state.root.userid})
     // }
-    return {state, moveClass, moveAttend, moveLesson, delClass}
+    return {state, moveClass, moveAttend, moveLesson}
   },
 }
 
