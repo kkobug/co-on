@@ -25,7 +25,7 @@ export default {
       tchr_scha: {},
     })
     const MoveLesson = function(idx){
-      store.state.root.curClassName = idx
+      store.commit('root/changeClassName', idx)
       router.push({
         name: 'Tchr_Lesson',
       })
@@ -39,7 +39,7 @@ export default {
       })
     })
 
-    return {state, MoveLesson}
+    return {state, MoveLesson, onMounted}
   },
 }
 </script>
