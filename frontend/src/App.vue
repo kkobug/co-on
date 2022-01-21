@@ -1,7 +1,7 @@
 <template>
 <!-- 로그인 -->
   <div v-if="isLogin">
-    <Main @logout3="onLogout"/>
+    <Main @logout3="onLogout" @deleteId2="onLogout" />
     <!-- <router-view @logout3="onLogout"/> -->
   </div>
 <!-- 비로그인 -->

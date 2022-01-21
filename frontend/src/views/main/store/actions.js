@@ -39,20 +39,26 @@ export function requestChangeTchrPassword ({ state }, payload) {
   const url = `/findTeacherPassword?tchrId=${payload['tchrId']}&tchrPassword=${payload['tchrPassword']}`
   return $axios.put(url)
 }
-
+// 학생 조회 -- 일단 안 쓰는 기능
 export function requestLookupstudent ({ state }, payload) {
   console.log('requestLookupstudent', state, payload)
   const url = '/student/me'
   let body = payload
   return $axios.get(url, body)
 }
-
-export function requestModifystudent ({ state }, payload) {
-  console.log('requestModifystudent', state, payload)
+// 학생 정보 수정
+export function requestModifyStudent ({ state }, payload) {
   const url = '/student/modify'
   let body = payload
   return $axios.put(url, body)
 }
+// 교사 정보 수정
+export function requestModifyTeacher ({ state }, payload) {
+  const url = '/teacher/modify'
+  let body = payload
+  return $axios.put(url, body)
+}
+
 
 export function requestStSignup ({ state }, payload) {
   console.log('requestSignup', state, payload)
@@ -69,9 +75,12 @@ export function requestTchrSignup ({ state }, payload) {
 }
 
 
-export function requestDeleteuser ({ state }, payload) {
-  console.log('requestDeleteuser', state, payload)
-  const url = `/withdrawal/${payload}`
-  let body = payload
-  return $axios.delete(url, body)
+export function requestDeleteStudent ({ state }, payload) {
+  const url = `student/withdrawal/${payload}`
+  return $axios.delete(url)
+}
+
+export function requestDeleteTeacher ({ state }, payload) {
+  const url = `teacher/withdrawal/${payload}`
+  return $axios.delete(url)
 }

@@ -11,8 +11,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="clickChangeStPassword">비밀번호 재설정(학생)</el-button>
-          <el-button @click="clickChangeTchrPassword">비밀번호 재설정(교사)</el-button>
+          <el-button @click="clickChangeStPassword" type="text">비밀번호 재설정(학생)</el-button>
+          <el-button @click="clickChangeTchrPassword" type="text">비밀번호 재설정(교사)</el-button>
         </span>
       </template>
     </el-dialog>

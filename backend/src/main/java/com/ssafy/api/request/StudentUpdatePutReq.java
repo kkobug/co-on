@@ -15,8 +15,6 @@ public class StudentUpdatePutReq {
     String st_name;
     @ApiModelProperty(name = "학생 Email", example = "ssafy@ssafy.com")
     String st_email;
-    @ApiModelProperty(name = "학생 Password", example = "1234")
-    String st_password;
     @ApiModelProperty(name = "학생 Contact", example = "010-1234-1234")
     String st_contact;
     @ApiModelProperty(name = "학생 School", example = "싸피중학교")

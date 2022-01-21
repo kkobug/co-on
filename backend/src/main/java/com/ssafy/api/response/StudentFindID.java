@@ -12,6 +12,8 @@ import lombok.Setter;
 public class StudentFindID {
     @ApiModelProperty(name="Student ID")
     String stId;
+    @ApiModelProperty(name="Student Name")
+    String stName;
     @ApiModelProperty(name="Student email")
     String stEmail;
     @ApiModelProperty(name="Student concat")
@@ -23,6 +25,7 @@ public class StudentFindID {
     public static StudentFindID of(Student student){
         StudentFindID res = new StudentFindID();
         res.setStId(student.getStId());
+        res.setStName(student.getStName());
         res.setStEmail(student.getStEmail());
         res.setStConcat(student.getStContact());
         res.setStBirthday(student.getStBirthday());
