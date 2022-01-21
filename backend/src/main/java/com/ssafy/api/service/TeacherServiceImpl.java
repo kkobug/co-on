@@ -40,6 +40,7 @@ public class TeacherServiceImpl implements TeacherService {
 		teacher.setTchrId(teacherModifyInfo.getTchr_id());
 		teacher.setTchrName(teacherModifyInfo.getTchr_name());
 		teacher.setTchrEmail(teacherModifyInfo.getTchr_email());
+		teacher.setTchrPassword(passwordEncoder.encode(teacherModifyInfo.getTchr_password()));
 		teacher.setTchrContact(teacherModifyInfo.getTchr_contact());
 		teacher.setTchrSchool(teacherModifyInfo.getTchr_school());
 		teacher.setTchrBirthday(teacherModifyInfo.getTchr_birthday());

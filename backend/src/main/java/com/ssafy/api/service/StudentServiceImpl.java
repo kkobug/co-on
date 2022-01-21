@@ -53,6 +53,7 @@ public class StudentServiceImpl implements StudentService{
         student.setStId(studentUpdatePutReq.getSt_id());
         student.setStName(studentUpdatePutReq.getSt_name());
         student.setStEmail(studentUpdatePutReq.getSt_email());
+        student.setStPassword(passwordEncoder.encode(studentUpdatePutReq.getSt_password()));
         student.setStContact(studentUpdatePutReq.getSt_contact());
         student.setStSchool(studentUpdatePutReq.getSt_school());
         student.setStBirthday(studentUpdatePutReq.getSt_birthday());

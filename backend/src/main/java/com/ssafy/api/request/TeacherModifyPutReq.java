@@ -18,6 +18,8 @@ public class TeacherModifyPutReq {
 	String tchr_name;
 	@ApiModelProperty(name="교사 email", example="ssafy@ssafy.com")
 	String tchr_email;
+	@ApiModelProperty(name="교사 Password", example="1234")
+	String tchr_password;
 	@ApiModelProperty(name="교사 contact", example="010-1234-1234")
 	String tchr_contact;
 	@ApiModelProperty(name="교사 school", example="싸피중학교")
