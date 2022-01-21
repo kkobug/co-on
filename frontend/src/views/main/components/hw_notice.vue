@@ -3,9 +3,9 @@
     <el-container>
       <p>공지사항</p>
       <el-main>
-        <el-row v-for="item in this.object" :key="item.id">
+        <el-row v-for="item in this.notice" :key="item.id">
           <el-col :span="6"><div class="grid-content bg-purple-light">{{item.s}}</div></el-col>
-          <el-col :span="18"><div class="grid-content bg-purple-light" @click="moveLesson()">이동: 일단 아무데나 라우터 걸어둠</div></el-col>
+          <el-col :span="18"><div class="grid-content bg-purple-light" @click="moveLesson()">공지사항 내용</div></el-col>
         </el-row>
       </el-main>
       <el-footer>Footer</el-footer>
@@ -13,16 +13,19 @@
     <el-container>
       <p>과제</p>
       <el-main>
-        <el-row v-for="item in this.object" :key="item.id">
-          <el-col :span="6"><div class="grid-content bg-purple">{{item.id}}</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.s}}</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light" @click="moveLesson()">이동: 일단 아무데나 라우터 걸어둠</div></el-col>
+        <el-row v-for="item in this.hw" :key="item.id">
+          <el-col :span="6"><div class="grid-content bg-purple">과제명</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">과목명</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple">제출/채점</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light" @click="onOpenHwDialog()">제출하기</div></el-col>
         </el-row>
       </el-main>
       <el-footer>Footer</el-footer>
     </el-container>
-
+    <hw-dialog
+      :open="hwDialogOpen"
+      @closeHwDialog="onCloseHwDialog"
+    />
   </div>
 </template>
 
@@ -30,29 +33,69 @@
 import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import HwDialog from './hw-dialog.vue'
 
 export default {
   name: 'Lesson',
+  components:{
+    HwDialog
+  },
+  data(){
+    return{
+      hwDialogOpen:false
+    }
+  },
+  methods: {
+    onOpenHwDialog () {
+      this.hwDialogOpen = true
+    },
+    onCloseHwDialog () {
+      this.hwDialogOpen = false
+    },
+  },
   setup () {
     const router = useRouter()
     const store = useStore()
-    const object = [
+    const notice = [
       {id:1,s:'How to do lists in Vue'},
       {id:2,s:'How to do lists in Vue'},
       {id:3,s:'How to do lists in Vue'}
     ]
-
-    function moveLesson(){
-      router.push({
-        name:"Tchr_Lesson"
-      })
-    }
+    const hw = [
+      {id:1,s:'How to do lists in Vue'},
+      {id:2,s:'How to do lists in Vue'},
+      {id:3,s:'How to do lists in Vue'}
+    ]
+    // function submitHw(){
+    //   router.push({
+    //     name:"Tchr_Lesson"
+    //   })
+    // }
 
     // 페이지 진입시 불리는 훅
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
+      // 과제 불러오기
+      // store.dispatch('root/setMenuActiveMenuName')
+      // .then(function(result){
+      //   alert('과제 조회 성공')
+      //   console.log(result)
+      //   this.object=result
+      // })
+      // .catch(function(err){
+      //   alert(err)
+      // })
+      // 공지사항 불러오기
+      // store.dispatch('root/setMenuActiveMenuName')
+      // .then(function(result){
+      //   console.log(result)
+      //   this.object=result
+      // })
+      // .catch(function(err){
+      //   alert(err)
+      // })
     })
-    return {object,moveLesson}
+    return {notice,hw}
   }
 }
 </script>

@@ -29,16 +29,10 @@ import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
+
 export default {
   name: 'Lesson',
-  // data() {
-  //    const object = [
-  //     {id:1,s:'How to do lists in Vue'},
-  //     {id:2,s:'How to do lists in Vue'},
-  //     {id:3,s:'How to do lists in Vue'}
-  //   ]
-  //   return {object}
-  // },
+
   setup () {
     const router = useRouter()
     const store = useStore()
@@ -47,7 +41,6 @@ export default {
       {id:2,s:'How to do lists in Vue'},
       {id:3,s:'How to do lists in Vue'}
     ]
-
     function moveLesson(){
       router.push({
         name:"Tchr_Lesson"
@@ -57,6 +50,16 @@ export default {
     // 페이지 진입시 불리는 훅
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
+      // 리스트 불러오기
+      // store.dispatch('root/setMenuActiveMenuName')
+      // .then(function(result){
+      //   alert('리스트 조회 성공')
+      //   console.log(result)
+      //   this.object=result
+      // })
+      // .catch(function(err){
+      //   alert(err)
+      // })
     })
     return {object,moveLesson}
   }
