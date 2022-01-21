@@ -84,3 +84,24 @@ export function requestDeleteTeacher ({ state }, payload) {
   const url = `teacher/withdrawal/${payload}`
   return $axios.delete(url)
 }
+
+export function requestTchrCreateClass ({ state }, payload) {
+  console.log('requestTchrCreateClass', state, payload)
+  const url = `/studyRoom/create`
+  let body = payload
+  return $axios.post(url, body)
+}
+
+export function requestDeleteClass ({ state }, payload) {
+  console.log('requestDeleteClass', state, payload)
+  const url = `/studyRoom/delete`
+  let body = payload
+  return $axios.delete(url, body)
+}
+
+export function requestGetTchrClass ({ state }, payload) {
+  console.log('requestGetTchrClass', state, payload)
+  const url = `/studyRoom/list/${payload.tchrId}`
+  let body = payload
+  return $axios.get(url, body)
+}

@@ -11,6 +11,7 @@ import ModalView from "./tchr_create_lesson"
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import $axios from 'axios'
 
 export default {
   name: 'tchr_main',
@@ -43,6 +44,14 @@ export default {
         params:{id:idx},
       })
     }
+    onMounted(()=>{
+      store.dispatch('root/requestGetTchrClass', {
+          tchrId: store.state.root.userid})
+      .then(res =>{
+        console.log(res)
+      })
+    })
+
     return {state, MoveLesson}
   },
 }
