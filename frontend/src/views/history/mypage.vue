@@ -9,8 +9,14 @@
           <el-form-item prop="name" label="이름" >
             <el-input v-model="state.form.name" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item prop="id" label="아이디" >
+            <el-input v-model="state.form.id" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item prop="passwordCheck" label="이메일" >
             <el-input v-model="state.form.email" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item prop="birthday" label="생년월일" >
+            <el-input v-model="state.form.birthday" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item prop="department" label="학교" >
             <el-input v-model="state.form.school" autocomplete="off"></el-input>
@@ -23,22 +29,21 @@
               <el-button round style="background-color: #6B3BE3; color: white">찾기</el-button>
             </el-col>
           </el-form-item> -->
-          <el-form-item label="학번">
-            <el-input></el-input>
-          </el-form-item>
-          <el-form-item prop="id" label="아이디" >
-            <el-input v-model="state.form.id" autocomplete="off"></el-input>
-          </el-form-item>
           <el-form-item prop="position" label="연락처" >
             <el-input v-model="state.form.contact" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item prop="password" label="비밀번호 확인">
+            <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
+          </el-form-item>
           <el-row :gutter="20">
-            <el-col :span="8">비밀번호 변경</el-col>
-            <el-col :span="6" :offset="10">계정 탈퇴</el-col>
+            <!-- <el-col :span="8">비밀번호 변경</el-col> -->
+            <el-col :span="6" :offset="17">
+              <el-button type="text" @click="clickDelete">계정 탈퇴</el-button>
+            </el-col>
           </el-row>
           <el-button
             style="background-color: #6B3BE3; color: white; width: 60%; height: 40px; margin-top: 20px"
-            @click="clickModifystudent"
+            @click="clickModify"
             >정보수정</el-button>
         </el-form>
       </el-container>
@@ -53,15 +58,16 @@ import $axios from 'axios'
 
 export default {
   name: 'History',
-  setup () {
+  setup (props, { emit }) {
     const state = reactive({
       form: {
         id: '',
-        password: '',
         email: '',
         school: '',
         contact: '',
         name: '',
+        birthday: '',
+        password: '',
         align: 'left'
       },
       rules: {
@@ -93,39 +99,72 @@ export default {
     //         alert(err)
     //       })
     // }
-    const clickModifystudent = function () {
-      store.dispatch('root/requestModifystudent', {
-          st_contact: state.form.contact,
-          st_email: state.form.email,
-          st_id: state.form.id,
-          st_name: state.form.name,
-          st_password: state.form.password, //이게 왜 있는 거임
-          st_school: state.form.school,
-      })
-      .then(function (result) {
-        alert('정보 수정 성공')
-      })
-      .catch(function (err) {
-        alert(err)
-      })
+    const clickModify = function () {
+      if (store.state.root.whetherTchr) {
+        store.dispatch('root/requestModifyTeacher', {
+            tchr_contact: state.form.contact,
+            tchr_email: state.form.email,
+            tchr_id: state.form.id,
+            tchr_name: state.form.name,
+            tchr_school: state.form.school,
+            tchr_birthday: state.form.birthday,
+            tchr_password: state.form.password
+        })
+        .then(function (result) {
+          alert('정보 수정(교사) 성공')
+        })
+        .catch(function (err) {
+          alert(err)
+        })
+      } else {
+        store.dispatch('root/requestModifyStudent', {
+            st_contact: state.form.contact,
+            st_email: state.form.email,
+            st_id: state.form.id,
+            st_name: state.form.name,
+            st_school: state.form.school,
+            st_birthday: state.form.birthday,
+            st_password: state.form.password
+        })
+        .then(function (result) {
+          alert('정보 수정(학생) 성공')
+        })
+        .catch(function (err) {
+          alert(err)
+        })
+      }
     }
 
-    const clickDeletestudent = function () {
-      store.dispatch('root/requestDeleteuser', {
-          st_contact: state.form.contact,
-          st_email: state.form.email,
-          st_id: state.form.id,
-          st_name: state.form.name,
-          st_password: state.form.password, //이게 왜 있는 거임
-          st_school: state.form.school,
-      })
-      .then(function (result) {
-        alert('정보 수정 성공')
-      })
-      .catch(function (err) {
-        alert(err)
-      })
-
+    const clickDelete = function () {
+      if (store.state.root.whetherTchr) {
+        store.dispatch('root/requestDeleteTeacher', username)
+        .then(function (result) {
+          alert('정보 수정 성공')
+          state.form.id = ''
+          state.form.email = ''
+          state.form.contact = ''
+          state.form.school = ''
+          state.form.birthday = ''
+          emit('deleteId')
+        })
+        .catch(function (err) {
+          alert(err)
+        })
+      } else {
+        store.dispatch('root/requestDeleteStudent', username)
+        .then(function (result) {
+          alert('정보 수정 성공')
+          state.form.id = ''
+          state.form.email = ''
+          state.form.contact = ''
+          state.form.school = ''
+          state.form.birthday = ''
+          emit('deleteId')
+        })
+        .catch(function (err) {
+          alert(err)
+        })
+      }
     }
 
       // 페이지 진입시 불리는 훅
@@ -137,16 +176,28 @@ export default {
         $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
         .then(res => {
           console.log(res.data)
+          state.form.id = res.data.tchrId
+          state.form.email = res.data.tchrEmail
+          state.form.contact = res.data.tchrConcat
+          state.form.school = res.data.tchrSchool
+          state.form.birthday = res.data.tchrBirthday
+          state.form.name = res.data.tchrName
         })
       } else {
         $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
         .then(res => {
           console.log(res.data)
+          state.form.id = res.data.stId
+          state.form.email = res.data.stEmail
+          state.form.contact = res.data.stConcat
+          state.form.school = res.data.stSchool
+          state.form.birthday = res.data.stBirthday
+          state.form.name = res.data.stName
         })
       }
     })
 
-    return {state,clickModifystudent,clickDeletestudent, username}
+    return {state,clickModify,clickDelete, username }
   },
   // created: function(){
   //   this.$store.dispatch('root/requestModifystudent')

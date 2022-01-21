@@ -4,15 +4,15 @@
     <el-menu-item class ="navitem" index="2" @click="moveClass">우리반보기</el-menu-item>
     <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
     <button class = "lessonstr">수업 시작</button>
+    <!-- <button @click ="delClass">수업 삭제</button> -->
   </el-menu>
-  <div>{{$route.params.id}}</div>
   <homework></homework>
   <notice></notice>
 
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -29,11 +29,8 @@ export default {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
-      classid: ""
+      classtitle: store.state.root.curClassName
     })
-    // const getClassId = function(){
-    //   state.classid = this.$route.params.id
-    // }
     const moveClass = function(){
       router.push({
         name: 'Tchr_ourclass'
@@ -49,11 +46,14 @@ export default {
         name: 'Tchr_Lesson'
       })
     }
-    return {state, moveClass, moveAttend, moveLesson}
+    // const delClass = function(){
+    //   console.log(state.classtitle, store.state.root.userid)
+    //   store.dispatch('root/requestDeleteClass', {
+    //       studyName : state.classtitle,
+    //       tchrId: store.state.root.userid})
+    // }
+    return {state, moveClass, moveAttend, moveLesson, delClass}
   },
-  // created:function(){
-  //   this.getClassId()
-  // }
 }
 
 

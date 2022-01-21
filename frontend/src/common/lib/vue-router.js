@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/home/home'
 import Login from '@/views/auth/login'
 import ConferencesDetail from '@/views/conferences/conference-detail'
-
+import App from '@/App'
 import Mypage from '@/views/history/mypage'
 
 //teacher
@@ -46,6 +46,16 @@ const routes = [
     path: '/',
     name: 'Main_calendar',
     component: Main_calendar,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/app',
+    name: 'App',
+    component: App,
   },
   {
     path: '/hw_notice',

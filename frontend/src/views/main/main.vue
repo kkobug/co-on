@@ -9,7 +9,7 @@
           />
       </el-aside>
       <el-main>
-        <router-view></router-view>
+        <router-view @deleteId="deleteId1" ></router-view>
       </el-main>
     </el-container>
     <main-footer :height="`110px`"/>
@@ -40,7 +40,10 @@ export default {
     const logout2 = function(){
       emit('logout3')
     }
-    return {logout2}
+    const deleteId1 = function(){
+      emit('deleteId2')
+    }
+    return {logout2, deleteId1 }
   },
 
 }

@@ -30,3 +30,6 @@ export function checkTeacher (state) {
 export function checkStudent (state) {
   state.whetherTchr = false
 }
+export function changeClassName (state, className) {
+  state.curClassName = className
+}

@@ -2,7 +2,7 @@
   <el-container>
     안녕하세요
   </el-container>
-  <div v-for= "scha in state.tchr_scha" :key=scha.id @click="MoveLesson(scha.id)">{{scha.title}}</div>
+  <div v-for= "(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val)">{{val}}</div>
   <ModalView v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
   <button @click="state.isVisible=true">수업생성</button>
 </template>
@@ -22,28 +22,24 @@ export default {
     const store = useStore()
     const state = reactive({
       isVisible: false,
-      tchr_scha:[
-        {
-          id: 1,
-          title:"수학",
-        },
-        {
-          id: 2,
-          title:"과학",
-        },
-        {
-          id: 3,
-          title:"영어",
-        },
-      ],
+      tchr_scha: {},
     })
     const MoveLesson = function(idx){
+      store.commit('root/changeClassName', idx)
       router.push({
         name: 'Tchr_Lesson',
-        params:{id:idx},
       })
     }
-    return {state, MoveLesson}
+    onMounted(()=>{
+      store.dispatch('root/requestGetTchrClass', {
+          tchrId: store.state.root.userid})
+      .then(res =>{
+        console.log(res.data)
+        state.tchr_scha = res.data
+      })
+    })
+
+    return {state, MoveLesson, onMounted}
   },
 }
 </script>

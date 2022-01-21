@@ -24,7 +24,17 @@ export default {
       }
     })
     const addclass = function(){
+      store.dispatch('root/requestTchrCreateClass', {
+          studyDesc : state.form.content,
+          studyName: state.form.title,
+          tchrId: store.state.root.userid})
+      state.form=
+      {
+        title:"",
+        content:"",
+      }
       console.log(state.form)
+
     }
     return {state, addclass}
   },
