@@ -33,8 +33,8 @@
             <el-input v-model="state.form.contact" autocomplete="off"></el-input>
           </el-form-item>
           <el-row :gutter="20">
-            <el-col :span="8">비밀번호 변경</el-col>
-            <el-col :span="6" :offset="10">
+            <!-- <el-col :span="8">비밀번호 변경</el-col> -->
+            <el-col :span="6" :offset="17">
               <el-button type="text" @click="clickDelete">계정 탈퇴</el-button>
             </el-col>
           </el-row>
@@ -64,6 +64,7 @@ export default {
         contact: '',
         name: '',
         birthday: '',
+        password: '',
         align: 'left'
       },
       rules: {
@@ -101,10 +102,11 @@ export default {
             tchr_contact: state.form.contact,
             tchr_email: state.form.email,
             tchr_id: state.form.id,
-            st_name: state.form.name,
+            tchr_name: state.form.name,
             // st_password: state.form.password,
             tchr_school: state.form.school,
-            tchr_birthday: state.form.birthday
+            tchr_birthday: state.form.birthday,
+            // tchr_password: state.form.password
         })
         .then(function (result) {
           alert('정보 수정(교사) 성공')
@@ -120,7 +122,8 @@ export default {
             st_name: state.form.name,
             // st_password: state.form.password,
             st_school: state.form.school,
-            st_birthday: state.form.birthday
+            st_birthday: state.form.birthday,
+            // st_password: state.form.password
         })
         .then(function (result) {
           alert('정보 수정(학생) 성공')
@@ -178,6 +181,7 @@ export default {
           state.form.school = res.data.tchrSchool
           state.form.birthday = res.data.tchrBirthday
           state.form.name = res.data.tchrName
+          // state.form.password = res.data.tchrPassword
         })
       } else {
         $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
@@ -189,6 +193,7 @@ export default {
           state.form.school = res.data.stSchool
           state.form.birthday = res.data.stBirthday
           state.form.name = res.data.stName
+          // state.form.password = res.data.stPassword
         })
       }
     })

@@ -22,6 +22,8 @@ public class TeacherFindID {
     String tchrBirthday;
     @ApiModelProperty(name="Teacher school")
     String tchrSchool;
+    @ApiModelProperty(name="Teacher password")
+    String tchrPassword;
     public static TeacherFindID of(Teacher teacher){
         TeacherFindID res = new TeacherFindID();
         res.setTchrId(teacher.getTchrId());
@@ -30,6 +32,7 @@ public class TeacherFindID {
         res.setTchrConcat(teacher.getTchrContact());
         res.setTchrBirthday(teacher.getTchrBirthday());
         res.setTchrSchool(teacher.getTchrSchool());
+        res.setTchrPassword(teacher.getTchrPassword());
         return res;
     }
 }

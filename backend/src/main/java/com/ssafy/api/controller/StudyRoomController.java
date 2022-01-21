@@ -62,4 +62,17 @@ public class StudyRoomController {
         return ResponseEntity.status(200).body("OK");
     }
 
+    @GetMapping("list/{stId}")
+    @ApiOperation(value = "학생 수업 조회", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<List<String>> listStudyRoom(
+            @PathVariable @ApiParam(value = "수업개설 정보", required = true)String tchrId){
+        List<String> list = studyRoomService.findstudyNamebytchrId(tchrId);
+        return ResponseEntity.status(200).body(list);
+    }
 }
