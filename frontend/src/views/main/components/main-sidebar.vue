@@ -36,7 +36,7 @@
           <span>{{ item.title }}</span>
         </el-menu-item>
 
-        <el-menu-item class="mt-auto" style="position: absolute; bottom: 0; width: 100%" @click="logout">
+        <el-menu-item class="mt-auto" style="bottom: 0; width: 100%" @click="logout">
           <span >로그아웃</span>
         </el-menu-item>
       </el-menu>

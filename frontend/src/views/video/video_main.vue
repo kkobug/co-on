@@ -2,8 +2,7 @@
 	<div id="main-container" class="container">
 		<div id="join" v-if="!session">
 			<div>!session</div>
-			<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
-			
+			<!-- <div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div> -->
 			<div id="join-dialog" class="jumbotron vertical-center">
 				<h1>Join a video session</h1>
 				<div class="form-group">
@@ -34,12 +33,14 @@
 			</div>
 			<div id="main-video" class="col-md-6">
 				<user-video :stream-manager="mainStreamManager"/>
-				<span>메인스트리머</span>
 			</div>
 			<div id="video-container" class="col-md-6">
-				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-			</div>
+				<!-- <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/> -->
+        <user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+
+      </div>
 		</div>
 	</div>
 </template>
@@ -47,7 +48,9 @@
 <script>
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
-import UserVideo from './components/UserVideo';
+// import UserVideo from './components/UserVideo';
+import UserVideo from './UserVideo.vue';
+
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -55,11 +58,15 @@ const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
-	name: 'App',
+	name: 'VideoMain',
 
 	components: {
 		UserVideo,
 	},
+
+  emits: [
+    'click'
+  ],
 
 	data () {
 		return {
@@ -192,6 +199,8 @@ export default {
 					.then(response => response.data)
 					.then(data => resolve(data.id))
 					.catch(error => {
+            console.log('에러 발생')
+            console.log(error)
 						if (error.response.status === 409) {
 							resolve(sessionId);
 						} else {

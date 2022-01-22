@@ -92,11 +92,12 @@ export function requestTchrCreateClass ({ state }, payload) {
   return $axios.post(url, body)
 }
 
-export function requestDeleteClass ({ state }, payload) {
-  console.log('requestDeleteClass', state, payload)
+export function requestDeleteClass ({ state }, data) {
+  console.log('requestDeleteClass', state, data)
   const url = '/studyRoom/delete'
-  let body = payload
-  return $axios.delete(url, {data:{body}})
+  // return $axios.delete(url, {data:{body}})
+  return $axios.delete(url, {data})
+
 }
 
 export function requestGetTchrClass ({ state }, payload) {

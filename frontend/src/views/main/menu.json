@@ -19,12 +19,5 @@
     "path" : "/lesson",
     "icon" : "el-icon-s-order",
     "children" : []
-  },
-  "Mypage" : {
-    "name" : "마이페이지",
-    "hidden" : false,
-    "path" : "/mypage",
-    "icon" : "el-icon-s-order",
-    "children" : []
   }
 }

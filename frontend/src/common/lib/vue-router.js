@@ -16,6 +16,8 @@ import Main_calendar from '@/views/main/components/calendar'
 import hw_notice from '@/views/main/components/hw_notice'
 import Lesson from '@/views/main/components/lesson'
 
+import Video from '@/views/video/video_main'
+
 const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
   let routes = Object.keys(fullMenu).map((key) => {
@@ -93,6 +95,12 @@ const routes = [
     path: "/tchr_ourclass",
     name: "Tchr_ourclass",
     component: Tchr_ourclass,
+    props:true
+  },
+  {
+    path: "/video",
+    name: "video",
+    component: Video,
     props:true
   },
 ]
