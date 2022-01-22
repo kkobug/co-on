@@ -4,7 +4,7 @@
     <el-menu-item class ="navitem" index="2" @click="moveClass">우리반보기</el-menu-item>
     <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
     <button class = "lessonstr">수업 시작</button>
-    <!-- <button @click ="delClass">수업 삭제</button> -->
+    <button @click ="delClass">수업 삭제</button>
   </el-menu>
   <homework></homework>
   <notice></notice>
@@ -29,7 +29,10 @@ export default {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
-      classtitle: store.state.root.curClassName
+      form: {
+        classtitle: store.state.root.curClassName,
+        id: store.state.root.userid
+      }
     })
     const moveClass = function(){
       router.push({
@@ -46,13 +49,21 @@ export default {
         name: 'Tchr_Lesson'
       })
     }
-    // const delClass = function(){
-    //   console.log(state.classtitle, store.state.root.userid)
-    //   store.dispatch('root/requestDeleteClass', {
-    //       studyName : state.classtitle,
-    //       tchrId: store.state.root.userid})
-    // }
-    return {state, moveClass, moveAttend, moveLesson}
+    const delClass = function(){
+      console.log(state.form.id ,state.form.classtitle)
+      store.dispatch('root/requestDeleteClass', {
+          studyName: state.form.classtitle,
+          tchrId: state.form.id
+          })
+      .then(function (result) {
+        console.log(result)
+        alert('삭제성공')
+      })
+      .catch(function (err) {
+        alert(err)
+      })
+    }
+    return {state, moveClass, moveAttend, moveLesson, delClass}
   },
 }
 

@@ -94,9 +94,9 @@ export function requestTchrCreateClass ({ state }, payload) {
 
 export function requestDeleteClass ({ state }, payload) {
   console.log('requestDeleteClass', state, payload)
-  const url = `/studyRoom/delete`
+  const url = '/studyRoom/delete'
   let body = payload
-  return $axios.delete(url, body)
+  return $axios.delete(url, {data:{body}})
 }
 
 export function requestGetTchrClass ({ state }, payload) {
