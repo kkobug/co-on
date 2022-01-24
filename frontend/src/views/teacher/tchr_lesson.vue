@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -56,14 +56,8 @@ export default {
           tchrId: state.form.id
           })
       .then(function (result) {
-        store.dispatch('root/requestGetTchrClass', {
-            tchrId: store.state.root.userid})
-        .then(res =>{
-          store.state.root.classList = res.data
-        })
-        router.push({
-          name: 'Main_calendar',
-        })
+        console.log(result)
+        alert('삭제성공')
       })
       .catch(function (err) {
         alert(err)
@@ -72,6 +66,8 @@ export default {
     return {state, moveClass, moveAttend, moveLesson, delClass}
   },
 }
+
+
 </script>
 <style scoped>
 *, html, body {

@@ -11,6 +11,3 @@ export function getActiveMenuIndex (state) {
 	const keys = Object.keys(state.menus)
 	return keys.findIndex(item => item === state.activeMenu)
 }
-export function getStudy (state) {
-	return state.classList
-}

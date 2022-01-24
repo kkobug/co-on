@@ -1,6 +1,6 @@
 <template>
   <div class ="modal">
-    <div class="overlay" @click="closeModal">X</div>
+    <div class="overlay" @click="$emit('close-modal')">X</div>
     <div><p>수업 등록</p></div>
     <div><label for="title">제목</label><input v-model="state.form.title" name="title" type="text"></div>
     <div><label for="content">내용</label><textarea v-model="state.form.content" name="content" id="" cols="30" rows="10"></textarea></div>
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 export default {
   name: 'ModalView',
-  setup(props, context) {
+  setup() {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
@@ -23,23 +23,20 @@ export default {
         content:"",
       }
     })
-    const closeModal = function(){
-      state.form=
-      {
-        title:"",
-        content:"",
-      }
-      context.emit('close-modal')
-    }
     const addclass = function(){
       store.dispatch('root/requestTchrCreateClass', {
           studyDesc : state.form.content,
           studyName: state.form.title,
           tchrId: store.state.root.userid})
+      state.form=
+      {
+        title:"",
+        content:"",
+      }
       console.log(state.form)
-      closeModal()
+
     }
-    return {state, addclass, closeModal}
+    return {state, addclass}
   },
 
 };

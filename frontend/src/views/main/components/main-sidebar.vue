@@ -23,25 +23,25 @@
               @click="goMypage"
               >마이페이지
             </el-button>
+            <el-button v-if="whetherTchr"
+              color="#626aef"
+              style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
+              @click="goTchr"
+              >교사페이지
+            </el-button>
           </el-card>
         </el-container>
 
         <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
           <span>{{ item.title }}</span>
         </el-menu-item>
-        <el-menu-item class="mt-auto" style="position: absolute; bottom: 0; width: 100%" @click="logout">
+
+        <el-menu-item class="mt-auto" style="bottom: 0; width: 100%" @click="logout">
           <span >로그아웃</span>
         </el-menu-item>
       </el-menu>
     </el-col>
   </el-row>
-  <div v-if="whetherTchr">
-    <ul>
-      <li v-for= "(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val)">{{val}}</li>
-    </ul>
-    <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
-    <button @click="state.isVisible=true">수업생성</button>
-  </div>
 </template>
 <style>
 .profile-card {
@@ -65,21 +65,15 @@
 .main-sidebar .el-menu .el-menu-item .ic {
   margin-right: 5px;
 }
-.li_zindex{
-  z-index: 10;
-}
 </style>
 <script>
-import ModalView from "../../teacher/tchr_create_lesson"
-import { reactive, computed, onMounted } from 'vue'
+import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
 export default {
   name: 'main-header',
-  components:{
-    ModalView
-  },
+
   props: {
     width: {
       type: String,
@@ -94,9 +88,6 @@ export default {
     const whetherTchr = store.state.root.whetherTchr
 
     const state = reactive({
-      isVisible: false,
-      isteacher :false,
-      tchr_scha: computed(() => store.getters['root/getStudy']),
       searchValue: null,
       menuItems: computed(() => {
         const MenuItems = store.getters['root/getMenus']
@@ -133,33 +124,17 @@ export default {
       })
     }
 
+    const goTchr = function(){
+      router.push({
+        name: 'Tchr_main'
+      })
+    }
+
     const logout = function(){
       emit('logout1')
     }
-    const MoveLesson = function(idx){
-      store.commit('root/changeClassName', idx)
-      router.push({
-        name: 'Tchr_Lesson',
-      })
-    }
-    const getClass = function(){
-      store.dispatch('root/requestGetTchrClass', {
-            tchrId: store.state.root.userid})
-        .then(res =>{
-          store.state.root.classList = res.data
-        })
-    }
-    const closeModal = function(){
-      getClass()
-      state.isVisible = false
-    }
-    onMounted(()=>{
-      if (store.state.root.whetherTchr){
-        getClass();
-      }
-    })
 
-    return { state, username, whetherTchr, onMounted, MoveLesson, menuSelect, logout, goMypage, getClass, closeModal}
+    return { state, username, whetherTchr, menuSelect, logout ,goMypage, goTchr}
   }
 }
 </script>
