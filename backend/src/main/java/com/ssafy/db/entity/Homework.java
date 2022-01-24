@@ -2,9 +2,11 @@ package com.ssafy.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,8 +26,12 @@ public class Homework implements Serializable {
     String hwContent;
     @Column(name = "hw_deadline")
     String hwDeadline;
+    @CreationTimestamp
+    @Column(name = "hw_posted", updatable = false)
+    LocalDateTime hwPosted;
+//    @Column(name = "hw_file")
+//    파일 업로드 필요함!!!
     @ManyToOne
     @JoinColumn(name = "study_id", insertable = false, updatable = false)
     private Studyroom studyroom;
-//    파일 업로드, tchr_id 필드 필요함!!!
 }

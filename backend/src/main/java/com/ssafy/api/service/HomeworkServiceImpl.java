@@ -29,8 +29,8 @@ public class HomeworkServiceImpl implements HomeworkService{
     }
 
     @Override
-    public void deleteHomework(Integer studyId) {
-
+    public void deleteHomework(Integer hwId) {
+        homeworkRepositorySupport.deleteHomeworkByHwId(hwId);
     }
 
     @Override

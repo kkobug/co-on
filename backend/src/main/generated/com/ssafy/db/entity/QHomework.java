@@ -30,6 +30,10 @@ public class QHomework extends EntityPathBase<Studyroom> {
 
     public final StringPath hwDeadline = createString("hw_deadline");
 
+    public final DatePath hwPosted = createDate("hw_posted");
+
+//    public final file
+
     public QHomework(String variable) { super(Homework.class, forVariable(variable)); }
 
     public QHomework(Path<? extends Homework> path) {

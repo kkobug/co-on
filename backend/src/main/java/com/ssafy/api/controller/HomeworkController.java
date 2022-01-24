@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.HomeworkDeleteReq;
 import com.ssafy.api.request.HomeworkRegisterPostReq;
 import com.ssafy.api.service.HomeworkService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -32,7 +33,7 @@ public class HomeworkController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @GetMapping("/{tchrId}")
+    @GetMapping("/teacher/{tchrId}")
     @ApiOperation(value = "교사가 출제한 과제 조회", notes = "<strong>교사아이디</strong>를 통해 조회 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -46,7 +47,7 @@ public class HomeworkController {
         return ResponseEntity.status(200).body(list);
     }
 
-    @GetMapping("/{studyId}")
+    @GetMapping("/student/{studyId}")
     @ApiOperation(value = "수업에 포함된 과제 조회", notes = "<strong>수업아이디</strong>를 통해 조회 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -55,8 +56,22 @@ public class HomeworkController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<List<String>> study_list(
-            @PathVariable @ApiParam(value = "과제 출제 정보", required = true)Integer studyId){
+            @PathVariable @ApiParam(value = "과제 출제 정보", required = true)Integer studyId) {
         List<String> list = homeworkService.findHomeworkByStudyId(studyId);
         return ResponseEntity.status(200).body(list);
+    }
+
+    @DeleteMapping("/delete/{hwId}")
+    @ApiOperation(value = "과제 삭제", notes = "<strong>과제 ID</strong>을 통해 (교사가) 과제를 삭제 한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> delete(@RequestBody HomeworkDeleteReq homeworkDeleteReq){
+        Integer hwId = homeworkDeleteReq.getHwId();
+        homeworkService.deleteHomework(hwId);
+        return ResponseEntity.status(200).body("OK");
     }
 }

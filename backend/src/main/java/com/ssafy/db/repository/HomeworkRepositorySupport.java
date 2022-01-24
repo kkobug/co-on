@@ -25,4 +25,8 @@ public class HomeworkRepositorySupport {
                 .where(qHomework.tchrId.eq(tchrId)).fetch();
         return list;
     }
+
+    public void deleteHomeworkByHwId(Integer hwId){
+        jpaQueryFactory.delete(qHomework).where(qHomework.hwId.eq(hwId)).execute();
+    }
 }

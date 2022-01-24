@@ -11,7 +11,7 @@ public interface HomeworkService {
     Homework createHomework(HomeworkRegisterPostReq homeworkRegisterPostReq);
 //    과제 삭제
     @Transactional
-    void deleteHomework(Integer studyId);
+    void deleteHomework(Integer hwId);
 //    과제 조회 (수업ID에 따라, 교사ID에 따라)
     List<String> findHomeworkByStudyId(Integer studyId);
     List<String> findHomeworkByTchrId(String tchrId);

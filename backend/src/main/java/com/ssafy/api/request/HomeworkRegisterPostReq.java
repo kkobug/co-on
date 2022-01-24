@@ -11,7 +11,7 @@ import lombok.Setter;
 public class HomeworkRegisterPostReq {
     @ApiModelProperty(name = "교실 ID", example = "1")
     Integer studyId;
-    @ApiModelProperty(name = "출제 교사 ID", example = "ssafyteacher")
+    @ApiModelProperty(name = "출제 교사 ID", example = "tchr_id")
     String tchrId;
     @ApiModelProperty(name = "과제 제목", example = "페르마의 마지막 정리")
     String hwTitle;
