@@ -1,11 +1,14 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.HomeworkDeleteReq;
+import com.ssafy.api.request.HomeworkModifyReq;
 import com.ssafy.api.request.HomeworkRegisterPostReq;
+import com.ssafy.api.request.TeacherModifyPutReq;
 import com.ssafy.api.response.HomeworkInfoRes;
 import com.ssafy.api.service.HomeworkService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Homework;
+import com.ssafy.db.entity.Teacher;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -87,5 +90,19 @@ public class HomeworkController {
         Integer hwId = homeworkDeleteReq.getHwId();
         homeworkService.deleteHomework(hwId);
         return ResponseEntity.status(200).body("OK");
+    }
+
+    @PutMapping("/modify/{hwId}")
+    @ApiOperation(value = "과제 수정", notes = "<strong>과제 ID</strong>을 통해 과제를 수정한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public  ResponseEntity<? extends BaseResponseBody> modifyHomework(@RequestParam Integer hwId, @RequestBody HomeworkModifyReq homeworkModifyReq) {
+        Homework homework = homeworkService.updateHomework(hwId, homeworkModifyReq);
+        if (homework.getHwId() != hwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 }

@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 public class Homework implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "hw_id")
-    int hwId;
-    @Column(name = "study_id")
-    int studyId;
-    @Column(name = "tchr_id")
+    @Column(name = "hw_id", updatable = false)
+    Integer hwId;
+    @Column(name = "study_id", updatable = false)
+    Integer studyId;
+    @Column(name = "tchr_id", updatable = false)
     String tchrId;
     @Column(name = "hw_title")
     String hwTitle;
