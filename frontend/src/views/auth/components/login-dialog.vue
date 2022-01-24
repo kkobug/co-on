@@ -26,7 +26,7 @@
     </el-dialog>
   </div>
 </template>
-<style scoped>
+<style>
 .login-dialog {
   width: 400px !important;
   height: auto;
@@ -57,7 +57,7 @@
   display: inline-block;
 }
 .login-dialog .dialog-footer .el-button {
-  width: 130px;
+  width: 120px;
 }
 
 

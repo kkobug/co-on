@@ -4,9 +4,6 @@
       <el-container>
         <el-form label-width="70px" label-position="left">
           <span>
-            <el-icon color="primary">
-              <delete />
-            </el-icon>
             <strong style="font-size: xx-large">{{ username }}님의 회원 정보</strong>
           </span>
           <el-form-item prop="name" label="이름" >
@@ -115,16 +112,6 @@ export default {
         })
         .then(function (result) {
           alert('정보 수정(교사) 성공')
-          $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
-          .then(res => {
-            console.log(res.data)
-            state.form.id = res.data.tchrId
-            state.form.email = res.data.tchrEmail
-            state.form.contact = res.data.tchrConcat
-            state.form.school = res.data.tchrSchool
-            state.form.birthday = res.data.tchrBirthday
-            state.form.name = res.data.tchrName
-          })
         })
         .catch(function (err) {
           alert(err)
@@ -141,16 +128,6 @@ export default {
         })
         .then(function (result) {
           alert('정보 수정(학생) 성공')
-          $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
-          .then(res => {
-            console.log(res.data)
-            state.form.id = res.data.stId
-            state.form.email = res.data.stEmail
-            state.form.contact = res.data.stConcat
-            state.form.school = res.data.stSchool
-            state.form.birthday = res.data.stBirthday
-            state.form.name = res.data.stName
-          })
         })
         .catch(function (err) {
           alert(err)

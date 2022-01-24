@@ -1,15 +1,17 @@
 <template>
-  <ModalView v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
-  <button @click="state.isVisible = true">공지 생성</button>
   <div>
-    <div v-for = "ntice in state.notices" :key = ntice.id class ="el-item">
-      <div class="li-left li-sec">
-        <div class ="li-title li-item">{{ntice.title}}</div>
-        <div class ="li-lesson li-item">{{ntice.subject}}</div>
-      </div>
-      <div class="li-right li-sec">
-        <div class ="li-time li-item">{{ntice.date}}</div>
-        <div class ="li-button li-item">수정</div>
+    <ModalView v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
+    <button @click="state.isVisible = true">공지 생성</button>
+    <div>
+      <div v-for = "ntice in state.notices" :key = ntice.id class ="el-item">
+        <div class="li-left li-sec">
+          <div class ="li-title li-item">{{ntice.title}}</div>
+          <div class ="li-lesson li-item">{{ntice.subject}}</div>
+        </div>
+        <div class="li-right li-sec">
+          <div class ="li-time li-item">{{ntice.date}}</div>
+          <div class ="li-button li-item">수정</div>
+        </div>
       </div>
     </div>
   </div>

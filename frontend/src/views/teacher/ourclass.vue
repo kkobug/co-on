@@ -1,32 +1,34 @@
 <template>
-  <el-menu class="topnav">
-    <el-menu-item class ="navitem" index="1" @click="moveLesson()">내 수업</el-menu-item>
-    <el-menu-item class ="navitem" index="2" @click="moveClass()">우리반보기</el-menu-item>
-    <el-menu-item class ="navitem" index="3" @click="moveAttend()">출결관리</el-menu-item>
-    <button class = "lessonstr">수업 시작</button>
-  </el-menu>
-  <div class="stud">
-    <el-row>
-      <el-col
-      v-for="(o, index) in 3"
-      :key="o"
-      :span="8"
-      :offset="index > 0 ? 2 : 0"
-      >
-        <el-card :body-style="{ padding: '0px' }">
-          <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image"
-          />
-          <div style="padding: 14px">
-            <span>Yummy hamburger</span>
-            <div class="bottom">
-              <el-button type="text" class="button">Operating</el-button>
+  <div>
+    <el-menu class="topnav">
+      <el-menu-item class ="navitem" index="1" @click="moveLesson()">내 수업</el-menu-item>
+      <el-menu-item class ="navitem" index="2" @click="moveClass()">우리반보기</el-menu-item>
+      <el-menu-item class ="navitem" index="3" @click="moveAttend()">출결관리</el-menu-item>
+      <button class = "lessonstr">수업 시작</button>
+    </el-menu>
+    <div class="stud">
+      <el-row>
+        <el-col
+        v-for="(o, index) in 3"
+        :key="o"
+        :span="8"
+        :offset="index > 0 ? 2 : 0"
+        >
+          <el-card :body-style="{ padding: '0px' }">
+            <img
+              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+              class="image"
+            />
+            <div style="padding: 14px">
+              <span>Yummy hamburger</span>
+              <div class="bottom">
+                <el-button type="text" class="button">Operating</el-button>
+              </div>
             </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 <script>
