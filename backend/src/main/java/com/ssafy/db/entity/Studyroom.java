@@ -20,4 +20,5 @@ public class Studyroom implements Serializable {
     String studyName;
     @Column(name= "study_desc")
     String studyDesc;
+
 }
