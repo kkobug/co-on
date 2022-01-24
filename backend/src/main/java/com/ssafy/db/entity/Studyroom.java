@@ -5,13 +5,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Getter
 @Setter
 public class Studyroom implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "study_id")
     int studyId;
     @Column(name= "tchr_id")
@@ -20,4 +21,7 @@ public class Studyroom implements Serializable {
     String studyName;
     @Column(name= "study_desc")
     String studyDesc;
+    @ManyToOne
+    @JoinColumn(name = "tchr_id",insertable = false, updatable = false)
+    private Teacher teacher;
 }

@@ -29,13 +29,11 @@ public class StudyRoomServiceImpl implements StudyRoomService {
 
     @Override
     public void deleteStudyRoom(String tchrId, String studyName) {
-        studyRoomRepository.deleteStudyroomByTchrIdAndStudyName(tchrId, studyName);
+        studyRoomRepositorySupport.deleteStudyRoomByTchrIdAndStudyName(tchrId, studyName);
     }
 
     @Override
     public List<String> findstudyNamebytchrId(String tchrId) {
         return studyRoomRepositorySupport.findStudyNameByTchrId(tchrId);
     }
-
-
 }

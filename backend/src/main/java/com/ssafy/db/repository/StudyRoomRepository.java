@@ -10,7 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface StudyRoomRepository  extends JpaRepository<Studyroom, Integer> {
-    //List<Studyroom> findStudyNameByTchrId(String tchrId);
-    @Transactional
-    void deleteStudyroomByTchrIdAndStudyName(String tchrId, String studyName);
+
 }

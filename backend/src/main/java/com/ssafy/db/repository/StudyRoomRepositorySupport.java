@@ -17,11 +17,11 @@ public class StudyRoomRepositorySupport {
 
     public List<String> findStudyNameByTchrId(String tchrId) {
         List<String> list = jpaQueryFactory.select(qStudyRoom.studyName).from(qStudyRoom)
-                .where(qStudyRoom.tchrId.eq(tchrId)).fetch();
+                .where(qStudyRoom.teacher.tchrId.eq(tchrId)).fetch();
         return list;
     }
 
-    public void deleteStudyRoom(String tchrId, String studyName) {
-        jpaQueryFactory.delete(qStudyRoom).where(qStudyRoom.tchrId.eq(tchrId).and(qStudyRoom.studyName.eq(studyName)));
+    public void deleteStudyRoomByTchrIdAndStudyName(String tchrId, String studyName){
+        jpaQueryFactory.delete(qStudyRoom).where(qStudyRoom.tchrId.eq(tchrId).and(qStudyRoom.studyName.eq(studyName))).execute();
     }
 }

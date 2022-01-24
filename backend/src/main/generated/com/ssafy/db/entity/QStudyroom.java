@@ -42,4 +42,3 @@ public class QStudyroom extends EntityPathBase<Teacher> {
     }
 
 }
-
