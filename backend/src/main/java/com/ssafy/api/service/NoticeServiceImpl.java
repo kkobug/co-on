@@ -2,8 +2,8 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.NoticeRegisterPostReq;
 import com.ssafy.api.request.NoticeUpdatePutReq;
+import com.ssafy.db.entity.Homework;
 import com.ssafy.db.entity.Notice;
-import com.ssafy.db.entity.Student;
 import com.ssafy.db.repository.NoticeRepository;
 import com.ssafy.db.repository.NoticeRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +39,6 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public Notice findBynoticeId(int NoticeId) {
-        Notice notice = noticeRepositorySupport.findByNoticeId(NoticeId).get();
-        return notice;
-    }
-
-    @Override
     public Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) {
         Notice notice = new Notice();
         notice.setNoticeId(noticeUpdatePutReq.getNoticeId());
@@ -57,8 +51,20 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public List<Notice> getAllNotices() {
-        return (List) noticeRepository.findAll();
+    public List<Notice> findNoticeByStudyId(Integer studyId) {
+        return noticeRepositorySupport.findNoticeByStudyId(studyId);
+    }
+
+    @Override
+    public List<Notice> findNoticeByTchrId(String tchrId) {
+        return noticeRepositorySupport.findNoticeByTchrId(tchrId);
+    }
+
+
+    @Override
+    public Notice findBynoticeId(int NoticeId) {
+        Notice notice = noticeRepositorySupport.findByNoticeId(NoticeId).get();
+        return notice;
     }
 
 }

@@ -6,6 +6,7 @@ import com.ssafy.api.response.StudentFindID;
 import com.ssafy.api.response.TeacherFindID;
 import com.ssafy.api.service.*;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.Homework;
 import com.ssafy.db.entity.Notice;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Teacher;
@@ -87,15 +88,31 @@ public class NoticeController {
 
 	}
 
-	@GetMapping("/notice/list")
-	@ApiOperation(value = "공지사항 목록", notes = "공지사항 목록을 조회한다.")
+	@GetMapping("/notice/study/list/{studyId}")
+	@ApiOperation(value = "수업에 포함된 공지사항 조회", notes = "수업 아이디를 통해 조회한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public List<Notice> list(){
-		return noticeService.getAllNotices();
+	public ResponseEntity<List<Notice>> study_list(
+			@PathVariable @ApiParam(value = "공지사항 정보", required = true)Integer studyId) {
+		List<Notice> list = noticeService.findNoticeByStudyId(studyId);
+		return ResponseEntity.status(200).body(list);
+	}
+
+	@GetMapping("/notice/teacher/list/{tchrId}")
+	@ApiOperation(value = "교사가 출제한 공지사항 조회", notes = "<strong>교사아이디</strong>를 통해 조회 한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<Notice>> tchr_list(
+			@PathVariable @ApiParam(value = "공지사항 정보", required = true)String tchrId){
+		List<Notice> list = noticeService.findNoticeByTchrId(tchrId);
+		return ResponseEntity.status(200).body(list);
 	}
 }
