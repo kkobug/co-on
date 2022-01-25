@@ -1,18 +1,19 @@
 <template>
-  <el-menu class="topnav">
-    <el-menu-item class ="navitem" index="1" @click="moveLesson">내 수업</el-menu-item>
-    <el-menu-item class ="navitem" index="2" @click="moveClass">우리반보기</el-menu-item>
-    <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
-    <button class = "lessonstr">수업 시작</button>
-    <button @click ="delClass">수업 삭제</button>
-  </el-menu>
-  <homework></homework>
-  <notice></notice>
-
+  <div>
+    <el-menu class="topnav">
+      <el-menu-item class ="navitem" index="1" @click="moveLesson">내 수업</el-menu-item>
+      <el-menu-item class ="navitem" index="2" @click="moveClass">우리반보기</el-menu-item>
+      <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
+      <button class = "lessonstr">수업 시작</button>
+      <button @click ="delClass">수업 삭제</button>
+    </el-menu>
+    <homework></homework>
+    <notice></notice>
+  </div>
 </template>
 
 <script>
-import { onMounted, reactive } from 'vue'
+import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -56,8 +57,14 @@ export default {
           tchrId: state.form.id
           })
       .then(function (result) {
-        console.log(result)
-        alert('삭제성공')
+        store.dispatch('root/requestGetTchrClass', {
+            tchrId: store.state.root.userid})
+        .then(res =>{
+          store.state.root.classList = res.data
+        })
+        router.push({
+          name: 'Main_calendar',
+        })
       })
       .catch(function (err) {
         alert(err)
@@ -66,8 +73,6 @@ export default {
     return {state, moveClass, moveAttend, moveLesson, delClass}
   },
 }
-
-
 </script>
 <style scoped>
 *, html, body {
