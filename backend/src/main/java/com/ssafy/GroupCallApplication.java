@@ -10,8 +10,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
 
-@SpringBootApplication
 @EnableJpaAuditing
+@SpringBootApplication
 public class GroupCallApplication {
 	public static void main(String[] args) {
         SpringApplication.run(GroupCallApplication.class, args);
