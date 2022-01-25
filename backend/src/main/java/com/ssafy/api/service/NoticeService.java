@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.NoticeUpdatePutReq;
+import com.ssafy.db.entity.Homework;
 import com.ssafy.db.entity.Notice;
 import com.ssafy.api.request.NoticeRegisterPostReq;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ public interface NoticeService {
 	Notice findBynoticeId(int NoticeId);
 	Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq);
 
-	@Transactional
-	List<Notice> getAllNotices();
+//    공지사항 조회 (수업ID에 따라, 교사ID에 따라, 공지사항 조회)
+	List<Notice> findNoticeByStudyId(Integer studyId);
+	List<Notice> findNoticeByTchrId(String tchrId);
 }

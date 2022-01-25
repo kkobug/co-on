@@ -12,28 +12,28 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class Homework implements Serializable {
+public class StudentHomework implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "st_hwid", updatable = false)
+    Integer stHwId;
     @Column(name = "hw_id", updatable = false)
     Integer hwId;
     @Column(name = "study_id", updatable = false)
     Integer studyId;
+    @Column(name = "st_hwscore")
+    Integer stHwscore;
     @Column(name = "tchr_id", updatable = false)
     String tchrId;
-    @Column(name = "hw_title")
-    String hwTitle;
-    @Column(name = "hw_content")
-    String hwContent;
-    @Column(name = "hw_deadline")
-    String hwDeadline;
+    @Column(name = "st_id", updatable = false)
+    String stId;
+    @Column(name = "st_hwcontent")
+    String stHwcontent;
+
     @CreationTimestamp
     @LastModifiedDate
-    @Column(name = "hw_posted", updatable = false)
-    LocalDateTime hwPosted;
-//    @Column(name = "hw_file")
+    @Column(name = "st_hwposted", updatable = false)
+    LocalDateTime stHwposted;
+//    @Column(name = "st_hwfile")
 //    파일 업로드 필요함!!!
-    @ManyToOne
-    @JoinColumn(name = "study_id", insertable = false, updatable = false)
-    private Studyroom studyroom;
 }
