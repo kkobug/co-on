@@ -21,7 +21,14 @@ public class Studyroom implements Serializable {
     String studyName;
     @Column(name= "study_desc")
     String studyDesc;
+<<<<<<< Updated upstream
     @ManyToOne
     @JoinColumn(name = "tchr_id",insertable = false, updatable = false)
     private Teacher teacher;
+=======
+//
+//    @ManyToOne
+//    @JoinColumn(name = "tchr_id",insertable = false, updatable = false)
+//    private Teacher teacher;
+>>>>>>> Stashed changes
 }

@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.querydsl.core.Tuple;
 import com.ssafy.api.request.*;
 import com.ssafy.api.response.StudentFindID;
 import com.ssafy.api.response.TeacherFindID;
@@ -18,6 +19,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
+import java.util.List;
 
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -242,4 +245,16 @@ public class UserController {
 		return ResponseEntity.status(200).body(TeacherFindID.of(teacher));
 	}
 
+	@GetMapping("/teacher/studentlist")
+	@ApiOperation(value = "학생 조회", notes = "학생 리스트를 조회 한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<Object[]>> list(){
+		List<Object[]> list = teacherService.findstIdAndstName();
+		return ResponseEntity.status(200).body(list);
+	}
 }
