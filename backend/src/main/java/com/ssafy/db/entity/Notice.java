@@ -14,21 +14,21 @@ import java.time.LocalDateTime;
 @Setter
 public class Notice implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name= "notice_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "notice_id", updatable = false)
     int noticeId;
-    @Column(name= "study_id")
+    @Column(name= "study_id", updatable = false)
     int studyId;
-    @Column(name= "tchr_id")
+    @Column(name= "tchr_id", updatable = false)
     String tchrId;
-    @Column(name= "notice_title")
+    @Column(name= "notice_title", updatable = false)
     String noticeTitle;
-    @Column(name= "notice_content")
+    @Column(name= "notice_content", updatable = false)
     String noticeContent;
 
     //생성/수정일자 자동 갱신
     @CreatedDate
     @LastModifiedDate
-    @Column(name= "notice_posted")
-    private LocalDateTime noticePosted;
+    @Column(name= "notice_posted", updatable = false)
+    LocalDateTime noticePosted;
 }

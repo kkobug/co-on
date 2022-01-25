@@ -1,6 +1,7 @@
 package com.ssafy.db.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.db.entity.Homework;
 import com.ssafy.db.entity.Notice;
 import com.ssafy.db.entity.QNotice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,18 @@ public class NoticeRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
     QNotice qnotice = QNotice.notice;
+
+    public List<Notice> findNoticeByStudyId(Integer studyId){
+        List<Notice> list = jpaQueryFactory.select(qnotice).from(qnotice)
+                .where(qnotice.studyId.eq(studyId)).fetch();
+        return list;
+    }
+
+    public List<Notice> findNoticeByTchrId(String tchrId) {
+        List<Notice> list = jpaQueryFactory.select(qnotice).from(qnotice)
+                .where(qnotice.tchrId.eq(tchrId)).fetch();
+        return list;
+    }
 
     public Optional<Notice> findByNoticeId(int NoticeId){
         Notice notice = jpaQueryFactory.select(qnotice).from(qnotice)
