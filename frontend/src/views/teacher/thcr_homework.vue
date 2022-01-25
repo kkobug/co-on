@@ -1,7 +1,9 @@
 <template>
   <div>
     <ModalView v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
-    <button @click="state.isVisible = true">숙제 생성</button>
+    <div style="text-align: right">
+      <button class="sub_btn" @click="state.isVisible = true">숙제 생성</button>
+    </div>
     <div>
       <div v-for = "hw in state.homeworks" :key = hw.id class ="el-item">
         <div class="li-left li-sec">
@@ -73,12 +75,17 @@ export default {
   border: solid 1px black;
   align-items: center;
   border-radius: 10px;
-  height: 100px;
+  height: 80px;
+  margin-bottom: 10px;
 }
 .li-sec{
   display: flex;
 }
 .li-item{
+  margin: 20px;
+}
+.sub_btn{
+  padding: 5px;
   margin: 20px;
 }
 </style>

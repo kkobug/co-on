@@ -1,60 +1,40 @@
 <template>
   <div>
-    <el-menu class="topnav">
-      <el-menu-item class ="navitem" index="1" @click="moveLesson">내 수업</el-menu-item>
-      <el-menu-item class ="navitem" index="2" @click="moveClass">우리반보기</el-menu-item>
-      <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
-      <button class = "lessonstr">수업 시작</button>
-      <button @click ="delClass">수업 삭제</button>
-    </el-menu>
+    <tchr-nav></tchr-nav>
+    <h1 style="text-align:left">{{ state.classtitle }} 반의 수업</h1>
     <homework></homework>
     <notice></notice>
+    <button class="sub_btn" @click ="delClass">수업 삭제</button>
   </div>
 </template>
-
 <script>
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
 import Tchr_notice from './tchr_notice.vue'
-import Thcr_homework from './thcr_homework.vue'
+import Tchr_homework from './thcr_homework.vue'
+import Tchr_nav from './tchr_nav.vue'
 
 export default {
-  name: 'Tchr_sLesson',
+  name: 'Tchr_contents',
   components: {
-    "homework" : Thcr_homework,
-    "notice" : Tchr_notice
+    "homework" : Tchr_homework,
+    "notice" : Tchr_notice,
+    "tchr-nav" : Tchr_nav,
   },
   setup() {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
-      form: {
-        classtitle: store.state.root.curClassName,
-        id: store.state.root.userid
-      }
+      classtitle: computed(() => store.getters['root/getStudyName']),
+      id: store.state.root.userid
     })
-    const moveClass = function(){
-      router.push({
-        name: 'Tchr_ourclass'
-      })
-    }
-    const moveAttend = function(){
-      router.push({
-        name: 'Tchr_attend'
-      })
-    }
-    const moveLesson = function(){
-      router.push({
-        name: 'Tchr_Lesson'
-      })
-    }
     const delClass = function(){
-      console.log(state.form.id ,state.form.classtitle)
+      console.log(state.id ,state.classtitle)
       store.dispatch('root/requestDeleteClass', {
-          studyName: state.form.classtitle,
-          tchrId: state.form.id
+          studyName: state.classtitle,
+          tchrId: state.id
           })
       .then(function (result) {
         store.dispatch('root/requestGetTchrClass', {
@@ -70,8 +50,9 @@ export default {
         alert(err)
       })
     }
-    return {state, moveClass, moveAttend, moveLesson, delClass}
+    return {state, delClass}
   },
+
 }
 </script>
 <style scoped>
@@ -101,5 +82,11 @@ export default {
   right: 0;
   margin: 20px;
   position: absolute;
+}
+.sub_btn{
+  padding: 5px;
+  margin: 20px;
+  background-color: red;
+  float: right;
 }
 </style>

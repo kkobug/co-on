@@ -7,9 +7,10 @@ import Mypage from '@/views/history/mypage'
 
 //teacher
 import Tchr_main from '@/views/teacher/tchr_main'
-import Tchr_Lesson from '@/views/teacher/tchr_lesson'
+import Tchr_nav from '@/views/teacher/tchr_nav'
 import Tchr_ourclass from '@/views/teacher/ourclass'
 import Tchr_attend from '@/views/teacher/daily_attend'
+import Tchr_contents from '@/views/teacher/tchr_contents'
 
 // import Main from '@/views/main/main'
 import Main_calendar from '@/views/main/components/calendar'
@@ -81,9 +82,9 @@ const routes = [
     component: Tchr_main,
   },
   {
-    path: "/tchr_lesson",
-    name: "Tchr_Lesson",
-    component: Tchr_Lesson,
+    path: "/tchr_nav",
+    name: "Tchr_nav",
+    component: Tchr_nav,
     props:true
   },
   {
@@ -107,6 +108,12 @@ const routes = [
     path: '/lesson2',
     name: 'Lesson2',
     component: Lesson2,
+  },
+  {
+    path: "/tchr_contents",
+    name: "Tchr_contents",
+    component: Tchr_contents,
+    props:true
   },
 ]
 

@@ -14,3 +14,6 @@ export function getActiveMenuIndex (state) {
 export function getStudy (state) {
 	return state.classList
 }
+export function getStudyName (state) {
+	return state.curClassName
+}

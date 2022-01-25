@@ -1,11 +1,6 @@
 <template>
   <div>
-    <el-menu class="topnav">
-      <el-menu-item class ="navitem" index="1" @click="moveLesson()">내 수업</el-menu-item>
-      <el-menu-item class ="navitem" index="2" @click="moveClass()">우리반보기</el-menu-item>
-      <el-menu-item class ="navitem" index="3" @click="moveAttend()">출결관리</el-menu-item>
-      <button class = "lessonstr">수업 시작</button>
-    </el-menu>
+    <tchr-nav></tchr-nav>
     <div class="stud">
       <el-row>
         <el-col
@@ -32,9 +27,17 @@
   </div>
 </template>
 <script>
+import { reactive, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+
+import Tchr_nav from './tchr_nav.vue'
 
 export default {
   name: 'ourClass',
+  components: {
+    "tchr-nav" : Tchr_nav,
+  },
   methods:{
     moveClass: function(){
       this.$router.push({name:"Tchr_ourClass"})

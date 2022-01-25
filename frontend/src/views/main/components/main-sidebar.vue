@@ -37,15 +37,15 @@
       </el-col>
     </el-row>
     <div v-if="whetherTchr">
-      <ul>
+      <ul class="studyList">
         <li v-for= "(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val)">{{val}}</li>
       </ul>
       <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
-      <button @click="state.isVisible=true">수업생성</button>
+      <div class="studyBtn" @click="state.isVisible=true">수업생성</div>
     </div>
   </div>
 </template>
-<style>
+<style scoped>
 .profile-card {
   padding: auto;
   justify-content: center;
@@ -69,6 +69,25 @@
 }
 .li_zindex{
   z-index: 10;
+}
+.studyList{
+  border : solid 1px black;
+  border-radius: 10px;
+  list-style: none;
+  padding: 10px;
+  margin: 5px;
+}
+.studyList>li{
+  margin : 10px;
+  cursor: pointer;
+}
+.studyBtn{
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  border: solid 1px black;
+  text-align: center;
+  cursor: pointer;
 }
 </style>
 <script>
@@ -141,7 +160,7 @@ export default {
     const MoveLesson = function(idx){
       store.commit('root/changeClassName', idx)
       router.push({
-        name: 'Tchr_Lesson',
+        name: 'Tchr_contents',
       })
     }
     const getClass = function(){
