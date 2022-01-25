@@ -38,7 +38,7 @@
     </el-row>
     <div v-if="whetherTchr">
       <ul class="studyList">
-        <li v-for= "(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val)">{{val}}</li>
+        <li v-for= "(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val[0], val[1])">{{val[1]}}</li>
       </ul>
       <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
       <div class="studyBtn" @click="state.isVisible=true">수업생성</div>
@@ -157,8 +157,9 @@ export default {
     const logout = function(){
       emit('logout1')
     }
-    const MoveLesson = function(idx){
-      store.commit('root/changeClassName', idx)
+    const MoveLesson = function(idx, name){
+      store.commit('root/changeClassName', name)
+      store.commit('root/changeClassId', idx)
       router.push({
         name: 'Tchr_contents',
       })

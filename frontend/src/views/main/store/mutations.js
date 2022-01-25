@@ -33,3 +33,6 @@ export function checkStudent (state) {
 export function changeClassName (state, className) {
   state.curClassName = className
 }
+export function changeClassId (state, classId) {
+  state.curClassId = classId
+}

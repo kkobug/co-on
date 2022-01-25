@@ -102,7 +102,84 @@ export function requestDeleteClass ({ state }, data) {
 
 export function requestGetTchrClass ({ state }, payload) {
   console.log('requestGetTchrClass', state, payload)
-  const url = `/studyRoom/list/${payload.tchrId}`
+  const url = `/studyRoom/teacher/list/${payload.tchrId}`
   let body = payload
   return $axios.get(url, body)
 }
+//새로추가
+//학생 추가
+export function requestAddStudentInStudy ({ state }, payload) {
+  console.log('requestAddStudentInStudy', state, payload)
+  const url = `/studyRoomDetail/teacher/add`
+  let body = payload
+  return $axios.get(url, body)
+}
+//공지관련
+export function requestgetNotice ({ state }, payload) {
+  console.log('requestgetNotice', state, payload)
+  const url = `/notice/${payload.notice_id}`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestAddNotice ({ state }, payload) {
+  console.log('requestAddNotice', state, payload)
+  const url = `/notice/create`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestDelNotice ({ state }, payload) {
+  console.log('requestDelNotice', state, payload)
+  const url = `/notice/delete`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestListNotice ({ state }, payload) {
+  console.log('requestListNotice', state, payload)
+  const url = `/notice/list`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestUpdateNotice ({ state }, payload) {
+  console.log('requestUpdateNotice', state, payload)
+  const url = `/notice/modify`
+  let body = payload
+  return $axios.get(url, body)
+}
+// 과제 관련
+export function requestAddHomework ({ state }, payload) {
+  console.log('requestUpdateHomework', state, payload)
+  const url = `/homework/create`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestDelHomework ({ state }, payload) {
+  console.log('requestDelHomework', state, payload)
+  const url = `/homework/delete/${payload.hwId}`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestgetHomework ({ state }, payload) {
+  console.log('requestgetHomework', state, payload)
+  const url = `/homework/detail/${payload.hwId}`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestupdateHomework ({ state }, payload) {
+  console.log('requestgetHomework', state, payload)
+  const url = `/homework/modify/${payload.hwId}`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestListHomework ({ state }, payload) {
+  console.log('requestListHomework', state, payload)
+  const url = `/homework/study/${payload.studyId}`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestTchrListHomework ({ state }, payload) {
+  console.log('requestTchrListHomework', state, payload)
+  const url = `/homework/teacher/${payload.tchrId}`
+  let body = payload
+  return $axios.get(url, body)
+}
+

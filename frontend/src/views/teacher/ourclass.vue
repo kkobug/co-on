@@ -1,6 +1,8 @@
 <template>
   <div>
     <tchr-nav></tchr-nav>
+    <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
+    <button @click="state.isVisible=true">학생 추가</button>
     <div class="stud">
       <el-row>
         <el-col
@@ -24,6 +26,7 @@
         </el-col>
       </el-row>
     </div>
+
   </div>
 </template>
 <script>
@@ -31,12 +34,24 @@ import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
+import ModalView from "./add_students.vue"
 import Tchr_nav from './tchr_nav.vue'
 
 export default {
   name: 'ourClass',
   components: {
     "tchr-nav" : Tchr_nav,
+    ModalView,
+  },
+  setup() {
+    const router = useRouter()
+    const store = useStore()
+    const state = reactive({
+      isVisible :false,
+      students:[]
+    })
+
+    return {state}
   },
   methods:{
     moveClass: function(){
