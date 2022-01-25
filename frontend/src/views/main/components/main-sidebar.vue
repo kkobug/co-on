@@ -1,49 +1,51 @@
 <template>
-  <el-row style="height: 100%">
-    <el-col :span="24" style="heght: 100%">
-      <el-menu
-        :default-active="String(state.activeIndex)"
-        active-text-color="#ffd04b"
-        background-color="#4267D6"
-        text-color="#fff"
-        style="height: 100%"
-        class="el-menu-vertical-demo"
-        @select="menuSelect">
-        <el-container class="profile-card">
-          <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; color: white; border-radius: 20px">
-            <p>
-              <!-- <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/프로필테스트.jpeg`)"></el-avatar> -->
-            </p>
-            <div>
-              <span><strong>{{ username }}</strong></span>
-            </div>
-            <el-button
-              color="#626aef"
-              style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
-              @click="goMypage"
-              >마이페이지
-            </el-button>
-            <el-button v-if="whetherTchr"
-              color="#626aef"
-              style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
-              @click="goTchr"
-              >교사페이지
-            </el-button>
-          </el-card>
-        </el-container>
+  <div>
+    <el-row style="height: 100%">
+      <el-col :span="24" style="heght: 100%">
+        <el-menu
+          :default-active="String(state.activeIndex)"
+          active-text-color="#ffd04b"
+          background-color="#4267D6"
+          text-color="#fff"
+          style="height: 100%"
+          class="el-menu-vertical-demo"
+          @select="menuSelect">
+          <el-container class="profile-card">
+            <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; color: white; border-radius: 20px">
+              <p>
+                <!-- <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/프로필테스트.jpeg`)"></el-avatar> -->
+              </p>
+              <div>
+                <span><strong>{{ username }}</strong></span>
+              </div>
+              <el-button
+                color="#626aef"
+                style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
+                @click="goMypage"
+                >마이페이지
+              </el-button>
+            </el-card>
+          </el-container>
 
-        <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
-          <span>{{ item.title }}</span>
-        </el-menu-item>
-
-        <el-menu-item class="mt-auto" style="position: absolute; bottom: 0; width: 100%" @click="logout">
-          <span >로그아웃</span>
-        </el-menu-item>
-      </el-menu>
-    </el-col>
-  </el-row>
+          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+            <span>{{ item.title }}</span>
+          </el-menu-item>
+          <el-menu-item class="mt-auto" style="bottom: 0; width: 100%" @click="logout">
+            <span >로그아웃</span>
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+    </el-row>
+    <div v-if="whetherTchr">
+      <ul class="studyList">
+        <li v-for= "(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val)">{{val}}</li>
+      </ul>
+      <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
+      <div class="studyBtn" @click="state.isVisible=true">수업생성</div>
+    </div>
+  </div>
 </template>
-<style>
+<style scoped>
 .profile-card {
   padding: auto;
   justify-content: center;
@@ -65,15 +67,40 @@
 .main-sidebar .el-menu .el-menu-item .ic {
   margin-right: 5px;
 }
+.li_zindex{
+  z-index: 10;
+}
+.studyList{
+  border : solid 1px black;
+  border-radius: 10px;
+  list-style: none;
+  padding: 10px;
+  margin: 5px;
+}
+.studyList>li{
+  margin : 10px;
+  cursor: pointer;
+}
+.studyBtn{
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  border: solid 1px black;
+  text-align: center;
+  cursor: pointer;
+}
 </style>
 <script>
-import { reactive, computed } from 'vue'
+import ModalView from "../../teacher/tchr_create_lesson"
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
 export default {
   name: 'main-header',
-
+  components:{
+    ModalView
+  },
   props: {
     width: {
       type: String,
@@ -88,6 +115,9 @@ export default {
     const whetherTchr = store.state.root.whetherTchr
 
     const state = reactive({
+      isVisible: false,
+      isteacher :false,
+      tchr_scha: computed(() => store.getters['root/getStudy']),
       searchValue: null,
       menuItems: computed(() => {
         const MenuItems = store.getters['root/getMenus']
@@ -124,17 +154,34 @@ export default {
       })
     }
 
-    const goTchr = function(){
-      router.push({
-        name: 'Tchr_main'
-      })
-    }
-
     const logout = function(){
       emit('logout1')
     }
+    const MoveLesson = function(idx){
+      store.commit('root/changeClassName', idx)
+      router.push({
+        name: 'Tchr_contents',
+      })
+    }
+    const getClass = function(){
+      store.dispatch('root/requestGetTchrClass', {
+            tchrId: store.state.root.userid})
+        .then(res =>{
+          store.state.root.classList = res.data
+          state.tchr_scha = store.getters['root/getStudy']
+        })
+    }
+    const closeModal = function(){
+      getClass()
+      state.isVisible = false
+    }
+    onMounted(()=>{
+      if (store.state.root.whetherTchr){
+        getClass();
+      }
+    })
 
-    return { state, username, whetherTchr, menuSelect, logout ,goMypage, goTchr}
+    return { state, username, whetherTchr, onMounted, MoveLesson, menuSelect, logout, goMypage, getClass, closeModal}
   }
 }
 </script>

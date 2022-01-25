@@ -3,6 +3,7 @@
 		<div id="join" v-if="!session">
 			<div>!session</div>
 			<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
+			
 			<div id="join-dialog" class="jumbotron vertical-center">
 				<h1>Join a video session</h1>
 				<div class="form-group">
@@ -33,6 +34,7 @@
 			</div>
 			<div id="main-video" class="col-md-6">
 				<user-video :stream-manager="mainStreamManager"/>
+				<span>메인스트리머</span>
 			</div>
 			<div id="video-container" class="col-md-6">
 				<user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>

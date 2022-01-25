@@ -20,10 +20,10 @@
     "icon" : "el-icon-s-order",
     "children" : []
   },
-  "Mypage" : {
-    "name" : "마이페이지",
+  "Lesson2" : {
+    "name" : "수업2",
     "hidden" : false,
-    "path" : "/mypage",
+    "path" : "/lesson2",
     "icon" : "el-icon-s-order",
     "children" : []
   }
