@@ -1,5 +1,6 @@
 package com.ssafy.api.request;
 
+import com.ssafy.db.entity.Teacher;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

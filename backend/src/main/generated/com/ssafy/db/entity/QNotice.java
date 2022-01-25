@@ -13,32 +13,37 @@ import com.querydsl.core.types.Path;
  * QUser is a Querydsl query type for User
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
-public class QStudyroom extends EntityPathBase<Studyroom> {
+public class QNotice extends EntityPathBase<Notice> {
 
     private static final long serialVersionUID = 846542477L;
 
-    public static final QStudyroom studyroom = new QStudyroom("studyroom");
+    public static final QNotice qnotice = new QNotice("notice");
 
     public final QBaseEntity _super = new QBaseEntity(this);
+
+    public final NumberPath<Integer> noticeId = createNumber("notice_id", Integer.class);
 
     public final NumberPath<Integer> studyId = createNumber("study_id", Integer.class);
 
     public final StringPath tchrId = createString("tchr_id");
 
-    public final StringPath studyName = createString("study_name");
+    public final StringPath noticeContent = createString("notice_content");
 
-    public final StringPath studyDesc = createString("study_desc");
+    public final StringPath noticeTitle = createString("notice_title");
 
-    public QStudyroom(String variable) {
-        super(Studyroom.class, forVariable(variable));
+    public final StringPath noticePosted = createString("notice_posted");
+
+    public QNotice(String variable) {
+        super(Notice.class, forVariable(variable));
     }
 
-    public QStudyroom(Path<? extends Studyroom> path) {
+    public QNotice(Path<? extends Notice> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QStudyroom(PathMetadata metadata) {
-        super(Studyroom.class, metadata);
+    public QNotice(PathMetadata metadata) {
+        super(Notice.class, metadata);
     }
 
 }
+

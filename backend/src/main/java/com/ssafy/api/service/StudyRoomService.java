@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.StudyRoomAddPostReq;
 import com.ssafy.api.request.StudyRoomRegisterPostReq;
 import com.ssafy.db.entity.Studyroom;
 import org.springframework.transaction.annotation.Transactional;

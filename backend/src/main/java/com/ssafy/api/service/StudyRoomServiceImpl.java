@@ -1,7 +1,9 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.StudyRoomAddPostReq;
 import com.ssafy.api.request.StudyRoomRegisterPostReq;
 import com.ssafy.db.entity.Studyroom;
+import com.ssafy.db.repository.StudyRoomDetailRepository;
 import com.ssafy.db.repository.StudyRoomRepository;
 import com.ssafy.db.repository.StudyRoomRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,8 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     StudyRoomRepository studyRoomRepository;
     @Autowired
     StudyRoomRepositorySupport studyRoomRepositorySupport;
-
+    @Autowired
+    StudyRoomDetailRepository studyRoomDetailRepository;
     @Override
     public Studyroom createStudyRoom(StudyRoomRegisterPostReq studyRoomRegisterPostReq) {
         Studyroom studyRoom = new Studyroom();
@@ -29,13 +32,11 @@ public class StudyRoomServiceImpl implements StudyRoomService {
 
     @Override
     public void deleteStudyRoom(String tchrId, String studyName) {
-        studyRoomRepository.deleteStudyroomByTchrIdAndStudyName(tchrId, studyName);
+        studyRoomRepositorySupport.deleteStudyRoomByTchrIdAndStudyName(tchrId, studyName);
     }
 
     @Override
     public List<String> findstudyNamebytchrId(String tchrId) {
         return studyRoomRepositorySupport.findStudyNameByTchrId(tchrId);
     }
-
-
 }
