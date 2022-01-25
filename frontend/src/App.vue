@@ -9,7 +9,6 @@
     <Login
     @openLoginDialog="onOpenLoginDialog"
     />
-    <p>{{isLogin}}</p>
   </div>
 <!-- 로그인 -->
   <login-dialog

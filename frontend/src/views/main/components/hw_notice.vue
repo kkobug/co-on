@@ -1,15 +1,34 @@
 <template>
   <div class="common-layout">
+    <!-- 공지사항 -->
     <el-container>
       <p>공지사항</p>
       <el-main>
         <el-row v-for="item in this.notice" :key="item.id">
-          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.s}}</div></el-col>
-          <el-col :span="18"><div class="grid-content bg-purple-light" @click="moveLesson()">공지사항 내용</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.id}}</div></el-col>
+          <el-col :span="18">
+            <div class="grid-content bg-purple-light">
+              <el-popover
+                placement="bottom"
+                title="Title"
+                :width="200"
+                trigger="click"
+                content="this is content, this is content, this is content"
+              >
+                <template #reference>
+                  <el-button>{{item.s}}</el-button>
+                </template>
+              </el-popover>
+
+            </div>
+          </el-col>
+
         </el-row>
       </el-main>
       <el-footer>Footer</el-footer>
     </el-container>
+
+    <!-- 과제 -->
     <el-container>
       <p>과제</p>
       <el-main>
@@ -17,11 +36,18 @@
           <el-col :span="6"><div class="grid-content bg-purple">과제명</div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple-light">과목명</div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple">제출/채점</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light" @click="onOpenHwDialog()">제출하기</div></el-col>
+          <el-col :span="6">
+            <div class="grid-content bg-purple-light" @click="onOpenHwDialog()">
+              제출하기
+            </div>
+          </el-col>
+
         </el-row>
       </el-main>
       <el-footer>Footer</el-footer>
     </el-container>
+
+    <!-- 과제 제출 -->
     <hw-dialog
       :open="hwDialogOpen"
       @closeHwDialog="onCloseHwDialog"
@@ -42,7 +68,7 @@ export default {
   },
   data(){
     return{
-      hwDialogOpen:false
+      hwDialogOpen:false,
     }
   },
   methods: {
@@ -70,7 +96,7 @@ export default {
     //   router.push({
     //     name:"Tchr_Lesson"
     //   })
-    // }
+    // }\
 
     // 페이지 진입시 불리는 훅
     onMounted (() => {

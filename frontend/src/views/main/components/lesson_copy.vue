@@ -1,28 +1,32 @@
 <template>
-	<div id="main-container" class="container">
-		<div id="join" v-if="!session">
-			<div>!session</div>
-			<!-- <div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div> -->
-			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
-				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
-					</p>
-					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
-					</p>
-				</div>
-			</div>
-		</div>
+  <div id="main-container" class="container">
+    <div id="join" v-if="!session">
+      <div class="common-layout">
+        <el-container>
+          <el-header>
+            <el-row >
+              <el-col :span="6"><div class="grid-content bg-purple">과목명</div></el-col>
+              <el-col :span="6"><div class="grid-content bg-purple-light">교사</div></el-col>
+              <el-col :span="6"><div class="grid-content bg-purple">수업설명</div></el-col>
+              <el-col :span="6"><div class="grid-content bg-purple-light">화상회의</div></el-col>
+            </el-row>
+          </el-header>
+          <el-main>
+            <el-row v-for="item in this.object" :key="item.id">
+              <el-col :span="6"><div class="grid-content bg-purple">{{item.id}}</div></el-col>
+              <el-col :span="6"><div class="grid-content bg-purple-light">{{item.s}}</div></el-col>
+              <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+              <el-col :span="6"><div class="grid-content bg-purple-light" @click="joinSession(item.id)">이동</div></el-col>
+            </el-row>
+
+          </el-main>
+          <el-footer>Footer</el-footer>
+        </el-container>
+      </div>
+    </div>
 
 		<div id="session" v-if="session">
-			<div>session</div>
+      <div>session</div>
 			<div id="session-header">
 				<h1 id="session-title">{{ mySessionId }}</h1>
 				<input v-if="micOn" class="btn btn-large btn-success" type="button" id="buttonMic" @click="micControl" value="MICOFF">
@@ -35,21 +39,23 @@
 				<user-video :stream-manager="mainStreamManager"/>
 			</div>
 			<div id="video-container" class="col-md-6">
-				<!-- <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/> -->
         <user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
 				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
 
       </div>
-		</div>
-	</div>
+    </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
-import { OpenVidu } from 'openvidu-browser';
-import UserVideo from './UserVideo.vue';
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
+// openvidu
+import axios from 'axios';
+import { OpenVidu, StreamManager } from 'openvidu-browser';
+import UserVideo from '../../video/UserVideo.vue';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -57,9 +63,9 @@ const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
-	name: 'VideoMain',
+  name: 'Lesson2',
 
-	components: {
+  components: {
 		UserVideo,
 	},
 
@@ -76,16 +82,48 @@ export default {
 			subscribers: [],
 			camOn: true,
 			micOn: true,
+      ovToken: undefined,
 
-			mySessionId: 'SessionA', // 세션 이름 (Unique)
+			mySessionId: null,         // 세션 이름 (Unique)
 			classTitle: null,        // 필요 없을 수 있음
 			classDescription: null,  // 필요 없을 수 있음
 			myUserName: null,        // 교사 이름 또는 학생 이름
 		}
 	},
 
-	methods: {
-		joinSession () {
+  setup () {
+    const router = useRouter()
+    const store = useStore()
+    const object = [
+      {id:1,s:'How to do lists in Vue'},
+      {id:2,s:'How to do lists in Vue'},
+      {id:3,s:'How to do lists in Vue'}
+    ]
+    function moveVideo(){
+      router.push({
+        name:"video"
+      })
+    }
+
+    // 페이지 진입시 불리는 훅
+    onMounted (() => {
+      store.commit('root/setMenuActiveMenuName', 'history')
+      // 리스트 불러오기
+      // store.dispatch('root/setMenuActiveMenuName')
+      // .then(function(result){
+      //   alert('리스트 조회 성공')
+      //   console.log(result)
+      //   this.object=result
+      // })
+      // .catch(function(err){
+      //   alert(err)
+      // })
+    })
+    return {object,moveVideo}
+  },
+  methods: {
+		joinSession (classId) {
+      this.mySessionId=classId
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
 
@@ -117,7 +155,8 @@ export default {
 
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.mySessionId).then(token => {
+			this.getToken(this.classId).then(token => {
+        this.ovToken=token
 				this.session.connect(token, { clientData: this.myUserName })
 					.then(() => {
 
@@ -231,13 +270,85 @@ export default {
 
 		micControl () {
 			this.micOn = !this.micOn
-			console.log(this.micOn)
 		},
 
 		camControl () {
 			this.camOn = !this.camOn
-			console.log(this.camOn)
+      this.session.connect(this.token, { clientData: this.myUserName })
 		}
-	}
+	},
+  created:function(){
+      const localvuex=JSON.parse(localStorage.getItem('vuex'))
+      this.myUserName=localvuex["root"]["userid"]
+  }
 }
 </script>
+<style lang="scss">
+.common-layout {
+  .el-header,
+  .el-footer {
+    background-color: #b3c0d1;
+    color: var(--el-text-color-primary);
+    text-align: center;
+    line-height: 60px;
+  }
+
+  .el-footer {
+    line-height: 60px;
+  }
+
+  .el-aside {
+    background-color: #d3dce6;
+    color: var(--el-text-color-primary);
+    text-align: center;
+    line-height: 200px;
+  }
+
+  .el-main {
+    background-color: #e9eef3;
+    color: var(--el-text-color-primary);
+    text-align: center;
+    line-height: 160px;
+    width: 100%;
+  }
+
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
+  .el-row {
+    margin-bottom: 20px;
+  }
+  .el-row:last-child {
+    margin-bottom: 0;
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+}
+</style>
