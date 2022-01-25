@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog custom-class="login-dialog" title="ID 찾기" v-model="state.dialogVisible" @close="handleClose">
+    <el-dialog custom-class="findid-dialog" title="ID 찾기" v-model="state.dialogVisible" @close="handleClose" top="30vh">
       <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
         <el-form-item prop="id" label="이메일" :label-width="state.formLabelWidth" >
           <el-input v-model="state.form.email" autocomplete="off"></el-input>
@@ -9,47 +9,18 @@
           <el-input v-model="state.form.name" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="clickFindid">ID 찾기(학생)</el-button>
-          <el-button @click="clickFindTchrid">ID 찾기(교사)</el-button>
-        </span>
-      </template>
+      <el-row class="row-btn" style="margin-top: 40px">
+          <el-button @click="clickFindid" style="width: 45%; border-radius: 15px">ID 찾기(학생)</el-button>
+          <el-button @click="clickFindTchrid" style="width: 45%; border-radius: 15px">ID 찾기(교사)</el-button>
+      </el-row>
     </el-dialog>
   </div>
 </template>
 <style>
-.login-dialog {
+.findid-dialog {
   width: 400px !important;
   height: auto;
   border-radius: 30px;
-}
-.login-dialog .el-dialog__headerbtn {
-  float: right;
-}
-.login-dialog .el-form-item__content {
-  margin-left: 0 !important;
-  float: right;
-  width: 200px;
-  display: inline-block;
-}
-.login-dialog .el-form-item {
-  margin-bottom: 20px;
-}
-.login-dialog .el-form-item__error {
-  font-size: 12px;
-  color: red;
-}
-.login-dialog .el-input__suffix {
-  display: none;
-}
-.login-dialog .el-dialog__footer {
-  margin: 0 calc(50% - 80px);
-  padding-top: 0;
-  display: inline-block;
-}
-.login-dialog .dialog-footer .el-button {
-  width: 120px;
 }
 </style>
 <script>

@@ -23,4 +23,5 @@ public class Studyroom implements Serializable {
     @ManyToOne
     @JoinColumn(name = "tchr_id",insertable = false, updatable = false)
     private Teacher teacher;
+
 }
