@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.querydsl.core.Tuple;
 import com.ssafy.api.request.TeacherModifyPutReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +10,8 @@ import com.ssafy.api.request.TeacherRegisterPostReq;
 import com.ssafy.db.entity.Teacher;
 import com.ssafy.db.repository.TeacherRepository;
 import com.ssafy.db.repository.TeacherRepositorySupport;
+
+import java.util.List;
 
 @Service("teacherService")
 public class TeacherServiceImpl implements TeacherService {
@@ -68,5 +71,11 @@ public class TeacherServiceImpl implements TeacherService {
 	public String findByName(String tchrName) {
 		String tchrId = teacherRepositorySupport.findIdByName(tchrName);
 		return tchrId;
+	}
+
+	@Override
+	public List<Object[]> findstIdAndstName() {
+		List<Object[]> list= teacherRepository.selectAllStudent();
+		return list;
 	}
 }

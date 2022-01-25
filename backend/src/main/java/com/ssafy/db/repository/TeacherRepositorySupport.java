@@ -1,9 +1,12 @@
 package com.ssafy.db.repository;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.db.entity.QStudent;
 import com.ssafy.db.entity.QTeacher;
 import com.ssafy.db.entity.Teacher;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,7 @@ public class TeacherRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
     QTeacher qTeacher = QTeacher.teacher;
-
+    QStudent qStudent = QStudent.student;
     public Optional<Teacher> findById(String tchrId) {
         Teacher teacher = jpaQueryFactory.select(qTeacher).from(qTeacher)
                 .where(qTeacher.tchrId.eq(tchrId)).fetchOne();

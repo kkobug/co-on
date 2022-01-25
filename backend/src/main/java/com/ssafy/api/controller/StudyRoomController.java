@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.StudyRoomDeleteRes;
+import com.ssafy.api.request.StudyRoomAddPostReq;
+import com.ssafy.api.request.StudyRoomDeleteReq;
 import com.ssafy.api.request.StudyRoomRegisterPostReq;
 import com.ssafy.api.service.StudyRoomService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -33,7 +34,7 @@ public class StudyRoomController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @GetMapping("/list/{tchrId}")
+    @GetMapping("/teacher/list/{tchrId}")
     @ApiOperation(value = "교사 수업 조회", notes = "<strong>교사아이디</strong>를 통해 조회 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -55,10 +56,11 @@ public class StudyRoomController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> delete(@RequestBody StudyRoomDeleteRes studyRoomDeleteRes){
-        String tchrId = studyRoomDeleteRes.getTchrId();
-        String studyName = studyRoomDeleteRes.getStudyName();
+    public ResponseEntity<?> delete(@RequestBody StudyRoomDeleteReq studyRoomDeleteReq){
+        String tchrId = studyRoomDeleteReq.getTchrId();
+        String studyName = studyRoomDeleteReq.getStudyName();
         studyRoomService.deleteStudyRoom(tchrId, studyName);
         return ResponseEntity.status(200).body("OK");
     }
+
 }
