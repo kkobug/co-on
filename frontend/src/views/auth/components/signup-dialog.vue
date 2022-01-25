@@ -1,13 +1,16 @@
 <template>
 <!-- 소속, 직책, 이름 -->
   <div>
-    <el-dialog custom-class="signup-dialog" title="회원가입" v-model="state.dialogVisible" @close="handleClose">
+    <el-dialog custom-class="signup-dialog" title="회원가입" v-model="state.dialogVisible" @close="handleClose" top="20vh">
       <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
         <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
           <el-input v-model="state.form.id" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
           <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
+        </el-form-item>
+        <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth">
+          <el-input v-model="state.form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="passwordCheck" label="이메일" :label-width="state.formLabelWidth">
           <el-input v-model="state.form.email" autocomplete="off"></el-input>
@@ -18,23 +21,22 @@
         <el-form-item prop="position" label="연락처" :label-width="state.formLabelWidth">
           <el-input v-model="state.form.contact" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth">
-          <el-input v-model="state.form.name" autocomplete="off"></el-input>
-        </el-form-item>
       </el-form>
-      <template #footer>
+      <!-- <template #footer>
         <span class="dialog-footer">
-          <el-button @click="clickStSignup">회원가입(학생)</el-button>
-          <el-button @click="clickTchrSignup">회원가입(교사)</el-button>
         </span>
-      </template>
+      </template> -->
+      <el-row class="signup-row">
+        <el-button @click="clickStSignup">회원가입(학생)</el-button>
+        <el-button @click="clickTchrSignup">회원가입(교사)</el-button>
+      </el-row>
     </el-dialog>
   </div>
 </template>
 <style>
 .signup-dialog {
   width: 400px !important;
-  height: 500px;
+  height: auto;
   border-radius: 30px;
 }
 .signup-dialog .el-dialog__headerbtn {
@@ -64,6 +66,20 @@
 .signup-dialog .dialog-footer .el-button {
   width: 120px;
 }
+.signup-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+.signup-row .el-button {
+  background-color: #6B3BE3;
+  color: #fff;
+  height: 45px;
+  width: 40%;
+  border-radius: 15px;
+}
+
 </style>
 <script>
 import { reactive, computed, ref, onMounted } from 'vue'

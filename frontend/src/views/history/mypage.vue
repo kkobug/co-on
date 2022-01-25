@@ -1,14 +1,16 @@
 <template>
   <el-row :gutter="20">
-    <el-col :span="16" :offset="8">
+    <el-col :span="18" :offset="6">
       <el-container>
-        <el-form label-width="70px" label-position="left">
+        <el-form label-width="100px" label-position="left" style="width: 60%">
+          <br>
           <span>
             <el-icon color="primary">
               <delete />
             </el-icon>
             <strong style="font-size: xx-large">{{ username }}님의 회원 정보</strong>
           </span>
+          <br><br><br>
           <el-form-item prop="name" label="이름" >
             <el-input v-model="state.form.name" autocomplete="off"></el-input>
           </el-form-item>
@@ -40,14 +42,13 @@
           </el-form-item>
           <el-row :gutter="20">
             <!-- <el-col :span="8">비밀번호 변경</el-col> -->
-            <el-col :span="6" :offset="17">
-              <el-button type="text" @click="clickDelete">계정 탈퇴</el-button>
+            <el-col :span="4" :offset="20">
+              <el-button type="text" @click="clickDelete" style="color: red">계정 탈퇴</el-button>
             </el-col>
           </el-row>
           <el-button
-            style="background-color: #6B3BE3; color: white; width: 60%; height: 40px; margin-top: 20px"
-            @click="clickModify"
-            >정보수정</el-button>
+            style="background-color: #6B3BE3; color: white; width: 40%; height: 45px; margin-top: 20px; border-radius: 15px"
+            @click="clickModify">정보수정</el-button>
         </el-form>
       </el-container>
     </el-col>

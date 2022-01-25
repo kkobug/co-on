@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog custom-class="login-dialog" title="로그인" v-model="state.dialogVisible" @close="handleClose">
+    <el-dialog custom-class="login-dialog" title="반갑습니다!" v-model="state.dialogVisible" @close="handleClose" top="25vh">
       <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
         <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
           <el-input v-model="state.form.id" autocomplete="off"></el-input>
@@ -8,12 +8,8 @@
         <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
           <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
         </el-form-item>
-        <!-- <el-radio-group v-model="checkTchr">
-          <el-radio :label="1">학생</el-radio>
-          <el-radio :label="2">교사</el-radio>
-        </el-radio-group> -->
       </el-form>
-      <template #footer>
+      <!-- <template #footer>
         <span class="dialog-footer">
           <el-button @click="clickStLogin">로그인(학생)</el-button>
           <el-button @click="clickTchrLogin">로그인(교사)</el-button>
@@ -22,42 +18,73 @@
           <el-button @click="clickFindid">회원 ID 찾기</el-button>
           <el-button @click="clickChangePassword">비밀번호 재설정</el-button>
         </span>
-      </template>
+      </template> -->
+      <el-row class="row-btn" style="margin-top: 40px">
+        <el-button @click="clickStLogin" style="width: 48%">학생 로그인</el-button>
+        <el-button @click="clickTchrLogin" style="width: 48%">교사 로그인</el-button>
+      </el-row>
+      <el-row class="row-btn-text">
+        <el-button @click="clickFindid" type="text">회원 ID 찾기</el-button>
+        <el-button @click="clickChangePassword" type="text">비밀번호 재설정</el-button>
+      </el-row>
+      <el-row class="row-btn">
+        <el-button @click="clickSignup" style="width: 100%">회원가입</el-button>
+      </el-row>
     </el-dialog>
   </div>
 </template>
-<style scoped>
+<style>
 .login-dialog {
   width: 400px !important;
   height: auto;
   border-radius: 30px;
 }
-.login-dialog .el-dialog__headerbtn {
+/* .login-dialog .el-dialog__headerbtn {
   float: right;
-}
-.login-dialog .el-form-item__content {
+} */
+/* .login-dialog .el-form-item__content {
   margin-left: 0 !important;
   float: right;
   width: 200px;
   display: inline-block;
-}
-.login-dialog .el-form-item {
+} */
+/* .login-dialog .el-form-item {
   margin-bottom: 20px;
-}
-.login-dialog .el-form-item__error {
+} */
+/* .login-dialog .el-form-item__error {
   font-size: 12px;
   color: red;
-}
-.login-dialog .el-input__suffix {
+} */
+/* .login-dialog .el-input__suffix {
   display: none;
-}
+} */
 .login-dialog .el-dialog__footer {
-  margin: 0 calc(50% - 80px);
+  margin-left: 0 calc(50% - 100px);
   padding-top: 0;
+  /* display: inline-block; */
   display: inline-block;
 }
 .login-dialog .dialog-footer .el-button {
   width: 130px;
+  margin-top: 10px;
+}
+.row-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.row-btn-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+.row-btn .el-button {
+  background-color: #6B3BE3;
+  color: #fff;
+  height: 45px;
+  border-radius: 15px;
 }
 
 
