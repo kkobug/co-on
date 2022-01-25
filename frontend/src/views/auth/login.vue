@@ -1,13 +1,14 @@
 <template>
   <!-- login.vue -->
   <div @click="clickLogin">
-    <img id="loginwall" :src="require(`@/assets/images/윈터.jpg`)"/>
+    <!-- <img id="loginwall" :src="require(`@/assets/images/윈터.jpg`)"/> -->
+    <img id="loginwall" :src="require(`@/assets/images/plain-blue-background.jpg`)"/>
   </div>
 </template>
 <style>
 #loginwall{
   width: 100vw;
-  height: auto;
+  height: 100vh;
 }
 
 .infinite-list {

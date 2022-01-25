@@ -1,17 +1,20 @@
 <template>
-  <el-menu class="topnav">
-    <el-menu-item class ="navitem" index="1" @click="moveLesson()">내 수업</el-menu-item>
-    <el-menu-item class ="navitem" index="2" @click="moveClass()">우리반보기</el-menu-item>
-    <el-menu-item class ="navitem" index="3" @click="moveAttend()">출결관리</el-menu-item>
-    <button class = "lessonstr">수업 시작</button>
-  </el-menu>
-  <el-table :data="tableData" height="250" style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180" />
-    <el-table-column prop="name" label="Name" width="180" />
-    <el-table-column prop="address" label="Address" />
-  </el-table>
+  <div>
+    <tchr-nav></tchr-nav>
+    <el-table :data="tableData" height="250" style="width: 100%">
+      <el-table-column prop="date" label="Date" width="180" />
+      <el-table-column prop="name" label="Name" width="180" />
+      <el-table-column prop="address" label="Address" />
+    </el-table>
+  </div>
 </template>
 <script>
+import { reactive, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+
+import Tchr_nav from './tchr_nav.vue'
+
 export default {
   name: 'attend',
   data:function(){
@@ -55,7 +58,9 @@ export default {
       ],
     };
   },
-  name: 'attend',
+  components: {
+    "tchr-nav" : Tchr_nav,
+  },
   methods:{
     moveClass: function(){
       this.$router.push({name:"Tchr_ourclass"})

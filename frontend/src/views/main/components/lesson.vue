@@ -14,7 +14,7 @@
           <el-col :span="6"><div class="grid-content bg-purple">{{item.id}}</div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple-light">{{item.s}}</div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light" @click="moveLesson()">이동: 일단 아무데나 라우터 걸어둠</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light" @click="moveVideo()">이동: 일단 아무데나 라우터 걸어둠</div></el-col>
         </el-row>
 
       </el-main>
@@ -41,9 +41,9 @@ export default {
       {id:2,s:'How to do lists in Vue'},
       {id:3,s:'How to do lists in Vue'}
     ]
-    function moveLesson(){
+    function moveVideo(){
       router.push({
-        name:"Tchr_Lesson"
+        name:"video"
       })
     }
 
@@ -61,7 +61,7 @@ export default {
       //   alert(err)
       // })
     })
-    return {object,moveLesson}
+    return {object,moveVideo}
   }
 }
 </script>
