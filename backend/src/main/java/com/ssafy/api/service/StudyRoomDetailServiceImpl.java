@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import com.querydsl.core.Tuple;
 import com.ssafy.api.request.StudyRoomAddPostReq;
+import com.ssafy.api.request.StudyRoomStudentDeleteReq;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Studyroom;
 import com.ssafy.db.entity.StudyroomDetail;
@@ -34,8 +35,16 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
         return studyRoomdetailRepositorySupport.findStudyroomBystId(stId);
     }
 
+    @Override
+    public List<Object[]> findStudyroomDetail(int studyId) {
+        return studyRoomDetailRepository.findstIdAndstNameBystudyId(studyId);
+    }
+
 //    @Override
-//    public List<Tuple> findstIdAndstName() {
-//        return studyRoomdetailRepositorySupport.findstIdAndstName();
+//    public void deleteStudent(StudyRoomStudentDeleteReq studyRoomStudentDeleteReq) {
+//        int studyId = studyRoomStudentDeleteReq.getStudyId();
+//        String stId = studyRoomStudentDeleteReq.getStId();
+//        studyRoomDetailRepository.deleteBystIdAndstudyId(studyId, stId);
 //    }
+
 }
