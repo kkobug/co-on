@@ -29,7 +29,7 @@ public class Homework implements Serializable {
     String hwDeadline;
     @CreationTimestamp
     @LastModifiedDate
-    @Column(name = "hw_posted", updatable = false)
+    @Column(name = "hw_posted")
     LocalDateTime hwPosted;
 //    @Column(name = "hw_file")
 //    파일 업로드 필요함!!!

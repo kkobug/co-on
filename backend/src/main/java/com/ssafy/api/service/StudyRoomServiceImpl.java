@@ -1,6 +1,5 @@
 package com.ssafy.api.service;
 
-import com.querydsl.core.Tuple;
 import com.ssafy.api.request.StudyRoomAddPostReq;
 import com.ssafy.api.request.StudyRoomRegisterPostReq;
 import com.ssafy.db.entity.Studyroom;
@@ -37,9 +36,7 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     }
 
     @Override
-    public List<Object[]> findstudyNamebytchrId(String tchrId) {
-        List<Object[]> list = studyRoomRepository.selectstudyIdAndstudyNamebytchrId(tchrId);
-        return list;
+    public List<String> findstudyNamebytchrId(String tchrId) {
+        return studyRoomRepositorySupport.findStudyNameByTchrId(tchrId);
     }
-
 }

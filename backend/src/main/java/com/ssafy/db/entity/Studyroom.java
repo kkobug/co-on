@@ -1,6 +1,5 @@
 package com.ssafy.db.entity;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,4 +23,5 @@ public class Studyroom implements Serializable {
     @ManyToOne
     @JoinColumn(name = "tchr_id",insertable = false, updatable = false)
     private Teacher teacher;
+
 }

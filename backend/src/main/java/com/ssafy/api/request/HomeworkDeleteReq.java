@@ -11,4 +11,6 @@ import lombok.Setter;
 public class HomeworkDeleteReq {
     @ApiModelProperty(name = "과제 ID", example = "1")
     Integer hwId;
+    @ApiModelProperty(name = "선생님 ID", example = "tchr_id")
+    String tchrId;
 }

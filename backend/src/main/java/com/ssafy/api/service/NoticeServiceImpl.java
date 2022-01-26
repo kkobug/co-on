@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.NoticeRegisterPostReq;
 import com.ssafy.api.request.NoticeUpdatePutReq;
+import com.ssafy.db.entity.Homework;
 import com.ssafy.db.entity.Notice;
 import com.ssafy.db.repository.NoticeRepository;
 import com.ssafy.db.repository.NoticeRepositorySupport;
@@ -19,15 +20,14 @@ public class NoticeServiceImpl implements NoticeService{
     @Autowired
     NoticeRepositorySupport noticeRepositorySupport;
 
+
     @Override
     public Notice createNotice(NoticeRegisterPostReq noticeRegisterPostReq) {
         Notice notice = new Notice();
-        notice.setNoticeId(noticeRegisterPostReq.getNoticeId());
         notice.setStudyId(noticeRegisterPostReq.getStudyId());
         notice.setTchrId(noticeRegisterPostReq.getTchrId());
         notice.setNoticeTitle(noticeRegisterPostReq.getNoticeTitle());
         notice.setNoticeContent(noticeRegisterPostReq.getNoticeContent());
-        notice.setNoticePosted(LocalDateTime.now());        // date 타입으로 필요 시 String.valueOf 제거
         return noticeRepository.save(notice);
     }
 
@@ -37,14 +37,15 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) {
+    public Notice updateNotice(Integer noticeId, NoticeUpdatePutReq noticeUpdatePutReq) {
         Notice notice = new Notice();
         notice.setNoticeId(noticeUpdatePutReq.getNoticeId());
-        notice.setStudyId(noticeUpdatePutReq.getStudyId());
-        notice.setTchrId(noticeUpdatePutReq.getTchrId());
+//        notice.setStudyId(noticeUpdatePutReq.getStudyId());
+//        notice.setTchrId(noticeUpdatePutReq.getTchrId());
         notice.setNoticeTitle(noticeUpdatePutReq.getNoticeTitle());
         notice.setNoticeContent(noticeUpdatePutReq.getNoticeContent());
         notice.setNoticePosted(LocalDateTime.now());
+        if(!Objects.equals(noticeUpdatePutReq.getNoticeId(), noticeId)) return notice;
         return noticeRepository.save(notice);
     }
 
@@ -63,11 +64,6 @@ public class NoticeServiceImpl implements NoticeService{
     public Notice findBynoticeId(int NoticeId) {
         Notice notice = noticeRepositorySupport.findByNoticeId(NoticeId).get();
         return notice;
-    }
-
-    @Override
-    public List<Notice> findNoticeBystId(String stId) {
-        return noticeRepository.findNoticeBystId(stId);
     }
 
 }
