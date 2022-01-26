@@ -2,7 +2,6 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.NoticeRegisterPostReq;
 import com.ssafy.api.request.NoticeUpdatePutReq;
-import com.ssafy.db.entity.Homework;
 import com.ssafy.db.entity.Notice;
 import com.ssafy.db.repository.NoticeRepository;
 import com.ssafy.db.repository.NoticeRepositorySupport;
@@ -19,7 +18,6 @@ public class NoticeServiceImpl implements NoticeService{
 
     @Autowired
     NoticeRepositorySupport noticeRepositorySupport;
-
 
     @Override
     public Notice createNotice(NoticeRegisterPostReq noticeRegisterPostReq) {
@@ -65,6 +63,11 @@ public class NoticeServiceImpl implements NoticeService{
     public Notice findBynoticeId(int NoticeId) {
         Notice notice = noticeRepositorySupport.findByNoticeId(NoticeId).get();
         return notice;
+    }
+
+    @Override
+    public List<Notice> findNoticeBystId(String stId) {
+        return noticeRepository.findNoticeBystId(stId);
     }
 
 }

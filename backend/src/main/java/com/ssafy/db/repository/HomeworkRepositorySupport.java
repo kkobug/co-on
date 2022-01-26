@@ -15,7 +15,6 @@ public class HomeworkRepositorySupport {
     private JPAQueryFactory jpaQueryFactory;
     QHomework qHomework = QHomework.homework;
 
-
     public List<Homework> findHomeworkByStudyId(Integer studyId) {
         List<Homework> list = jpaQueryFactory.select(qHomework).from(qHomework)
                 .where(qHomework.studyId.eq(studyId)).fetch();

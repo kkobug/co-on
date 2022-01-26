@@ -107,7 +107,7 @@ public class HomeworkController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @GetMapping("/student/homework/list/{stId}")
+    @GetMapping("/student/{stId}")
     @ApiOperation(value = "학생이 속한 수업의 과제 조회", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -115,7 +115,7 @@ public class HomeworkController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<Homework>> list(
+    public ResponseEntity<List<Homework>> student_list(
             @PathVariable @ApiParam(value = "학생ID", required = true)String stId){
         List<Homework> list = homeworkService.findHomeworkBystId(stId);
         return ResponseEntity.status(200).body(list);
