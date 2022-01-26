@@ -1,6 +1,5 @@
 package com.ssafy.api.controller;
 
-import com.querydsl.core.Tuple;
 import com.ssafy.api.request.StudyRoomAddPostReq;
 import com.ssafy.api.request.StudyRoomDeleteReq;
 import com.ssafy.api.request.StudyRoomRegisterPostReq;
@@ -43,9 +42,9 @@ public class StudyRoomController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<Object[]>> list(
+    public ResponseEntity<List<String>> list(
             @PathVariable @ApiParam(value = "수업개설 정보", required = true)String tchrId){
-        List<Object[]> list = studyRoomService.findstudyNamebytchrId(tchrId);
+        List<String> list = studyRoomService.findstudyNamebytchrId(tchrId);
         return ResponseEntity.status(200).body(list);
     }
 

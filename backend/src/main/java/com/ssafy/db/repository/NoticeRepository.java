@@ -18,4 +18,5 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer> {
     @Query(value = "SELECT NOTICE.* FROM NOTICE WHERE NOTICE.notice_id IN " +
             "(SELECT notice_id FROM studyroom_detail WHERE st_id = :stId)", nativeQuery = true)
     List<Notice> findNoticeBystId(String stId);
+
 }

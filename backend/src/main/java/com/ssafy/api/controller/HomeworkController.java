@@ -8,7 +8,6 @@ import com.ssafy.api.response.HomeworkInfoRes;
 import com.ssafy.api.service.HomeworkService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Homework;
-import com.ssafy.db.entity.Notice;
 import com.ssafy.db.entity.Teacher;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +78,8 @@ public class HomeworkController {
         return ResponseEntity.status(200).body(HomeworkInfoRes.of(homework));
     }
 
-    @DeleteMapping("/delete/{hwId}")
-    @ApiOperation(value = "과제 삭제", notes = "<strong>과제 ID</strong>을 통해 (교사가) 과제를 삭제 한다.")
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "과제 삭제", notes = "<strong>과제, 교사 ID</strong>을 통해 (교사가) 과제를 삭제 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
@@ -88,8 +87,9 @@ public class HomeworkController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> delete(@RequestBody HomeworkDeleteReq homeworkDeleteReq){
-        Integer hwId = homeworkDeleteReq.getHwId();
-        homeworkService.deleteHomework(hwId);
+        int hwId = homeworkDeleteReq.getHwId();
+        String tchrId = homeworkDeleteReq.getTchrId();
+        homeworkService.deleteHomework(hwId, tchrId);
         return ResponseEntity.status(200).body("OK");
     }
 
@@ -105,19 +105,5 @@ public class HomeworkController {
         Homework homework = homeworkService.updateHomework(hwId, homeworkModifyReq);
         if (homework.getHwId() != hwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-    }
-
-    @GetMapping("/student/{stId}")
-    @ApiOperation(value = "학생이 속한 수업의 과제 조회", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
-    })
-    public ResponseEntity<List<Homework>> student_list(
-            @PathVariable @ApiParam(value = "학생ID", required = true)String stId){
-        List<Homework> list = homeworkService.findHomeworkBystId(stId);
-        return ResponseEntity.status(200).body(list);
     }
 }

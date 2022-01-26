@@ -2,7 +2,6 @@ package com.ssafy.api.controller;
 
 import com.querydsl.core.Tuple;
 import com.ssafy.api.request.StudyRoomAddPostReq;
-import com.ssafy.api.request.StudyRoomStudentDeleteReq;
 import com.ssafy.api.service.StudyRoomDetailService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Student;
@@ -48,32 +47,4 @@ public class StudyRoomDetailController {
         studyRoomDetailService.addStudent(studyRoomAddPostReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
-
-    @GetMapping("/list/{studyId}")
-    @ApiOperation(value = "수강 학생 조회", notes = "<strong>수업ID</strong>를 통해 조회 한다.")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
-    })
-    public ResponseEntity<List<Object[]>> list(
-            @PathVariable @ApiParam(value = "수업ID 정보", required = true)int studyId){
-        List<Object[]> list = studyRoomDetailService.findStudyroomDetail(studyId);
-        return ResponseEntity.status(200).body(list);
-    }
-
-//    @DeleteMapping("/list/delete")
-//    @ApiOperation(value = "수강 학생 삭제", notes = "<strong>수업ID, 학생ID</strong>를 통해 삭제한다.")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "성공"),
-//            @ApiResponse(code = 401, message = "인증 실패"),
-//            @ApiResponse(code = 404, message = "사용자 없음"),
-//            @ApiResponse(code = 500, message = "서버 오류")
-//    })
-//    public ResponseEntity<? extends BaseResponseBody> delete(
-//            @RequestBody @ApiParam(value = "수업ID, 학생ID", required = true)StudyRoomStudentDeleteReq studyRoomStudentDeleteReq){
-//        studyRoomDetailService.deleteStudent(studyRoomStudentDeleteReq);
-//        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-//    }
 }
