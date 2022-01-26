@@ -1,6 +1,5 @@
 package com.ssafy.api.service;
 
-import com.querydsl.core.Tuple;
 import com.ssafy.api.request.StudyRoomAddPostReq;
 import com.ssafy.api.request.StudyRoomRegisterPostReq;
 import com.ssafy.db.entity.Studyroom;
@@ -16,5 +15,5 @@ public interface StudyRoomService {
     @Transactional
     void deleteStudyRoom(String tchrId, String studyName);
     //사이드바에 보일 선생님 수업 list 검색 : 선생님아이디
-    List<Object[]> findstudyNamebytchrId(String tchrId);
+    List<String> findstudyNamebytchrId(String tchrId);
 }

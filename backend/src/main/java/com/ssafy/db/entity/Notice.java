@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -21,14 +22,14 @@ public class Notice implements Serializable {
     int studyId;
     @Column(name= "tchr_id", updatable = false)
     String tchrId;
-    @Column(name= "notice_title", updatable = false)
+    @Column(name= "notice_title")
     String noticeTitle;
-    @Column(name= "notice_content", updatable = false)
+    @Column(name= "notice_content")
     String noticeContent;
 
     //생성/수정일자 자동 갱신
-    @CreatedDate
+    @CreationTimestamp
     @LastModifiedDate
-    @Column(name= "notice_posted", updatable = false)
+    @Column(name= "notice_posted")
     LocalDateTime noticePosted;
 }

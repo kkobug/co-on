@@ -73,7 +73,7 @@ public class NoticeController {
 		return ResponseEntity.status(200).body(NoticeFindID.of(notice));
 	}
 
-	@PutMapping("/notice/modify")
+	@PutMapping("/notice/modify/{noticeId}")
 	@ApiOperation(value = "공지사항 수정", notes = "공지사항을 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -81,9 +81,10 @@ public class NoticeController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> modify(
-			@RequestBody @ApiParam(value="공지사항 수정정보", required = true) NoticeUpdatePutReq noticeUpdatePutReq) {
-		Notice notice = noticeService.updateNotice(noticeUpdatePutReq);
+	public ResponseEntity<? extends BaseResponseBody> modify(@RequestParam Integer noticeId,
+			@RequestBody NoticeUpdatePutReq noticeUpdatePutReq) {
+		Notice notice = noticeService.updateNotice(noticeId, noticeUpdatePutReq);
+		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 
 	}
@@ -113,20 +114,6 @@ public class NoticeController {
 	public ResponseEntity<List<Notice>> tchr_list(
 			@PathVariable @ApiParam(value = "공지사항 정보", required = true)String tchrId){
 		List<Notice> list = noticeService.findNoticeByTchrId(tchrId);
-		return ResponseEntity.status(200).body(list);
-	}
-
-	@GetMapping("/notice/student/list/{stId}")
-	@ApiOperation(value = "학생이 속한 수업의 과제 조회", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<List<Notice>> student_list(
-			@PathVariable @ApiParam(value = "학생ID", required = true) String stId) {
-		List<Notice> list = noticeService.findNoticeBystId(stId);
 		return ResponseEntity.status(200).body(list);
 	}
 }

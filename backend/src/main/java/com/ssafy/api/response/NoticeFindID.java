@@ -24,7 +24,7 @@ public class NoticeFindID {
     @ApiModelProperty(name="Notice content")
     String noticeContent;
     @ApiModelProperty(name="Notice Posted")
-    String noticePosted;
+    LocalDateTime noticePosted;
     public static NoticeFindID of(Notice notice){
         NoticeFindID res = new NoticeFindID();
         res.setNoticeId(notice.getNoticeId());
@@ -32,7 +32,7 @@ public class NoticeFindID {
         res.setNoticeTitle(notice.getNoticeTitle());
         res.setTchrId(notice.getTchrId());
         res.setNoticeContent(notice.getNoticeContent());
-        res.setNoticePosted(String.valueOf(notice.getNoticePosted()));
+        res.setNoticePosted(notice.getNoticePosted());
         return res;
     }
 }
