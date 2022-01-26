@@ -38,6 +38,11 @@ public class HomeworkServiceImpl implements HomeworkService{
     }
 
     @Override
+    public List<Homework> findHomeworkBystId(String stId) {
+        return homeworkRepository.findHomeworkBystId(stId);
+    }
+
+    @Override
     public List<Homework> findHomeworkByStudyId(Integer studyId) {
         return homeworkRepositorySupport.findHomeworkByStudyId(studyId);
     }

@@ -19,4 +19,6 @@ public interface HomeworkService {
 //    과제 삭제
     @Transactional
     void deleteHomework(Integer hwId);
+    //학생이 속한 수업의 과제 조회
+    List<Homework> findHomeworkBystId(String stId);
 }
