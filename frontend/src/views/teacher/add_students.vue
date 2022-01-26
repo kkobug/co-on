@@ -1,6 +1,6 @@
 <template>
   <div class ="modal">
-    <div class="overlay" @click="$emit('close-modal')">X</div>
+    <div class="overlay" @click="closeModal">X</div>
     <div><p>학생 등록</p></div>
     <div><label for="studid">학생 아이디</label><input v-model="state.studId"  name="studid" type="text"></div>
     <button @click="addstudent">등록</button>
@@ -13,20 +13,26 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 export default {
   name: 'ModalView',
-  setup() {
+  setup(props, context) {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
       studId:"",
     })
+    const closeModal = function(){
+      state.studId =""
+      context.emit('close-modal')
+    }
     const addstudent = function(){
+      console.log(state.studId, store.state.root.studyId, store.state.root.userid)
       store.dispatch('root/requestAddStudentInStudy', {
-          stId : state.studId,
-          studyId: store.state.root.studyId,
-          tchrId: store.state.root.userid})
+        stId : state.studId,
+        studyId: store.state.root.curClassId,
+        tchrId: store.state.root.userid
+      })
       closeModal()
     }
-    return {state, addstudent}
+    return {state, addstudent, closeModal}
   },
 
 };

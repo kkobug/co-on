@@ -112,7 +112,7 @@ export function requestAddStudentInStudy ({ state }, payload) {
   console.log('requestAddStudentInStudy', state, payload)
   const url = `/studyRoomDetail/teacher/add`
   let body = payload
-  return $axios.get(url, body)
+  return $axios.post(url, body)
 }
 //공지관련
 export function requestgetNotice ({ state }, payload) {
@@ -125,13 +125,13 @@ export function requestAddNotice ({ state }, payload) {
   console.log('requestAddNotice', state, payload)
   const url = `/notice/create`
   let body = payload
-  return $axios.get(url, body)
+  return $axios.post(url, body)
 }
 export function requestDelNotice ({ state }, payload) {
   console.log('requestDelNotice', state, payload)
   const url = `/notice/delete`
   let body = payload
-  return $axios.get(url, body)
+  return $axios.delete(url, body)
 }
 export function requestListNotice ({ state }, payload) {
   console.log('requestListNotice', state, payload)
@@ -143,20 +143,20 @@ export function requestUpdateNotice ({ state }, payload) {
   console.log('requestUpdateNotice', state, payload)
   const url = `/notice/modify`
   let body = payload
-  return $axios.get(url, body)
+  return $axios.put(url, body)
 }
 // 과제 관련
 export function requestAddHomework ({ state }, payload) {
   console.log('requestUpdateHomework', state, payload)
   const url = `/homework/create`
   let body = payload
-  return $axios.get(url, body)
+  return $axios.post(url, body)
 }
 export function requestDelHomework ({ state }, payload) {
   console.log('requestDelHomework', state, payload)
   const url = `/homework/delete/${payload.hwId}`
   let body = payload
-  return $axios.get(url, body)
+  return $axios.delete(url, body)
 }
 export function requestgetHomework ({ state }, payload) {
   console.log('requestgetHomework', state, payload)
@@ -168,7 +168,7 @@ export function requestupdateHomework ({ state }, payload) {
   console.log('requestgetHomework', state, payload)
   const url = `/homework/modify/${payload.hwId}`
   let body = payload
-  return $axios.get(url, body)
+  return $axios.put(url, body)
 }
 export function requestListHomework ({ state }, payload) {
   console.log('requestListHomework', state, payload)

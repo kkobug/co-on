@@ -14,7 +14,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 export default {
   name: 'ModalView',
-  setup() {
+  setup(props, context) {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
@@ -23,10 +23,25 @@ export default {
         content:"",
       }
     })
-    const addnotice = function(){
-      console.log(state.form)
+    const closeModal = function(){
+      state.form=
+      {
+        title:"",
+        content:"",
+      }
+      context.emit('close-modal')
     }
-    return {state, addnotice}
+    const addnotice = function(){
+      store.dispatch('root/requestAddNotice', {
+        noticeContent: state.form.content,
+        noticeId: "",
+        noticePosted: "",
+        noticeTitle: state.form.title,
+        studyId: store.state.root.curClassId,
+        tchrId: store.state.root.userid})
+      closeModal()
+    }
+    return {state, addnotice, closeModal}
   },
 
 };
