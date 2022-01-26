@@ -182,4 +182,20 @@ export function requestTchrListHomework ({ state }, payload) {
   let body = payload
   return $axios.get(url, body)
 }
+export function requestGetLesson ({ state }, payload) {
+  console.log('requestGetLesson', state, payload)
+  const url = `/student/list/${payload}`
+  return $axios.get(url)
+}
+
+export function requestGetNotice ({ state }, payload) {
+  console.log('requestGetNotice', state, payload)
+  const url = `/notice/list/${payload}`
+  return $axios.get(url)
+}
+export function requestGetHW ({ state }, payload) {
+  console.log('requestGetHW', state, payload)
+  const url = `/homework/study/${payload}`
+  return $axios.get(url)
+}
 

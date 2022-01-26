@@ -94,11 +94,7 @@ export default {
   setup () {
     const router = useRouter()
     const store = useStore()
-    const object = [
-      {id:1,s:'How to do lists in Vue'},
-      {id:2,s:'How to do lists in Vue'},
-      {id:3,s:'How to do lists in Vue'}
-    ]
+    const object = undefined
     function moveVideo(){
       router.push({
         name:"video"
@@ -108,16 +104,6 @@ export default {
     // 페이지 진입시 불리는 훅
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
-      // 리스트 불러오기
-      // store.dispatch('root/setMenuActiveMenuName')
-      // .then(function(result){
-      //   alert('리스트 조회 성공')
-      //   console.log(result)
-      //   this.object=result
-      // })
-      // .catch(function(err){
-      //   alert(err)
-      // })
     })
     return {object,moveVideo}
   },
@@ -270,16 +256,26 @@ export default {
 
 		micControl () {
 			this.micOn = !this.micOn
+      this.publisher.publishAudio(this.micOn)
 		},
 
 		camControl () {
 			this.camOn = !this.camOn
-      this.session.connect(this.token, { clientData: this.myUserName })
+      this.publisher.publishVideo(this.camOn)
 		}
 	},
   created:function(){
       const localvuex=JSON.parse(localStorage.getItem('vuex'))
       this.myUserName=localvuex["root"]["userid"]
+      // this.$store.dispatch('root/requestGetLesson',this.myUserName)
+      // .then(function (result) {
+      //     alert('수업 리스트')
+      //     console.log(result)
+      //     // this.object = result
+      //   })
+      //   .catch(function (err) {
+      //     alert(err)
+      //   })
   }
 }
 </script>
