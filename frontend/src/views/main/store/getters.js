@@ -17,3 +17,6 @@ export function getStudy (state) {
 export function getStudyName (state) {
 	return state.curClassName
 }
+export function getStudyId (state) {
+	return state.curClassId
+}

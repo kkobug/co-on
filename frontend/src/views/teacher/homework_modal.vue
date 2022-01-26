@@ -1,6 +1,6 @@
 <template>
   <div class ="modal">
-    <div class="overlay" @click="$emit('close-modal')">X</div>
+    <div class="overlay" @click="closeModal">X</div>
     <div><p>과제 등록</p></div>
     <div><label for="title">제목</label><input v-model="state.form.title" name="title" type="text"></div>
     <div><label for="explain">설명</label><input v-model="state.form.explain" name="explain" type="text"></div>
@@ -16,7 +16,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 export default {
   name: 'ModalView',
-  setup() {
+  setup(props, context) {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
@@ -27,10 +27,26 @@ export default {
         date:"",
       }
     })
-    const addhomework = function(){
-      console.log(state.form)
+    const closeModal = function(){
+      state.form=
+      {
+        title:"",
+        explain:"",
+        target:"",
+        date:"",
+      }
+      context.emit('close-modal')
     }
-    return {state, addhomework}
+    const addhomework = function(){
+      store.dispatch('root/requestAddHomework', {
+        hwContent: state.form.explain,
+        hwDeadline: "2022-02-18 12:00",
+        hwTitle: state.form.title,
+        studyId: store.state.root.curClassId,
+        tchrId: store.state.root.userid})
+      closeModal()
+    }
+    return {state, addhomework, closeModal}
   },
 
 };

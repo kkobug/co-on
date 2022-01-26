@@ -37,5 +37,6 @@ export default {
   authtoken:'',
   whetherTchr: false,
   curClassName: "",
-  classList:{}
+  classList:{},
+  curClassId: 0,
 }

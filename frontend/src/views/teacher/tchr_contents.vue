@@ -1,7 +1,7 @@
 <template>
   <div>
     <tchr-nav></tchr-nav>
-    <h1 style="text-align:left">{{ state.classtitle }} 반의 수업</h1>
+    <h1 style="text-align:left">{{ state.classtitle }} 반의 수업{{ state.classId }}</h1>
     <homework></homework>
     <notice></notice>
     <button class="sub_btn" @click ="delClass">수업 삭제</button>
@@ -28,6 +28,7 @@ export default {
     const store = useStore()
     const state = reactive({
       classtitle: computed(() => store.getters['root/getStudyName']),
+      classId : computed(() => store.getters['root/getStudyId']),
       id: store.state.root.userid
     })
     const delClass = function(){

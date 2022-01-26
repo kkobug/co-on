@@ -122,6 +122,35 @@ export default {
       // })
     })
     return {notice,hw}
+  },
+  created:function(){
+      // this.$store.dispatch('root/requestGetLesson',this.myUserName)
+      // .then(function (result) {
+      //     alert('수업 리스트')
+      //     console.log(result)
+      //     // this.object = result
+      //   })
+      //   .catch(function (err) {
+      //     alert(err)
+      //   })
+
+      // this.$store.dispatch('root/requestGetNotice',???)
+      // .then(function (result) {
+      //     alert('수업 공지사항')
+      //     console.log(result)
+      //   })
+      //   .catch(function (err) {
+      //     alert(err)
+      //   })
+
+      // this.$store.dispatch('root/requestGetHW',studyId)
+      // .then(function (result) {
+      //     alert('수업 과제')
+      //     console.log(result)
+      //   })
+      //   .catch(function (err) {
+      //     alert(err)
+      //   })
   }
 }
 </script>
