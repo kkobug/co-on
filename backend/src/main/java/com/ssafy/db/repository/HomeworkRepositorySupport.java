@@ -34,7 +34,7 @@ public class HomeworkRepositorySupport {
         return Optional.ofNullable(homework);
     }
 
-    public void deleteHomeworkByHwId(Integer hwId){
-        jpaQueryFactory.delete(qHomework).where(qHomework.hwId.eq(hwId)).execute();
+    public void deleteHomeworkByHwId(int hwId, String tchrId){
+        jpaQueryFactory.delete(qHomework).where(qHomework.hwId.eq(hwId).and(qHomework.tchrId.eq(tchrId))).execute();
     }
 }

@@ -20,3 +20,9 @@ export function getStudyName (state) {
 export function getStudyId (state) {
 	return state.curClassId
 }
+export function getTchrNoticeList (state) {
+	return state.TchrNoticeList
+}
+export function getTchrHomeworkList (state) {
+	return state.TchrHomeworkList
+}

@@ -25,5 +25,8 @@ public class StudyRoomdetailRepositorySupport {
                 .where(qStudyroomDetail.stId.eq(stId)).fetch();
         return list;
     }
-
+//    public List<Tuple> findstIdAndstName(){
+//        List<Tuple> list = jpaQueryFactory.select(qStudent.stId,qStudent.stName).from(qStudent).fetch();
+//        return list;
+//    }
 }

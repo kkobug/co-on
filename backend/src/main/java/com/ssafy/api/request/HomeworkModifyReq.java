@@ -22,4 +22,6 @@ public class HomeworkModifyReq {
     String hwContent;
     @ApiModelProperty(name = "제출 기한")
     String hwDeadline;
+    @ApiModelProperty(name = "작성일자", example= "")
+    String hwPosted;
 }

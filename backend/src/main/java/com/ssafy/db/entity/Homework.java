@@ -29,10 +29,14 @@ public class Homework implements Serializable {
     String hwDeadline;
     @CreationTimestamp
     @LastModifiedDate
-    @Column(name = "hw_posted", updatable = false)
+    @Column(name = "hw_posted")
     LocalDateTime hwPosted;
 //    @Column(name = "hw_file")
-//    파일 업로드 필요함!!!
+//    Byte[] hwFile;
+//    @Column(name = "hw_file_name")
+//    String hwFileName;
+//    @Column(name = "hw_file_origin_name")
+//    String hwFileOriginName;
     @ManyToOne
     @JoinColumn(name = "study_id", insertable = false, updatable = false)
     private Studyroom studyroom;

@@ -8,7 +8,6 @@ import com.ssafy.api.response.HomeworkInfoRes;
 import com.ssafy.api.service.HomeworkService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Homework;
-import com.ssafy.db.entity.Notice;
 import com.ssafy.db.entity.Teacher;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,13 +73,14 @@ public class HomeworkController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<HomeworkInfoRes> homework_detail(@RequestParam Integer hwId) {
+    public ResponseEntity<HomeworkInfoRes> homework_detail(
+            @PathVariable @ApiParam(value = "과제 상세 정보") Integer hwId) {
         Homework homework = homeworkService.findHomeworkByHwId(hwId);
         return ResponseEntity.status(200).body(HomeworkInfoRes.of(homework));
     }
 
-    @DeleteMapping("/delete/{hwId}")
-    @ApiOperation(value = "과제 삭제", notes = "<strong>과제 ID</strong>을 통해 (교사가) 과제를 삭제 한다.")
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "과제 삭제", notes = "<strong>과제, 교사 ID</strong>을 통해 (교사가) 과제를 삭제 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
@@ -88,8 +88,9 @@ public class HomeworkController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> delete(@RequestBody HomeworkDeleteReq homeworkDeleteReq){
-        Integer hwId = homeworkDeleteReq.getHwId();
-        homeworkService.deleteHomework(hwId);
+        int hwId = homeworkDeleteReq.getHwId();
+        String tchrId = homeworkDeleteReq.getTchrId();
+        homeworkService.deleteHomework(hwId, tchrId);
         return ResponseEntity.status(200).body("OK");
     }
 
@@ -101,7 +102,9 @@ public class HomeworkController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public  ResponseEntity<? extends BaseResponseBody> modifyHomework(@RequestParam Integer hwId, @RequestBody HomeworkModifyReq homeworkModifyReq) {
+    public  ResponseEntity<? extends BaseResponseBody> modifyHomework(
+            @PathVariable @ApiParam(value = "과제 수정") Integer hwId,
+            @RequestBody HomeworkModifyReq homeworkModifyReq) {
         Homework homework = homeworkService.updateHomework(hwId, homeworkModifyReq);
         if (homework.getHwId() != hwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));

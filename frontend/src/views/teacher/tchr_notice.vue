@@ -1,18 +1,19 @@
 <template>
   <div>
-    <ModalView v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
+    <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
     <div style="text-align: right">
       <button class="sub_btn" @click="state.isVisible = true">공지 생성</button>
     </div>
     <div>
-      <div v-for = "ntice in state.notices" :key = ntice.id class ="el-item">
+      <div v-for = "(ntice, index) in state.notices" :key = ntice.id class ="el-item">
         <div class="li-left li-sec">
-          <div class ="li-title li-item">{{ntice.title}}</div>
-          <div class ="li-lesson li-item">{{ntice.subject}}</div>
+          <div class ="li-title li-item">{{ntice.noticeTitle}}</div>
+          <div class ="li-lesson li-item">{{ntice.noticeContent}}</div>
         </div>
         <div class="li-right li-sec">
-          <div class ="li-time li-item">{{ntice.date}}</div>
-          <div class ="li-button li-item">수정</div>
+          <div class ="li-time li-item">{{ntice.noticePosted}}</div>
+          <div class ="li-button li-item" @click="updatenotice(index)">수정</div>
+          <div class ="li-button li-item" @click ="delNotice(ntice.noticeId)">삭제</div>
         </div>
       </div>
     </div>
@@ -33,33 +34,44 @@ export default {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
+      isupdate : false,
       isVisible :false,
-      notices:[
-        {
-          id: 1,
-          title: "멋들어진 제목1",
-          subject: "수학",
-          date: "2022-01-19",
-          contents: "",
-        },
-        {
-          id: 2,
-          title: "멋들어진 제목1",
-          subject: "사학",
-          date: "2022-01-19",
-          contents: "",
-        },
-        {
-          id: 3,
-          title: "멋들어진 제목1",
-          subject: "음악",
-          date: "2022-01-19",
-          contents: "",
-        },
-      ]
+      notices:computed(() => store.getters['root/getTchrNoticeList']),
+      props_data:{}
     })
-
-    return {state}
+  const getNoticeList = function(){
+    console.log("start")
+    store.dispatch('root/requestListNotice', {
+          studyId: store.state.root.curClassId})
+      .then(res =>{
+        store.state.root.TchrNoticeList = res.data
+        state.notices = store.getters['root/getTchrNoticeList']
+      })
+  }
+  const updatenotice = function(idx){
+    console.log("11111111111111", state.notices[idx])
+    state.props_data = state.notices[idx]
+    state.isupdate = true
+    state.isVisible = true
+  }
+  const delNotice = function(studyid){
+    store.dispatch('root/requestDelNotice', {
+          noticeId: studyid,
+          tchrId: store.state.root.userid})
+      .then({
+        getNoticeList
+      })
+  }
+  const closemodal = function(){
+    getNoticeList();
+    state.isVisible = false
+      state.isupdate = false
+      state.props_data={}
+  }
+  onMounted(()=>{
+      getNoticeList();
+    })
+    return {state, onMounted, getNoticeList, updatenotice, closemodal, delNotice}
   },
 };
 </script>

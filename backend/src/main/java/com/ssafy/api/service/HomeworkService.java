@@ -19,5 +19,5 @@ public interface HomeworkService {
     Homework updateHomework(Integer hwId, HomeworkModifyReq homeworkModifyReq);
 //    과제 삭제
     @Transactional
-    void deleteHomework(Integer hwId);
+    void deleteHomework(int hwId, String tchrId);
 }

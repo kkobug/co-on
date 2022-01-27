@@ -68,12 +68,13 @@ public class NoticeController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<NoticeFindID> findNoticetId(@RequestParam int noticeId) {
+	public ResponseEntity<NoticeFindID> findNoticetId(
+			@PathVariable @ApiParam(value = "공지 상세 정보") Integer noticeId) {
 		Notice notice = noticeService.findBynoticeId(noticeId);
 		return ResponseEntity.status(200).body(NoticeFindID.of(notice));
 	}
 
-	@PutMapping("/notice/modify")
+	@PutMapping("/notice/modify/{noticeId}")
 	@ApiOperation(value = "공지사항 수정", notes = "공지사항을 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -82,8 +83,10 @@ public class NoticeController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> modify(
-			@RequestBody @ApiParam(value="공지사항 수정정보", required = true) NoticeUpdatePutReq noticeUpdatePutReq) {
-		Notice notice = noticeService.updateNotice(noticeUpdatePutReq);
+			@PathVariable @ApiParam(value = "공지사항 수정") Integer noticeId,
+			@RequestBody NoticeUpdatePutReq noticeUpdatePutReq) {
+		Notice notice = noticeService.updateNotice(noticeId, noticeUpdatePutReq);
+		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 
 	}
