@@ -127,21 +127,19 @@ export function requestAddNotice ({ state }, payload) {
   let body = payload
   return $axios.post(url, body)
 }
-export function requestDelNotice ({ state }, payload) {
-  console.log('requestDelNotice', state, payload)
+export function requestDelNotice ({ state }, data) {
+  console.log('requestDelNotice', state, data)
   const url = `/notice/delete`
-  let body = payload
-  return $axios.delete(url, body)
+  return $axios.delete(url, {data})
 }
 export function requestListNotice ({ state }, payload) {
   console.log('requestListNotice', state, payload)
-  const url = `/notice/list`
-  let body = payload
-  return $axios.get(url, body)
+  const url = `/notice/study/list/${payload.studyId}`
+  return $axios.get(url)
 }
 export function requestUpdateNotice ({ state }, payload) {
   console.log('requestUpdateNotice', state, payload)
-  const url = `/notice/modify`
+  const url = `/notice/modify/${payload.noticeId}`
   let body = payload
   return $axios.put(url, body)
 }
@@ -152,11 +150,10 @@ export function requestAddHomework ({ state }, payload) {
   let body = payload
   return $axios.post(url, body)
 }
-export function requestDelHomework ({ state }, payload) {
-  console.log('requestDelHomework', state, payload)
-  const url = `/homework/delete/${payload.hwId}`
-  let body = payload
-  return $axios.delete(url, body)
+export function requestDelHomework ({ state }, body) {
+  console.log('requestDelHomework', state, paylbodyoad)
+  const url = `/homework/delete`
+  return $axios.delete(url, {body})
 }
 export function requestgetHomework ({ state }, payload) {
   console.log('requestgetHomework', state, payload)

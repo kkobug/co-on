@@ -2,46 +2,74 @@
   <div class ="modal">
     <div class="overlay" @click="$emit('close-modal')">X</div>
     <div><p>공지 등록</p></div>
-    <div><label for="title">제목</label><input v-model="state.form.title"  name="title" type="text"></div>
-    <div><label for="content">내용</label><textarea v-model="state.form.content" name="content" id="" cols="30" rows="10"></textarea></div>
-    <button @click="addnotice">등록</button>
+    <div><label for="title">제목</label><input v-model="state.title"  name="title" type="text"></div>
+    <div><label for="content">내용</label><textarea v-model="state.contents" name="content" id="" cols="30" rows="10"></textarea></div>
+    <button v-if="isupdate" @click="updatenotice">수정</button>
+    <button v-else @click="addnotice">등록</button>
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 export default {
   name: 'ModalView',
+  props: ["pdata", "isupdate"],
   setup(props, context) {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
-      form:{
-        title:"",
-        content:"",
-      }
+      isupdate: props.isupdate,
+      title : props.pdata.noticeTitle,
+      contents : props.pdata.noticeContent,
+      date : props.pdata.noticePosted,
+      ntid :props.pdata.noticeId,
+      posted : "2022-01-26 15:14:24"
     })
     const closeModal = function(){
-      state.form=
-      {
-        title:"",
-        content:"",
-      }
+      state.title = null
+      state.contents = null
+      state.date = null
+      state.isupdate = false
+      state.ntid = null
       context.emit('close-modal')
     }
+    const showRequest = (request)=> {
+      const reqObject = JSON.parse(JSON.stringify(request));
+      console.log('request', reqObject);
+      dataChange(reqObject);
+    };
     const addnotice = function(){
       store.dispatch('root/requestAddNotice', {
-        noticeContent: state.form.content,
-        noticeId: "",
-        noticePosted: "",
-        noticeTitle: state.form.title,
+        noticeContent: state.contents,
+        noticeTitle: state.title,
         studyId: store.state.root.curClassId,
         tchrId: store.state.root.userid})
       closeModal()
     }
-    return {state, addnotice, closeModal}
+    const updatenotice = function(){
+      store.dispatch('root/requestUpdateNotice', {
+        noticeContent: state.contents,
+        noticeId: state.ntid,
+        noticePosted: state.date,
+        noticeTitle: state.title})
+      closeModal()
+    }
+    const dataChange = function(pdata){
+      console.log("abab",pdata)
+      state.title = pdata.noticeTitle,
+      state.contents = pdata.noticeContent,
+      state.date = pdata.noticePosted,
+      state.ntid = pdata.noticeId,
+      console.log(state.title, pdata.noticeTitle)
+    }
+    onMounted(()=>{
+      console.log("안녕하세요", props.pdata, props.isupdate)
+
+      showRequest(props.pdata);
+    })
+    return {state, onMounted, addnotice, closeModal, dataChange, updatenotice, updatenotice}
   },
 
 };

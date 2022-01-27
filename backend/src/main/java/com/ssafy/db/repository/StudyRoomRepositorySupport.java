@@ -1,11 +1,14 @@
 package com.ssafy.db.repository;
 
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.db.entity.QStudyroom;
 
 import com.ssafy.db.entity.QStudyroomDetail;
 import com.ssafy.db.entity.Studyroom;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
