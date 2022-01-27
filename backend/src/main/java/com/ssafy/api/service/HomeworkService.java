@@ -13,6 +13,7 @@ public interface HomeworkService {
 //    과제 조회 (수업ID에 따라, 교사ID에 따라, 과제 ID에 따라)
     List<Homework> findHomeworkByStudyId(Integer studyId);
     List<Homework> findHomeworkByTchrId(String tchrId);
+    List<Homework> findHomeworkBystId(String stId);
     Homework findHomeworkByHwId(Integer hwId);
 //    과제 수정
     Homework updateHomework(Integer hwId, HomeworkModifyReq homeworkModifyReq);

@@ -25,4 +25,5 @@ public interface NoticeService {
 //    공지사항 조회 (수업ID에 따라, 교사ID에 따라, 공지사항 조회)
 	List<Notice> findNoticeByStudyId(Integer studyId);
 	List<Notice> findNoticeByTchrId(String tchrId);
+	List<Notice> findNoticeBystId(String stId);
 }
