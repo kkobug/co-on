@@ -62,8 +62,9 @@ public class StudentHomeworkController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> modify(@RequestParam int stHwId,
-															 @RequestBody @ApiParam(value="학생 과제 수정정보", required = true) StudentHomeworkUpdatePutReq studentHomeworkUpdatePutReq) {
+	public ResponseEntity<? extends BaseResponseBody> modify(
+			@PathVariable @ApiParam(value = "학생 과제 수정") Integer stHwId,
+			@RequestBody @ApiParam(value="학생 과제 수정정보", required = true) StudentHomeworkUpdatePutReq studentHomeworkUpdatePutReq) {
 		StudentHomework studentHomework = studentHomeworkService.StudentHomeworkupdateNotice(stHwId, studentHomeworkUpdatePutReq);
 		if (studentHomework.getStHwId() != stHwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -105,7 +106,8 @@ public class StudentHomeworkController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<StHwFindID> firndStHwId(@RequestParam int stHwId) {
+	public ResponseEntity<StHwFindID> firndStHwId(
+			@PathVariable @ApiParam(value = "학생기준 과제 상세 정보") Integer stHwId) {
 		StudentHomework studentHomework = studentHomeworkService.findBystHwId(stHwId);
 		return ResponseEntity.status(200).body(StHwFindID.of(studentHomework));
 	}
