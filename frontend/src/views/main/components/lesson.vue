@@ -1,27 +1,28 @@
 <template>
-  <div class="common-layout">
-    <el-container>
-      <el-header>
-        <el-row >
-          <el-col :span="6"><div class="grid-content bg-purple">과목명</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light">교사</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple">수업설명</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light">화상회의</div></el-col>
+  <el-row>
+    <el-col :span="20" :offset="2">
+      <div class="common-layout" style="margin-top: 3vh; height: 94vh">
+        <el-row style="line-height: 60px; height: 5vh; font-size: 20px; font-weight: bold">
+          <el-col :span="6"><div class="grid-content">과목명</div></el-col>
+          <el-col :span="6"><div class="grid-content">교사</div></el-col>
+          <el-col :span="6"><div class="grid-content">수업설명</div></el-col>
+          <el-col :span="6"><div class="grid-content">화상회의</div></el-col>
         </el-row>
-      </el-header>
-      <el-main>
-        <el-row v-for="item in state.object" :key="item.studyName">
-          <el-col :span="6"><div class="grid-content bg-purple">{{item.studyName}}</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.tchrId}}</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple"></div>{{item.studyDesc}}</el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light" @click="moveVideo()">이동: 일단 아무데나 라우터 걸어둠</div></el-col>
-        </el-row>
+        <el-container>
+          <el-main style="background-color: #fff; line-height: 100px">
+            <el-row v-for="item in state.object" :key="item.studyName" style="background-color: #ecf0f1; border-radius: 20px">
+              <el-col :span="6"><div>{{item.studyName}}</div></el-col>
+              <el-col :span="6"><div>{{item.tchrId}}</div></el-col>
+              <el-col :span="6"><div>{{item.studyDesc}}</div></el-col>
+              <el-col :span="6"><el-button type="text" @click="moveVideo()">화상회의 이동</el-button></el-col>
+            </el-row>
 
-      </el-main>
-      <el-footer>Footer</el-footer>
-    </el-container>
+          </el-main>
+        </el-container>
 
-  </div>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>

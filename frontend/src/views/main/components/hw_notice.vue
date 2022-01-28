@@ -1,13 +1,13 @@
 <template>
   <div class="common-layout">
     <!-- 공지사항 -->
-    <el-container>
-      <p>공지사항</p>
-      <el-main>
-        <el-row v-for="item in state.notice" :key="item.noticeId">
-          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.noticeId}}</div></el-col>
-          <el-col :span="18">
-            <div class="grid-content bg-purple-light">
+    <h1 style="font-size: 25px; height: 4vh">공지사항</h1>
+    <el-container style="height: 38vh">
+      <el-main style="background-color: #fff; line-height: 100px">
+        <el-row v-for="item in state.notice" :key="item.noticeId" style="background-color: #ecf0f1; border-radius: 20px">
+          <el-col :span="3" style="border-radius: 20px">{{item.noticeId}}</el-col>
+          <el-col :span="21">
+            <div style="border-radius: 20px">
               <el-popover
                 placement="bottom"
                 title="Title"
@@ -16,7 +16,7 @@
                 content="item.noticeContent"
               >
                 <template #reference>
-                  <el-button>{{item.noticeTitle}}</el-button>
+                  <el-button type="text">{{item.noticeTitle}}</el-button>
                 </template>
               </el-popover>
 
@@ -25,29 +25,27 @@
 
         </el-row>
       </el-main>
-      <el-footer>Footer</el-footer>
     </el-container>
 
     <!-- 과제 -->
-    <el-container>
-      <p>과제</p>
-      <el-main>
-        <el-row v-for="item in state.hw" :key="item.id">
-          <el-col :span="6"><div class="grid-content bg-purple">{{item.hwTitle}}</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.studyroom.studyName}}</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple">{{item.hwId}}</div></el-col>
+    <h1 style="font-size: 25px; height: 4vh">과제목록</h1>
+    <el-container style="height: 38vh">
+      <el-main style="background-color: #fff; line-height: 100px">
+        <el-row v-for="item in state.hw" :key="item.id" style="background-color: #ecf0f1; border-radius: 20px">
+          <el-col :span="6"><div>{{item.hwTitle}}</div></el-col>
+          <el-col :span="6"><div>{{item.studyroom.studyName}}</div></el-col>
+          <el-col :span="6"><div>{{item.hwId}}</div></el-col>
           <el-col :span="6">
-            <div class="grid-content bg-purple-light" @click="onOpenHwDialog(item)">
+            <el-button type="text" @click="onOpenHwDialog(item)">
               제출하기
-            </div>
-            <div class="grid-content bg-purple-light" @click="delStHw()">
+            </el-button>
+            <el-button type="text" @click="delStHw()">
               삭제하기
-            </div>
+            </el-button>
           </el-col>
 
         </el-row>
       </el-main>
-      <el-footer>Footer</el-footer>
     </el-container>
 
     <!-- 과제 제출 -->
@@ -176,71 +174,5 @@ export default {
 }
 </script>
 <style lang="scss">
-.common-layout {
-  .el-header,
-  .el-footer {
-    background-color: #b3c0d1;
-    color: var(--el-text-color-primary);
-    text-align: center;
-    line-height: 60px;
-  }
 
-  .el-footer {
-    line-height: 60px;
-  }
-
-  .el-aside {
-    background-color: #d3dce6;
-    color: var(--el-text-color-primary);
-    text-align: center;
-    line-height: 200px;
-  }
-
-  .el-main {
-    background-color: #e9eef3;
-    color: var(--el-text-color-primary);
-    text-align: center;
-    line-height: 160px;
-    width: 100%;
-  }
-
-  body > .el-container {
-    margin-bottom: 40px;
-  }
-
-  .el-container:nth-child(5) .el-aside,
-  .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
-  }
-
-  .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
-  }
-  .el-row {
-    margin-bottom: 20px;
-  }
-  .el-row:last-child {
-    margin-bottom: 0;
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
-}
 </style>

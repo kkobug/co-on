@@ -1,33 +1,47 @@
 <template>
-  <div class="text-center section">
-    <h2 class="h2">Custom Calendars</h2>
-    <p class="text-lg font-medium text-gray-600 mb-6">
-      Roll your own calendars using scoped slots
-    </p>
-    <v-calendar
-      class="custom-calendar max-w-full"
-      :masks="masks"
-      :attributes="attributes"
-      disable-page-swipe
-      is-expanded
-    >
-      <template v-slot:day-content="{ day, attributes }">
-        <div class="flex flex-col h-full z-10 overflow-hidden">
-          <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
-          <div class="flex-grow overflow-y-auto overflow-x-auto">
-            <p
-              v-for="attr in attributes"
-              :key="attr.key"
-              class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-              :class="attr.customData.class"
-            >
-              {{ attr.customData.title }}
-            </p>
-          </div>
-        </div>
-      </template>
-    </v-calendar>
-  </div>
+  <el-row>
+    <el-col :span="15" :offset="1">
+      <div class="text-center section">
+        <h2 class="h2">Custom Calendars</h2>
+        <p class="text-lg font-medium text-gray-600 mb-6" @click="testmethod">
+          Roll your own calendars using scoped slots
+        </p>
+        <v-calendar
+          class="custom-calendar max-w-full"
+          :masks="masks"
+          :attributes="attributes"
+          disable-page-swipe
+        >
+          <template v-slot:day-content="{ day, attributes }">
+            <div class="flex flex-col h-full z-10 overflow-hidden">
+              <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
+              <div class="flex-grow overflow-y-auto overflow-x-auto">
+                <p
+                  v-for="attr in attributes"
+                  :key="attr.key"
+                  class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
+                  :class="attr.customData.class"
+                >
+                  {{ attr.customData.title }}
+                </p>
+              </div>
+            </div>
+          </template>
+        </v-calendar>
+      </div>
+    </el-col>
+    <el-col :span="5" :offset="1" style="margin-top: 100px; color: #fff">
+      <div style="background-color: #4267D6">
+        <h1 style="padding: 7px">과제 진행률</h1>
+        <el-progress type="dashboard" :percentage="80" status="exception" stroke-width="8" style="margin-bottom: 10px">
+          <template #default="{ percentage }">
+            <span class="percentage-value">{{ percentage }}%</span>
+            <span class="percentage-label">Progressing</span>
+          </template>
+        </el-progress>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -115,6 +129,11 @@ export default {
       ],
     };
   },
+  methods: {
+    testmethod () {
+      console.log('test')
+    }
+  }
 };
 </script>
 
@@ -174,5 +193,18 @@ export default {
   & .vc-day-dots {
     margin-bottom: 5px;
   }
+}
+.percentage-value {
+  display: block;
+  margin-top: 10px;
+  font-size: 28px;
+  color: #fff;
+}
+
+.percentage-label {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #fff;
 }
 </style>

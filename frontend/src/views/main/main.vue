@@ -9,10 +9,13 @@
           />
       </el-aside>
       <el-main>
-        <router-view @deleteId="deleteId1" ></router-view>
+        <el-row>
+          <el-col :span="20" :offset="2">
+            <router-view @deleteId="deleteId1" ></router-view>
+          </el-col>
+        </el-row>
       </el-main>
     </el-container>
-    <main-footer :height="`110px`"/>
   </el-container>
 
 </template>
