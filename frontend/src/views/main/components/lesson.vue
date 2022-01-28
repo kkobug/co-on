@@ -10,10 +10,10 @@
         </el-row>
       </el-header>
       <el-main>
-        <el-row v-for="item in this.object" :key="item.id">
-          <el-col :span="6"><div class="grid-content bg-purple">{{item.id}}</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.s}}</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+        <el-row v-for="item in state.object" :key="item.studyName">
+          <el-col :span="6"><div class="grid-content bg-purple">{{item.studyName}}</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.tchrId}}</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple"></div>{{item.studyDesc}}</el-col>
           <el-col :span="6"><div class="grid-content bg-purple-light" @click="moveVideo()">이동: 일단 아무데나 라우터 걸어둠</div></el-col>
         </el-row>
 
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -36,11 +36,9 @@ export default {
   setup () {
     const router = useRouter()
     const store = useStore()
-    const object = [
-      {id:1,s:'How to do lists in Vue'},
-      {id:2,s:'How to do lists in Vue'},
-      {id:3,s:'How to do lists in Vue'}
-    ]
+    const state = reactive({
+      object : {}
+    })
     function moveVideo(){
       router.push({
         name:"video"
@@ -51,17 +49,19 @@ export default {
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
       // 리스트 불러오기
-      // store.dispatch('root/setMenuActiveMenuName')
-      // .then(function(result){
-      //   alert('리스트 조회 성공')
-      //   console.log(result)
-      //   this.object=result
-      // })
-      // .catch(function(err){
-      //   alert(err)
-      // })
+      store.dispatch('root/requestGetLesson', {
+        stId : store.state.root.userid
+      })
+      .then(function(result){
+        alert('리스트 조회 성공')
+        console.log(result.data)
+        state.object=result.data
+      })
+      .catch(function(err){
+        alert(err)
+      })
     })
-    return {object,moveVideo}
+    return {state,moveVideo}
   }
 }
 </script>

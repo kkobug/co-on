@@ -5,7 +5,7 @@
       <button class="sub_btn" @click="state.isVisible = true">숙제 생성</button>
     </div>
     <div>
-      <div v-for = "(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
+      <div v-for="(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
         <div class="li-left li-sec">
           <div class ="li-title li-item">{{hw.hwTitle}}</div>
           <div class ="li-lesson li-item">{{hw.hwContent}}</div>

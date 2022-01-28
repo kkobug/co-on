@@ -2,16 +2,16 @@
   <div>
     <el-dialog custom-class="login-dialog" title="ID 찾기" v-model="state.dialogVisible" @close="handleClose">
       <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
-        <el-form-item prop="id" label="과제명" :label-width="state.formLabelWidth" >
+        <el-form-item prop="id" label="내용" :label-width="state.formLabelWidth" >
           <el-input v-model="state.form.hwname" autocomplete="off"></el-input>
         </el-form-item>
 
       </el-form>
-      <el-table :data="tableData" style="width: 100%">
+      <!-- <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="date" label="Date" width="180" />
         <el-table-column prop="name" label="Name" width="180" />
         <el-table-column prop="address" label="Address" />
-      </el-table>
+      </el-table> -->
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="submit">제출</el-button>
@@ -70,7 +70,7 @@ export default {
       default: false
     }
   },
-
+  props: ['props_hw', 'open'],
   setup(props, { emit }) {
     const router = useRouter()
     const store = useStore()
@@ -88,32 +88,34 @@ export default {
         name: '',
         align: 'left'
       },
+      iddata : props.props_hw,
+      hwname:"",
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
     })
 
-    const tableData = [
-      {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-04',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-01',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-    ]
+    // const tableData = [
+    //   {
+    //     date: '2016-05-03',
+    //     name: 'Tom',
+    //     address: 'No. 189, Grove St, Los Angeles',
+    //   },
+    //   {
+    //     date: '2016-05-02',
+    //     name: 'Tom',
+    //     address: 'No. 189, Grove St, Los Angeles',
+    //   },
+    //   {
+    //     date: '2016-05-04',
+    //     name: 'Tom',
+    //     address: 'No. 189, Grove St, Los Angeles',
+    //   },
+    //   {
+    //     date: '2016-05-01',
+    //     name: 'Tom',
+    //     address: 'No. 189, Grove St, Los Angeles',
+    //   },
+    // ]
 
     onMounted(() => {
       // console.log(loginForm.value)
@@ -122,13 +124,21 @@ export default {
     const handleClose = function () {
       // state.form.email = ''
       // state.form.name = ''
+      state.iddata = {}
+      state.hwname = ""
       emit('closeHwDialog')
     }
     const cancle = () => {
       emit('closeHwDialog')
     }
     const submit = function () {
-      store.dispatch('root/requestFindid', {stEmail: state.form.email, stName: state.form.name })
+      store.dispatch('root/requestaddsthw',{
+        hwId: state.iddata.hwId,
+        stHwContent: state.hwname,
+        stId: store.state.root.userid,
+        studyId: state.iddata.studyId,
+        tchrId: state.iddata.tchrId,
+        })
       .then(function (result) {
         alert('제출 성공')
         handleClose()
@@ -137,10 +147,7 @@ export default {
         alert(err)
       })
     }
-
-
-
-    return { state, handleClose, submit, cancle, tableData }
+    return { state, handleClose, submit, cancle }
   },
 
 }

@@ -4,8 +4,8 @@
     <el-container>
       <p>공지사항</p>
       <el-main>
-        <el-row v-for="item in this.notice" :key="item.id">
-          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.id}}</div></el-col>
+        <el-row v-for="item in state.notice" :key="item.noticeId">
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.noticeId}}</div></el-col>
           <el-col :span="18">
             <div class="grid-content bg-purple-light">
               <el-popover
@@ -13,10 +13,10 @@
                 title="Title"
                 :width="200"
                 trigger="click"
-                content="this is content, this is content, this is content"
+                content="item.noticeContent"
               >
                 <template #reference>
-                  <el-button>{{item.s}}</el-button>
+                  <el-button>{{item.noticeTitle}}</el-button>
                 </template>
               </el-popover>
 
@@ -32,13 +32,16 @@
     <el-container>
       <p>과제</p>
       <el-main>
-        <el-row v-for="item in this.hw" :key="item.id">
-          <el-col :span="6"><div class="grid-content bg-purple">과제명</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light">과목명</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple">제출/채점</div></el-col>
+        <el-row v-for="item in state.hw" :key="item.id">
+          <el-col :span="6"><div class="grid-content bg-purple">{{item.hwTitle}}</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.studyroom.studyName}}</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple">{{item.hwId}}</div></el-col>
           <el-col :span="6">
-            <div class="grid-content bg-purple-light" @click="onOpenHwDialog()">
+            <div class="grid-content bg-purple-light" @click="onOpenHwDialog(item)">
               제출하기
+            </div>
+            <div class="grid-content bg-purple-light" @click="delStHw()">
+              삭제하기
             </div>
           </el-col>
 
@@ -49,14 +52,15 @@
 
     <!-- 과제 제출 -->
     <hw-dialog
-      :open="hwDialogOpen"
+      :open="state.hwDialogOpen"
       @closeHwDialog="onCloseHwDialog"
+      v-bind:props_hw = state.props_hw
     />
   </div>
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import HwDialog from './hw-dialog.vue'
@@ -66,32 +70,30 @@ export default {
   components:{
     HwDialog
   },
-  data(){
-    return{
-      hwDialogOpen:false,
-    }
-  },
-  methods: {
-    onOpenHwDialog () {
-      this.hwDialogOpen = true
-    },
-    onCloseHwDialog () {
-      this.hwDialogOpen = false
-    },
-  },
+  // data(){
+  //   return{
+  //     hwDialogOpen:false,
+  //   }
+  // },
+  // methods: {
+  //   onOpenHwDialog () {
+  //     this.hwDialogOpen = true
+  //   },
+  //   onCloseHwDialog () {
+  //     this.hwDialogOpen = false
+  //   },
+  // },
   setup () {
     const router = useRouter()
     const store = useStore()
-    const notice = [
-      {id:1,s:'How to do lists in Vue'},
-      {id:2,s:'How to do lists in Vue'},
-      {id:3,s:'How to do lists in Vue'}
-    ]
-    const hw = [
-      {id:1,s:'How to do lists in Vue'},
-      {id:2,s:'How to do lists in Vue'},
-      {id:3,s:'How to do lists in Vue'}
-    ]
+    const state = reactive({
+      notice:{},
+      hw:{},
+      props_hw:{},
+      hwDialogOpen:false,
+      notice : [],
+      hw : [],
+    })
     // function submitHw(){
     //   router.push({
     //     name:"Tchr_Lesson"
@@ -99,29 +101,48 @@ export default {
     // }\
 
     // 페이지 진입시 불리는 훅
+    const delStHw = function(){
+      // store.dispatch('root/requestdelsthw' ,{
+      //   stHwId: 1,
+      //   stId: "st_id"
+      // })
+    }
+    const onOpenHwDialog=function(item){
+      state.props_hw = item
+      state.hwDialogOpen = true
+      console.log("열림", state.hwDialogOpen)
+    }
+    const onCloseHwDialog=function(){
+      state.hwDialogOpen = false
+      state.props_hw={}
+    }
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
       // 과제 불러오기
-      // store.dispatch('root/setMenuActiveMenuName')
-      // .then(function(result){
-      //   alert('과제 조회 성공')
-      //   console.log(result)
-      //   this.object=result
-      // })
-      // .catch(function(err){
-      //   alert(err)
-      // })
+      store.dispatch('root/requestGetHW',{
+        stId : store.state.root.userid
+      })
+      .then(function(result){
+        alert('과제 조회 성공')
+        console.log("homework", result.data)
+        state.hw=result.data
+      })
+      .catch(function(err){
+        alert(err)
+      })
       // 공지사항 불러오기
-      // store.dispatch('root/setMenuActiveMenuName')
-      // .then(function(result){
-      //   console.log(result)
-      //   this.object=result
-      // })
-      // .catch(function(err){
-      //   alert(err)
-      // })
+      store.dispatch('root/requestGetNotice',{
+        stId : store.state.root.userid
+      })
+      .then(function(result){
+        console.log("notice",result.data)
+        state.notice=result.data
+      })
+      .catch(function(err){
+        alert(err)
+      })
     })
-    return {notice,hw}
+    return {state, onOpenHwDialog, onCloseHwDialog, delStHw}
   },
   created:function(){
       // this.$store.dispatch('root/requestGetLesson',this.myUserName)

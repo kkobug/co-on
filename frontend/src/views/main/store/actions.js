@@ -181,18 +181,29 @@ export function requestTchrListHomework ({ state }, payload) {
 }
 export function requestGetLesson ({ state }, payload) {
   console.log('requestGetLesson', state, payload)
-  const url = `/student/list/${payload}`
+  const url = `studyRoomDetail/student/list/${payload.stId}`
   return $axios.get(url)
 }
 
 export function requestGetNotice ({ state }, payload) {
   console.log('requestGetNotice', state, payload)
-  const url = `/notice/list/${payload}`
+  const url = `/notice/student/list/${payload.stId}`
   return $axios.get(url)
 }
 export function requestGetHW ({ state }, payload) {
   console.log('requestGetHW', state, payload)
-  const url = `/homework/study/${payload}`
+  const url = `/homework/student/${payload.stId}`
   return $axios.get(url)
+}
+export function requestaddsthw ({ state }, payload) {
+  console.log('requestaddsthw', state, payload)
+  const url = `/studenthomework/create`
+  let body = payload
+  return $axios.post(url, body)
+}
+export function requestdelsthw ({ state }, body) {
+  console.log('requestdelsthw', state, body)
+  const url = `/studenthomework/delete`
+  return $axios.delete(url, {body})
 }
 
