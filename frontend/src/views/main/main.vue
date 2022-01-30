@@ -1,6 +1,6 @@
 <template>
 <!-- main.vue -->
-  <el-container class="main-wrapper">
+  <el-container class="main-wrapper" style="padding: 0">
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
         <main-sidebar
@@ -8,12 +8,12 @@
           @logout1="logout2"
           />
       </el-aside>
-      <el-main>
-        <el-row>
-          <el-col :span="20" :offset="2">
-            <router-view @deleteId="deleteId1" ></router-view>
-          </el-col>
-        </el-row>
+      <el-main style="padding: 0">
+        <!-- <el-row> -->
+          <!-- <el-col :span="20" :offset="2"> -->
+          <router-view @deleteId="deleteId1" ></router-view>
+          <!-- </el-col> -->
+        <!-- </el-row> -->
       </el-main>
     </el-container>
   </el-container>

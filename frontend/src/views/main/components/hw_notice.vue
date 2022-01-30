@@ -1,60 +1,64 @@
 <template>
-  <div class="common-layout">
-    <!-- 공지사항 -->
-    <h1 style="font-size: 25px; height: 4vh">공지사항</h1>
-    <el-container style="height: 38vh">
-      <el-main style="background-color: #fff; line-height: 100px">
-        <el-row v-for="item in state.notice" :key="item.noticeId" style="background-color: #ecf0f1; border-radius: 20px">
-          <el-col :span="3" style="border-radius: 20px">{{item.noticeId}}</el-col>
-          <el-col :span="21">
-            <div style="border-radius: 20px">
-              <el-popover
-                placement="bottom"
-                title="Title"
-                :width="200"
-                trigger="click"
-                content="item.noticeContent"
-              >
-                <template #reference>
-                  <el-button type="text">{{item.noticeTitle}}</el-button>
-                </template>
-              </el-popover>
+  <el-row>
+    <el-col :span="20" :offset="2">
+      <div class="common-layout">
+        <!-- 공지사항 -->
+        <h1 style="font-size: 25px; height: 4vh">공지사항</h1>
+        <el-container style="height: 38vh">
+          <el-main style="background-color: #fff; line-height: 100px">
+            <el-row v-for="item in state.notice" :key="item.noticeId" style="background-color: #ecf0f1; border-radius: 20px">
+              <el-col :span="3" style="border-radius: 20px">{{item.noticeId}}</el-col>
+              <el-col :span="21">
+                <div style="border-radius: 20px">
+                  <el-popover
+                    placement="bottom"
+                    title="Title"
+                    :width="200"
+                    trigger="click"
+                    content="item.noticeContent"
+                  >
+                    <template #reference>
+                      <el-button type="text">{{item.noticeTitle}}</el-button>
+                    </template>
+                  </el-popover>
 
-            </div>
-          </el-col>
+                </div>
+              </el-col>
 
-        </el-row>
-      </el-main>
-    </el-container>
+            </el-row>
+          </el-main>
+        </el-container>
 
-    <!-- 과제 -->
-    <h1 style="font-size: 25px; height: 4vh">과제목록</h1>
-    <el-container style="height: 38vh">
-      <el-main style="background-color: #fff; line-height: 100px">
-        <el-row v-for="item in state.hw" :key="item.id" style="background-color: #ecf0f1; border-radius: 20px">
-          <el-col :span="6"><div>{{item.hwTitle}}</div></el-col>
-          <el-col :span="6"><div>{{item.studyroom.studyName}}</div></el-col>
-          <el-col :span="6"><div>{{item.hwId}}</div></el-col>
-          <el-col :span="6">
-            <el-button type="text" @click="onOpenHwDialog(item)">
-              제출하기
-            </el-button>
-            <el-button type="text" @click="delStHw()">
-              삭제하기
-            </el-button>
-          </el-col>
+        <!-- 과제 -->
+        <h1 style="font-size: 25px; height: 4vh">과제목록</h1>
+        <el-container style="height: 38vh">
+          <el-main style="background-color: #fff; line-height: 100px">
+            <el-row v-for="item in state.hw" :key="item.id" style="background-color: #ecf0f1; border-radius: 20px">
+              <el-col :span="6"><div>{{item.hwTitle}}</div></el-col>
+              <el-col :span="6"><div>{{item.studyroom.studyName}}</div></el-col>
+              <el-col :span="6"><div>{{item.hwId}}</div></el-col>
+              <el-col :span="6">
+                <el-button type="text" @click="onOpenHwDialog(item)">
+                  제출하기
+                </el-button>
+                <el-button type="text" @click="delStHw()">
+                  삭제하기
+                </el-button>
+              </el-col>
 
-        </el-row>
-      </el-main>
-    </el-container>
+            </el-row>
+          </el-main>
+        </el-container>
 
-    <!-- 과제 제출 -->
-    <hw-dialog
-      :open="state.hwDialogOpen"
-      @closeHwDialog="onCloseHwDialog"
-      v-bind:props_hw = state.props_hw
-    />
-  </div>
+        <!-- 과제 제출 -->
+        <hw-dialog
+          :open="state.hwDialogOpen"
+          @closeHwDialog="onCloseHwDialog"
+          v-bind:props_hw = state.props_hw
+        />
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>

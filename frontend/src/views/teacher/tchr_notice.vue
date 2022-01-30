@@ -2,7 +2,7 @@
   <div>
     <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
     <div style="text-align: right">
-      <button class="sub_btn" @click="state.isVisible = true">공지 생성</button>
+      <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 25px" class="sub_btn" @click="state.isVisible = true">공지 생성</el-button>
     </div>
     <div>
       <div v-for = "(ntice, index) in state.notices" :key = ntice.id class ="el-item">
@@ -12,8 +12,8 @@
         </div>
         <div class="li-right li-sec">
           <div class ="li-time li-item">{{ntice.noticePosted}}</div>
-          <div class ="li-button li-item" @click="updatenotice(index)">수정</div>
-          <div class ="li-button li-item" @click ="delNotice(ntice.noticeId)">삭제</div>
+          <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
+          <el-button type="text" class="li-item" @click ="delNotice(ntice.noticeId)">삭제</el-button>
         </div>
       </div>
     </div>
@@ -84,9 +84,9 @@ export default {
 .el-item{
   display: flex;
   justify-content: space-between;
-  border: solid 1px black;
+  background-color: #ecf0f1;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 20px;
   height: 80px;
   margin-bottom: 10px;
 }

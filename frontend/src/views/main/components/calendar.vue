@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col :span="15" :offset="1">
+    <el-col :span="13" :offset="3">
       <div class="text-center section">
         <h2 class="h2">Custom Calendars</h2>
         <p class="text-lg font-medium text-gray-600 mb-6" @click="testmethod">
