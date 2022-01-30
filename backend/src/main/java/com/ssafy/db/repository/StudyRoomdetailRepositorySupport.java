@@ -2,10 +2,7 @@ package com.ssafy.db.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.db.entity.QStudent;
-import com.ssafy.db.entity.QStudyroom;
-import com.ssafy.db.entity.QStudyroomDetail;
-import com.ssafy.db.entity.Studyroom;
+import com.ssafy.db.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +22,7 @@ public class StudyRoomdetailRepositorySupport {
                 .where(qStudyroomDetail.stId.eq(stId)).fetch();
         return list;
     }
+
 //    public List<Tuple> findstIdAndstName(){
 //        List<Tuple> list = jpaQueryFactory.select(qStudent.stId,qStudent.stName).from(qStudent).fetch();
 //        return list;
