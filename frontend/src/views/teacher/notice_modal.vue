@@ -60,7 +60,9 @@ export default {
         noticeTitle: state.title,
         studyId: store.state.root.curClassId,
         tchrId: store.state.root.userid})
-      closeModal()
+      .then(res =>{
+        closeModal();
+      })
     }
     const updatenotice = function(){
       store.dispatch('root/requestUpdateNotice', {

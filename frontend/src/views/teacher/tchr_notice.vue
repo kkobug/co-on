@@ -40,16 +40,15 @@ export default {
       props_data:{}
     })
   const getNoticeList = function(){
-    console.log("start")
+    console.log("get start")
     store.dispatch('root/requestListNotice', {
           studyId: store.state.root.curClassId})
       .then(res =>{
         store.state.root.TchrNoticeList = res.data
-        state.notices = store.getters['root/getTchrNoticeList']
+        console.log("get data", store.state.root.TchrNoticeList)
       })
   }
   const updatenotice = function(idx){
-    console.log("11111111111111", state.notices[idx])
     state.props_data = state.notices[idx]
     state.isupdate = true
     state.isVisible = true
@@ -58,15 +57,15 @@ export default {
     store.dispatch('root/requestDelNotice', {
           noticeId: studyid,
           tchrId: store.state.root.userid})
-      .then({
-        getNoticeList
+      .then(res =>{
+        getNoticeList();
       })
   }
   const closemodal = function(){
-    getNoticeList();
     state.isVisible = false
-      state.isupdate = false
-      state.props_data={}
+    state.isupdate = false
+    state.props_data={}
+    getNoticeList();
   }
   onMounted(()=>{
       getNoticeList();

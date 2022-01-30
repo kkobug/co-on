@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <el-row style="height: 100%">
       <el-col :span="24" style="heght: 100%">
         <el-menu
@@ -30,19 +30,23 @@
           <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
             <span>{{ item.title }}</span>
           </el-menu-item>
-          <el-menu-item class="mt-auto" style="bottom: 0; width: 100%" @click="logout">
+
+            <div v-if="whetherTchr">
+              <ul style="background: #99a9bf; color: #e5e9f2;" class="studyList">
+                <li v-for= "(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val[0], val[1])">{{val[1]}}</li>
+                <li style="position: relative; height:50px;">
+                  <div style="position : absolute; left:50%; top:50%; transform: translate(-50%, -50%)" class="studyBtn" @click="state.isVisible=true">수업생성</div>
+                </li>
+              </ul>
+              <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
+            </div>
+
+          <el-menu-item class="mt-auto" style="bottom: 0; width: 100%; position : absolute" @click="logout">
             <span >로그아웃</span>
           </el-menu-item>
         </el-menu>
       </el-col>
     </el-row>
-    <div v-if="whetherTchr">
-      <ul class="studyList">
-        <li v-for= "(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val[0], val[1])">{{val[1]}}</li>
-      </ul>
-      <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
-      <div class="studyBtn" @click="state.isVisible=true">수업생성</div>
-    </div>
   </div>
 </template>
 <style scoped>
@@ -68,10 +72,9 @@
   margin-right: 5px;
 }
 .li_zindex{
-  z-index: 10;
+  z-index: 100;
 }
 .studyList{
-  border : solid 1px black;
   border-radius: 10px;
   list-style: none;
   padding: 10px;
@@ -85,7 +88,7 @@
   width: 50px;
   height: 50px;
   border-radius: 25px;
-  border: solid 1px black;
+  border: solid 1px #e5e9f2;
   text-align: center;
   cursor: pointer;
 }
@@ -169,7 +172,6 @@ export default {
             tchrId: store.state.root.userid})
         .then(res =>{
           store.state.root.classList = res.data
-          state.tchr_scha = store.getters['root/getStudy']
         })
     }
     const closeModal = function(){
