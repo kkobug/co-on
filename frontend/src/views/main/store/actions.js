@@ -150,10 +150,10 @@ export function requestAddHomework ({ state }, payload) {
   let body = payload
   return $axios.post(url, body)
 }
-export function requestDelHomework ({ state }, body) {
-  console.log('requestDelHomework', state, paylbodyoad)
+export function requestDelHomework ({ state }, data) {
+  console.log('requestDelHomework', state, data)
   const url = `/homework/delete`
-  return $axios.delete(url, {body})
+  return $axios.delete(url, {data})
 }
 export function requestgetHomework ({ state }, payload) {
   console.log('requestgetHomework', state, payload)
@@ -201,9 +201,9 @@ export function requestaddsthw ({ state }, payload) {
   let body = payload
   return $axios.post(url, body)
 }
-export function requestdelsthw ({ state }, body) {
-  console.log('requestdelsthw', state, body)
+export function requestdelsthw ({ state }, data) {
+  console.log('requestdelsthw', state, data)
   const url = `/studenthomework/delete`
-  return $axios.delete(url, {body})
+  return $axios.delete(url, {data})
 }
 

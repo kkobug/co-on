@@ -52,8 +52,8 @@ export default {
       store.dispatch('root/requestDelHomework', {
             hwId: homwid,
             tchrId: store.state.root.userid})
-        .then({
-          gethomeworksList
+        .then(res =>{
+          gethomeworksList();
         })
     }
     const updatehomework = function(idx){
@@ -69,8 +69,8 @@ export default {
       state.props_data={}
     }
     onMounted(()=>{
-        gethomeworksList();
-      })
+      gethomeworksList();
+    })
 
     return {state, onMounted, closemodal, updatehomework, delhomeworks, gethomeworksList}
   },

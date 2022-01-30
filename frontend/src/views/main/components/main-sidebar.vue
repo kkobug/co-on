@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <el-row style="height: 100%">
       <el-col :span="24" style="heght: 100%">
         <el-menu
@@ -41,7 +41,7 @@
               <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
             </div>
 
-          <el-menu-item class="mt-auto" style="bottom: 0; width: 100%" @click="logout">
+          <el-menu-item class="mt-auto" style="bottom: 0; width: 100%; position : absolute" @click="logout">
             <span >로그아웃</span>
           </el-menu-item>
         </el-menu>
@@ -72,7 +72,7 @@
   margin-right: 5px;
 }
 .li_zindex{
-  z-index: 10;
+  z-index: 100;
 }
 .studyList{
   border-radius: 10px;
@@ -88,7 +88,7 @@
   width: 50px;
   height: 50px;
   border-radius: 25px;
-  border: solid 1px black;
+  border: solid 1px #e5e9f2;
   text-align: center;
   cursor: pointer;
 }
@@ -172,7 +172,6 @@ export default {
             tchrId: store.state.root.userid})
         .then(res =>{
           store.state.root.classList = res.data
-          state.tchr_scha = store.getters['root/getStudy']
         })
     }
     const closeModal = function(){

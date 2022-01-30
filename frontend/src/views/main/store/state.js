@@ -39,6 +39,6 @@ export default {
   curClassName: "",
   classList:{},
   curClassId: 0,
-  TchrNoticeList:[],
-  TchrHomeworkList:[],
+  TchrNoticeList:{},
+  TchrHomeworkList:{},
 }

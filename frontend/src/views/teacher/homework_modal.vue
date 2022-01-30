@@ -48,7 +48,9 @@ export default {
         hwTitle: state.title,
         studyId: store.state.root.curClassId,
         tchrId: store.state.root.userid})
-      closeModal()
+      .then(res=>{
+        closeModal();
+      })
     }
     const updatehomework = function(){
       store.dispatch('root/requestupdateHomework', {

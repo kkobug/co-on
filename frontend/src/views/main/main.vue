@@ -5,6 +5,7 @@
       <el-aside class="hide-on-small" width="240px">
         <main-sidebar
           :width="`240px`"
+          style="height : 100vh; position: relatve;"
           @logout1="logout2"
           />
       </el-aside>
