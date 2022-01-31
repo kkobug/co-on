@@ -40,7 +40,6 @@ export default {
       props_data:{}
     })
     const gethomeworksList = function(){
-      console.log("start")
       store.dispatch('root/requestListHomework', {
             studyId: store.state.root.curClassId})
         .then(res =>{

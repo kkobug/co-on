@@ -2,10 +2,10 @@
   <div class="common-layout">
     <!-- 공지사항 -->
     <el-container>
-      <p>공지사항</p>
-      <el-main>
-        <el-row v-for="item in this.notice" :key="item.id">
-          <el-col :span="6"><div class="grid-content bg-purple-light">{{item.id}}</div></el-col>
+      <el-header>공지사항</el-header>
+      <el-main v-if="this.notices">
+        <el-row v-for="notice in this.notices" :key="notice">
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{notice.noticeTitle}}</div></el-col>
           <el-col :span="18">
             <div class="grid-content bg-purple-light">
               <el-popover
@@ -13,10 +13,10 @@
                 title="Title"
                 :width="200"
                 trigger="click"
-                content="this is content, this is content, this is content"
+                content={{notice.noticeContent}}
               >
                 <template #reference>
-                  <el-button>{{item.s}}</el-button>
+                  <el-button>{{notice.noticeContent}}</el-button>
                 </template>
               </el-popover>
 
@@ -25,19 +25,29 @@
 
         </el-row>
       </el-main>
-      <el-footer>Footer</el-footer>
     </el-container>
 
     <!-- 과제 -->
     <el-container>
-      <p>과제</p>
+      <el-header>과제</el-header>
       <el-main>
-        <el-row v-for="item in this.hw" :key="item.id">
-          <el-col :span="6"><div class="grid-content bg-purple">과제명</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple-light">과목명</div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple">제출/채점</div></el-col>
-          <el-col :span="6">
-            <div class="grid-content bg-purple-light" @click="onOpenHwDialog()">
+        <el-row v-for="hw in this.hws" :key="hw">
+          <el-col :span="3"><div class="grid-content bg-purple-light">수업명</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">과제 제목</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">과제 내용</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">제출/채점</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">제출마감기한</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">제출하기</div>
+          </el-col>
+        </el-row>
+        <el-row v-for="hw in this.hws" :key="hw">
+          <el-col :span="3"><div class="grid-content bg-purple-light">{{hw.studyroom.studyName}}</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">{{hw.hwTitle}}</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{hw.hwContent}}</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">제출/채점</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{hw.hwDeadline}}</div></el-col>
+          <el-col :span="3">
+            <div class="grid-content bg-purple" @click="onOpenHwDialog()">
               제출하기
             </div>
           </el-col>
@@ -69,6 +79,9 @@ export default {
   data(){
     return{
       hwDialogOpen:false,
+      userId:undefined,
+      notices:undefined,
+      hws:undefined
     }
   },
   methods: {
@@ -78,79 +91,40 @@ export default {
     onCloseHwDialog () {
       this.hwDialogOpen = false
     },
+    getNotice(){
+      this.$store.dispatch('root/requestGetNotice',this.userId)
+      .then(result =>{
+        this.notices=result.data
+      })
+      .catch(function(err){
+        alert(err)
+      })
+    },
+    getHw(){
+      this.$store.dispatch('root/requestGetSthwlist',this.userId)
+      .then(result =>{
+        this.hws=result.data
+      })
+      .catch(function(err){
+        alert(err)
+      })
+    }
   },
   setup () {
     const router = useRouter()
     const store = useStore()
-    const notice = [
-      {id:1,s:'How to do lists in Vue'},
-      {id:2,s:'How to do lists in Vue'},
-      {id:3,s:'How to do lists in Vue'}
-    ]
-    const hw = [
-      {id:1,s:'How to do lists in Vue'},
-      {id:2,s:'How to do lists in Vue'},
-      {id:3,s:'How to do lists in Vue'}
-    ]
-    // function submitHw(){
-    //   router.push({
-    //     name:"Tchr_Lesson"
-    //   })
-    // }\
 
     // 페이지 진입시 불리는 훅
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
-      // 과제 불러오기
-      // store.dispatch('root/setMenuActiveMenuName')
-      // .then(function(result){
-      //   alert('과제 조회 성공')
-      //   console.log(result)
-      //   this.object=result
-      // })
-      // .catch(function(err){
-      //   alert(err)
-      // })
-      // 공지사항 불러오기
-      // store.dispatch('root/setMenuActiveMenuName')
-      // .then(function(result){
-      //   console.log(result)
-      //   this.object=result
-      // })
-      // .catch(function(err){
-      //   alert(err)
-      // })
     })
-    return {notice,hw}
+    return
   },
   created:function(){
-      // this.$store.dispatch('root/requestGetLesson',this.myUserName)
-      // .then(function (result) {
-      //     alert('수업 리스트')
-      //     console.log(result)
-      //     // this.object = result
-      //   })
-      //   .catch(function (err) {
-      //     alert(err)
-      //   })
-
-      // this.$store.dispatch('root/requestGetNotice',???)
-      // .then(function (result) {
-      //     alert('수업 공지사항')
-      //     console.log(result)
-      //   })
-      //   .catch(function (err) {
-      //     alert(err)
-      //   })
-
-      // this.$store.dispatch('root/requestGetHW',studyId)
-      // .then(function (result) {
-      //     alert('수업 과제')
-      //     console.log(result)
-      //   })
-      //   .catch(function (err) {
-      //     alert(err)
-      //   })
+    const localvuex=JSON.parse(localStorage.getItem('vuex'))
+    this.userId = localvuex["root"]["userid"]
+    this.getNotice()
+    this.getHw()
   }
 }
 </script>

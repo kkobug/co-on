@@ -179,7 +179,6 @@ export default {
     onMounted(()=>{
       if (store.state.root.whetherTchr){
         getClass();
-        console.log("1111111111111111111111", store.state.root.classList)
       }
     })
 

@@ -40,7 +40,6 @@ export default {
       props_data:{}
     })
   const getNoticeList = function(){
-    console.log("start")
     store.dispatch('root/requestListNotice', {
           studyId: store.state.root.curClassId})
       .then(res =>{
