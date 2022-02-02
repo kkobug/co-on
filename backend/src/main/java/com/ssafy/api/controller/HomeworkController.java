@@ -32,8 +32,11 @@ public class HomeworkController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> regist(
-            @RequestBody @ApiParam(value = "과제 출제 정보", required = true)HomeworkRegisterPostReq homeworkRegisterPostReq){
-        Homework homework = homeworkService.createHomework(homeworkRegisterPostReq);
+            @ApiParam(value = "과제 출제 정보", required = true)
+            @ModelAttribute
+                    HomeworkRegisterPostReq homeworkRegisterPostReq
+    ) throws Exception{
+        homeworkService.createHomework(homeworkRegisterPostReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
@@ -104,7 +107,7 @@ public class HomeworkController {
     })
     public  ResponseEntity<? extends BaseResponseBody> modifyHomework(
             @PathVariable @ApiParam(value = "과제 수정") Integer hwId,
-            @RequestBody HomeworkModifyReq homeworkModifyReq) {
+            @ModelAttribute HomeworkModifyReq homeworkModifyReq) {
         Homework homework = homeworkService.updateHomework(hwId, homeworkModifyReq);
         if (homework.getHwId() != hwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));

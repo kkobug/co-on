@@ -123,9 +123,17 @@ export function requestgetNotice ({ state }, payload) {
 }
 export function requestAddNotice ({ state }, payload) {
   console.log('requestAddNotice', state, payload)
+  console.log("@@@@ in actions @@@@")
+  console.log(payload)
   const url = `/notice/create`
   let body = payload
-  return $axios.post(url, body)
+  return $axios.post(url, body,
+    {
+      // headers: {
+      //   'Content-Type': 'multipart/form-data'
+      // },
+    },
+  )
 }
 export function requestDelNotice ({ state }, data) {
   console.log('requestDelNotice', state, data)
@@ -139,6 +147,7 @@ export function requestListNotice ({ state }, payload) {
 }
 export function requestUpdateNotice ({ state }, payload) {
   console.log('requestUpdateNotice', state, payload)
+  console.log(payload.noticeId)
   const url = `/notice/modify/${payload.noticeId}`
   let body = payload
   return $axios.put(url, body)
@@ -148,7 +157,15 @@ export function requestAddHomework ({ state }, payload) {
   console.log('requestUpdateHomework', state, payload)
   const url = `/homework/create`
   let body = payload
-  return $axios.post(url, body)
+  return $axios.post(url, body,
+    // {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data'
+    //   }
+    // }
+  ).catch(
+    console.log(error)
+  )
 }
 export function requestDelHomework ({ state }, body) {
   console.log('requestDelHomework', state, paylbodyoad)

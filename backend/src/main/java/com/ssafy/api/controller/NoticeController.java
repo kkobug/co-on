@@ -36,23 +36,7 @@ public class NoticeController {
 			@ApiParam(value="공지사항 작성", required = true)
 			@ModelAttribute
 					NoticeRegisterPostReq noticeRegisterPostReq
-//			@RequestParam
-//					String noticeTitle,
-//			@RequestParam
-//					String noticeContent,
-//			@RequestParam
-//					Integer studyId,
-//			@RequestParam
-//					String tchrId,
-//			@ModelAttribute
-//					MultipartFile noticeFile
 			) throws Exception{
-//				System.out.println("!!!!!!!!!!!!!!!!!!!!!");
-//				System.out.println(noticeRegisterPostReq.getNoticeTitle());
-//				System.out.println(noticeRegisterPostReq.getNoticeContent());
-//				System.out.println(noticeRegisterPostReq.getStudyId());
-//				System.out.println(noticeRegisterPostReq.getNoticeFile());
-//				System.out.println("!!!!!!!!!!!!!!!!!!!!!");
 				noticeService.createNotice(noticeRegisterPostReq);
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -96,7 +80,7 @@ public class NoticeController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> modify(
 			@PathVariable @ApiParam(value = "공지사항 수정") Long noticeId,
-			@RequestBody NoticeUpdatePutReq noticeUpdatePutReq) {
+			@ModelAttribute NoticeUpdatePutReq noticeUpdatePutReq) {
 		Notice notice = noticeService.updateNotice(Math.toIntExact(noticeId), noticeUpdatePutReq);
 		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));

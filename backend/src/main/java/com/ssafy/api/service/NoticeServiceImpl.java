@@ -47,12 +47,12 @@ public class NoticeServiceImpl implements NoticeService{
                 newFile.setNoticeId(notice.getNoticeId());
 
                 String sourceFileName = multipartFile.getOriginalFilename();
-                String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase();
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
                 String noticePath = "D:/";
+                LocalDateTime nowtime = LocalDateTime.now();
 
-                destinationNoticeFileName = RandomStringUtils.randomAlphanumeric(8) + "." + sourceFileNameExtension;
+                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
 
                 destinationNoticeFile.getParentFile().mkdirs();
@@ -98,12 +98,12 @@ public class NoticeServiceImpl implements NoticeService{
                 newFile.setNoticeId(notice.getNoticeId());
 
                 String sourceFileName = multipartFile.getOriginalFilename();
-                String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase();
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
                 String noticePath = "D:/";
+                LocalDateTime nowtime = LocalDateTime.now();
 
-                destinationNoticeFileName = RandomStringUtils.randomAlphanumeric(8) + "." + sourceFileNameExtension;
+                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
 
                 destinationNoticeFile.getParentFile().mkdirs();

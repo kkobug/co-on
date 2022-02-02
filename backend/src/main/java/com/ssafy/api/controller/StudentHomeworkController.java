@@ -32,9 +32,12 @@ public class StudentHomeworkController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> register(
-			@RequestBody @ApiParam(value="과제 작성", required = true) StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq) {
-		StudentHomework studentHomework = studentHomeworkService.createStudentHomework(studentHomeworkRegisterPostReq);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+			@ApiParam(value="과제 작성", required = true)
+			@ModelAttribute
+					StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq
+			) throws Exception{
+				studentHomeworkService.createStudentHomework(studentHomeworkRegisterPostReq);
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
 	@DeleteMapping("delete")
@@ -62,7 +65,7 @@ public class StudentHomeworkController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> modify(
 			@PathVariable @ApiParam(value = "학생 과제 수정") Integer stHwId,
-			@RequestBody @ApiParam(value="학생 과제 수정정보", required = true) StudentHomeworkUpdatePutReq studentHomeworkUpdatePutReq) {
+			@ModelAttribute @ApiParam(value="학생 과제 수정정보", required = true) StudentHomeworkUpdatePutReq studentHomeworkUpdatePutReq) {
 		StudentHomework studentHomework = studentHomeworkService.StudentHomeworkupdateNotice(stHwId, studentHomeworkUpdatePutReq);
 		if (studentHomework.getStHwId() != stHwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
