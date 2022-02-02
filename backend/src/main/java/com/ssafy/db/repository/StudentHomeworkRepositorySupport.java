@@ -1,7 +1,6 @@
 package com.ssafy.db.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.db.entity.Notice;
 import com.ssafy.db.entity.QNotice;
 import com.ssafy.db.entity.QStudentHomework;
 import com.ssafy.db.entity.StudentHomework;

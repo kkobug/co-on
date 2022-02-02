@@ -3,7 +3,6 @@ package com.ssafy.db.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
@@ -17,19 +16,19 @@ public class Notice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "notice_id", updatable = false)
-    int noticeId;
+    Long noticeId;
     @Column(name= "study_id", updatable = false)
-    int studyId;
+    Integer studyId;
     @Column(name= "tchr_id", updatable = false)
     String tchrId;
-    @Column(name= "notice_title")
-    String noticeTitle;
-    @Column(name= "notice_content")
-    String noticeContent;
 
-    //생성/수정일자 자동 갱신
+
+    @Column(name= "notice_title")    // 제목
+    String noticeTitle;
+    @Column(name= "notice_content")  // 내용
+    String noticeContent;
     @CreationTimestamp
     @LastModifiedDate
-    @Column(name= "notice_posted")
+    @Column(name= "notice_posted")  // 최종 수정일
     LocalDateTime noticePosted;
 }
