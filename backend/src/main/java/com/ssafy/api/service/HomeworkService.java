@@ -20,4 +20,6 @@ public interface HomeworkService {
 //    과제 삭제
     @Transactional
     void deleteHomework(int hwId, String tchrId);
+
+    List<int[]> countBystId(String stId);
 }

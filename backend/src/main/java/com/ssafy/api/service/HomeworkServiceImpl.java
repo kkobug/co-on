@@ -39,6 +39,11 @@ public class HomeworkServiceImpl implements HomeworkService{
     }
 
     @Override
+    public List<int[]> countBystId(String stId) {
+        return homeworkRepository.countBystId(stId);
+    }
+
+    @Override
     public List<Homework> findHomeworkBystId(String stId) {
         return homeworkRepository.findHomeworkBystId(stId);
     }

@@ -123,4 +123,20 @@ public class HomeworkController {
         List<Homework> list = homeworkService.findHomeworkBystId(stId);
         return ResponseEntity.status(200).body(list);
     }
+
+    @GetMapping("/student/rate/{stId}")
+    @ApiOperation(value = "학생이 제출한 과제와 남은 과제 수", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<List<int[]>> rate(@PathVariable String stId){
+        List<int[]> list = homeworkService.countBystId(stId);
+        //전체 과제 - 제출 과제 = 남은 과제
+        int[] arr = list.get(0);
+        arr[1] = arr[1] -arr[0];
+        return ResponseEntity.status(200).body(list);
+    }
 }
