@@ -31,11 +31,21 @@
       <div>session</div>
 			<div id="session-header">
 				<h1 id="session-title">{{ mySessionId }}</h1>
-				<input v-if="micOn" class="btn btn-large btn-success" type="button" id="buttonMic" @click="micControl" value="MICOFF">
-				<input v-else class="btn btn-large btn-success" type="button" id="buttonMic" @click="micControl" value="MICON">
-				<input v-if="camOn" class="btn btn-large btn-primary" type="button" id="buttonCam" @click="camControl" value="CAMOFF">
-				<input v-else class="btn btn-large btn-primary" type="button" id="buttonCam" @click="camControl" value="CAMON">
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+        <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
+          <font-awesome-icon icon="microphone-slash" />
+        </el-button>
+        <el-button circle v-else id="buttonMic" @click="micControl" value="MICON">
+          <font-awesome-icon icon="microphone" />
+        </el-button>
+        <el-button circle v-if="camOn" id="buttonCam" @click="camControl" value="CAMOFF">
+          <font-awesome-icon icon="video-slash" />
+        </el-button>
+        <el-button circle v-else id="buttonCam" @click="camControl" value="CAMON">
+          <font-awesome-icon icon="video" />
+        </el-button>
+        <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+          <font-awesome-icon icon="door-open" />
+        </el-button>
 			</div>
 			<div id="main-video" class="col-md-6">
 				<user-video :stream-manager="mainStreamManager"/>
@@ -82,8 +92,8 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
-			camOn: true,
-			micOn: true,
+			camOn: false,
+			micOn: false,
       ovToken: undefined,
 
 			mySessionId: null,         // 세션 이름 (Unique)
@@ -123,6 +133,7 @@ export default {
       })
     },
 		joinSession (classId) {
+      console.log('입장시간:'+new Date())
       this.mySessionId=classId
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -190,6 +201,7 @@ export default {
 
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
+      console.log('퇴장시간:'+new Date())
 			if (this.session) this.session.disconnect();
 
 			this.session = undefined;

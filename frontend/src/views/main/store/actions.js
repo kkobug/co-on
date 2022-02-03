@@ -4,7 +4,7 @@ import $axios from 'axios'
 // Auth
 // 학생 로그인
 export function requestStLogin ({ state }, payload) {
-  console.log('requestLogin', state, payload)
+  console.log('requestLogin')
   const url = '/auth/studentlogin'
   let body = payload
   return $axios.post(url, body)
@@ -20,14 +20,14 @@ export function requestTchrLogin ({ state }, payload) {
 // User
 // 회원 아이디 찾기
 export function requestFindid ({ state }, payload) {
-  console.log('requestFindid', state, payload)
+  console.log('requestFindid')
   const url = '/findId'
   let body = payload
   return $axios.post(url, body)
 }
 // 학생 비밀번호 재설정
 export function requestChangeStPassword ({ state }, payload) {
-  console.log('requestChangeStPassword', state, payload)
+  console.log('requestChangeStPassword')
   const url = `/findPassword?stId=${payload['stId']}&stPassword=${payload['stPassword']}`
   return $axios.put(url)
 }
@@ -39,13 +39,13 @@ export function requestFindTchrid ({ state }, payload) {
 }
 // 교사 비밀번호 재설정
 export function requestChangeTchrPassword ({ state }, payload) {
-  console.log('requestChangeTchrPassword', state, payload)
+  console.log('requestChangeTchrPassword')
   const url = `/findTeacherPassword?tchrId=${payload['tchrId']}&tchrPassword=${payload['tchrPassword']}`
   return $axios.put(url)
 }
 // 학생 회원 본인 정보 조회 -- 일단 안 쓰는 기능
 export function requestLookupstudent ({ state }, payload) {
-  console.log('requestLookupstudent', state, payload)
+  console.log('requestLookupstudent')
   const url = '/student/me'
   let body = payload
   return $axios.get(url, body)
@@ -58,7 +58,7 @@ export function requestModifyStudent ({ state }, payload) {
 }
 // 학생 회원 가입
 export function requestStSignup ({ state }, payload) {
-  console.log('requestSignup', state, payload)
+  console.log('requestSignup')
   const url = '/student/signup'
   let body = payload
   return $axios.post(url, body)
@@ -76,14 +76,14 @@ export function requestModifyTeacher ({ state }, payload) {
 }
 // 교사 회원 가입
 export function requestTchrSignup ({ state }, payload) {
-  console.log('requestTchrSignup', state, payload)
+  console.log('requestTchrSignup')
   const url = '/teacher/signup'
   let body = payload
   return $axios.post(url, body)
 }
 // 학생 조회
 export function requestGetStudent ({ state }) {
-  console.log('requestGetStudent', state)
+  console.log('requestGetStudent')
   const url = `/teacher/studentlist`
   return $axios.get(url)
 }
@@ -97,14 +97,14 @@ export function requestDeleteTeacher ({ state }, payload) {
 // StudyRoom
 // 수업 개설
 export function requestTchrCreateClass ({ state }, payload) {
-  console.log('requestTchrCreateClass', state, payload)
+  console.log('requestTchrCreateClass')
   const url = `/studyRoom/create`
   let body = payload
   return $axios.post(url, body)
 }
 // 수업 삭제
 export function requestDeleteClass ({ state }, data) {
-  console.log('requestDeleteClass', state, data)
+  console.log('requestDeleteClass')
   const url = '/studyRoom/delete'
   // return $axios.delete(url, {data:{body}})
   return $axios.delete(url, {data})
@@ -112,22 +112,28 @@ export function requestDeleteClass ({ state }, data) {
 }
 // 교사 수업 조회
 export function requestGetTchrClass ({ state }, payload) {
-  console.log('requestGetTchrClass', state, payload)
+  console.log('requestGetTchrClass')
   const url = `/studyRoom/teacher/list/${payload.tchrId}`
   let body = payload
   return $axios.get(url, body)
 }
 
 // StudyRoomDetail
-// 학생 수업 조회
+// 학생 수업 학생 ID 조회
 export function requestGetClass ({ state }, payload) {
-  console.log('requestGetClass', state, payload)
+  console.log('requestGetClass')
   const url = `/studyRoomDetail/student/list/${payload}`
+  return $axios.get(url)
+}
+// 학생 수업 수업 ID 조회
+export function requestGetClassStudyId ({ state }, payload) {
+  console.log('requestGetClassStudyId')
+  const url = `/studyRoomDetail/student/studylist/${payload}`
   return $axios.get(url)
 }
 // 학생 추가
 export function requestAddStudentInStudy ({ state }, payload) {
-  console.log('requestAddStudentInStudy', state, payload)
+  console.log('requestAddStudentInStudy')
   const url = `/studyRoomDetail/teacher/add`
   let body = payload
   return $axios.post(url, body)
@@ -136,46 +142,46 @@ export function requestAddStudentInStudy ({ state }, payload) {
 // Notice
 // 공지사항 정보 조회
 export function requestgetNotice ({ state }, payload) {
-  console.log('requestgetNotice', state, payload)
+  console.log('requestgetNotice')
   const url = `/notice/${payload.notice_id}`
   let body = payload
   return $axios.get(url, body)
 }
 // 교사 공지사항 입력
 export function requestAddNotice ({ state }, payload) {
-  console.log('requestAddNotice', state, payload)
+  console.log('requestAddNotice')
   const url = `/notice/create`
   let body = payload
   return $axios.post(url, body)
 }
 // 공지사항 삭제
 export function requestDelNotice ({ state }, data) {
-  console.log('requestDelNotice', state, data)
+  console.log('requestDelNotice')
   const url = `/notice/delete`
   return $axios.delete(url, {data})
 }
 // 공지사항 수정
 export function requestUpdateNotice ({ state }, payload) {
-  console.log('requestUpdateNotice', state, payload)
+  console.log('requestUpdateNotice')
   const url = `/notice/modify/${payload.noticeId}`
   let body = payload
   return $axios.put(url, body)
 }
 // 학생이 속한 수업의 공지 조회
 export function requestListNotice ({ state }, payload) {
-  console.log('requestListNotice', state, payload)
+  console.log('requestListNotice')
   const url = `/notice/study/list/${payload.studyId}`
   return $axios.get(url)
 }
 // 수업에 포함된 공지사항 조회
 export function requestGetNotice ({ state }, payload) {
-  console.log('requestGetNotice', state, payload)
+  console.log('requestGetNotice')
   const url = `/notice/student/list/${payload}`
   return $axios.get(url)
 }
 // 교사가 출제한 과제 조회
 export function requestTchrListHomework ({ state }, payload) {
-  console.log('requestTchrListHomework', state, payload)
+  console.log('requestTchrListHomework')
   const url = `/homework/teacher/${payload.tchrId}`
   let body = payload
   return $axios.get(url, body)
@@ -186,40 +192,40 @@ export function requestTchrListHomework ({ state }, payload) {
 // Homework
 // 과제 출제
 export function requestAddHomework ({ state }, payload) {
-  console.log('requestUpdateHomework', state, payload)
+  console.log('requestUpdateHomework')
   const url = `/homework/create`
   let body = payload
   return $axios.post(url, body)
 }
 // 과제 삭제
 export function requestDelHomework ({ state }, body) {
-  console.log('requestDelHomework', state, paylbodyoad)
+  console.log('requestDelHomework')
   const url = `/homework/delete`
   return $axios.delete(url, {body})
 }
 // 과제의 상세 내용 조회 조회
 export function requestgetHomework ({ state }, payload) {
-  console.log('requestgetHomework', state, payload)
+  console.log('requestgetHomework')
   const url = `/homework/detail/${payload.hwId}`
   let body = payload
   return $axios.get(url, body)
 }
 // 과제 수정
 export function requestupdateHomework ({ state }, payload) {
-  console.log('requestgetHomework', state, payload)
+  console.log('requestgetHomework')
   const url = `/homework/modify/${payload.hwId}`
   let body = payload
   return $axios.put(url, body)
 }
 // 학생이 속한 수업의 과제 조회
 export function requestGetSthwlist ({ state }, payload) {
-  console.log('requestGetSthwlist', payload)
+  console.log('requestGetSthwlist')
   const url = `/homework/student/${payload}`
   return $axios.get(url)
 }
 // 수업에 포함된 과제 조회
 export function requestListHomework ({ state }, payload) {
-  console.log('requestListHomework', state, payload)
+  console.log('requestListHomework')
   const url = `/homework/study/${payload.studyId}`
   let body = payload
   return $axios.get(url, body)
@@ -229,40 +235,40 @@ export function requestListHomework ({ state }, payload) {
 // StudentHomework
 // 학생 과제 제출
 export function requestSubmitHw ({ state }, payload) {
-  console.log('requestSubmitHw', state, payload)
+  console.log('requestSubmitHw')
   const url = `/studenthomework/create`
   let body = payload
   return $axios.post(url, body)
 }
 // 학생과제 삭제
 export function requestDelSthw ({ state }, body) {
-  console.log('requestDelSthw', state, payload)
+  console.log('requestDelSthw')
   const url = `/studenthomework/delete`
   return $axios.delete(url, {body})
 }
 // 학생 과제 세부 조회
 export function requestGetSthwdetail ({ state }, payload) {
-  console.log('requestGetSthwdetail', state, payload)
+  console.log('requestGetSthwdetail')
   const url = `/studenthomework/detail/${payload}`
   let body = payload
   return $axios.get(url, body)
 }
 // 학생 과제 수정
 export function requestUpdateSthw ({ state }, payload) {
-  console.log('requestgetHomework', state, payload)
+  console.log('requestgetHomework')
   const url = `/studenthomework/modify/${payload}`
   let body = payload
   return $axios.put(url, body)
 }
 // 학생이 제출한 과제 조회
 export function requestGetDonesthw ({ state }, payload) {
-  console.log('requestGetDonesthw', state, payload)
+  console.log('requestGetDonesthw')
   const url = `/studenthomework/student/list/${payload}`
   return $axios.get(url)
 }
 // 수업에 포함된 과제 조회
 export function requestGetHwlist ({ state }, payload) {
-  console.log('requestGetHwlist', state, payload)
+  console.log('requestGetHwlist')
   const url = `/studenthomework/teacher/list/${payload}`
   return $axios.get(url)
 }

@@ -5,14 +5,36 @@
         <el-form-item prop="id" label="수업" :label-width="state.formLabelWidth" >
           <el-input v-model="state.form.classname" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item prop="password" label="시작시간" :label-width="state.formLabelWidth">
-          <el-input v-model="state.form.starttime" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item prop="password" label="종료시간" :label-width="state.formLabelWidth">
-          <el-input v-model="state.form.endtime" autocomplete="off"></el-input>
+        <el-form-item prop="id" label="시작/종료시간" :label-width="state.formLabelWidth" >
+          <el-time-select
+            v-model="state.startTime"
+            :max-time="state.endTime"
+            class="mr-4"
+            placeholder="Start time"
+            start="08:30"
+            step="00:15"
+            end="18:30"
+          >
+          </el-time-select>
+          <el-time-select
+            v-model="state.endTime"
+            :min-time="state.startTime"
+            placeholder="End time"
+            start="08:30"
+            step="00:15"
+            end="18:30"
+          >
+          </el-time-select>
         </el-form-item>
         <el-form-item prop="password" label="출석인정시간" :label-width="state.formLabelWidth">
-          <el-input v-model="state.form.atdtime" autocomplete="off"></el-input>
+          <el-time-select
+            v-model="state.atdTime"
+            placeholder="attendance time"
+            start="00:15"
+            step="00:15"
+            end="03:00"
+          >
+          </el-time-select>
         </el-form-item>
       </el-form>
       <el-row class="row-btn" style="margin-top: 40px">
@@ -22,7 +44,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed, ref, onMounted } from 'vue'
+import { reactive, computed, ref, onMounted, unref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -40,21 +62,16 @@ export default {
     const router = useRouter()
     const store = useStore()
     const loginForm = ref(null)
-
     const state = reactive({
       form: {
         classname: '',
-        starttime: '',
-        endtime: '',
-        atdtime: '',
+        startTime: ref(''),
+        endTime: ref(''),
+        atdTime: '',
         align: 'left'
       },
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
-    })
-
-    onMounted(() => {
-      // console.log(loginForm.value)
     })
 
     const handleClose = function () {
@@ -63,6 +80,8 @@ export default {
       emit('closeVideoDialog')
     }
     const EnrollClass = function () {
+      console.log('시작/종료:'+unref(state.startTime)+unref(state.endTime))
+      console.log('출석인정:'+unref(state.atdTime))
     //   // 수정 필요
     //   store.dispatch('root/requestFindid',
     //    {stEmail: state.form.classname,

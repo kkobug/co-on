@@ -21,7 +21,11 @@
   @import './main.css';
   @import '../../common/css/common.css';
   @import '../../common/css/element-plus.css';
+.main-wrapper{
+  /* background-color: #E0E4D7; */
+  background-color: #E7EDDE;
 
+}
 </style>
 <script>
 import MainSidebar from './components/main-sidebar'
