@@ -6,13 +6,15 @@ import com.ssafy.api.request.StudentHomeworkRegisterPostReq;
 import com.ssafy.api.request.StudentHomeworkUpdatePutReq;
 import com.ssafy.db.entity.Homework;
 import com.ssafy.db.entity.StudentHomework;
-import com.ssafy.db.repository.HomeworkRepository;
-import com.ssafy.db.repository.HomeworkRepositorySupport;
-import com.ssafy.db.repository.StudentHomeworkRepository;
-import com.ssafy.db.repository.StudentHomeworkRepositorySupport;
+import com.ssafy.db.entity.StudentHomeworkFile;
+import com.ssafy.db.repository.*;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +23,9 @@ import java.util.Objects;
 public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     @Autowired
     StudentHomeworkRepository studenthomeworkRepository;
+
+    @Autowired
+    StudentHomeworkFileRepository studentHomeworkFileRepository;
 
     @Autowired
     StudentHomeworkRepositorySupport studenthomeworkRepositorySupport;
@@ -33,16 +38,46 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
         studenthomework.setTchrId(studentHomeworkRegisterPostReq.getTchrId());
         studenthomework.setStId(studentHomeworkRegisterPostReq.getStId());
         studenthomework.setStHwcontent(studentHomeworkRegisterPostReq.getStHwContent());
-        return studenthomeworkRepository.save(studenthomework);
+        studenthomeworkRepository.save(studenthomework);
+        if (!studentHomeworkRegisterPostReq.getStHwFile().get(0).isEmpty()){
+            List<MultipartFile> sthwFile = studentHomeworkRegisterPostReq.getStHwFile();
+            for (MultipartFile multipartFile : sthwFile) {
+                StudentHomeworkFile newFile = new StudentHomeworkFile();
+                newFile.setStHwId(studenthomework.getStHwId());
+
+                String sourceFileName = multipartFile.getOriginalFilename();
+                File destinationNoticeFile;
+                String destinationNoticeFileName;
+                String noticePath = "D:/";
+                LocalDateTime nowtime = LocalDateTime.now();
+
+                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
+
+                destinationNoticeFile.getParentFile().mkdirs();
+                try {
+                    multipartFile.transferTo(destinationNoticeFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                newFile.setFileName(destinationNoticeFileName);
+                newFile.setFileOriginName(sourceFileName);
+                newFile.setFilePath(noticePath);
+                studentHomeworkFileRepository.save(newFile);
+
+            }
+        }
+        return studenthomework;
     }
 
     @Override
-    public void deleteStudentHomework(int stHwId, String stId) {
+    public void deleteStudentHomework(Integer stHwId, String stId) {
         studenthomeworkRepositorySupport.deleteStudentHomeworkByStHwIdAndStId(stHwId, stId);
     }
 
     @Override
-    public StudentHomework StudentHomeworkupdateNotice(int stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) {
+    public StudentHomework StudentHomeworkupdateNotice(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) {
         StudentHomework studenthomework = new StudentHomework();
         studenthomework.setStHwId(StudentHomeworkUpdatePutReq.getStHwId());
 //        studenthomework.setHwId(StudentHomeworkUpdatePutReq.getHwId());
@@ -52,11 +87,42 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
         studenthomework.setStHwcontent(StudentHomeworkUpdatePutReq.getStHwContent());
         studenthomework.setStHwposted(LocalDateTime.now());
         if (!Objects.equals(StudentHomeworkUpdatePutReq.getStHwId(), stHwId)) return studenthomework;
-        return studenthomeworkRepository.save(studenthomework);
+        studenthomeworkRepository.save(studenthomework);
+        studentHomeworkFileRepository.deleteStudentHomeworkFileByStHwId(stHwId);
+        if (!StudentHomeworkUpdatePutReq.getStHwFile().get(0).isEmpty()){
+            List<MultipartFile> sthwFile = StudentHomeworkUpdatePutReq.getStHwFile();
+            for (MultipartFile multipartFile : sthwFile) {
+                StudentHomeworkFile newFile = new StudentHomeworkFile();
+                newFile.setStHwId(studenthomework.getStHwId());
+
+                String sourceFileName = multipartFile.getOriginalFilename();
+                File destinationNoticeFile;
+                String destinationNoticeFileName;
+                String noticePath = "D:/";
+                LocalDateTime nowtime = LocalDateTime.now();
+
+                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
+
+                destinationNoticeFile.getParentFile().mkdirs();
+                try {
+                    multipartFile.transferTo(destinationNoticeFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                newFile.setFileName(destinationNoticeFileName);
+                newFile.setFileOriginName(sourceFileName);
+                newFile.setFilePath(noticePath);
+                studentHomeworkFileRepository.save(newFile);
+
+            }
+        }
+        return studenthomework;
     }
 
     @Override
-    public List<StudentHomework> findStudentHomeworkByHwId(int hwId) {
+    public List<StudentHomework> findStudentHomeworkByHwId(Integer hwId) {
         return studenthomeworkRepositorySupport.findStudentHomeworkByHwId(hwId);
     }
 
@@ -66,7 +132,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
-    public StudentHomework findBystHwId(int stHwId) {
+    public StudentHomework findBystHwId(Integer stHwId) {
         StudentHomework studentHomework = studenthomeworkRepositorySupport.findBystHwId(stHwId).get();
         return studentHomework;
     }

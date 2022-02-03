@@ -32,8 +32,11 @@ public class HomeworkController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> regist(
-            @RequestBody @ApiParam(value = "과제 출제 정보", required = true)HomeworkRegisterPostReq homeworkRegisterPostReq){
-        Homework homework = homeworkService.createHomework(homeworkRegisterPostReq);
+            @ApiParam(value = "과제 출제 정보", required = true)
+            @ModelAttribute
+                    HomeworkRegisterPostReq homeworkRegisterPostReq
+    ) throws Exception{
+        homeworkService.createHomework(homeworkRegisterPostReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
@@ -88,7 +91,7 @@ public class HomeworkController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> delete(@RequestBody HomeworkDeleteReq homeworkDeleteReq){
-        int hwId = homeworkDeleteReq.getHwId();
+        Integer hwId = homeworkDeleteReq.getHwId();
         String tchrId = homeworkDeleteReq.getTchrId();
         homeworkService.deleteHomework(hwId, tchrId);
         return ResponseEntity.status(200).body("OK");
@@ -104,7 +107,7 @@ public class HomeworkController {
     })
     public  ResponseEntity<? extends BaseResponseBody> modifyHomework(
             @PathVariable @ApiParam(value = "과제 수정") Integer hwId,
-            @RequestBody HomeworkModifyReq homeworkModifyReq) {
+            @ModelAttribute HomeworkModifyReq homeworkModifyReq) {
         Homework homework = homeworkService.updateHomework(hwId, homeworkModifyReq);
         if (homework.getHwId() != hwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -121,6 +124,22 @@ public class HomeworkController {
     public ResponseEntity<List<Homework>> student_list(
             @PathVariable @ApiParam(value = "학생ID", required = true)String stId){
         List<Homework> list = homeworkService.findHomeworkBystId(stId);
+        return ResponseEntity.status(200).body(list);
+    }
+
+    @GetMapping("/student/rate/{stId}")
+    @ApiOperation(value = "학생이 제출한 과제와 남은 과제 수", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<List<int[]>> rate(@PathVariable String stId){
+        List<int[]> list = homeworkService.countBystId(stId);
+        //전체 과제 - 제출 과제 = 남은 과제
+        int[] arr = list.get(0);
+        arr[1] = arr[1] -arr[0];
         return ResponseEntity.status(200).body(list);
     }
 }

@@ -2,11 +2,14 @@
   <div class ="modal">
     <div class="overlay" @click="closeModal">X</div>
     <div><p>과제 등록</p></div>
-    <div><label for="title">제목</label><input v-model="state.title" name="title" type="text"></div>
-    <div><label for="explain">설명</label><input v-model="state.contents" name="explain" type="text"></div>
-    <div><label for="date">날짜</label><input v-model="state.date" name="date" type="text"></div>
-    <button v-if="isupdate" @click="updatehomework">수정</button>
-    <button v-else @click="addhomework">등록</button>
+    <form action="#" id="hwForm" method="post" enctype="multipart/form-data">
+      <div><label for="title">제목</label><input v-model="state.title" name="title" type="text"></div>
+      <div><label for="explain">설명</label><input v-model="state.contents" name="explain" type="text"></div>
+      <div><label for="date">날짜</label><input v-model="state.date" name="date" type="text"></div>
+      <div><label for="hwFile">파일</label><input type="file" multiple="multiple" @change="addFile" ref="refNoticeFile" name="hwFile" id="hwFile"></div>
+      <button v-if="isupdate" @click="updatehomework">수정</button>
+      <button v-else @click="addhomework">등록</button>
+    </form>
   </div>
 </template>
 
@@ -26,7 +29,8 @@ export default {
       contents : props.pdata.hwContent,
       date : props.pdata.hwDeadline,
       hwid :props.pdata.hwId,
-      posted : "2022-01-26 15:14:24"
+      posted : "2022-01-26 15:14:24",
+      hwFile : null,
     })
     const closeModal = function(){
       state.title = null
@@ -34,6 +38,7 @@ export default {
       state.date = null
       state.isupdate = false
       state.hwid = null
+      state.hwFile = null
       context.emit('close-modal')
     }
     const showRequest = (request)=> {
@@ -42,12 +47,11 @@ export default {
       dataChange(reqObject);
     };
     const addhomework = function(){
-      store.dispatch('root/requestAddHomework', {
-        hwContent: state.contents,
-        hwDeadline: "2022-02-18 12:00",
-        hwTitle: state.title,
-        studyId: store.state.root.curClassId,
-        tchrId: store.state.root.userid})
+      var hwFormData = new FormData(document.querySelector('#hwForm'))
+      hwFormData.append('studyId', state.id)
+      hwFormData.append()
+
+      store.dispatch('root/requestAddHomework', hwFormData)
       closeModal()
     }
     const updatehomework = function(){
@@ -71,7 +75,12 @@ export default {
 
       showRequest(props.pdata);
     })
-    return {state, addhomework, closeModal, dataChange, updatehomework}
+    const addFile = function(event) {
+      var files = event.target.files
+      var filesArr = Array.prototype.slice.call(files)
+      state.hwFile = filesArr
+    }
+    return {state, addhomework, closeModal, dataChange, updatehomework, addFile}
   },
 
 };

@@ -1,10 +1,7 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.NoticeRegisterPostReq;
-import com.ssafy.api.request.NoticeUpdatePutReq;
 import com.ssafy.api.request.StudentHomeworkRegisterPostReq;
 import com.ssafy.api.request.StudentHomeworkUpdatePutReq;
-import com.ssafy.db.entity.Notice;
 import com.ssafy.db.entity.StudentHomework;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +15,15 @@ public interface StudentHomeworkService {
 	StudentHomework createStudentHomework(StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq);
 	// 과제 삭제(과제 ID와 학생 ID로 삭제)
 	@Transactional
-	void deleteStudentHomework(int stHwId, String stId);
+	void deleteStudentHomework(Integer stHwId, String stId);
 	//학생 과제 수정
-	StudentHomework StudentHomeworkupdateNotice(int stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq);
+	StudentHomework StudentHomeworkupdateNotice(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq);
 
     //학생 과제 조회 (학생ID에 따라, 과제ID에 따라, 학생 조회)
-	List<StudentHomework> findStudentHomeworkByHwId(int hwId);
+	List<StudentHomework> findStudentHomeworkByHwId(Integer hwId);
 	List<StudentHomework> findStudentHomeworkByStId(String stId);
 
 	// 공지사항 상세 조회
-	StudentHomework findBystHwId(int stHwId);
+	StudentHomework findBystHwId(Integer stHwId);
 
 }

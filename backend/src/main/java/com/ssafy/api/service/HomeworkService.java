@@ -19,5 +19,7 @@ public interface HomeworkService {
     Homework updateHomework(Integer hwId, HomeworkModifyReq homeworkModifyReq);
 //    과제 삭제
     @Transactional
-    void deleteHomework(int hwId, String tchrId);
+    void deleteHomework(Integer hwId, String tchrId);
+
+    List<int[]> countBystId(String stId);
 }

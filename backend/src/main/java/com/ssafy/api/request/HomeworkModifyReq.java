@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @Getter
@@ -24,4 +27,6 @@ public class HomeworkModifyReq {
     String hwDeadline;
     @ApiModelProperty(name = "작성일자", example= "")
     String hwPosted;
+    @ApiModelProperty
+    List<MultipartFile> hwFile;
 }

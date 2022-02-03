@@ -20,10 +20,9 @@ public class StudyRoomdetailRepositorySupport {
     QStudyroomDetail qStudyroomDetail = QStudyroomDetail.studyroomDetail;
 
     public List<Studyroom> findStudyroomBystId(String stId) {
-        List<Studyroom> list = jpaQueryFactory.select(qStudyroom).from(qStudyroom)
+        return jpaQueryFactory.select(qStudyroom).from(qStudyroom)
                 .join(qStudyroomDetail).on(qStudyroomDetail.studyId.eq(qStudyroom.studyId))
                 .where(qStudyroomDetail.stId.eq(stId)).fetch();
-        return list;
     }
 //    public List<Tuple> findstIdAndstName(){
 //        List<Tuple> list = jpaQueryFactory.select(qStudent.stId,qStudent.stName).from(qStudent).fetch();

@@ -4,13 +4,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @Setter
 @ApiModel("NoticeUpdatePutRequest")
 public class NoticeUpdatePutReq {
     @ApiModelProperty(name = "notice ID", example = "null")
-    int noticeId;
+    Integer noticeId;
 //    @ApiModelProperty(name = "클래스 ID", example = "1")
 //    int studyId;
 //    @ApiModelProperty(name = "교수 ID", example = "1")
@@ -19,6 +22,6 @@ public class NoticeUpdatePutReq {
     String noticeTitle;
     @ApiModelProperty(name = "공지사항 본문", example = "공지사항 내용")
     String noticeContent;
-    @ApiModelProperty(name = "공지사항 작성일자", example= "")
-    String noticePosted;
+    @ApiModelProperty
+    List<MultipartFile> noticeFile;
 }

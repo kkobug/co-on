@@ -14,9 +14,9 @@ public class StudyroomDetail implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "studyroom_detail_id")
-    int studyroomDetailId;
+    Integer studyroomDetailId;
     @Column(name = "study_id")
-    int studyId;
+    Integer studyId;
     @Column(name = "tchr_id")
     String tchrId;
     @Column(name ="st_id")

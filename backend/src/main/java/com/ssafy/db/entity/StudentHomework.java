@@ -17,13 +17,13 @@ public class StudentHomework implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "st_hwid", updatable = false)
-    int stHwId;
+    Integer stHwId;
     @Column(name = "hw_id", updatable = false)
-    int hwId;
+    Integer hwId;
     @Column(name = "study_id", updatable = false)
-    int studyId;
+    Integer studyId;
     @Column(name = "st_hwscore")
-    int stHwscore;
+    Integer stHwscore;
     @Column(name = "tchr_id", updatable = false)
     String tchrId;
     @Column(name = "st_id", updatable = false)

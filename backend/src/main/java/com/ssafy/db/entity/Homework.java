@@ -31,12 +31,6 @@ public class Homework implements Serializable {
     @LastModifiedDate
     @Column(name = "hw_posted")
     LocalDateTime hwPosted;
-//    @Column(name = "hw_file")
-//    Byte[] hwFile;
-//    @Column(name = "hw_file_name")
-//    String hwFileName;
-//    @Column(name = "hw_file_origin_name")
-//    String hwFileOriginName;
     @ManyToOne
     @JoinColumn(name = "study_id", insertable = false, updatable = false)
     private Studyroom studyroom;
