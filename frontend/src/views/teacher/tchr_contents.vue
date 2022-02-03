@@ -2,7 +2,7 @@
   <div>
     <tchr-nav></tchr-nav>
     <el-row :gutter="20">
-      <el-col :span="20" style="margin-left: 15vh">
+      <el-col :span="20" style="margin-left: 15vh; min-height: 100vh;">
           <h1 style="text-align:center; margin-top: 3vh; font-size: 30px">{{ state.classId }}반의 수업 {{ state.classtitle }}</h1>
           <homework></homework>
           <notice></notice>

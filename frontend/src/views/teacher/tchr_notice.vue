@@ -13,6 +13,13 @@
         </div>
         <div class="li-right li-sec">
           <div class ="li-time li-item">{{ntice.noticePosted}}</div>
+          <div class ="li-item filebar">
+            안녕하세요
+            <ul>
+              <!-- <li v-for="nf in notice.File" :key = "nf.id"></li> -->
+              <p>인사</p>
+            </ul>
+          </div>
           <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
           <el-button type="text" class="li-item" @click ="delNotice(ntice.noticeId)">삭제</el-button>
         </div>
@@ -99,5 +106,18 @@ export default {
 .sub_btn{
   padding: 5px;
   margin: 20px;
+
+}
+.filebar>ul {
+  display: none;
+  position: absolute;
+  padding: 10px;
+  min-width: 100px;
+  min-height: 150px;
+  border: solid 1px black;
+  background-color: blanchedalmond;
+}
+.filebar:hover>ul {
+  display: block;
 }
 </style>
