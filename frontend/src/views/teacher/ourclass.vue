@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tchr-nav></tchr-nav>
+    <tchr-nav @startvideo="start"></tchr-nav>
     <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
     <el-row :gutter="20" style="margin-top: 2vh">
       <el-col :span="20" style="margin-left: 15vh">
@@ -33,6 +33,11 @@
 
       </el-col>
     </el-row>
+     <start-video-dialog
+      :open="videoDialogOpen"
+      @closeVideoDialog="end"
+    ></start-video-dialog>
+
   </div>
 </template>
 <script>
@@ -43,13 +48,22 @@ import Datepicker from 'vuejs3-datepicker'
 
 import ModalView from "./add_students.vue"
 import Tchr_nav from './tchr_nav.vue'
+import StartVideoDialog from './startvideo-dialog.vue'
 
 export default {
   name: 'ourClass',
   components: {
     "tchr-nav" : Tchr_nav,
     ModalView,
-    Datepicker
+    Datepicker,
+    StartVideoDialog
+  },
+  data(){
+    return {
+      videoDialogOpen:false,
+      studentlist:null
+    }
+
   },
   setup() {
     const router = useRouter()
@@ -82,6 +96,12 @@ export default {
     },
     moveLesson: function(){
       this.$router.push({name:"Tchr_Lesson"})
+    },
+    start (){
+      this.videoDialogOpen= true
+    },
+    end (){
+      this.videoDialogOpen= false
     }
   }
 }

@@ -50,6 +50,9 @@ export default {
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
     return {
+      userId:undefined,
+      hws: undefined,
+
       masks: {
         weekdays: 'WWW',
       },
@@ -129,11 +132,23 @@ export default {
       ],
     };
   },
-  methods: {
-    testmethod () {
-      console.log('test')
+  methods:{
+    getHw(){
+      this.$store.dispatch('root/requestGetSthwlist',this.userId)
+      .then(result =>{
+        this.hws=result.data
+        console.log(this.hws)
+      })
+      .catch(function(err){
+        alert(err)
+      })
     }
-  }
+  },
+  created:function(){
+    const localvuex=JSON.parse(localStorage.getItem('vuex'))
+    this.userId = localvuex["root"]["userid"]
+    this.getHw()
+  },
 };
 </script>
 

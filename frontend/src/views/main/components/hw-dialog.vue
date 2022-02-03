@@ -148,7 +148,12 @@ export default {
       })
     }
     return { state, handleClose, submit, cancle }
+
   },
+  created:function(){
+      const localvuex=JSON.parse(localStorage.getItem('vuex'))
+      console.log(localvuex)
+  }
 
 }
 </script>

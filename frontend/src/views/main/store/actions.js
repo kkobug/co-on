@@ -79,6 +79,12 @@ export function requestDeleteStudent ({ state }, payload) {
   const url = `student/withdrawal/${payload}`
   return $axios.delete(url)
 }
+// 학생 조회
+export function requestGetStudent ({ state }) {
+  console.log('requestGetStudent', state)
+  const url = `/teacher/studentlist`
+  return $axios.get(url)
+}
 
 export function requestDeleteTeacher ({ state }, payload) {
   const url = `teacher/withdrawal/${payload}`
@@ -206,4 +212,30 @@ export function requestdelsthw ({ state }, data) {
   const url = `/studenthomework/delete`
   return $axios.delete(url, {data})
 }
+export function requestGetSthwdetail ({ state }, payload) {
+  console.log('requestGetSthwdetail', state, payload)
+  const url = `/studenthomework/detail/${payload}`
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestUpdateSthw ({ state }, payload) {
+  console.log('requestgetHomework', state, payload)
+  const url = `/studenthomework/modify/${payload}`
+  let body = payload
+  return $axios.put(url, body)
+}
+export function requestGetDonesthw ({ state }, payload) {
+  console.log('requestGetDonesthw', state, payload)
+  const url = `/studenthomework/student/list/${payload}`
+  return $axios.get(url)
+}
+export function requestGetHwlist ({ state }, payload) {
+  console.log('requestGetHwlist', state, payload)
+  const url = `/studenthomework/teacher/list/${payload}`
+  return $axios.get(url)
+}
+
+
+
+
 

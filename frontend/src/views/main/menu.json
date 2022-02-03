@@ -19,12 +19,5 @@
     "path" : "/lesson",
     "icon" : "el-icon-s-order",
     "children" : []
-  },
-  "Lesson2" : {
-    "name" : "수업2",
-    "hidden" : false,
-    "path" : "/lesson2",
-    "icon" : "el-icon-s-order",
-    "children" : []
   }
 }

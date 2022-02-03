@@ -3,7 +3,7 @@
     <el-menu-item index="1" class="navitem" style="margin-left: 10px">내 수업</el-menu-item>
     <el-menu-item index="2" class="navitem">우리반보기</el-menu-item>
     <el-menu-item index="3" class="navitem">출결관리</el-menu-item>
-    <el-menu-item index="4" class = "lessonstr">수업 시작</el-menu-item>
+    <el-menu-item index="4" class = "lessonstr" @click="startVideoClass">수업 시작</el-menu-item>
   </el-menu>
 </template>
 
@@ -15,7 +15,7 @@ import { useRouter } from 'vue-router'
 
 export default {
   name: 'Tchr_Lesson',
-  setup() {
+  setup(props, { emit }) {
     const router = useRouter()
     const store = useStore()
     const activeIndex = ref('1')
@@ -53,7 +53,11 @@ export default {
         })
       }
     }
-    return {state, activeIndex, moveClass, moveAttend, moveLesson, handleSelect}
+    const startVideoClass = function(){
+      emit('startvideo')
+    }
+
+    return {state, activeIndex, moveClass, moveAttend, moveLesson, handleSelect, startVideoClass}
   },
 }
 </script>
