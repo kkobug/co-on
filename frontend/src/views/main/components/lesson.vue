@@ -13,11 +13,7 @@
             </el-row>
           </el-header>
           <el-main>
-<<<<<<< HEAD
             <el-row v-for="classitem in state.object" :key="classitem">
-=======
-            <el-row v-for="classitem in this.classes" :key="classitem">
->>>>>>> feature/BE/conference
               <el-col :span="6"><div class="grid-content bg-purple">{{classitem.studyName}}</div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple-light">{{classitem.teacher.tchrName}}</div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">{{classitem.studyDesc}}</div></el-col>
@@ -35,29 +31,11 @@
       <div>session</div>
 			<div id="session-header">
 				<h1 id="session-title">{{ mySessionId }}</h1>
-<<<<<<< HEAD
 				<input v-if="micOn" class="btn btn-large btn-success" type="button" id="buttonMic" @click="micControl" value="MICOFF">
 				<input v-else class="btn btn-large btn-success" type="button" id="buttonMic" @click="micControl" value="MICON">
 				<input v-if="camOn" class="btn btn-large btn-primary" type="button" id="buttonCam" @click="camControl" value="CAMOFF">
 				<input v-else class="btn btn-large btn-primary" type="button" id="buttonCam" @click="camControl" value="CAMON">
 				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-=======
-        <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
-          <font-awesome-icon icon="microphone-slash" />
-        </el-button>
-        <el-button circle v-else id="buttonMic" @click="micControl" value="MICON">
-          <font-awesome-icon icon="microphone" />
-        </el-button>
-        <el-button circle v-if="camOn" id="buttonCam" @click="camControl" value="CAMOFF">
-          <font-awesome-icon icon="video-slash" />
-        </el-button>
-        <el-button circle v-else id="buttonCam" @click="camControl" value="CAMON">
-          <font-awesome-icon icon="video" />
-        </el-button>
-        <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-          <font-awesome-icon icon="door-open" />
-        </el-button>
->>>>>>> feature/BE/conference
 			</div>
 			<div id="main-video" class="col-md-6">
 				<user-video :stream-manager="mainStreamManager"/>
@@ -77,21 +55,9 @@ import { onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
-<<<<<<< HEAD
 import axios from 'axios';
 import { OpenVidu, StreamManager } from 'openvidu-browser';
 import UserVideo from '../../video/UserVideo.vue';
-=======
-// openvidu
-import axios from 'axios';
-import { OpenVidu, StreamManager } from 'openvidu-browser';
-import UserVideo from '../../video/UserVideo.vue';
-
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
->>>>>>> feature/BE/conference
 
 export default {
   name: 'Lesson',
@@ -154,13 +120,9 @@ export default {
   setup () {
     const router = useRouter()
     const store = useStore()
-<<<<<<< HEAD
     const state = reactive({
       object : {}
     })
-=======
-    const object = undefined
->>>>>>> feature/BE/conference
     function moveVideo(){
       router.push({
         name:"video"
@@ -170,7 +132,6 @@ export default {
     // 페이지 진입시 불리는 훅
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
-<<<<<<< HEAD
       // 리스트 불러오기
       store.dispatch('root/requestGetLesson', {
         stId : store.state.root.userid
@@ -199,24 +160,6 @@ export default {
     //   })
     // },
 		joinSession (classId) {
-=======
-    })
-    return {object,moveVideo}
-  },
-  methods: {
-    getClasses(){
-      this.$store.dispatch('root/requestGetClass',this.userId)
-      .then(result =>{
-        this.classes=result.data
-        console.log(this.classes)
-      })
-      .catch(function(err){
-        alert(err)
-      })
-    },
-		joinSession (classId) {
-      console.log('입장시간:'+new Date())
->>>>>>> feature/BE/conference
       this.mySessionId=classId
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -284,10 +227,6 @@ export default {
 
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
-<<<<<<< HEAD
-=======
-      console.log('퇴장시간:'+new Date())
->>>>>>> feature/BE/conference
 			if (this.session) this.session.disconnect();
 
 			this.session = undefined;
@@ -379,12 +318,7 @@ export default {
   created:function(){
       const localvuex=JSON.parse(localStorage.getItem('vuex'))
       this.userId=localvuex["root"]["userid"]
-<<<<<<< HEAD
   },
-=======
-      this.getClasses()
-  }
->>>>>>> feature/BE/conference
 }
 </script>
 <style lang="scss">

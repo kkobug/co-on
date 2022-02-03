@@ -87,22 +87,10 @@ export function requestGetStudent ({ state }) {
   const url = `/teacher/studentlist`
   return $axios.get(url)
 }
-<<<<<<< HEAD
-// 학생 조회
-export function requestGetStudent ({ state }) {
-  console.log('requestGetStudent', state)
-  const url = `/teacher/studentlist`
-  return $axios.get(url)
-}
-
-=======
-// 교사 회원 정보 삭제
->>>>>>> feature/BE/conference
 export function requestDeleteTeacher ({ state }, payload) {
   const url = `teacher/withdrawal/${payload}`
   return $axios.delete(url)
 }
-
 
 // StudyRoom
 // 수업 개설
@@ -183,7 +171,6 @@ export function requestListNotice ({ state }, payload) {
   const url = `/notice/study/list/${payload.studyId}`
   return $axios.get(url)
 }
-<<<<<<< HEAD
 export function requestDelHomework ({ state }, data) {
   console.log('requestDelHomework', state, data)
   const url = `/homework/delete`
@@ -206,13 +193,6 @@ export function requestListHomework ({ state }, payload) {
   const url = `/homework/study/${payload.studyId}`
   let body = payload
   return $axios.get(url, body)
-=======
-// 수업에 포함된 공지사항 조회
-export function requestGetNotice ({ state }, payload) {
-  console.log('requestGetNotice')
-  const url = `/notice/student/list/${payload}`
-  return $axios.get(url)
->>>>>>> feature/BE/conference
 }
 // 교사가 출제한 과제 조회
 export function requestTchrListHomework ({ state }, payload) {
@@ -221,15 +201,14 @@ export function requestTchrListHomework ({ state }, payload) {
   let body = payload
   return $axios.get(url, body)
 }
-<<<<<<< HEAD
 export function requestGetLesson ({ state }, payload) {
   console.log('requestGetLesson', state, payload)
   const url = `studyRoomDetail/student/list/${payload.stId}`
   return $axios.get(url)
 }
 
-export function requestGetNotice ({ state }, payload) {
-  console.log('requestGetNotice', state, payload)
+export function requestGetSTNotice ({ state }, payload) {
+  console.log('requestGetSTNotice', state, payload)
   const url = `/notice/student/list/${payload.stId}`
   return $axios.get(url)
 }
@@ -240,63 +219,10 @@ export function requestGetHW ({ state }, payload) {
 }
 export function requestaddsthw ({ state }, payload) {
   console.log('requestaddsthw', state, payload)
-=======
-
-
-
-// Homework
-// 과제 출제
-export function requestAddHomework ({ state }, payload) {
-  console.log('requestUpdateHomework')
-  const url = `/homework/create`
-  let body = payload
-  return $axios.post(url, body)
-}
-// 과제 삭제
-export function requestDelHomework ({ state }, body) {
-  console.log('requestDelHomework')
-  const url = `/homework/delete`
-  return $axios.delete(url, {body})
-}
-// 과제의 상세 내용 조회 조회
-export function requestgetHomework ({ state }, payload) {
-  console.log('requestgetHomework')
-  const url = `/homework/detail/${payload.hwId}`
-  let body = payload
-  return $axios.get(url, body)
-}
-// 과제 수정
-export function requestupdateHomework ({ state }, payload) {
-  console.log('requestgetHomework')
-  const url = `/homework/modify/${payload.hwId}`
-  let body = payload
-  return $axios.put(url, body)
-}
-// 학생이 속한 수업의 과제 조회
-export function requestGetSthwlist ({ state }, payload) {
-  console.log('requestGetSthwlist')
-  const url = `/homework/student/${payload}`
-  return $axios.get(url)
-}
-// 수업에 포함된 과제 조회
-export function requestListHomework ({ state }, payload) {
-  console.log('requestListHomework')
-  const url = `/homework/study/${payload.studyId}`
-  let body = payload
-  return $axios.get(url, body)
-}
-
-
-// StudentHomework
-// 학생 과제 제출
-export function requestSubmitHw ({ state }, payload) {
-  console.log('requestSubmitHw')
->>>>>>> feature/BE/conference
   const url = `/studenthomework/create`
   let body = payload
   return $axios.post(url, body)
 }
-<<<<<<< HEAD
 export function requestdelsthw ({ state }, data) {
   console.log('requestdelsthw', state, data)
   const url = `/studenthomework/delete`
@@ -304,34 +230,16 @@ export function requestdelsthw ({ state }, data) {
 }
 export function requestGetSthwdetail ({ state }, payload) {
   console.log('requestGetSthwdetail', state, payload)
-=======
-// 학생과제 삭제
-export function requestDelSthw ({ state }, body) {
-  console.log('requestDelSthw')
-  const url = `/studenthomework/delete`
-  return $axios.delete(url, {body})
-}
-// 학생 과제 세부 조회
-export function requestGetSthwdetail ({ state }, payload) {
-  console.log('requestGetSthwdetail')
->>>>>>> feature/BE/conference
   const url = `/studenthomework/detail/${payload}`
   let body = payload
   return $axios.get(url, body)
 }
-<<<<<<< HEAD
 export function requestUpdateSthw ({ state }, payload) {
   console.log('requestgetHomework', state, payload)
-=======
-// 학생 과제 수정
-export function requestUpdateSthw ({ state }, payload) {
-  console.log('requestgetHomework')
->>>>>>> feature/BE/conference
   const url = `/studenthomework/modify/${payload}`
   let body = payload
   return $axios.put(url, body)
 }
-<<<<<<< HEAD
 export function requestGetDonesthw ({ state }, payload) {
   console.log('requestGetDonesthw', state, payload)
   const url = `/studenthomework/student/list/${payload}`
@@ -339,17 +247,6 @@ export function requestGetDonesthw ({ state }, payload) {
 }
 export function requestGetHwlist ({ state }, payload) {
   console.log('requestGetHwlist', state, payload)
-=======
-// 학생이 제출한 과제 조회
-export function requestGetDonesthw ({ state }, payload) {
-  console.log('requestGetDonesthw')
-  const url = `/studenthomework/student/list/${payload}`
-  return $axios.get(url)
-}
-// 수업에 포함된 과제 조회
-export function requestGetHwlist ({ state }, payload) {
-  console.log('requestGetHwlist')
->>>>>>> feature/BE/conference
   const url = `/studenthomework/teacher/list/${payload}`
   return $axios.get(url)
 }

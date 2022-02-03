@@ -149,10 +149,6 @@ export default {
     }
     return { state, handleClose, submit, cancle }
 
-<<<<<<< HEAD
-=======
-    return { state, handleClose, submit, cancle, tableData }
->>>>>>> feature/BE/conference
   },
   created:function(){
       const localvuex=JSON.parse(localStorage.getItem('vuex'))

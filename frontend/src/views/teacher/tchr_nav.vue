@@ -1,21 +1,10 @@
 <template>
-<<<<<<< HEAD
   <el-menu mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#fff">
     <el-menu-item index="1" class="navitem" style="margin-left: 10px">내 수업</el-menu-item>
     <el-menu-item index="2" class="navitem">우리반보기</el-menu-item>
     <el-menu-item index="3" class="navitem">출결관리</el-menu-item>
     <el-menu-item index="4" class = "lessonstr" @click="startVideoClass">수업 시작</el-menu-item>
   </el-menu>
-=======
-  <div>
-    <el-menu class="topnav">
-      <el-menu-item class ="navitem" index="1" @click="moveLesson">내 수업</el-menu-item>
-      <el-menu-item class ="navitem" index="2" @click="moveClass">우리반보기</el-menu-item>
-      <el-menu-item class ="navitem" index="3" @click="moveAttend">출결관리</el-menu-item>
-      <button class = "lessonstr" @click="startVideoClass">화상수업 등록</button>
-    </el-menu>
-  </div>
->>>>>>> feature/BE/conference
 </template>
 
 <script>
@@ -49,7 +38,6 @@ export default {
         name: 'Tchr_contents'
       })
     }
-<<<<<<< HEAD
     const handleSelect = (key) => {
       if (key === '1') {
         router.push({
@@ -70,12 +58,6 @@ export default {
     }
 
     return {state, activeIndex, moveClass, moveAttend, moveLesson, handleSelect, startVideoClass}
-=======
-    const startVideoClass = function(){
-      emit('startvideo')
-    }
-    return {state, moveClass, moveAttend, moveLesson, startVideoClass}
->>>>>>> feature/BE/conference
   },
 }
 </script>
