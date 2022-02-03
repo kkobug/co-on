@@ -8,14 +8,25 @@
       <el-col :span="6">
         <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
           <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-            <font-awesome-icon icon="clock" style="font-size:80px; float:left" />
-            <p style="font-weight:bold; color:#21005D; font-size:20px">
-              마감이 임박한 과제
-            </p>
-            <el-button type="text" class="button">{{this.dashHw.title}}</el-button>
+            <font-awesome-icon icon="clock" style="font-size:80px" />
+            <span style="font-weight:bold; color:#21005D; font-size:20px">
+              곧 마감인 과제
+            </span>
             <div class="bottom">
+              <el-button type="text" class="button">{{this.dashHw.title}}</el-button>
               <p>{{this.dashHw.content}}</p>
               <time class="time">{{ this.dashHw.end }}</time>
+            </div>
+          </div>
+        </el-card>
+        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
+          <div style="padding: 14px; text-align:left; background-color:#EADDFF">
+            <font-awesome-icon icon="clock" style="font-size:80px" />
+            <span style="font-weight:bold; color:#21005D; font-size:20px">
+              곧 마감인 과제
+            </span>
+            <div class="bottom">
+              <p>등록된 과제가 없습니다</p>
             </div>
           </div>
         </el-card>
@@ -31,6 +42,17 @@
             <div class="bottom">
               <p>{{this.dashNotice.noticeContent}}</p>
               <time class="time">{{ this.dashNotice.noticePosted }}</time>
+            </div>
+          </div>
+        </el-card>
+        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
+          <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
+            <font-awesome-icon icon="bell" style="font-size:80px" />
+            <span style="font-weight:bold; color:#273420; font-size:20px">
+              New Notice
+            </span>
+            <div class="bottom">
+              <p>등록된 공지가 없습니다</p>
             </div>
           </div>
         </el-card>
@@ -117,9 +139,12 @@ export default {
     getNotice(){
       this.$store.dispatch('root/requestGetSTNotice',this.userId)
       .then(result =>{
+        console.log(result)
         this.notices=result.data
         this.dashNotice=this.notices[this.notices.length-1]
-        this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
+        if (result.data.length >= 1) {
+            this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
+        }
       })
       .catch(function(err){
         alert(err)

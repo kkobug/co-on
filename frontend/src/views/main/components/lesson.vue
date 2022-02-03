@@ -1,7 +1,27 @@
 <template>
+  <el-row>
+    <el-col :span="20" :offset="2">
+      <div class="common-layout" style="margin-top: 3vh" v-if="!session">
+        <el-row style="line-height: 60px; height: 5vh; font-size: 20px; font-weight: bold">
+          <el-col :span="6"><div class="grid-content">과목명</div></el-col>
+          <el-col :span="6"><div class="grid-content">교사</div></el-col>
+          <el-col :span="6"><div class="grid-content">수업설명</div></el-col>
+          <el-col :span="6"><div class="grid-content">화상회의</div></el-col>
+        </el-row>
+        <el-main style="background-color: #E7EDDE; line-height: 100px">
+            <el-row v-for="classitem in state.object" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
+              <el-col :span="6"><div class="grid-content">{{classitem.studyName}}</div></el-col>
+              <el-col :span="6"><div class="grid-content">{{classitem.teacher.tchrName}}</div></el-col>
+              <el-col :span="6"><div class="grid-content">{{classitem.studyDesc}}</div></el-col>
+              <el-col :span="6"><el-button type="text" class="grid-content" @click="joinSession(classitem.classId)">이동</el-button></el-col>
+            </el-row>
+          </el-main>
+      </div>
+    </el-col>
+  </el-row>
   <div id="main-container" class="container">
     <!-- 수업리스트 -->
-    <div id="join" v-if="!session">
+    <!-- <div id="join" v-if="!session">
       <div class="common-layout">
         <el-container>
           <el-header>
@@ -24,7 +44,7 @@
           <el-footer>Footer</el-footer>
         </el-container>
       </div>
-    </div>
+    </div> -->
 
     <!--세션 -->
 		<div id="session" v-if="session">
@@ -137,8 +157,8 @@ export default {
         stId : store.state.root.userid
       })
       .then(function(result){
-        alert('리스트 조회 성공')
-        console.log(result.data)
+        // alert('리스트 조회 성공')
+        // console.log(result.data)
         state.object=result.data
       })
       .catch(function(err){

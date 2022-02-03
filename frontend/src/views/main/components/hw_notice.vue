@@ -5,7 +5,7 @@
         <!-- 공지사항 -->
         <h1 style="font-size: 25px; height: 4vh">공지사항</h1>
         <el-container style="height: 38vh">
-          <el-main style="background-color: #fff; line-height: 100px">
+          <el-main style="background-color: #E7EDDE; line-height: 100px">
             <el-row v-for="item in state.notice" :key="item.noticeId" style="background-color: #ecf0f1; border-radius: 20px">
               <el-col :span="3" style="border-radius: 20px">{{item.noticeId}}</el-col>
               <el-col :span="21">
@@ -32,7 +32,7 @@
         <!-- 과제 -->
         <h1 style="font-size: 25px; height: 4vh">과제목록</h1>
         <el-container style="height: 38vh">
-          <el-main style="background-color: #fff; line-height: 100px">
+          <el-main style="background-color: #E7EDDE; line-height: 100px">
             <el-row v-for="item in state.hw" :key="item.id" style="background-color: #ecf0f1; border-radius: 20px">
               <el-col :span="6"><div>{{item.hwTitle}}</div></el-col>
               <el-col :span="6"><div>{{item.studyroom.studyName}}</div></el-col>
@@ -126,8 +126,8 @@ export default {
         stId : store.state.root.userid
       })
       .then(function(result){
-        alert('과제 조회 성공')
-        console.log("homework", result.data)
+        // alert('과제 조회 성공')
+        // console.log("homework", result.data)
         state.hw=result.data
       })
       .catch(function(err){
