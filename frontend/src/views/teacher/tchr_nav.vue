@@ -1,9 +1,9 @@
 <template>
-  <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#4267D6">
+  <el-menu default-active="0" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#4267D6">
     <el-menu-item index="1" class="navitem" style="margin-left: 10px">내 수업</el-menu-item>
     <el-menu-item index="2" class="navitem">우리반보기</el-menu-item>
     <el-menu-item index="3" class="navitem">출결관리</el-menu-item>
-    <el-menu-item index="4" class = "lessonstr">수업 시작</el-menu-item>
+    <el-menu-item class = "lessonstr">수업 시작</el-menu-item>
   </el-menu>
 </template>
 

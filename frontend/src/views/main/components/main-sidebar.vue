@@ -3,7 +3,7 @@
     <el-row style="height: 100%">
       <el-col :span="24" style="heght: 100%">
         <el-menu
-          :default-active="String(state.activeIndex)"
+          default-active="0"
           active-text-color="#ffd04b"
           background-color="#4267D6"
           text-color="#fff"
@@ -27,7 +27,7 @@
             </el-card>
           </el-container>
 
-          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index">
             <span>{{ item.title }}</span>
           </el-menu-item>
 
@@ -73,6 +73,7 @@
 }
 .li_zindex{
   z-index: 100;
+  box-shadow: 3px 3px 3px 3px gray;
 }
 .studyList{
   border-radius: 10px;
@@ -142,12 +143,14 @@ export default {
       store.commit('root/setMenuActive', 0)
     }
 
-    const menuSelect = function (param) {
-      store.commit('root/setMenuActive', param)
+    const menuSelect = function (index) {
+      console.log("메뉴",index)
+      store.commit('root/setMenuActive', index)
       const MenuItems = store.getters['root/getMenus']
       let keys = Object.keys(MenuItems)
+      console.log(state.activeIndex)
       router.push({
-        name: keys[param]
+        name: keys[index]
       })
     }
 
@@ -164,7 +167,7 @@ export default {
       store.commit('root/changeClassName', name)
       store.commit('root/changeClassId', idx)
       router.push({
-        name: 'Tchr_contents',
+        name: 'Tchr_main',
       })
     }
     const getClass = function(){
@@ -181,7 +184,7 @@ export default {
     onMounted(()=>{
       if (store.state.root.whetherTchr){
         getClass();
-        console.log("1111111111111111111111", store.state.root.classList)
+
       }
     })
 

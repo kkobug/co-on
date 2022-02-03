@@ -55,6 +55,7 @@
           :open="state.hwDialogOpen"
           @closeHwDialog="onCloseHwDialog"
           v-bind:props_hw = state.props_hw
+          style="box-shadow: 3px 3px 3px 3px gray;"
         />
       </div>
     </el-col>
