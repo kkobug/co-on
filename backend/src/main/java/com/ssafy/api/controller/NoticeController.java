@@ -1,10 +1,10 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.NoticeDeleteRes;
-import com.ssafy.api.request.NoticeRegisterPostReq;
-import com.ssafy.api.request.NoticeUpdatePutReq;
+import com.ssafy.api.request.notice.NoticeDeleteRes;
+import com.ssafy.api.request.notice.NoticeRegisterPostReq;
+import com.ssafy.api.request.notice.NoticeUpdatePutReq;
 import com.ssafy.api.response.NoticeFindID;
-import com.ssafy.api.service.*;
+import com.ssafy.api.service.notice.NoticeService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Notice;
 import io.swagger.annotations.*;

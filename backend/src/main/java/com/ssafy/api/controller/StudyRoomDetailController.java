@@ -1,12 +1,9 @@
 package com.ssafy.api.controller;
 
-import com.querydsl.core.Tuple;
-import com.ssafy.api.request.StudyRoomAddPostReq;
-import com.ssafy.api.service.StudyRoomDetailService;
+import com.ssafy.api.request.studyroom.StudyRoomAddPostReq;
+import com.ssafy.api.service.studyroom.StudyRoomDetailService;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Studyroom;
-import com.ssafy.db.entity.Studyrooms;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

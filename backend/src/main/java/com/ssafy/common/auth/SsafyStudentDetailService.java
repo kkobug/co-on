@@ -1,6 +1,6 @@
 package com.ssafy.common.auth;
 
-import com.ssafy.api.service.StudentService;
+import com.ssafy.api.service.user.StudentService;
 import com.ssafy.db.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

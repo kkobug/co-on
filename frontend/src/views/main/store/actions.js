@@ -147,13 +147,7 @@ export function requestgetNotice ({ state }, payload) {
 }
 // 교사 공지사항 입력
 export function requestAddNotice ({ state }, payload) {
-<<<<<<< HEAD
-  console.log('requestAddNotice', state, payload)
-  console.log("@@@@ in actions @@@@")
-  console.log(payload)
-=======
   console.log('requestAddNotice')
->>>>>>> 8b565c0ec828069cd6401a87439399b4ced689c5
   const url = `/notice/create`
   let body = payload
   return $axios.post(url, body,
@@ -172,17 +166,12 @@ export function requestDelNotice ({ state }, data) {
 }
 // 공지사항 수정
 export function requestUpdateNotice ({ state }, payload) {
-<<<<<<< HEAD
   console.log('requestUpdateNotice', state, payload)
   console.log(payload.noticeId)
-=======
-  console.log('requestUpdateNotice')
->>>>>>> 8b565c0ec828069cd6401a87439399b4ced689c5
   const url = `/notice/modify/${payload.noticeId}`
   let body = payload
   return $axios.put(url, body)
 }
-<<<<<<< HEAD
 // 과제 관련
 export function requestAddHomework ({ state }, payload) {
   console.log('requestUpdateHomework', state, payload)
@@ -196,14 +185,12 @@ export function requestAddHomework ({ state }, payload) {
     // }
   ).catch(
     console.log(error)
-  )
-=======
+  )}
 // 학생이 속한 수업의 공지 조회
 export function requestListNotice ({ state }, payload) {
   console.log('requestListNotice')
   const url = `/notice/study/list/${payload.studyId}`
   return $axios.get(url)
->>>>>>> 8b565c0ec828069cd6401a87439399b4ced689c5
 }
 export function requestDelHomework ({ state }, data) {
   console.log('requestDelHomework', state, data)
@@ -284,8 +271,3 @@ export function requestGetHwlist ({ state }, payload) {
   const url = `/studenthomework/teacher/list/${payload}`
   return $axios.get(url)
 }
-
-
-
-
-

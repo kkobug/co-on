@@ -1,10 +1,8 @@
 package com.ssafy.api.controller;
 
-import com.querydsl.core.Tuple;
-import com.ssafy.api.request.StudyRoomAddPostReq;
-import com.ssafy.api.request.StudyRoomDeleteReq;
-import com.ssafy.api.request.StudyRoomRegisterPostReq;
-import com.ssafy.api.service.StudyRoomService;
+import com.ssafy.api.request.studyroom.StudyRoomDeleteReq;
+import com.ssafy.api.request.studyroom.StudyRoomRegisterPostReq;
+import com.ssafy.api.service.studyroom.StudyRoomService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Studyroom;
 import io.swagger.annotations.*;

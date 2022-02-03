@@ -1,12 +1,12 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.StudentLoginPostReq;
-import com.ssafy.api.request.TeacherLoginPostReq;
+import com.ssafy.api.request.user.StudentLoginPostReq;
+import com.ssafy.api.request.user.TeacherLoginPostReq;
 import com.ssafy.api.response.StudentLoginPostRes;
 import com.ssafy.api.response.TeacherLoginPostRes;
 import com.ssafy.api.response.UserLoginPostRes;
-import com.ssafy.api.service.StudentService;
-import com.ssafy.api.service.TeacherService;
+import com.ssafy.api.service.user.StudentService;
+import com.ssafy.api.service.user.TeacherService;
 import com.ssafy.db.entity.Teacher;
 import com.ssafy.db.entity.Student;
 import io.swagger.annotations.*;

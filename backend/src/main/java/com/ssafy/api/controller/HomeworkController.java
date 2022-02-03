@@ -1,14 +1,12 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.HomeworkDeleteReq;
-import com.ssafy.api.request.HomeworkModifyReq;
-import com.ssafy.api.request.HomeworkRegisterPostReq;
-import com.ssafy.api.request.TeacherModifyPutReq;
+import com.ssafy.api.request.homework.HomeworkDeleteReq;
+import com.ssafy.api.request.homework.HomeworkModifyReq;
+import com.ssafy.api.request.homework.HomeworkRegisterPostReq;
 import com.ssafy.api.response.HomeworkInfoRes;
-import com.ssafy.api.service.HomeworkService;
+import com.ssafy.api.service.homework.HomeworkService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Homework;
-import com.ssafy.db.entity.Teacher;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

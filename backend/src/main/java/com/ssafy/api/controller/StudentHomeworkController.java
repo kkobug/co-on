@@ -1,9 +1,10 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.*;
-import com.ssafy.api.response.NoticeFindID;
+import com.ssafy.api.request.studenthomework.StudentHomeworkDeleteRes;
+import com.ssafy.api.request.studenthomework.StudentHomeworkRegisterPostReq;
+import com.ssafy.api.request.studenthomework.StudentHomeworkUpdatePutReq;
 import com.ssafy.api.response.StHwFindID;
-import com.ssafy.api.service.StudentHomeworkService;
+import com.ssafy.api.service.studenthomework.StudentHomeworkService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.StudentHomework;
 import io.swagger.annotations.*;

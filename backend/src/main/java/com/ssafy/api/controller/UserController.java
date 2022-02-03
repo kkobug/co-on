@@ -1,10 +1,12 @@
 package com.ssafy.api.controller;
 
-import com.querydsl.core.Tuple;
-import com.ssafy.api.request.*;
+import com.ssafy.api.request.user.*;
 import com.ssafy.api.response.StudentFindID;
 import com.ssafy.api.response.TeacherFindID;
-import com.ssafy.api.service.*;
+import com.ssafy.api.service.user.MailService;
+import com.ssafy.api.service.user.StudentService;
+import com.ssafy.api.service.user.TeacherMailService;
+import com.ssafy.api.service.user.TeacherService;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;

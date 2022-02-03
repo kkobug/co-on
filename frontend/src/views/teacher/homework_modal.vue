@@ -1,17 +1,14 @@
 <template>
   <div class ="modal">
-<<<<<<< HEAD
-    <div class="overlay" @click="closeModal">X</div>
+    <!-- <div class="overlay" @click="closeModal">X</div>
     <div><p>과제 등록</p></div>
     <form action="#" id="hwForm" method="post" enctype="multipart/form-data">
       <div><label for="title">제목</label><input v-model="state.title" name="title" type="text"></div>
       <div><label for="explain">설명</label><input v-model="state.contents" name="explain" type="text"></div>
       <div><label for="date">날짜</label><input v-model="state.date" name="date" type="text"></div>
-      <div><label for="hwFile">파일</label><input type="file" multiple="multiple" @change="addFile" ref="refNoticeFile" name="hwFile" id="hwFile"></div>
       <button v-if="isupdate" @click="updatehomework">수정</button>
       <button v-else @click="addhomework">등록</button>
-    </form>
-=======
+    </form> -->
     <el-button type="text" class="overlay" @click="closeModal" style="margin-right: 5px">❌</el-button>
     <h2 style="margin-top: 4vh"><strong>과제 등록</strong></h2>
     <el-row>
@@ -28,6 +25,7 @@
               v-model="state.date" type="date" placeholder="Pick your birthday" style="width: 100%" format="YYYY-MM-DD" value-format="YYYYMMDD">
             </el-date-picker>
           </el-form-item>
+      <div><label for="hwFile">파일</label><input type="file" multiple="multiple" @change="addFile" ref="refNoticeFile" name="hwFile" id="hwFile"></div>
         </el-form>
       </el-col>
     </el-row>
@@ -38,7 +36,6 @@
       <el-button v-if="isupdate" @click="updatehomework">수정</el-button>
       <el-button v-else @click="addhomework">등록</el-button>
     </div>
->>>>>>> 8b565c0ec828069cd6401a87439399b4ced689c5
   </div>
 </template>
 
@@ -76,14 +73,12 @@ export default {
       dataChange(reqObject);
     };
     const addhomework = function(){
-<<<<<<< HEAD
-      var hwFormData = new FormData(document.querySelector('#hwForm'))
-      hwFormData.append('studyId', state.id)
-      hwFormData.append()
+      // var hwFormData = new FormData(document.querySelector('#hwForm'))
+      // hwFormData.append('studyId', state.id)
+      // hwFormData.append()
 
-      store.dispatch('root/requestAddHomework', hwFormData)
-      closeModal()
-=======
+      // store.dispatch('root/requestAddHomework', hwFormData)
+      // closeModal()
       store.dispatch('root/requestAddHomework', {
         hwContent: state.contents,
         hwDeadline: "2022-02-18 12:00",
@@ -93,7 +88,6 @@ export default {
       .then(res=>{
         closeModal();
       })
->>>>>>> 8b565c0ec828069cd6401a87439399b4ced689c5
     }
     const updatehomework = function(){
       store.dispatch('root/requestupdateHomework', {
