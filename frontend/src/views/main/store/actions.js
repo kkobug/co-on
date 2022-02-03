@@ -229,13 +229,13 @@ export function requestGetLesson ({ state }, payload) {
 }
 
 export function requestGetSTNotice ({ state }, payload) {
-  console.log('requestGetSTNotice', state, payload)
-  const url = `/notice/student/list/${payload.stId}`
+  console.log('requestGetSTNotice', state, state.userid)
+  const url = `/notice/student/list/${state.userid}`
   return $axios.get(url)
 }
 export function requestGetHW ({ state }, payload) {
   console.log('requestGetHW', state, payload)
-  const url = `/homework/student/${payload.stId}`
+  const url = `/homework/student/${state.userid}`
   return $axios.get(url)
 }
 export function requestaddsthw ({ state }, payload) {

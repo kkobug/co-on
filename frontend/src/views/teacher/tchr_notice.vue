@@ -2,7 +2,7 @@
   <div>
     <ModalView style="box-shadow: 3px 3px 3px 3px gray;" v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
     <div style="text-align: right">
-      <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 25px" class="sub_btn" @click="state.isVisible = true">공지 생성</el-button>
+      <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px" class="sub_btn" @click="state.isVisible = true">공지 생성</el-button>
     </div>
     <div>
       <div v-for = "(ntice, index) in state.notices" :key = ntice.id class ="el-item">

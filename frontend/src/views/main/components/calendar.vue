@@ -1,108 +1,116 @@
 <template>
-  <div>
-    <div class="head" >
-      Main
-    </div>
-    <!-- 대시보드 -->
-    <el-row id="dashboard">
-      <el-col :span="6">
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
-          <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-            <font-awesome-icon icon="clock" style="font-size:80px" />
-            <span style="font-weight:bold; color:#21005D; font-size:20px">
-              곧 마감인 과제
-            </span>
-            <div class="bottom">
-              <el-button type="text" class="button">{{this.dashHw.title}}</el-button>
-              <p>{{this.dashHw.content}}</p>
-              <time class="time">{{ this.dashHw.end }}</time>
-            </div>
-          </div>
-        </el-card>
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
-          <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-            <font-awesome-icon icon="clock" style="font-size:80px" />
-            <span style="font-weight:bold; color:#21005D; font-size:20px">
-              곧 마감인 과제
-            </span>
-            <div class="bottom">
-              <p>등록된 과제가 없습니다</p>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashNotice">
-          <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-            <font-awesome-icon icon="bell" style="font-size:80px" />
-            <span style="font-weight:bold; color:#273420; font-size:20px">
-              New Notice
-            </span>
-            <el-button type="text" class="button">{{this.dashNotice.noticeTitle}}</el-button>
-            <div class="bottom">
-              <p>{{this.dashNotice.noticeContent}}</p>
-              <time class="time">{{ this.dashNotice.noticePosted }}</time>
-            </div>
-          </div>
-        </el-card>
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
-          <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-            <font-awesome-icon icon="bell" style="font-size:80px" />
-            <span style="font-weight:bold; color:#273420; font-size:20px">
-              New Notice
-            </span>
-            <div class="bottom">
-              <p>등록된 공지가 없습니다</p>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
-          <div style="padding: 14px; text-align:left;background-color:#F9DEDC" class="">
-            <font-awesome-icon icon="calendar-check" style="font-size:80px" />
-            <span style="font-weight:bold; color:#410E08; font-size:20px">
-              출석 확인
-            </span>
-            <div class="bottom">
-              <time class="time">{{ this.today }}</time>
-              <el-button type="text" class="button">Operating</el-button>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
-          <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
-            <font-awesome-icon icon="chalkboard-teacher" style="font-size:80px" />
-            <span style="font-weight:bold; color:#31111D; font-size:20px">
-              진행중인 수업
-            </span>
-            <div class="bottom">
-              <time class="time">{{ this.today }}</time>
-              <el-button type="text" class="button">Operating</el-button>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <!-- 원형 그래프 -->
-    <graph/>
-    <!-- 달력 -->
-    <div class="calendar">
-      <vue-cal
-        class="vuecal--blue-theme cal"
-        :selected-date="this.today"
-        :disable-views="['years', 'year']"
-        default-view="month"
-        events-on-month-view="short"
-        overlaps-per-time-step
-        :events="events"
-        style="height: auto"
-      >
-      </vue-cal>
-    </div>
-  </div>
+  <el-row>
+    <el-col :span="22" :offset="1">
+      <div>
+        <!-- <div class="head" >
+          Main
+        </div> -->
+        <!-- 대시보드 -->
+        <el-row id="dashboard">
+          <el-col :span="6">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
+              <div style="padding: 14px; text-align:left; background-color:#EADDFF">
+                <font-awesome-icon icon="clock" style="font-size:80px" />
+                <span style="font-weight:bold; color:#21005D; font-size:20px">
+                  곧 마감인 과제
+                </span>
+                <div class="bottom">
+                  <el-button type="text" class="button">{{this.dashHw.title}}</el-button>
+                  <!-- <p>{{this.dashHw.content}}</p> -->
+                  <div>
+                    <time class="time">{{ this.dashHw.end }}</time>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
+              <div style="padding: 14px; text-align:left; background-color:#EADDFF">
+                <font-awesome-icon icon="clock" style="font-size:80px" />
+                <span style="font-weight:bold; color:#21005D; font-size:20px">
+                  곧 마감인 과제
+                </span>
+                <div class="bottom">
+                  <p>등록된 과제가 없습니다</p>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashNotice">
+              <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
+                <font-awesome-icon icon="bell" style="font-size:80px" />
+                <span style="font-weight:bold; color:#273420; font-size:20px">
+                  New Notice
+                </span>
+                <div class="bottom">
+                  <el-button type="text" class="button">{{this.dashNotice.noticeTitle}}</el-button>
+                  <!-- <p>{{this.dashNotice.noticeContent}}</p> -->
+                  <div>
+                    <time class="time">{{ this.dashNotice.noticePosted }}</time>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
+              <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
+                <font-awesome-icon icon="bell" style="font-size:80px" />
+                <span style="font-weight:bold; color:#273420; font-size:20px">
+                  New Notice
+                </span>
+                <div class="bottom">
+                  <p>등록된 공지가 없습니다</p>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
+              <div style="padding: 14px; text-align:left;background-color:#F9DEDC" class="">
+                <font-awesome-icon icon="calendar-check" style="font-size:80px" />
+                <span style="font-weight:bold; color:#410E08; font-size:20px">
+                  출석 확인
+                </span>
+                <div class="bottom">
+                  <time class="time">{{ this.today }}</time>
+                  <el-button type="text" class="button">Operating</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
+              <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
+                <font-awesome-icon icon="chalkboard-teacher" style="font-size:80px" />
+                <span style="font-weight:bold; color:#31111D; font-size:20px">
+                  진행중인 수업
+                </span>
+                <div class="bottom">
+                  <time class="time">{{ this.today }}</time>
+                  <el-button type="text" class="button">Operating</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+        <!-- 원형 그래프 -->
+        <graph/>
+        <!-- 달력 -->
+        <div class="calendar">
+          <vue-cal
+            class="vuecal--blue-theme cal"
+            :selected-date="this.today"
+            :disable-views="['years', 'year']"
+            default-view="month"
+            events-on-month-view="short"
+            overlaps-per-time-step
+            :events="events"
+            style="height: auto"
+          >
+          </vue-cal>
+        </div>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -205,7 +213,7 @@ p{
   font-size: 30px;
 }
 .bottom{
-  clear:both
+  clear:both;
 }
 .calendar{
   padding: 10px;
