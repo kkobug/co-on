@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <el-row>
     <el-col :span="20" :offset="2">
       <div class="common-layout">
@@ -21,10 +22,33 @@
                       <el-button type="text">{{item.noticeTitle}}</el-button>
                     </template>
                   </el-popover>
+=======
+  <div class="common-layout">
+    <!-- 공지사항 -->
+    <el-container>
+      <el-header>공지사항</el-header>
+      <el-main v-if="this.notices">
+        <el-row v-for="notice in this.notices" :key="notice">
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{notice.noticeTitle}}</div></el-col>
+          <el-col :span="18">
+            <div class="grid-content bg-purple-light">
+              <el-popover
+                placement="bottom"
+                title="Title"
+                :width="200"
+                trigger="click"
+                content={{notice.noticeContent}}
+              >
+                <template #reference>
+                  <el-button>{{notice.noticeContent}}</el-button>
+                </template>
+              </el-popover>
+>>>>>>> feature/BE/conference
 
                 </div>
               </el-col>
 
+<<<<<<< HEAD
             </el-row>
           </el-main>
         </el-container>
@@ -45,6 +69,36 @@
                   삭제하기
                 </el-button>
               </el-col>
+=======
+        </el-row>
+      </el-main>
+    </el-container>
+
+    <!-- 과제 -->
+    <el-container>
+      <el-header>과제</el-header>
+      <el-main>
+        <el-row v-for="hw in this.hws" :key="hw">
+          <el-col :span="3"><div class="grid-content bg-purple-light">수업명</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">과제 제목</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">과제 내용</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">제출/채점</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">제출마감기한</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">제출하기</div>
+          </el-col>
+        </el-row>
+        <el-row v-for="hw in this.hws" :key="hw">
+          <el-col :span="3"><div class="grid-content bg-purple-light">{{hw.studyroom.studyName}}</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">{{hw.hwTitle}}</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{hw.hwContent}}</div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple">제출/채점</div></el-col>
+          <el-col :span="6"><div class="grid-content bg-purple-light">{{hw.hwDeadline}}</div></el-col>
+          <el-col :span="3">
+            <div class="grid-content bg-purple" @click="onOpenHwDialog()">
+              제출하기
+            </div>
+          </el-col>
+>>>>>>> feature/BE/conference
 
             </el-row>
           </el-main>
@@ -73,6 +127,7 @@ export default {
   components:{
     HwDialog
   },
+<<<<<<< HEAD
   // data(){
   //   return{
   //     hwDialogOpen:false,
@@ -102,6 +157,45 @@ export default {
     //     name:"Tchr_Lesson"
     //   })
     // }\
+=======
+  data(){
+    return{
+      hwDialogOpen:false,
+      userId:undefined,
+      notices:undefined,
+      hws:undefined
+    }
+  },
+  methods: {
+    onOpenHwDialog () {
+      this.hwDialogOpen = true
+    },
+    onCloseHwDialog () {
+      this.hwDialogOpen = false
+    },
+    getNotice(){
+      this.$store.dispatch('root/requestGetNotice',this.userId)
+      .then(result =>{
+        this.notices=result.data
+      })
+      .catch(function(err){
+        alert(err)
+      })
+    },
+    getHw(){
+      this.$store.dispatch('root/requestGetSthwlist',this.userId)
+      .then(result =>{
+        this.hws=result.data
+      })
+      .catch(function(err){
+        alert(err)
+      })
+    }
+  },
+  setup () {
+    const router = useRouter()
+    const store = useStore()
+>>>>>>> feature/BE/conference
 
     // 페이지 진입시 불리는 훅
     const delStHw = function(){
@@ -121,6 +215,7 @@ export default {
     }
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
+<<<<<<< HEAD
       // 과제 불러오기
       store.dispatch('root/requestGetHW',{
         stId : store.state.root.userid
@@ -146,35 +241,16 @@ export default {
       })
     })
     return {state, onOpenHwDialog, onCloseHwDialog, delStHw}
+=======
+    })
+    return
+>>>>>>> feature/BE/conference
   },
   created:function(){
-      // this.$store.dispatch('root/requestGetLesson',this.myUserName)
-      // .then(function (result) {
-      //     alert('수업 리스트')
-      //     console.log(result)
-      //     // this.object = result
-      //   })
-      //   .catch(function (err) {
-      //     alert(err)
-      //   })
-
-      // this.$store.dispatch('root/requestGetNotice',???)
-      // .then(function (result) {
-      //     alert('수업 공지사항')
-      //     console.log(result)
-      //   })
-      //   .catch(function (err) {
-      //     alert(err)
-      //   })
-
-      // this.$store.dispatch('root/requestGetHW',studyId)
-      // .then(function (result) {
-      //     alert('수업 과제')
-      //     console.log(result)
-      //   })
-      //   .catch(function (err) {
-      //     alert(err)
-      //   })
+    const localvuex=JSON.parse(localStorage.getItem('vuex'))
+    this.userId = localvuex["root"]["userid"]
+    this.getNotice()
+    this.getHw()
   }
 }
 </script>

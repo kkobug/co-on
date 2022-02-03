@@ -5,6 +5,7 @@ import com.ssafy.api.request.StudyRoomAddPostReq;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Studyroom;
 import com.ssafy.db.entity.StudyroomDetail;
+import com.ssafy.db.entity.Studyrooms;
 import com.ssafy.db.repository.StudyRoomDetailRepository;
 import com.ssafy.db.repository.StudyRoomdetailRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,11 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     @Override
     public List<Studyroom> findStudyroombystId(String stId) {
         return studyRoomdetailRepositorySupport.findStudyroomBystId(stId);
+    }
+
+    @Override
+    public List<Object[]> findStudyroombystudyId(int studyId) {
+        return studyRoomDetailRepository.findStudyroombystudyId(studyId);
     }
 
 //    @Override

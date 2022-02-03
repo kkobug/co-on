@@ -4,6 +4,7 @@ export function getIsDesktopPlatform (state) {
 }
 // 메뉴 객체 가져오기
 export function getMenus (state) {
+  console.log(state)
 	return state.menus
 }
 // Active된 메뉴 인덱스 가져오기

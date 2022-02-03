@@ -184,7 +184,10 @@ export default {
     onMounted(()=>{
       if (store.state.root.whetherTchr){
         getClass();
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/BE/conference
       }
     })
 

@@ -2,6 +2,7 @@
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
     <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
+<<<<<<< HEAD
     <el-row :gutter="20" style="margin-top: 2vh">
       <el-col :span="20" style="margin-left: 15vh">
         <el-button class="staddbtn" @click="state.isVisible=true">학생 추가</el-button>
@@ -38,6 +39,35 @@
       @closeVideoDialog="end"
     ></start-video-dialog>
 
+=======
+    <button @click="state.isVisible=true">학생 추가</button>
+    <div class="stud">
+      <el-row v-if="studentlist">
+        <el-col
+        v-for="st in studentlist"
+        :key="st"
+        :span="8"
+        >
+          <el-card :body-style="{ padding: '0px' }">
+            <img
+              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+              class="image"
+            />
+            <div style="padding: 14px">
+              <span>{{st[0]}}</span>
+              <div class="bottom">
+                <el-button type="text" class="button">{{st[1]}}</el-button>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+    <start-video-dialog
+      :open="videoDialogOpen"
+      @closeVideoDialog="end"
+    ></start-video-dialog>
+>>>>>>> feature/BE/conference
   </div>
 </template>
 <script>
@@ -55,7 +85,10 @@ export default {
   components: {
     "tchr-nav" : Tchr_nav,
     ModalView,
+<<<<<<< HEAD
     Datepicker,
+=======
+>>>>>>> feature/BE/conference
     StartVideoDialog
   },
   data(){
@@ -63,7 +96,10 @@ export default {
       videoDialogOpen:false,
       studentlist:null
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/BE/conference
   },
   setup() {
     const router = useRouter()
@@ -103,6 +139,17 @@ export default {
     end (){
       this.videoDialogOpen= false
     }
+  },
+  created:function(){
+    this.$store.dispatch('root/requestGetStudent')
+      .then(result=> {
+          this.studentlist = result.data
+          console.log(result.data)
+
+        })
+        .catch(function (err) {
+          alert(err)
+        })
   }
 }
 
