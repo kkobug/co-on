@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +22,6 @@ public class NoticeUpdatePutReq {
     String noticeTitle;
     @ApiModelProperty(name = "공지사항 본문", example = "공지사항 내용")
     String noticeContent;
-    @ApiModelProperty(name = "공지사항 작성일자", example= "")
-    String noticePosted;
+    @ApiModelProperty
+    List<MultipartFile> noticeFile;
 }

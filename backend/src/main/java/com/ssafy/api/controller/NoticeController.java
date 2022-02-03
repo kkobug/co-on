@@ -1,24 +1,17 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.*;
+import com.ssafy.api.request.NoticeDeleteRes;
+import com.ssafy.api.request.NoticeRegisterPostReq;
+import com.ssafy.api.request.NoticeUpdatePutReq;
 import com.ssafy.api.response.NoticeFindID;
-import com.ssafy.api.response.StudentFindID;
-import com.ssafy.api.response.TeacherFindID;
 import com.ssafy.api.service.*;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.db.entity.Homework;
 import com.ssafy.db.entity.Notice;
-import com.ssafy.db.entity.Student;
-import com.ssafy.db.entity.Teacher;
-import com.ssafy.db.repository.NoticeRepository;
-import com.ssafy.db.repository.NoticeRepositorySupport;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,13 +29,16 @@ public class NoticeController {
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 404, message = "잘못된 요청"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> register(
-			@RequestBody @ApiParam(value="공지사항 작성", required = true) NoticeRegisterPostReq noticeRegisterPostReq) {
-		Notice notice = noticeService.createNotice(noticeRegisterPostReq);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+			@ApiParam(value="공지사항 작성", required = true)
+			@ModelAttribute
+					NoticeRegisterPostReq noticeRegisterPostReq
+			) throws Exception{
+				noticeService.createNotice(noticeRegisterPostReq);
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
 	@DeleteMapping("/notice/delete")
@@ -54,7 +50,7 @@ public class NoticeController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> delete(@RequestBody NoticeDeleteRes noticeDeleteRes){
-		int noticeId = noticeDeleteRes.getNoticeId();
+		Long noticeId = (long) noticeDeleteRes.getNoticeId();
 		String tchrId = noticeDeleteRes.getTchrId();
 		noticeService.deleteNotice(noticeId, tchrId);
 		return ResponseEntity.status(200).body("OK");
@@ -69,7 +65,7 @@ public class NoticeController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<NoticeFindID> findNoticetId(
-			@PathVariable @ApiParam(value = "공지 상세 정보") Integer noticeId) {
+			@PathVariable @ApiParam(value = "공지 상세 정보") Long noticeId) {
 		Notice notice = noticeService.findBynoticeId(noticeId);
 		return ResponseEntity.status(200).body(NoticeFindID.of(notice));
 	}
@@ -83,9 +79,9 @@ public class NoticeController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> modify(
-			@PathVariable @ApiParam(value = "공지사항 수정") Integer noticeId,
-			@RequestBody NoticeUpdatePutReq noticeUpdatePutReq) {
-		Notice notice = noticeService.updateNotice(noticeId, noticeUpdatePutReq);
+			@PathVariable @ApiParam(value = "공지사항 수정") Long noticeId,
+			@ModelAttribute NoticeUpdatePutReq noticeUpdatePutReq) {
+		Notice notice = noticeService.updateNotice(Math.toIntExact(noticeId), noticeUpdatePutReq);
 		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 

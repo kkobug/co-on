@@ -1,10 +1,7 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.NoticeRegisterPostReq;
-import com.ssafy.api.request.NoticeUpdatePutReq;
 import com.ssafy.api.request.StudentHomeworkRegisterPostReq;
 import com.ssafy.api.request.StudentHomeworkUpdatePutReq;
-import com.ssafy.db.entity.Notice;
 import com.ssafy.db.entity.StudentHomework;
 import org.springframework.transaction.annotation.Transactional;
 
