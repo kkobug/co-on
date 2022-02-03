@@ -1,11 +1,16 @@
 <template>
   <div>
     <tchr-nav></tchr-nav>
-    <el-table :data="tableData" height="250" style="width: 100%">
-      <el-table-column prop="date" label="Date" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
-      <el-table-column prop="address" label="Address" />
-    </el-table>
+    <el-row>
+      <el-col :span="20" style="margin-left: 15vh">
+        <el-table :data="tableData" height="250" style="width: 100%">
+          <el-table-column prop="date" label="Date" width="180" />
+          <el-table-column prop="name" label="Name" width="180" />
+          <el-table-column prop="address" label="Address" />
+        </el-table>
+
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>

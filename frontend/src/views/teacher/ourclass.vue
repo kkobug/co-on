@@ -2,37 +2,44 @@
   <div>
     <tchr-nav></tchr-nav>
     <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
-    <button @click="state.isVisible=true">학생 추가</button>
-    <div class="stud">
-      <el-row>
-        <el-col
-        v-for="(o, index) in 3"
-        :key="o"
-        :span="8"
-        :offset="index > 0 ? 2 : 0"
-        >
-          <el-card :body-style="{ padding: '0px' }">
-            <img
-              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-              class="image"
-            />
-            <div style="padding: 14px">
-              <span>Yummy hamburger</span>
-              <div class="bottom">
-                <el-button type="text" class="button">Operating</el-button>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
+    <el-row :gutter="20" style="margin-top: 2vh">
+      <el-col :span="20" style="margin-left: 15vh">
+        <el-button class="staddbtn" @click="state.isVisible=true">학생 추가</el-button>
+        <datepicker format="yyyy/MM/dd" v-model="state.testDate"></datepicker>
+        <button @click="test">test</button>
+        <div class="stud">
+          <el-row>
+            <el-col
+            v-for="(o, index) in 24"
+            :key="o"
+            :span="4"
+            :offset="index > 0 ? 2 : 0"
+            >
+              <el-card :body-style="{ padding: '5px' }">
+                <img
+                  src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                  class="image"
+                />
+                <div style="padding: 14px">
+                  <span>Yummy hamburger</span>
+                  <div class="bottom">
+                    <el-button type="text" class="button">Operating</el-button>
+                  </div>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
+        </div>
 
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import Datepicker from 'vuejs3-datepicker'
 
 import ModalView from "./add_students.vue"
 import Tchr_nav from './tchr_nav.vue'
@@ -42,16 +49,29 @@ export default {
   components: {
     "tchr-nav" : Tchr_nav,
     ModalView,
+    Datepicker
   },
   setup() {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
       isVisible :false,
-      students:[]
+      students:[],
+      testDate: new Date(),
     })
+    const test = function () {
+      let month = String(state.testDate.getUTCMonth()+1)
+      if (month.length === 1) {
+        month = '0' + month
+      }
+      let day = String(state.testDate.getUTCDate())
+      if (day.length === 1) {
+        day = '0' + day
+      }
+      console.log(String(state.testDate.getUTCFullYear()) + month + day)
+    }
 
-    return {state}
+    return {state, test}
   },
   methods:{
     moveClass: function(){
@@ -119,5 +139,14 @@ export default {
 }
 .stud {
   display: flex;
+}
+.staddbtn {
+    width: 10%;
+    background-color: #6B3BE3;
+    border-radius: 15px;
+    text-align: center;
+    color: #fff;
+    margin-top: 10px;
+    margin-bottom: 2vh;
 }
 </style>
