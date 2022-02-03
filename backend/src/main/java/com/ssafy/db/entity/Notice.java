@@ -16,7 +16,7 @@ public class Notice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "notice_id", updatable = false)
-    Long noticeId;
+    Integer noticeId;
     @Column(name= "study_id", updatable = false)
     Integer studyId;
     @Column(name= "tchr_id", updatable = false)

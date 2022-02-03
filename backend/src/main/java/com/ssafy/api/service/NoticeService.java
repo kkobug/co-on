@@ -3,6 +3,7 @@ package com.ssafy.api.service;
 import com.ssafy.api.request.NoticeUpdatePutReq;
 import com.ssafy.db.entity.Notice;
 import com.ssafy.api.request.NoticeRegisterPostReq;
+import io.swagger.models.auth.In;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -15,9 +16,9 @@ public interface NoticeService {
 	Notice createNotice(NoticeRegisterPostReq noticeRegisterPostReq);
 	// 공지사항 삭제(공지사항 ID와 교수 ID로 삭제)
 	@Transactional
-	void deleteNotice(long noticeId, String tchrId);
+	void deleteNotice(Integer noticeId, String tchrId);
 	// 공지사항 상세 조회
-	Notice findBynoticeId(long NoticeId);
+	Notice findBynoticeId(Integer NoticeId);
 
     // 공지사항 조회 (수업ID에 따라, 교사ID에 따라, 공지사항 조회)
 	List<Notice> findNoticeByStudyId(Integer studyId);

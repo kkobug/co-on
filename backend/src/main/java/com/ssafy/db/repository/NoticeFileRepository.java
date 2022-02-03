@@ -16,11 +16,11 @@ public interface NoticeFileRepository extends JpaRepository<NoticeFile, Long> {
     // 공지 ID로 모든 파일 조회
     @Query(value = "SELECT NOTICE_FILE.* FROM NOTICE_FILE WHERE NOTICE_FILE.notice_id = :noticeId"
             , nativeQuery = true)
-    List<MultipartFile> findNoticeFileBynoticeId(long noticeId);
+    List<MultipartFile> findNoticeFileBynoticeId(Integer noticeId);
 
     // 파일 삭제
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM NOTICE_FILE WHERE NOTICE_FILE.notice_id = :noticeId", nativeQuery = true)
-    void deleteNoticeFileByNoticeId(long noticeId);
+    void deleteNoticeFileByNoticeId(Integer noticeId);
 }

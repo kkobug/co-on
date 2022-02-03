@@ -13,9 +13,9 @@ import java.util.List;
 @ApiModel("StudentHomeworkRegisterPostReq")
 public class StudentHomeworkRegisterPostReq {
     @ApiModelProperty(name = "교수 과제 ID", example = "1")
-    int hwId;
+    Integer hwId;
     @ApiModelProperty(name = "클래스 ID", example = "1")
-    int studyId;
+    Integer studyId;
     @ApiModelProperty(name = "출제 교사 ID", example = "tchr_id")
     String tchrId;
     @ApiModelProperty(name = "제출 학생 ID", example = "st_id")

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @MappedSuperclass
 public class BaseEntity {
     @Id
-    @Column(name = "notice_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id = null;
+    Integer id = null;
 }

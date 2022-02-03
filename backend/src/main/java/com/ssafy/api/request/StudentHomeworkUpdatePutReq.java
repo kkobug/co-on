@@ -13,7 +13,7 @@ import java.util.List;
 @ApiModel("StudentHomeworkUpdatePutRequest")
 public class StudentHomeworkUpdatePutReq {
     @ApiModelProperty(name = "학생 과제 ID", example = "null")
-    int stHwId;
+    Integer stHwId;
     @ApiModelProperty(name = "제출과제 내용", example = "도덕 과제 제출")
     String stHwContent;
     @ApiModelProperty

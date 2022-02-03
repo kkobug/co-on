@@ -10,7 +10,7 @@ import lombok.Setter;
 @ApiModel("StudyRoomAddPostRequest")
 public class StudyRoomAddPostReq {
     @ApiModelProperty(name = "수업 ID", example = "수학")
-    int studyId;
+    Integer studyId;
     @ApiModelProperty(name = "교사 ID", example = "test_id")
     String tchrId;
     @ApiModelProperty(name = "추가할 학생 ID", example = "st_id")

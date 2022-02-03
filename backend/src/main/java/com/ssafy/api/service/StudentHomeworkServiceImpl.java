@@ -72,12 +72,12 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
-    public void deleteStudentHomework(int stHwId, String stId) {
+    public void deleteStudentHomework(Integer stHwId, String stId) {
         studenthomeworkRepositorySupport.deleteStudentHomeworkByStHwIdAndStId(stHwId, stId);
     }
 
     @Override
-    public StudentHomework StudentHomeworkupdateNotice(int stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) {
+    public StudentHomework StudentHomeworkupdateNotice(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) {
         StudentHomework studenthomework = new StudentHomework();
         studenthomework.setStHwId(StudentHomeworkUpdatePutReq.getStHwId());
 //        studenthomework.setHwId(StudentHomeworkUpdatePutReq.getHwId());
@@ -122,7 +122,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
-    public List<StudentHomework> findStudentHomeworkByHwId(int hwId) {
+    public List<StudentHomework> findStudentHomeworkByHwId(Integer hwId) {
         return studenthomeworkRepositorySupport.findStudentHomeworkByHwId(hwId);
     }
 
@@ -132,7 +132,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
-    public StudentHomework findBystHwId(int stHwId) {
+    public StudentHomework findBystHwId(Integer stHwId) {
         StudentHomework studentHomework = studenthomeworkRepositorySupport.findBystHwId(stHwId).get();
         return studentHomework;
     }

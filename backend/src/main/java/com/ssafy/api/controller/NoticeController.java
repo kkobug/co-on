@@ -50,7 +50,7 @@ public class NoticeController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> delete(@RequestBody NoticeDeleteRes noticeDeleteRes){
-		Long noticeId = (long) noticeDeleteRes.getNoticeId();
+		Integer noticeId = noticeDeleteRes.getNoticeId();
 		String tchrId = noticeDeleteRes.getTchrId();
 		noticeService.deleteNotice(noticeId, tchrId);
 		return ResponseEntity.status(200).body("OK");
@@ -65,7 +65,7 @@ public class NoticeController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<NoticeFindID> findNoticetId(
-			@PathVariable @ApiParam(value = "공지 상세 정보") Long noticeId) {
+			@PathVariable @ApiParam(value = "공지 상세 정보") Integer noticeId) {
 		Notice notice = noticeService.findBynoticeId(noticeId);
 		return ResponseEntity.status(200).body(NoticeFindID.of(notice));
 	}
@@ -79,7 +79,7 @@ public class NoticeController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> modify(
-			@PathVariable @ApiParam(value = "공지사항 수정") Long noticeId,
+			@PathVariable @ApiParam(value = "공지사항 수정") Integer noticeId,
 			@ModelAttribute NoticeUpdatePutReq noticeUpdatePutReq) {
 		Notice notice = noticeService.updateNotice(Math.toIntExact(noticeId), noticeUpdatePutReq);
 		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));

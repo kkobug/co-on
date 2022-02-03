@@ -20,9 +20,8 @@ public class StudyRoomRepositorySupport {
     private JPAQueryFactory jpaQueryFactory;
     QStudyroom qStudyRoom = QStudyroom.studyroom;
     public List<String> findStudyNameByTchrId(String tchrId) {
-        List<String> list = jpaQueryFactory.select(qStudyRoom.studyName).from(qStudyRoom)
+        return jpaQueryFactory.select(qStudyRoom.studyName).from(qStudyRoom)
                 .where(qStudyRoom.teacher.tchrId.eq(tchrId)).fetch();
-        return list;
     }
 
     public void deleteStudyRoomByTchrIdAndStudyName(String tchrId, String studyName){

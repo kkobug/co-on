@@ -13,7 +13,7 @@ import java.util.List;
 @ApiModel("NoticeUpdatePutRequest")
 public class NoticeUpdatePutReq {
     @ApiModelProperty(name = "notice ID", example = "null")
-    int noticeId;
+    Integer noticeId;
 //    @ApiModelProperty(name = "클래스 ID", example = "1")
 //    int studyId;
 //    @ApiModelProperty(name = "교수 ID", example = "1")

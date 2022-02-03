@@ -16,25 +16,22 @@ public class HomeworkRepositorySupport {
     QHomework qHomework = QHomework.homework;
 
     public List<Homework> findHomeworkByStudyId(Integer studyId) {
-        List<Homework> list = jpaQueryFactory.select(qHomework).from(qHomework)
+        return jpaQueryFactory.select(qHomework).from(qHomework)
                 .where(qHomework.studyId.eq(studyId)).fetch();
-        return list;
     }
 
     public List<Homework> findHomeworkByTchrId(String tchrId) {
-        List<Homework> list = jpaQueryFactory.select(qHomework).from(qHomework)
+        return jpaQueryFactory.select(qHomework).from(qHomework)
                 .where(qHomework.tchrId.eq(tchrId)).fetch();
-        return list;
     }
 
     public Optional<Homework> findHomeworkByHwId(Integer hwId) {
         Homework homework = jpaQueryFactory.select(qHomework).from(qHomework)
                 .where(qHomework.hwId.eq(hwId)).fetchOne();
-        if(homework == null) return Optional.empty();
         return Optional.ofNullable(homework);
     }
 
-    public void deleteHomeworkByHwId(int hwId, String tchrId){
+    public void deleteHomeworkByHwId(Integer hwId, String tchrId){
         jpaQueryFactory.delete(qHomework).where(qHomework.hwId.eq(hwId).and(qHomework.tchrId.eq(tchrId))).execute();
     }
 }

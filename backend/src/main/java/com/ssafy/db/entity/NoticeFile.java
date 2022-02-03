@@ -14,10 +14,10 @@ public class NoticeFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "file_id")
-    Long fileId;
+    Integer fileId;
 
     @Column(name= "notice_id")
-    Long noticeId;
+    Integer noticeId;
 
     @Column(name= "file_origin_name")
     String fileOriginName;
@@ -28,12 +28,4 @@ public class NoticeFile {
     @Column(name= "file_path")
     String filePath;
 
-//    @Column(name= "ext")
-//    String ext;
-//
-//    @Column(name= "size")
-//    String size;
-//
-//    @Column(name= "content_type")
-//    String contentType;
 }

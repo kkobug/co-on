@@ -12,16 +12,16 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Repository
-public interface StudentHomeworkFileRepository extends JpaRepository<StudentHomeworkFile, Long> {
+public interface StudentHomeworkFileRepository extends JpaRepository<StudentHomeworkFile, Integer> {
 
     // 공지 ID로 모든 파일 조회
-    @Query(value = "SELECT ST_HW_FILE.* FROM ST_HW_FILE WHERE ST_HW_FILE.st_hwid = :stHwId"
+    @Query(value = "SELECT student_homework_file.* FROM ST_HW_FILE WHERE student_homework_file.st_hwid = :stHwId"
             , nativeQuery = true)
-    List<MultipartFile> findStudentHomeworkFileByStHwId(long stHwId);
+    List<MultipartFile> findStudentHomeworkFileByStHwId(Integer stHwId);
 
     // 파일 삭제
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM ST_HW_FILE WHERE ST_HW_FILE.st_hwid = :stHwId", nativeQuery = true)
-    void deleteStudentHomeworkFileByStHwId(long stHwId);
+    @Query(value = "DELETE FROM student_homework_file WHERE student_homework_file.st_hwid = :stHwId", nativeQuery = true)
+    void deleteStudentHomeworkFileByStHwId(Integer stHwId);
 }

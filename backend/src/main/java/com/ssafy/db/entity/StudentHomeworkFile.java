@@ -12,9 +12,9 @@ public class StudentHomeworkFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "file_id")
-    Long fileId;
+    Integer fileId;
 
-    @Column(name= "sthw_id")
+    @Column(name= "st_hwid")
     Integer stHwId;
 
     @Column(name= "file_origin_name")

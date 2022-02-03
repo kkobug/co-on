@@ -49,7 +49,7 @@ public class StudentHomeworkController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> delete(@RequestBody StudentHomeworkDeleteRes studentHomeworkDeleteRes){
-		int stHwId = studentHomeworkDeleteRes.getStHwId();
+		Integer stHwId = studentHomeworkDeleteRes.getStHwId();
 		String stId = studentHomeworkDeleteRes.getStId();
 		studentHomeworkService.deleteStudentHomework(stHwId, stId);
 		return ResponseEntity.status(200).body("OK");
@@ -80,7 +80,7 @@ public class StudentHomeworkController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<List<StudentHomework>> hw_list(
-			@PathVariable @ApiParam(value = "학생 과제 정보", required = true)int hwId) {
+			@PathVariable @ApiParam(value = "학생 과제 정보", required = true)Integer hwId) {
 		List<StudentHomework> list = studentHomeworkService.findStudentHomeworkByHwId(hwId);
 		return ResponseEntity.status(200).body(list);
 	}

@@ -72,12 +72,12 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override // 공지사항 삭제
-    public void deleteNotice(long noticeId, String tchrId) {
+    public void deleteNotice(Integer noticeId, String tchrId) {
         noticeRepositorySupport.deleteNoticeByNoticeIdAndTchrId(noticeId, tchrId);
     }
 
     @Override // 공지사항 상세 조회
-    public Notice findBynoticeId(long NoticeId) {
+    public Notice findBynoticeId(Integer NoticeId) {
         Notice notice = noticeRepositorySupport.findByNoticeId(NoticeId).get();
         return notice;
     }

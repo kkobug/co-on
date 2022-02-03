@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @ApiModel("NoticeResponse")
 public class NoticeFindID {
     @ApiModelProperty(name="Notice ID")
-    Long noticeId;
+    Integer noticeId;
     @ApiModelProperty(name = "클래스 ID", example = "1")
     Integer studyId;
     @ApiModelProperty(name="tchr ID")
