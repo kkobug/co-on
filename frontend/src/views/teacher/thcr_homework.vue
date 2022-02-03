@@ -1,19 +1,19 @@
 <template>
   <div>
-    <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
+    <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data style="box-shadow: 3px 3px 3px 3px gray;" v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
     <div style="text-align: right">
-      <button class="sub_btn" @click="state.isVisible = true">숙제 생성</button>
+      <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 25px" class="sub_btn" @click="state.isVisible = true">숙제 생성</el-button>
     </div>
-    <div>
-      <div v-for = "(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
+    <div v-if="state.homeworks">
+      <div v-for="(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
         <div class="li-left li-sec">
           <div class ="li-title li-item">{{hw.hwTitle}}</div>
           <div class ="li-lesson li-item">{{hw.hwContent}}</div>
         </div>
         <div class="li-right li-sec">
           <div class ="li-time li-item">{{hw.hwPosted}}</div>
-          <div class ="li-item" @click = "updatehomework(index)">수정</div>
-          <div class ="li-item" @click = "delhomeworks(hw.hwId)">삭제</div>
+          <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
+          <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)">삭제</el-button>
         </div>
       </div>
     </div>
@@ -40,7 +40,6 @@ export default {
       props_data:{}
     })
     const gethomeworksList = function(){
-      console.log("start")
       store.dispatch('root/requestListHomework', {
             studyId: store.state.root.curClassId})
         .then(res =>{
@@ -52,8 +51,8 @@ export default {
       store.dispatch('root/requestDelHomework', {
             hwId: homwid,
             tchrId: store.state.root.userid})
-        .then({
-          gethomeworksList
+        .then(res =>{
+          gethomeworksList();
         })
     }
     const updatehomework = function(idx){
@@ -69,8 +68,8 @@ export default {
       state.props_data={}
     }
     onMounted(()=>{
-        gethomeworksList();
-      })
+      gethomeworksList();
+    })
 
     return {state, onMounted, closemodal, updatehomework, delhomeworks, gethomeworksList}
   },
@@ -85,9 +84,10 @@ export default {
 .el-item{
   display: flex;
   justify-content: space-between;
-  border: solid 1px black;
+  /* border: solid 1px black; */
+  background-color: #ecf0f1;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 20px;
   height: 80px;
   margin-bottom: 10px;
 }

@@ -1,5 +1,6 @@
 <template>
   <div class ="modal">
+<<<<<<< HEAD
     <div class="overlay" @click="closeModal">X</div>
     <div><p>과제 등록</p></div>
     <form action="#" id="hwForm" method="post" enctype="multipart/form-data">
@@ -10,6 +11,34 @@
       <button v-if="isupdate" @click="updatehomework">수정</button>
       <button v-else @click="addhomework">등록</button>
     </form>
+=======
+    <el-button type="text" class="overlay" @click="closeModal" style="margin-right: 5px">❌</el-button>
+    <h2 style="margin-top: 4vh"><strong>과제 등록</strong></h2>
+    <el-row>
+      <el-col :span="20" :offset="2">
+        <el-form>
+          <el-form-item label="제목:">
+            <el-input v-model="state.title"></el-input>
+          </el-form-item>
+          <el-form-item label="설명:">
+            <el-input v-model="state.contents"></el-input>
+          </el-form-item>
+          <el-form-item label="날짜:">
+            <el-date-picker
+              v-model="state.date" type="date" placeholder="Pick your birthday" style="width: 100%" format="YYYY-MM-DD" value-format="YYYYMMDD">
+            </el-date-picker>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
+    <!-- <div><label for="title">제목: </label><input v-model="state.title" name="title" type="text"></div>
+    <div><label for="explain">설명: </label><input v-model="state.contents" name="explain" type="text"></div>
+    <div><label for="date">날짜: </label><input v-model="state.date" name="date" type="text"></div> -->
+    <div class="btn-div">
+      <el-button v-if="isupdate" @click="updatehomework">수정</el-button>
+      <el-button v-else @click="addhomework">등록</el-button>
+    </div>
+>>>>>>> 8b565c0ec828069cd6401a87439399b4ced689c5
   </div>
 </template>
 
@@ -47,12 +76,24 @@ export default {
       dataChange(reqObject);
     };
     const addhomework = function(){
+<<<<<<< HEAD
       var hwFormData = new FormData(document.querySelector('#hwForm'))
       hwFormData.append('studyId', state.id)
       hwFormData.append()
 
       store.dispatch('root/requestAddHomework', hwFormData)
       closeModal()
+=======
+      store.dispatch('root/requestAddHomework', {
+        hwContent: state.contents,
+        hwDeadline: "2022-02-18 12:00",
+        hwTitle: state.title,
+        studyId: store.state.root.curClassId,
+        tchrId: store.state.root.userid})
+      .then(res=>{
+        closeModal();
+      })
+>>>>>>> 8b565c0ec828069cd6401a87439399b4ced689c5
     }
     const updatehomework = function(){
       store.dispatch('root/requestupdateHomework', {
@@ -89,7 +130,7 @@ export default {
 <style scoped>
   .modal{
     width: 500px;
-    height: 300px;
+    height: auto;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -98,8 +139,8 @@ export default {
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    border : solid 1px black;
-    border-radius: 10px;
+    /* border : solid 2px black; */
+    border-radius: 20px;
     background-color: white;
   }
   .overlay{
@@ -108,5 +149,14 @@ export default {
     height : 20px;
     right: 10px;
     top: 10px;
+  }
+  .btn-div .el-button {
+    width: 20%;
+    background-color: #6B3BE3;
+    border-radius: 12px;
+    text-align: center;
+    color: #fff;
+    margin-top: 10px;
+    margin-bottom: 2vh;
   }
 </style>

@@ -1,18 +1,22 @@
 <template>
 <!-- main.vue -->
-  <el-container class="main-wrapper">
+  <el-container class="main-wrapper" style="padding: 0">
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
         <main-sidebar
           :width="`240px`"
+          style="height : 100vh; position: relatve;"
           @logout1="logout2"
           />
       </el-aside>
-      <el-main>
-        <router-view @deleteId="deleteId1" ></router-view>
+      <el-main style="padding: 0">
+        <!-- <el-row> -->
+          <!-- <el-col :span="20" :offset="2"> -->
+          <router-view @deleteId="deleteId1" ></router-view>
+          <!-- </el-col> -->
+        <!-- </el-row> -->
       </el-main>
     </el-container>
-    <main-footer :height="`110px`"/>
   </el-container>
 
 </template>
@@ -21,7 +25,11 @@
   @import './main.css';
   @import '../../common/css/common.css';
   @import '../../common/css/element-plus.css';
+.main-wrapper{
+  /* background-color: #E0E4D7; */
+  background-color: #E7EDDE;
 
+}
 </style>
 <script>
 import MainSidebar from './components/main-sidebar'

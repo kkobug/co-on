@@ -1,10 +1,14 @@
 <template>
   <div>
     <tchr-nav></tchr-nav>
-    <h1 style="text-align:left">{{ state.classtitle }} 반의 수업{{ state.classId }}</h1>
-    <homework></homework>
-    <notice></notice>
-    <button class="sub_btn" @click ="delClass">수업 삭제</button>
+    <el-row :gutter="20">
+      <el-col :span="20" style="margin-left: 15vh">
+          <h1 style="text-align:center; margin-top: 3vh; font-size: 30px">{{ state.classId }}반의 수업 {{ state.classtitle }}</h1>
+          <homework></homework>
+          <notice></notice>
+          <el-button class="sub_btn" @click ="delClass">수업 삭제</el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -87,7 +91,11 @@ export default {
 .sub_btn{
   padding: 5px;
   margin: 20px;
-  background-color: red;
-  float: right;
+  background-color: #6B3BE3;
+  border-radius: 15px;
+  width: 30%;
+  height: 50px;
+  text-align: center;
+  color: #fff;
 }
 </style>

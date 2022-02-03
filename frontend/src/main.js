@@ -11,6 +11,11 @@ import router from './common/lib/vue-router'
 import VCalendar from 'v-calendar'
 // import GAuth from 'vue-google-oauth2'
 import googleAuth from './authentification'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faUserSecret,faChalkboardTeacher,faCalendarCheck,faClock,faBell,faMicrophone,faMicrophoneSlash,faVideo,faVideoSlash,faDoorOpen} from '@fortawesome/free-solid-svg-icons'
+library.add(faClock,faBell,faUserSecret,faChalkboardTeacher,faCalendarCheck,faMicrophone,faMicrophoneSlash,faVideo,faVideoSlash,faDoorOpen)
+
 
 import 'element-plus/packages/theme-chalk/src/base.scss'
 
@@ -194,7 +199,6 @@ const plugins = [
   ElNotification,
 ]
 // Element UI Components [끝]
-
 const app = createApp({
   render: ()=>h(App)
 })
@@ -204,6 +208,8 @@ app.use(store)
 app.use(i18n)
 app.use(router)
 app.use(VCalendar)
+app.component('font-awesome-icon', FontAwesomeIcon)
+
 
 // app.use(googleAuth, {
 //   clientId: process.env.VUE_APP_CLIENT_ID,

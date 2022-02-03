@@ -16,7 +16,6 @@ import Tchr_contents from '@/views/teacher/tchr_contents'
 import Main_calendar from '@/views/main/components/calendar'
 import hw_notice from '@/views/main/components/hw_notice'
 import Lesson from '@/views/main/components/lesson'
-import Lesson2 from '@/views/main/components/lesson_copy'
 
 import Video from '@/views/video/video_main'
 
@@ -103,11 +102,6 @@ const routes = [
     path: "/video",
     name: "video",
     component: Video,
-  },
-  {
-    path: '/lesson2',
-    name: 'Lesson2',
-    component: Lesson2,
   },
   {
     path: "/tchr_contents",
