@@ -9,6 +9,7 @@
         <div class="li-left li-sec">
           <div class ="li-title li-item">{{ntice.noticeTitle}}</div>
           <div class ="li-lesson li-item">{{ntice.noticeContent}}</div>
+          <div class ="li-lesson li-item">{{ntice.noticeFile}}</div>
         </div>
         <div class="li-right li-sec">
           <div class ="li-time li-item">{{ntice.noticePosted}}</div>
