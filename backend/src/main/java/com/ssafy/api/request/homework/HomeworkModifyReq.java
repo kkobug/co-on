@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -24,9 +26,9 @@ public class HomeworkModifyReq {
     @ApiModelProperty(name = "과제 내용")
     String hwContent;
     @ApiModelProperty(name = "제출 기한")
-    String hwDeadline;
+    LocalDate hwDeadline;
     @ApiModelProperty(name = "작성일자", example= "")
-    String hwPosted;
+    LocalDateTime hwPosted;
     @ApiModelProperty
     List<MultipartFile> hwFile;
 }

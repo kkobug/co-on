@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,7 +27,7 @@ public class Homework implements Serializable {
     @Column(name = "hw_content")
     String hwContent;
     @Column(name = "hw_deadline")
-    String hwDeadline;
+    LocalDate hwDeadline;
     @CreationTimestamp
     @LastModifiedDate
     @Column(name = "hw_posted")

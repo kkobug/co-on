@@ -37,6 +37,7 @@ public class NoticeController {
 			@ModelAttribute
 					NoticeRegisterPostReq noticeRegisterPostReq
 			) throws Exception{
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				noticeService.createNotice(noticeRegisterPostReq);
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}

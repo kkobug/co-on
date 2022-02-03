@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,7 +24,7 @@ public class HomeworkInfoRes {
     @ApiModelProperty(name = "hw_content")
     String hwContent;
     @ApiModelProperty(name = "hw_deadline")
-    String hwDeadline;
+    LocalDate hwDeadline;
     @ApiModelProperty(name = "hw_posted")
     LocalDateTime hwPosted;
 //    @ApiModelProperty(name = "hw_file")
