@@ -12,8 +12,8 @@ import java.io.Serializable;
 public class Studyroom implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "study_id")
-    int studyId;
+    @Column(name= "study_id", updatable = false)
+    Integer studyId;
     @Column(name= "tchr_id")
     String tchrId;
     @Column(name= "study_name")

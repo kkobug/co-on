@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 public class Student implements Serializable{ //Student Table 속성 정의
     @Id
-    @Column(name = "st_id")
+    @Column(name = "st_id", updatable = false)
     String stId;
     @Column(name = "st_name")
     String stName;
