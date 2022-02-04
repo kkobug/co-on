@@ -1,5 +1,6 @@
 // ROOT STATE 변수 정의 및 기본값 대입
 const menuData = require('@/views/main/menu.json')
+const Tchr_menuData = require('@/views/main/Tchr_menu.json')
 
 /**
  * 플랫폼 관련 정보로 데스크탑인지, 모바일인지 판별 - 하이브리드 앱 대비
@@ -32,7 +33,7 @@ const IsDesktop = getIsDesktop()
 export default {
   isDesktopPlatform: IsDesktop,
   activeMenu: 'home',
-  menus: menuData,
+  menus: "",
   userid:'',
   authtoken:'',
   whetherTchr: false,

@@ -1,9 +1,11 @@
+const menuData = require('@/views/main/menu.json')
+const Tchr_menuData = require('@/views/main/Tchr_menu.json')
 export function setPlatform (state, isDesktop) {
   state.isDesktopPlatform = isDesktop
 }
 
 export function setMenuActive (state, index) {
-	console.log('setMenuActive', state,index)
+	console.log('setMenuActive',index)
 	const keys = Object.keys(state.menus)
 	state.activeMenu = keys[index]
 }
@@ -26,9 +28,11 @@ export function jwtToken (state,jwt) {
 }
 export function checkTeacher (state) {
   state.whetherTchr = true
+  state.menus = Tchr_menuData
 }
 export function checkStudent (state) {
   state.whetherTchr = false
+  state.menus = menuData
 }
 export function changeClassName (state, className) {
   state.curClassName = className
