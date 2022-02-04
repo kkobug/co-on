@@ -20,8 +20,11 @@ import org.springframework.stereotype.Repository;
 public class TeacherRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
+
     QTeacher qTeacher = QTeacher.teacher;
+
     QStudent qStudent = QStudent.student;
+
     public Optional<Teacher> findById(String tchrId) {
         Teacher teacher = jpaQueryFactory.select(qTeacher).from(qTeacher)
                 .where(qTeacher.tchrId.eq(tchrId)).fetchOne();

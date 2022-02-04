@@ -1,6 +1,7 @@
 package com.ssafy.api.service.user;
 
 import com.ssafy.api.request.user.TeacherModifyPutReq;
+import com.ssafy.api.request.user.TeacherProfilePutReq;
 import com.ssafy.api.request.user.TeacherRegisterPostReq;
 import com.ssafy.db.entity.Teacher;
 
@@ -17,4 +18,6 @@ public interface TeacherService {
 	void deleteTeacher(String tchr_id);
 	String findByName(String tchrName);
 	List<Object[]> findstIdAndstName();
+
+	Teacher changeTeacherProfile(TeacherProfilePutReq teacherProfilePutReq);
 }

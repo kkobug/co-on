@@ -102,6 +102,23 @@ public class UserController {
 	}
 
 
+	@PutMapping("/teacher/profile")
+	@ApiOperation(value = "교사 프로필 사진 수정", notes = "<strong>교사ID, 프로필 이미지</strong>를 통해 정보를 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> teacherprof(
+			@ModelAttribute
+			TeacherProfilePutReq teacherProfilePutReq
+	) {
+		teacherService.changeTeacherProfile(teacherProfilePutReq);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+
 	@PutMapping("/student/modify")
 	@ApiOperation(value = "학생 회원 정보 수정", notes = "회원 정보를 수정한다.")
 	@ApiResponses({
@@ -120,6 +137,23 @@ public class UserController {
 			Student student = studentService.updateStudent(studentUpdatePutReq);
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 		}
+	}
+
+
+	@PutMapping("/student/profile")
+	@ApiOperation(value = "학생 프로필 사진 수정", notes = "<strong>학생ID, 프로필 이미지</strong>를 통해 정보를 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> studentprof(
+			@ModelAttribute
+					StudentProfilePutReq studentProfilePutReq
+	) {
+		studentService.changeStudentProfile(studentProfilePutReq);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
 

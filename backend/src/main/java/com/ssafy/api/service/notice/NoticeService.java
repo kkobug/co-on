@@ -5,6 +5,7 @@ import com.ssafy.db.entity.Notice;
 import com.ssafy.api.request.notice.NoticeRegisterPostReq;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ import java.util.*;
  */
 public interface NoticeService {
 	// 공지사항 등록, 첨부파일 등록
-	Notice createNotice(NoticeRegisterPostReq noticeRegisterPostReq);
+	Notice createNotice(NoticeRegisterPostReq noticeRegisterPostReq) throws IOException;
 	// 공지사항 삭제(공지사항 ID와 교수 ID로 삭제)
 	@Transactional
 	void deleteNotice(Integer noticeId, String tchrId);
@@ -25,6 +26,6 @@ public interface NoticeService {
 	List<Notice> findNoticeBystId(String stId);
 
 	//공지사항 수정
-	Notice updateNotice(Integer noticeId, NoticeUpdatePutReq noticeUpdatePutReq);
+	Notice updateNotice(Integer noticeId, NoticeUpdatePutReq noticeUpdatePutReq) throws IOException;
 
 }

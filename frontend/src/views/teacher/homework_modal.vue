@@ -3,10 +3,10 @@
     <div class="overlay" @click="closeModal">X</div>
     <div><p>과제 등록</p></div>
     <form action="#" id="hwForm" method="post" enctype="multipart/form-data">
-      <div><label for="hwTitle">제목</label><input v-model="state.hwTitle" name="hwTitle" type="text"></div>
-      <div><label for="explain">설명</label><input v-model="state.hwContent" name="explain" type="text"></div>
-      <div><label for="hwDeadline">날짜</label><input v-model="state.hwDeadline" name="hwDeadline" type="text"></div>
-      <div><label for="hwFile">파일</label><input type="file" multiple="multiple" @change="addFile" ref="refNoticeFile" name="hwFile" id="hwFile"></div>
+      <div><label for="hwTitle">제목</label><input v-model="state.form.hwTitle" name="hwTitle" type="text"></div>
+      <div><label for="hwContent">설명</label><input v-model="state.form.hwContent" name="hwContent" type="text"></div>
+      <div><label for="hwDeadline">날짜</label><input v-model="state.form.hwDeadline" name="hwDeadline" type="text"></div>
+      <div><label for="hwFile">파일</label><input type="file" multiple="multiple" @change="addFile" ref="refHwFile" name="hwFile" id="hwFile"></div>
       <button v-if="isupdate" @click="updatehomework">수정</button>
       <button v-else @click="addhomework">등록</button>
     </form>
@@ -80,11 +80,12 @@ export default {
       // hwFormData.append('hwContent', state.form.hwContent)
       // hwFormData.append('hwDeadline', state.form.hwDeadline)
       // hwFormData.append('hwFile', state.form.hwFile)
+      console.log("!!")
 
       store.dispatch('root/requestAddHomework', hwFormData)
-      .then(res => {
-        closeModal()
-      })
+      // .then(res => {
+      //   closeModal()
+      // })
     }
     const addFile = function(event) {
       var files = event.target.files

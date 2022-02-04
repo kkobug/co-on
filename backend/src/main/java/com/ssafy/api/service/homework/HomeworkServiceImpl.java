@@ -32,11 +32,22 @@ public class HomeworkServiceImpl implements HomeworkService{
     @Override
     public Homework createHomework(HomeworkRegisterPostReq homeworkRegisterPostReq) {
         Homework homework = new Homework();
+        System.out.println("어디가문제니 1111111");
+        System.out.println(homeworkRegisterPostReq.getHwTitle());
         homework.setHwTitle(homeworkRegisterPostReq.getHwTitle());
+        System.out.println("어디가문제니 2222222");
+        System.out.println(homeworkRegisterPostReq.getHwContent());
         homework.setHwContent(homeworkRegisterPostReq.getHwContent());
+        System.out.println("어디가문제니 3333333");
+        System.out.println(homeworkRegisterPostReq.getHwDeadline());
         homework.setHwDeadline(homeworkRegisterPostReq.getHwDeadline());
+        System.out.println("어디가문제니 4444444");
+        System.out.println(homeworkRegisterPostReq.getTchrId());
         homework.setTchrId(homeworkRegisterPostReq.getTchrId());
+        System.out.println("어디가문제니 5555555");
+        System.out.println(homeworkRegisterPostReq.getStudyId());
         homework.setStudyId(homeworkRegisterPostReq.getStudyId());
+        System.out.println("어디가문제니 6666666");
         homeworkRepository.save(homework);
         if (!homeworkRegisterPostReq.getHwFile().get(0).isEmpty()) {
             List<MultipartFile> hwFile = homeworkRegisterPostReq.getHwFile();
@@ -48,9 +59,8 @@ public class HomeworkServiceImpl implements HomeworkService{
                 File destinationHomeworkFile;
                 String destinationHomeworkFileName;
                 String homeworkPath = "D:/";
-                LocalDateTime nowtime = LocalDateTime.now();
 
-                destinationHomeworkFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationHomeworkFileName = "stu" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
 
                 destinationHomeworkFile.getParentFile().mkdirs();
@@ -121,9 +131,8 @@ public class HomeworkServiceImpl implements HomeworkService{
                 File destinationHomeworkFile;
                 String destinationHomeworkFileName;
                 String homeworkPath = "D:/";
-                LocalDateTime nowtime = LocalDateTime.now();
 
-                destinationHomeworkFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationHomeworkFileName = "stu" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
 
                 destinationHomeworkFile.getParentFile().mkdirs();
