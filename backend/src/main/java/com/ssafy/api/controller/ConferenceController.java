@@ -50,20 +50,20 @@ public class ConferenceController {
         return ResponseEntity.status(200).body(conference);
     }
 
-//    @PostMapping("/conference/enter")
-//    @ApiOperation(value = "수업 입장", notes = "수업에 입장하여 출석기록을 남긴다.")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "성공"),
-//            @ApiResponse(code = 401, message = "인증 실패"),
-//            @ApiResponse(code = 404, message = "잘못된 요청"),
-//            @ApiResponse(code = 500, message = "서버 오류")
-//    })
-//    public ResponseEntity<? extends BaseResponseBody> studyin(
-//            @ApiParam(value = "수업 입장", required = true)
-//            @RequestParam
-//            String stId, Integer confId
-//    ) {
-//        conferenceService.enterConference();
-//        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-//    }
+    @PostMapping("/conference/enter")
+    @ApiOperation(value = "수업 입장", notes = "수업에 입장하여 출석기록을 남긴다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "잘못된 요청"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> studyin(
+            @ApiParam(value = "수업 입장", required = true)
+            @RequestParam
+            String stId, Integer confId
+    ) {
+        conferenceService.enterConference(stId, confId);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
 }

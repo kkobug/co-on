@@ -1,6 +1,7 @@
 package com.ssafy.api.service.conference;
 
 import com.ssafy.api.request.conference.ConferenceRegisterReq;
+import com.ssafy.db.entity.Attendance;
 import com.ssafy.db.entity.Conference;
 
 public interface ConferenceService {
@@ -9,5 +10,7 @@ public interface ConferenceService {
 
     Conference findConference(Integer studyId, String tchrId);
 
-    void enterConference();
+    Attendance findAttendance(String stId, Integer confId);
+
+    void enterConference(String stId, Integer confId);
 }
