@@ -24,4 +24,5 @@ public class Studyroom implements Serializable {
     @JoinColumn(name = "tchr_id",insertable = false, updatable = false)
     private Teacher teacher;
 
+
 }

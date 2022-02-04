@@ -31,4 +31,5 @@ public class Conference {
     LocalDateTime confEnd;
     @Column(name = "conf_att", updatable = false)
     LocalTime confAtt;
+
 }
