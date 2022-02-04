@@ -4,8 +4,8 @@
     <el-row :gutter="20">
       <el-col :span="20" style="margin-left: 15vh">
           <h1 style="text-align:center; margin-top: 1vh; font-size: 30px">{{ state.classId }}반의 수업 {{ state.classtitle }}</h1>
-          <homework style="height: 38vh"></homework>
-          <notice style="height: 38vh"></notice>
+          <homework></homework>
+          <notice></notice>
           <el-button class="sub_btn" @click ="delClass">수업 삭제</el-button>
       </el-col>
     </el-row>
