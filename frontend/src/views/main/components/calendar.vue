@@ -8,6 +8,7 @@
         <!-- 대시보드 -->
         <el-row id="dashboard">
           <el-col :span="6">
+
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
               <div style="padding: 14px; text-align:left; background-color:#EADDFF">
                 <font-awesome-icon icon="clock" style="font-size:80px" />
@@ -16,13 +17,14 @@
                 </span>
                 <div class="bottom">
                   <el-button type="text" class="button">{{this.dashHw.title}}</el-button>
-                  <!-- <p>{{this.dashHw.content}}</p> -->
+                  <p>{{this.dashHw.content}}</p>
                   <div>
                     <time class="time">{{ this.dashHw.end }}</time>
                   </div>
                 </div>
               </div>
             </el-card>
+
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
               <div style="padding: 14px; text-align:left; background-color:#EADDFF">
                 <font-awesome-icon icon="clock" style="font-size:80px" />
@@ -34,6 +36,7 @@
                 </div>
               </div>
             </el-card>
+
           </el-col>
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashNotice">
@@ -43,13 +46,20 @@
                   New Notice
                 </span>
                 <div class="bottom">
-                  <el-button type="text" class="button">{{this.dashNotice.noticeTitle}}</el-button>
+                  <el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button>
                   <!-- <p>{{this.dashNotice.noticeContent}}</p> -->
                   <div>
                     <time class="time">{{ this.dashNotice.noticePosted }}</time>
                   </div>
                 </div>
               </div>
+              <el-drawer v-model="drawer" direction="ttb">
+                <template #title>
+                  <h1 style="font-size: 25px; color: black">{{this.dashNotice.noticeTitle}}</h1>
+                </template>
+                <h3>내용: {{ this.dashNotice.noticeContent }}</h3>
+                <h4>제출 기한: {{ this.dashNotice.noticePosted }}</h4>
+              </el-drawer>
             </el-card>
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
               <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
@@ -71,8 +81,10 @@
                   출석 확인
                 </span>
                 <div class="bottom">
-                  <time class="time">{{ this.today }}</time>
                   <el-button type="text" class="button">Operating</el-button>
+                  <div>
+                    <time class="time">{{ this.today }}</time>
+                  </div>
                 </div>
               </div>
             </el-card>
@@ -85,29 +97,39 @@
                   진행중인 수업
                 </span>
                 <div class="bottom">
-                  <time class="time">{{ this.today }}</time>
                   <el-button type="text" class="button">Operating</el-button>
+                  <div>
+                    <time class="time">{{ this.today }}</time>
+                  </div>
                 </div>
               </div>
             </el-card>
           </el-col>
         </el-row>
-        <!-- 원형 그래프 -->
-        <graph/>
+        <el-row >
         <!-- 달력 -->
-        <div class="calendar">
-          <vue-cal
-            class="vuecal--blue-theme cal"
-            :selected-date="this.today"
-            :disable-views="['years', 'year']"
-            default-view="month"
-            events-on-month-view="short"
-            overlaps-per-time-step
-            :events="events"
-            style="height: auto"
-          >
-          </vue-cal>
-        </div>
+          <el-col :span="18">
+            <div class="calendar">
+              <vue-cal
+                class="vuecal--blue-theme cal"
+                :selected-date="this.today"
+                :disable-views="['years', 'year']"
+                active-view="month"
+                events-on-month-view="short"
+                overlaps-per-time-step
+                :events="events"
+                style="height: auto"
+              >
+              </vue-cal>
+            </div>
+          </el-col>
+        <!-- 원형 그래프 -->
+          <el-col :span="6">
+            <div>
+              <canvas id="myChart"></canvas>
+            </div>
+          </el-col>
+        </el-row>
       </div>
     </el-col>
   </el-row>
@@ -117,20 +139,21 @@
 import VueCal from 'vue-cal'
 import "vue-cal/dist/vuecal.css";
 
-import graph from './graph.vue'
+import Chart from 'chart.js'
+
 export default {
   name: "Calendar",
   components: {
     VueCal,
-    graph
     },
 
   data: () => ({
     events: [],
     today:new Date(),
     dashHw:undefined,
-    dashNotice:undefined
-  }),
+    dashNotice:undefined,
+    drawer: false
+ }),
   methods: {
     setEventVal() {
       this.events = [
@@ -172,20 +195,22 @@ export default {
             split: 2
           });
         }
-        const hws=[];
-        for (var j = 0; j < this.events.length; j++) {
-          var hw = this.events[j];
-          console.log("현재",hw.end,"today:",this.today)
-          if (hw.end>=this.today){
-            hws.push(hw);
-          }
-        }
+        // const hws=[];
+        // for (var j = 0; j < this.events.length; j++) {
+        //   var hw = this.events[j];
+        //   console.log("마감기한:"+hw.end)
+        //   console.log("오늘:"+this.today)
+        //   if (hw.end>=this.today){
+        //     hws.push(hw);
+        //   }
+        // }
 
-        console.log(1111,hws)
-        hws.sort(function(a, b) { // 오름차순
-          return a["end"] - b["end"];
-        });
-        this.dashHw=hws[hws.length-1]
+        // hws.sort(function(a, b) { // 오름차순
+        //   return a["end"] - b["end"];
+        // });
+        // this.dashHw=hws[hws.length-1]
+        this.dashHw=this.events[0]
+        console.log('과제:'+this.dashHw)
       })
       .catch(function(err){
         alert(err)
@@ -198,13 +223,43 @@ export default {
     this.setEventVal()
     this.getHw()
     this.getNotice()
-    // this.today=this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate()
-  }
+    this.today=this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate()
+  },
+  mounted() {
+      // cdn chart.js
+      let recaptchaScript = document.createElement('script')
+      recaptchaScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
+      document.head.appendChild(recaptchaScript)
+
+      const ctx = document.getElementById('myChart');
+      var myChart = new Chart(ctx, {
+      type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [40, 60,20,30],      // 섭취량, 총급여량 - 섭취량
+            backgroundColor: [
+              '#9DCEFF',
+              '#F2F3F6',
+              '#B3261E',
+              '#21005D',
+            ],
+            borderWidth: 0,
+            scaleBeginAtZero: true,
+          }
+        ]
+      },
+    });
+  },
 };
 </script>
 
 <style>
 @import url('../../../../node_modules/vue-cal/dist/vuecal.css');
+/* 수정 요함 */
+canvas{
+  width:100%!important;
+  /* height: auto !important; */
+}
 p{
   margin: 5px;
 }

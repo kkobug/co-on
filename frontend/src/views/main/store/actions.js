@@ -166,15 +166,14 @@ export function requestDelNotice ({ state }, data) {
 }
 // 공지사항 수정
 export function requestUpdateNotice ({ state }, payload) {
-  console.log('requestUpdateNotice', state, payload)
-  console.log(payload.noticeId)
+  console.log('requestUpdateNotice', payload.noticeId)
   const url = `/notice/modify/${payload.noticeId}`
   let body = payload
   return $axios.put(url, body)
 }
 // 과제 관련
 export function requestAddHomework ({ state }, payload) {
-  console.log('requestUpdateHomework', state, payload)
+  console.log('requestUpdateHomework', payload)
   const url = `/homework/create`
   let body = payload
   return $axios.post(url, body,
@@ -193,24 +192,24 @@ export function requestListNotice ({ state }, payload) {
   return $axios.get(url)
 }
 export function requestDelHomework ({ state }, data) {
-  console.log('requestDelHomework', state, data)
+  console.log('requestDelHomework', data)
   const url = `/homework/delete`
   return $axios.delete(url, {data})
 }
 export function requestgetHomework ({ state }, payload) {
-  console.log('requestgetHomework', state, payload)
+  console.log('requestgetHomework', payload)
   const url = `/homework/detail/${payload.hwId}`
   let body = payload
   return $axios.get(url, body)
 }
 export function requestupdateHomework ({ state }, payload) {
-  console.log('requestgetHomework', state, payload)
+  console.log('requestgetHomework', payload)
   const url = `/homework/modify/${payload.hwId}`
   let body = payload
   return $axios.put(url, body)
 }
 export function requestListHomework ({ state }, payload) {
-  console.log('requestListHomework', state, payload)
+  console.log('requestListHomework', payload)
   const url = `/homework/study/${payload.studyId}`
   let body = payload
   return $axios.get(url, body)
@@ -223,51 +222,51 @@ export function requestTchrListHomework ({ state }, payload) {
   return $axios.get(url, body)
 }
 export function requestGetLesson ({ state }, payload) {
-  console.log('requestGetLesson', state, payload)
+  console.log('requestGetLesson', payload)
   const url = `studyRoomDetail/student/list/${payload.stId}`
   return $axios.get(url)
 }
 
 export function requestGetSTNotice ({ state }, payload) {
-  console.log('requestGetSTNotice', state, state.userid)
+  console.log('requestGetSTNotice', state.userid)
   const url = `/notice/student/list/${state.userid}`
   return $axios.get(url)
 }
 export function requestGetHW ({ state }, payload) {
-  console.log('requestGetHW', state, payload)
+  console.log('requestGetHW', payload)
   const url = `/homework/student/${state.userid}`
   return $axios.get(url)
 }
 export function requestaddsthw ({ state }, payload) {
-  console.log('requestaddsthw', state, payload)
+  console.log('requestaddsthw', payload)
   const url = `/studenthomework/create`
   let body = payload
   return $axios.post(url, body)
 }
 export function requestdelsthw ({ state }, data) {
-  console.log('requestdelsthw', state, data)
+  console.log('requestdelsthw', data)
   const url = `/studenthomework/delete`
   return $axios.delete(url, {data})
 }
 export function requestGetSthwdetail ({ state }, payload) {
-  console.log('requestGetSthwdetail', state, payload)
+  console.log('requestGetSthwdetail', payload)
   const url = `/studenthomework/detail/${payload}`
   let body = payload
   return $axios.get(url, body)
 }
 export function requestUpdateSthw ({ state }, payload) {
-  console.log('requestgetHomework', state, payload)
+  console.log('requestgetHomework', payload)
   const url = `/studenthomework/modify/${payload}`
   let body = payload
   return $axios.put(url, body)
 }
 export function requestGetDonesthw ({ state }, payload) {
-  console.log('requestGetDonesthw', state, payload)
+  console.log('requestGetDonesthw', payload)
   const url = `/studenthomework/student/list/${payload}`
   return $axios.get(url)
 }
 export function requestGetHwlist ({ state }, payload) {
-  console.log('requestGetHwlist', state, payload)
+  console.log('requestGetHwlist', payload)
   const url = `/studenthomework/teacher/list/${payload}`
   return $axios.get(url)
 }
