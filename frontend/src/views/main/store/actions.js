@@ -173,12 +173,7 @@ export function requestUpdateNotice ({ state }, payload) {
 }
 // 과제 관련
 export function requestAddHomework ({ state }, payload) {
-<<<<<<< HEAD
-  console.log('requestUpdateHomework', state, payload)
-  console.log("!!!")
-=======
   console.log('requestUpdateHomework', payload)
->>>>>>> FE/0203lsy
   const url = `/homework/create`
   let body = payload
   return $axios.post(url, body,
