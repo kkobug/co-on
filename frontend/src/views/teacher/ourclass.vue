@@ -12,7 +12,7 @@
             <el-col
             v-for="(o, index) in state.students"
             :key="o"
-            :span="5"
+            :span="4"
             :offset="index > 0 ? 2 : 0"
             >
               <el-card :body-style="{ padding: '5px' }">
