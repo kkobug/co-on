@@ -1,106 +1,159 @@
 <template>
-  <div>
-    <div class="head" >
-      Main
-    </div>
-    <!-- 대시보드 -->
-    <el-row id="dashboard">
-      <el-col :span="6">
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
-          <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-            <font-awesome-icon icon="clock" style="font-size:80px; float:left" />
-            <p style="font-weight:bold; color:#21005D; font-size:20px">
-              마감이 임박한 과제
-            </p>
-            <el-button type="text" class="button">{{this.dashHw.title}}</el-button>
-            <div class="bottom">
-              <p>{{this.dashHw.content}}</p>
-              <time class="time">{{ this.dashHw.end }}</time>
+  <el-row>
+    <el-col :span="22" :offset="1">
+      <div>
+        <!-- <div class="head" >
+          Main
+        </div> -->
+        <!-- 대시보드 -->
+        <el-row id="dashboard">
+          <el-col :span="6">
+
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
+              <div style="padding: 14px; text-align:left; background-color:#EADDFF">
+                <font-awesome-icon icon="clock" style="font-size:80px" />
+                <span style="font-weight:bold; color:#21005D; font-size:20px">
+                  곧 마감인 과제
+                </span>
+                <div class="bottom">
+                  <el-button type="text" class="button">{{this.dashHw.title}}</el-button>
+                  <p>{{this.dashHw.content}}</p>
+                  <div>
+                    <time class="time">{{ this.dashHw.end }}</time>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
+              <div style="padding: 14px; text-align:left; background-color:#EADDFF">
+                <font-awesome-icon icon="clock" style="font-size:80px" />
+                <span style="font-weight:bold; color:#21005D; font-size:20px">
+                  곧 마감인 과제
+                </span>
+                <div class="bottom">
+                  <p>등록된 과제가 없습니다</p>
+                </div>
+              </div>
+            </el-card>
+
+          </el-col>
+          <el-col :span="6">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashNotice">
+              <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
+                <font-awesome-icon icon="bell" style="font-size:80px" />
+                <span style="font-weight:bold; color:#273420; font-size:20px">
+                  New Notice
+                </span>
+                <div class="bottom">
+                  <el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button>
+                  <!-- <p>{{this.dashNotice.noticeContent}}</p> -->
+                  <div>
+                    <time class="time">{{ this.dashNotice.noticePosted }}</time>
+                  </div>
+                </div>
+              </div>
+              <el-drawer v-model="drawer" direction="ttb">
+                <template #title>
+                  <h1 style="font-size: 25px; color: black">{{this.dashNotice.noticeTitle}}</h1>
+                </template>
+                <h3>내용: {{ this.dashNotice.noticeContent }}</h3>
+                <h4>제출 기한: {{ this.dashNotice.noticePosted }}</h4>
+              </el-drawer>
+            </el-card>
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
+              <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
+                <font-awesome-icon icon="bell" style="font-size:80px" />
+                <span style="font-weight:bold; color:#273420; font-size:20px">
+                  New Notice
+                </span>
+                <div class="bottom">
+                  <p>등록된 공지가 없습니다</p>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
+              <div style="padding: 14px; text-align:left;background-color:#F9DEDC" class="">
+                <font-awesome-icon icon="calendar-check" style="font-size:80px" />
+                <span style="font-weight:bold; color:#410E08; font-size:20px">
+                  출석 확인
+                </span>
+                <div class="bottom">
+                  <el-button type="text" class="button">Operating</el-button>
+                  <div>
+                    <time class="time">{{ this.today }}</time>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
+              <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
+                <font-awesome-icon icon="chalkboard-teacher" style="font-size:80px" />
+                <span style="font-weight:bold; color:#31111D; font-size:20px">
+                  진행중인 수업
+                </span>
+                <div class="bottom">
+                  <el-button type="text" class="button">Operating</el-button>
+                  <div>
+                    <time class="time">{{ this.today }}</time>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row >
+        <!-- 달력 -->
+          <el-col :span="18">
+            <div class="calendar">
+              <vue-cal
+                class="vuecal--blue-theme cal"
+                :selected-date="this.today"
+                :disable-views="['years', 'year']"
+                active-view="month"
+                events-on-month-view="short"
+                overlaps-per-time-step
+                :events="events"
+                style="height: auto"
+              >
+              </vue-cal>
             </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashNotice">
-          <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-            <font-awesome-icon icon="bell" style="font-size:80px" />
-            <span style="font-weight:bold; color:#273420; font-size:20px">
-              New Notice
-            </span>
-            <el-button type="text" class="button">{{this.dashNotice.noticeTitle}}</el-button>
-            <div class="bottom">
-              <p>{{this.dashNotice.noticeContent}}</p>
-              <time class="time">{{ this.dashNotice.noticePosted }}</time>
+          </el-col>
+        <!-- 원형 그래프 -->
+          <el-col :span="6">
+            <div>
+              <canvas id="myChart"></canvas>
             </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
-          <div style="padding: 14px; text-align:left;background-color:#F9DEDC" class="">
-            <font-awesome-icon icon="calendar-check" style="font-size:80px" />
-            <span style="font-weight:bold; color:#410E08; font-size:20px">
-              출석 확인
-            </span>
-            <div class="bottom">
-              <time class="time">{{ this.today }}</time>
-              <el-button type="text" class="button">Operating</el-button>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
-          <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
-            <font-awesome-icon icon="chalkboard-teacher" style="font-size:80px" />
-            <span style="font-weight:bold; color:#31111D; font-size:20px">
-              진행중인 수업
-            </span>
-            <div class="bottom">
-              <time class="time">{{ this.today }}</time>
-              <el-button type="text" class="button">Operating</el-button>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <!-- 원형 그래프 -->
-    <graph/>
-    <!-- 달력 -->
-    <div class="calendar">
-      <vue-cal
-        class="vuecal--blue-theme cal"
-        :selected-date="this.today"
-        :disable-views="['years', 'year']"
-        default-view="month"
-        events-on-month-view="short"
-        overlaps-per-time-step
-        :events="events"
-        style="height: auto"
-      >
-      </vue-cal>
-    </div>
-  </div>
+          </el-col>
+        </el-row>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
 import VueCal from 'vue-cal'
 import "vue-cal/dist/vuecal.css";
 
-import graph from './graph.vue'
+import Chart from 'chart.js'
+
 export default {
   name: "Calendar",
   components: {
     VueCal,
-    graph
     },
 
   data: () => ({
     events: [],
     today:new Date(),
     dashHw:undefined,
-    dashNotice:undefined
-  }),
+    dashNotice:undefined,
+    drawer: false
+ }),
   methods: {
     setEventVal() {
       this.events = [
@@ -117,9 +170,12 @@ export default {
     getNotice(){
       this.$store.dispatch('root/requestGetSTNotice',this.userId)
       .then(result =>{
+        console.log(result)
         this.notices=result.data
         this.dashNotice=this.notices[this.notices.length-1]
-        this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
+        if (result.data.length >= 1) {
+            this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
+        }
       })
       .catch(function(err){
         alert(err)
@@ -139,20 +195,22 @@ export default {
             split: 2
           });
         }
-        const hws=[];
-        for (var j = 0; j < this.events.length; j++) {
-          var hw = this.events[j];
-          console.log("현재",hw.end,"today:",this.today)
-          if (hw.end>=this.today){
-            hws.push(hw);
-          }
-        }
+        // const hws=[];
+        // for (var j = 0; j < this.events.length; j++) {
+        //   var hw = this.events[j];
+        //   console.log("마감기한:"+hw.end)
+        //   console.log("오늘:"+this.today)
+        //   if (hw.end>=this.today){
+        //     hws.push(hw);
+        //   }
+        // }
 
-        console.log(1111,hws)
-        hws.sort(function(a, b) { // 오름차순
-          return a["end"] - b["end"];
-        });
-        this.dashHw=hws[hws.length-1]
+        // hws.sort(function(a, b) { // 오름차순
+        //   return a["end"] - b["end"];
+        // });
+        // this.dashHw=hws[hws.length-1]
+        this.dashHw=this.events[0]
+        console.log('과제:'+this.dashHw)
       })
       .catch(function(err){
         alert(err)
@@ -165,13 +223,43 @@ export default {
     this.setEventVal()
     this.getHw()
     this.getNotice()
-    // this.today=this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate()
-  }
+    this.today=this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate()
+  },
+  mounted() {
+      // cdn chart.js
+      let recaptchaScript = document.createElement('script')
+      recaptchaScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
+      document.head.appendChild(recaptchaScript)
+
+      const ctx = document.getElementById('myChart');
+      var myChart = new Chart(ctx, {
+      type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [40, 60,20,30],      // 섭취량, 총급여량 - 섭취량
+            backgroundColor: [
+              '#9DCEFF',
+              '#F2F3F6',
+              '#B3261E',
+              '#21005D',
+            ],
+            borderWidth: 0,
+            scaleBeginAtZero: true,
+          }
+        ]
+      },
+    });
+  },
 };
 </script>
 
 <style>
 @import url('../../../../node_modules/vue-cal/dist/vuecal.css');
+/* 수정 요함 */
+canvas{
+  width:100%!important;
+  /* height: auto !important; */
+}
 p{
   margin: 5px;
 }
@@ -180,7 +268,7 @@ p{
   font-size: 30px;
 }
 .bottom{
-  clear:both
+  clear:both;
 }
 .calendar{
   padding: 10px;

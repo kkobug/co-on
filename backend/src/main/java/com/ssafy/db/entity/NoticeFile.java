@@ -28,4 +28,7 @@ public class NoticeFile {
     @Column(name= "file_path")
     String filePath;
 
+    @ManyToOne
+    @JoinColumn(name = "notice_id",insertable = false, updatable = false)
+    private Notice notice;
 }

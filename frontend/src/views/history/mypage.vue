@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="20">
     <el-col :span="12" :offset="6">
-      <el-container style="border-style: solid; border-color: #b2bec3; border-radius: 50px; margin-top: 8vh">
+      <el-container style="border-style: solid; border-color: #b2bec3; border-radius: 50px; margin-top: 8vh; background-color: #fff">
         <el-form label-width="100px" label-position="left" style="width: 100%; padding: 20px; margin-top: 20px; margin-bottom: 20px">
           <span>
             <strong style="font-size: xx-large">{{ username }}님의 회원 정보</strong>

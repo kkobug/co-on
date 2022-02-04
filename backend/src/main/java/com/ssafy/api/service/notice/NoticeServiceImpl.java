@@ -49,9 +49,8 @@ public class NoticeServiceImpl implements NoticeService{
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
                 String noticePath = "D:/";
-                LocalDateTime nowtime = LocalDateTime.now();
 
-                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationNoticeFileName = "tchr" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
 
                 destinationNoticeFile.getParentFile().mkdirs();
@@ -63,7 +62,9 @@ public class NoticeServiceImpl implements NoticeService{
 
                 newFile.setFileName(destinationNoticeFileName);
                 newFile.setFileOriginName(sourceFileName);
+
                 newFile.setFilePath(noticePath);
+
                 noticeFileRepository.save(newFile);
             }
         }
@@ -100,9 +101,8 @@ public class NoticeServiceImpl implements NoticeService{
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
                 String noticePath = "D:/";
-                LocalDateTime nowtime = LocalDateTime.now();
 
-                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationNoticeFileName = "tchr" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
 
                 destinationNoticeFile.getParentFile().mkdirs();

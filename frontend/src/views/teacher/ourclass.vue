@@ -87,17 +87,18 @@ export default {
     return {state, test}
   },
   methods:{
-    moveClass: function(){
-      this.$router.push({name:"Tchr_ourClass"})
-    },
-    moveAttend: function(){
-      this.$router.push({name:"Tchr_attend"})
-    },
-    moveLesson: function(){
-      this.$router.push({name:"Tchr_Lesson"})
-    },
+    // moveClass: function(){
+    //   this.$router.push({name:"Tchr_ourClass"})
+    // },
+    // moveAttend: function(){
+    //   this.$router.push({name:"Tchr_attend"})
+    // },
+    // moveLesson: function(){
+    //   this.$router.push({name:"Tchr_Lesson"})
+    // },
     start (){
       this.videoDialogOpen= true
+      console.log("열림")
     },
     end (){
       this.videoDialogOpen= false

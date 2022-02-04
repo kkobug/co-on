@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -81,7 +82,7 @@ public class NoticeController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> modify(
 			@PathVariable @ApiParam(value = "공지사항 수정") Integer noticeId,
-			@ModelAttribute NoticeUpdatePutReq noticeUpdatePutReq) {
+			@ModelAttribute NoticeUpdatePutReq noticeUpdatePutReq) throws IOException {
 		Notice notice = noticeService.updateNotice(Math.toIntExact(noticeId), noticeUpdatePutReq);
 		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
