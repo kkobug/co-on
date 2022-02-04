@@ -126,7 +126,7 @@ export function requestGetClass ({ state }, payload) {
 // 학생 수업 수업 ID 조회
 export function requestGetClassStudyId ({ state }, payload) {
   console.log('requestGetClassStudyId')
-  const url = `/studyRoomDetail/student/studylist/${payload}`
+  const url = `/studyRoomDetail/student/studylist/${payload.studyId}`
   return $axios.get(url)
 }
 // 학생 추가
@@ -150,13 +150,7 @@ export function requestAddNotice ({ state }, payload) {
   console.log('requestAddNotice')
   const url = `/notice/create`
   let body = payload
-  return $axios.post(url, body,
-    {
-      // headers: {
-      //   'Content-Type': 'multipart/form-data'
-      // },
-    },
-  )
+  return $axios.post(url, body)
 }
 // 공지사항 삭제
 export function requestDelNotice ({ state }, data) {
@@ -176,15 +170,8 @@ export function requestAddHomework ({ state }, payload) {
   console.log('requestUpdateHomework', payload)
   const url = `/homework/create`
   let body = payload
-  return $axios.post(url, body,
-    // {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data'
-    //   }
-    // }
-  ).catch(
-    console.log(error)
-  )}
+  return $axios.post(url, body)
+}
 // 학생이 속한 수업의 공지 조회
 export function requestListNotice ({ state }, payload) {
   console.log('requestListNotice')

@@ -2,11 +2,11 @@
   <div class ="modal">
     <div class="overlay" @click="closeModal">X</div>
       <div><p>공지 등록</p></div>
-      <form action="#" id="noticeForm" method="post" enctype="multipart/form-data">
+      <form id="noticeForm" enctype="multipart/form-data">
         <div><label for="noticeTitle">제목</label><input v-model="state.form.noticeTitle"  name="noticeTitle" type="text"></div>
         <div><label for="noticeContent">내용</label><textarea v-model="state.form.noticeContent" name="noticeContent" id="" cols="30" rows="10"></textarea></div>
         <div><label for="noticeFile">파일</label><input type="file" multiple="multiple" @change="addFile" ref="refNoticeFile" name="noticeFile" id="ntFile"></div>
-        <button v-if="isupdate" @click="updatenotice">수정</button>
+        <button v-if="state.form.isupdate" @click="updatenotice">수정</button>
         <button v-else @click="addnotice">등록</button>
       </form>
     <!-- <el-button type="text" class="overlay" @click="$emit('close-modal')" style="margin-right: 5px">❌</el-button>
@@ -74,6 +74,7 @@ export default {
 
       store.dispatch('root/requestAddNotice', noticeFormData)
       .then(res => {
+        console.log(res)
         closeModal()
       })
     }

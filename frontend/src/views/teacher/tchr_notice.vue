@@ -14,10 +14,10 @@
         <div class="li-right li-sec">
           <div class ="li-time li-item">{{ntice.noticePosted}}</div>
           <div class ="li-item filebar">
-            안녕하세요
+            첨부파일
             <ul>
               <!-- <li v-for="nf in notice.File" :key = "nf.id"></li> -->
-              <p>인사</p>
+              <li>파일1</li>
             </ul>
           </div>
           <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>

@@ -10,9 +10,9 @@
         <div class="stud">
           <el-row>
             <el-col
-            v-for="(o, index) in 24"
+            v-for="(o, index) in state.students"
             :key="o"
-            :span="4"
+            :span="5"
             :offset="index > 0 ? 2 : 0"
             >
               <el-card :body-style="{ padding: '5px' }">
@@ -21,7 +21,7 @@
                   class="image"
                 />
                 <div style="padding: 14px">
-                  <span>Yummy hamburger</span>
+                  <span>{{o[1]}}</span>
                   <div class="bottom">
                     <el-button type="text" class="button">Operating</el-button>
                   </div>
@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import Datepicker from 'vuejs3-datepicker'
@@ -83,8 +83,18 @@ export default {
       }
       console.log(String(state.testDate.getUTCFullYear()) + month + day)
     }
-
-    return {state, test}
+    const getStudentList = function(){
+      store.dispatch("root/requestGetClassStudyId", {
+        studyId :store.state.root.curClassId
+      })
+      .then(res =>{
+        state.students = res.data
+      })
+    }
+    onMounted(()=>{
+      getStudentList();
+    })
+    return {state, test, getStudentList, onMounted}
   },
   methods:{
     // moveClass: function(){
@@ -104,17 +114,17 @@ export default {
       this.videoDialogOpen= false
     }
   },
-  created:function(){
-    this.$store.dispatch('root/requestGetStudent')
-      .then(result=> {
-          this.studentlist = result.data
-          console.log(result.data)
+  // created:function(){
+  //   this.$store.dispatch('root/requestGetStudent')
+  //     .then(result=> {
+  //         this.studentlist = result.data
+  //         console.log(result.data)
 
-        })
-        .catch(function (err) {
-          alert(err)
-        })
-  }
+  //       })
+  //       .catch(function (err) {
+  //         alert(err)
+  //       })
+  // }
 }
 
 </script>
