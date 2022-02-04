@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tchr-nav></tchr-nav>
+    <tchr-nav @startvideo="start"></tchr-nav>
     <el-row>
       <el-col :span="20" style="margin-left: 15vh">
         <el-table :data="tableData" height="250" style="width: 100%">
@@ -11,6 +11,10 @@
 
       </el-col>
     </el-row>
+    <start-video-dialog
+      :open="videoDialogOpen"
+      @closeVideoDialog="end"
+    ></start-video-dialog>
   </div>
 </template>
 <script>
@@ -19,6 +23,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
 import Tchr_nav from './tchr_nav.vue'
+import StartVideoDialog from './startvideo-dialog.vue'
 
 export default {
   name: 'attend',
@@ -61,20 +66,29 @@ export default {
           address: 'No. 189, Grove St, Los Angeles',
         },
       ],
+      videoDialogOpen : false,
     };
   },
   components: {
     "tchr-nav" : Tchr_nav,
+    StartVideoDialog
   },
   methods:{
-    moveClass: function(){
-      this.$router.push({name:"Tchr_ourclass"})
+    // moveClass: function(){
+    //   this.$router.push({name:"Tchr_ourclass"})
+    // },
+    // moveAttend: function(){
+    //   this.$router.push({name:"Tchr_attend"})
+    // },
+    // moveLesson: function(){
+    //   this.$router.push({name:"Tchr_Lesson"})
+    // },
+    start (){
+      this.videoDialogOpen= true
+      console.log("열림")
     },
-    moveAttend: function(){
-      this.$router.push({name:"Tchr_attend"})
-    },
-    moveLesson: function(){
-      this.$router.push({name:"Tchr_Lesson"})
+    end (){
+      this.videoDialogOpen= false
     }
   }
 }

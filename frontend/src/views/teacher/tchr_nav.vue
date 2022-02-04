@@ -13,6 +13,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
 
+
 export default {
   name: 'Tchr_Lesson',
   setup(props, { emit }) {
@@ -23,21 +24,21 @@ export default {
       classtitle: computed(() => store.getters['root/getStudyName']),
       id: store.state.root.userid
     })
-    const moveClass = function(){
-      router.push({
-        name: 'Tchr_ourclass'
-      })
-    }
-    const moveAttend = function(){
-      router.push({
-        name: 'Tchr_attend'
-      })
-    }
-    const moveLesson = function(){
-      router.push({
-        name: 'Tchr_contents'
-      })
-    }
+    // const moveClass = function(){
+    //   router.push({
+    //     name: 'Tchr_ourclass'
+    //   })
+    // }
+    // const moveAttend = function(){
+    //   router.push({
+    //     name: 'Tchr_attend'
+    //   })
+    // }
+    // const moveLesson = function(){
+    //   router.push({
+    //     name: 'Tchr_contents'
+    //   })
+    // }
     const handleSelect = (key) => {
       if (key === '1') {
         router.push({
@@ -47,17 +48,19 @@ export default {
         router.push({
         name: 'Tchr_ourclass'
         })
-      } else {
+      } else if (key === '3') {
         router.push({
         name: 'Tchr_attend'
         })
+      } else if (key === '4'){
+        emit('startvideo')
       }
     }
-    const startVideoClass = function(){
-      emit('startvideo')
-    }
+    // const startVideoClass = function(){
+    //   emit(startvideo)
+    // }
 
-    return {state, activeIndex, moveClass, moveAttend, moveLesson, handleSelect, startVideoClass}
+    return {state, activeIndex, handleSelect}
   },
 }
 </script>

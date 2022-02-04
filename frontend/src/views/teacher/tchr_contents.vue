@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tchr-nav></tchr-nav>
+    <tchr-nav @startvideo="start"></tchr-nav>
     <el-row :gutter="20">
       <el-col :span="20" style="margin-left: 15vh; min-height: 100vh;">
           <h1 style="text-align:center; margin-top: 3vh; font-size: 30px">{{ state.classId }}반의 수업 {{ state.classtitle }}</h1>
@@ -9,6 +9,10 @@
           <el-button class="sub_btn" @click ="delClass">수업 삭제</el-button>
       </el-col>
     </el-row>
+    <start-video-dialog
+      :open="videoDialogOpen"
+      @closeVideoDialog="end"
+    ></start-video-dialog>
   </div>
 </template>
 <script>
@@ -19,6 +23,7 @@ import { useRouter } from 'vue-router'
 import Tchr_notice from './tchr_notice.vue'
 import Tchr_homework from './thcr_homework.vue'
 import Tchr_nav from './tchr_nav.vue'
+import StartVideoDialog from './startvideo-dialog.vue'
 
 export default {
   name: 'Tchr_contents',
@@ -26,6 +31,12 @@ export default {
     "homework" : Tchr_homework,
     "notice" : Tchr_notice,
     "tchr-nav" : Tchr_nav,
+    StartVideoDialog
+  },
+  data(){
+    return {
+      videoDialogOpen:false,
+    }
   },
   setup() {
     const router = useRouter()
@@ -57,6 +68,24 @@ export default {
     }
     return {state, delClass}
   },
+  methods:{
+    // moveClass: function(){
+    //   this.$router.push({name:"Tchr_ourclass"})
+    // },
+    // moveAttend: function(){
+    //   this.$router.push({name:"Tchr_attend"})
+    // },
+    // moveLesson: function(){
+    //   this.$router.push({name:"Tchr_Lesson"})
+    // },
+    start (){
+      this.videoDialogOpen= true
+      console.log("열림")
+    },
+    end (){
+      this.videoDialogOpen= false
+    }
+  }
 
 }
 </script>
