@@ -2,6 +2,7 @@ package com.ssafy.api.service.conference;
 
 import com.ssafy.api.request.conference.ConferenceRegisterReq;
 import com.ssafy.db.entity.Attendance;
+import com.ssafy.db.entity.AttendanceRecord;
 import com.ssafy.db.entity.Conference;
 
 public interface ConferenceService {
@@ -12,5 +13,9 @@ public interface ConferenceService {
 
     Attendance findAttendance(String stId, Integer confId);
 
+    AttendanceRecord findAttendanceRecord(String stId, Integer confId);
+
     void enterConference(String stId, Integer confId);
+
+    void exitConference(String stId, Integer confId);
 }

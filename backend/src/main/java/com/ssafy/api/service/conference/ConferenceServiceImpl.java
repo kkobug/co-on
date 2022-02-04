@@ -46,6 +46,10 @@ public class ConferenceServiceImpl implements ConferenceService{
         return attendanceRepository.findAttendanceByIds(stId, confId);
     }
 
+    @Override
+    public AttendanceRecord findAttendanceRecord(String stId, Integer confId) {
+        return attendanceRecordRepository.findAttendanceRecordByIds(stId, confId);
+    }
 
     @Override
     public void enterConference(String stId, Integer confId) {
@@ -60,4 +64,15 @@ public class ConferenceServiceImpl implements ConferenceService{
 
         attendanceRecordRepository.save(attendanceRecord);
     }
+
+    @Override
+    public void exitConference(String stId, Integer confId) {
+        AttendanceRecord attendanceRecord = findAttendanceRecord(stId, confId);
+        LocalDateTime now = LocalDateTime.now();
+
+        attendanceRecord.setRecOut(now);
+
+        attendanceRecordRepository.save(attendanceRecord);
+    };
+
 }
