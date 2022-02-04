@@ -175,6 +175,7 @@ export function requestUpdateNotice ({ state }, payload) {
 // 과제 관련
 export function requestAddHomework ({ state }, payload) {
   console.log('requestUpdateHomework', state, payload)
+  console.log("!!!")
   const url = `/homework/create`
   let body = payload
   return $axios.post(url, body,

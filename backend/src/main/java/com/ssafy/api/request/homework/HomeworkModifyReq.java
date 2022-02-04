@@ -26,7 +26,7 @@ public class HomeworkModifyReq {
     @ApiModelProperty(name = "과제 내용")
     String hwContent;
     @ApiModelProperty(name = "제출 기한")
-    LocalDate hwDeadline;
+    LocalDateTime hwDeadline;
     @ApiModelProperty(name = "작성일자", example= "")
     LocalDateTime hwPosted;
     @ApiModelProperty

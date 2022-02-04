@@ -33,7 +33,8 @@ public class HomeworkController {
             @ApiParam(value = "과제 출제 정보", required = true)
             @ModelAttribute
                     HomeworkRegisterPostReq homeworkRegisterPostReq
-    ) throws Exception{
+    ) {
+        System.out.println("!!!!!!!!!!hw controller!!!!!!!!!");
         homeworkService.createHomework(homeworkRegisterPostReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }

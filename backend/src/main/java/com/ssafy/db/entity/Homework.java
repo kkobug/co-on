@@ -27,7 +27,7 @@ public class Homework implements Serializable {
     @Column(name = "hw_content")
     String hwContent;
     @Column(name = "hw_deadline")
-    LocalDate hwDeadline;
+    LocalDateTime hwDeadline;
     @CreationTimestamp
     @LastModifiedDate
     @Column(name = "hw_posted")

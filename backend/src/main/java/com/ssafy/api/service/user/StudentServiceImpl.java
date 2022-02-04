@@ -1,14 +1,21 @@
 package com.ssafy.api.service.user;
 
+import com.ssafy.api.request.user.StudentProfilePutReq;
 import com.ssafy.api.request.user.StudentRegisterPostReq;
 import com.ssafy.api.request.user.StudentUpdatePutReq;
 import com.ssafy.db.entity.Student;
+import com.ssafy.db.entity.Teacher;
 import com.ssafy.db.repository.user.StudentRepository;
 import com.ssafy.db.repository.user.StudentRepositorySupport;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 @Service("studentService")
 public class StudentServiceImpl implements StudentService{
@@ -71,4 +78,43 @@ public class StudentServiceImpl implements StudentService{
         student.setStPassword(passwordEncoder.encode(student.getStPassword()));
         return studentRepository.save(student);
     }
+
+    @Override
+    public Student changeStudentProfile(StudentProfilePutReq studentProfilePutReq) {
+        Student student = studentRepositorySupport.findById(studentProfilePutReq.getStId()).get();
+        System.out.println(student);
+        System.out.println(studentProfilePutReq.getStProfFile());
+
+        if (studentProfilePutReq.getStProfFile().isEmpty()) {
+            System.out.println("!!!!!!!!!!!!!!");
+            student.setStProfName(null);
+            student.setStOriginProfName(null);
+            student.setStProfPath(null);
+            studentRepository.save(student);
+            return student;
+        } else {
+            System.out.println("????????????????");
+            String sourceFileName = studentProfilePutReq.getStProfFile().getOriginalFilename();
+            File destinationProfile;
+            String destinationProfileName;
+            String studentprofPath = "D:/stprof/";
+
+            destinationProfileName = "st" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+            destinationProfile = new File(studentprofPath + destinationProfileName);
+
+            destinationProfile.getParentFile().mkdirs();
+            try {
+                studentProfilePutReq.getStProfFile().transferTo(destinationProfile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            student.setStProfName(destinationProfileName);
+            student.setStOriginProfName(sourceFileName);
+            student.setStProfPath(studentprofPath);
+            studentRepository.save(student);
+            return student;
+        }
+    }
+
 }

@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @ApiModel("HomeworkInfoRes")
 public class HomeworkInfoRes {
     @ApiModelProperty(name = "hw_id")
-    int hwId;
+    Integer hwId;
     @ApiModelProperty(name = "study_id")
-    int studyId;
+    Integer studyId;
     @ApiModelProperty(name = "tchr_id")
     String tchrId;
     @ApiModelProperty(name = "hw_title")
@@ -24,7 +24,7 @@ public class HomeworkInfoRes {
     @ApiModelProperty(name = "hw_content")
     String hwContent;
     @ApiModelProperty(name = "hw_deadline")
-    LocalDate hwDeadline;
+    LocalDateTime hwDeadline;
     @ApiModelProperty(name = "hw_posted")
     LocalDateTime hwPosted;
 //    @ApiModelProperty(name = "hw_file")
