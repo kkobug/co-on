@@ -175,6 +175,7 @@ export default {
             tchrId: store.state.root.userid})
         .then(res =>{
           store.state.root.classList = res.data
+          state.tchr_scha = res.data
         })
     }
     const closeModal = function(){
