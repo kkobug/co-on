@@ -26,11 +26,21 @@ public class ConferenceServiceImpl implements ConferenceService{
     @Override
     public Conference createConference(ConferenceRegisterReq conferenceRegisterReq) {
         Conference conference = new Conference();
+
+        LocalDateTime now = LocalDateTime.now();
+
+        String[] confst, confed;
+        confst = conferenceRegisterReq.getConfStart().split(":");
+        confed = conferenceRegisterReq.getConfEnd().split(":");
+
+        LocalDateTime conferencestart = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), Integer.parseInt(confst[0]), Integer.parseInt(confst[1]));
+        LocalDateTime conferenceend = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), Integer.parseInt(confed[0]), Integer.parseInt(confed[0]));
+
         conference.setStudyId(conferenceRegisterReq.getStudyId());
         conference.setTchrId(conferenceRegisterReq.getTchrId());
         conference.setConfTitle(conferenceRegisterReq.getConfTitle());
-        conference.setConfStart(conferenceRegisterReq.getConfStart());
-        conference.setConfEnd(conferenceRegisterReq.getConfEnd());
+        conference.setConfStart(conferencestart);
+        conference.setConfEnd(conferenceend);
         conference.setConfAtt(conferenceRegisterReq.getConfAtt());
         conferenceRepository.save(conference);
         return conference;

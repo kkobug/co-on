@@ -19,9 +19,9 @@ public class ConferenceRegisterReq {
     @ApiModelProperty(name = "conf_title", example = "")
     String confTitle;
     @ApiModelProperty(name = "conf_start", example = "")
-    LocalDateTime confStart;
+    String confStart;
     @ApiModelProperty(name = "conf_end", example = "")
-    LocalDateTime confEnd;
+    String confEnd;
     @ApiModelProperty(name = "conf_att", example = "")
-    LocalTime confAtt;
+    Integer confAtt;
 }

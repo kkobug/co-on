@@ -34,7 +34,7 @@ public class QConference extends EntityPathBase<Conference> {
 
     public final StringPath confEnd = createString("conf_end");
 
-    public final StringPath confAtt = createString("conf_att");
+    public final NumberPath<Integer> confAtt = createNumber("conf_att", Integer.class);
 
     public QConference(String variable) {
         super(Conference.class, forVariable(variable));

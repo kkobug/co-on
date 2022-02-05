@@ -30,6 +30,6 @@ public class Conference {
     @Column(name = "conf_end", updatable = false)
     LocalDateTime confEnd;
     @Column(name = "conf_att", updatable = false)
-    LocalTime confAtt;
+    Integer confAtt;
 
 }
