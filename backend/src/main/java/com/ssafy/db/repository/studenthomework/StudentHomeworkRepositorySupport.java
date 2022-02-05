@@ -17,8 +17,8 @@ public class StudentHomeworkRepositorySupport {
     private JPAQueryFactory jpaQueryFactory;
     QStudentHomework qStudentHomework = QStudentHomework.studentHomework;
 
-    public void deleteStudentHomeworkByStHwIdAndStId(Integer stHwId, String stId) {
-        jpaQueryFactory.delete(qStudentHomework).where(qStudentHomework.stHwId.eq(stHwId).and(qStudentHomework.stId.eq(stId))).execute();  //excute 추가
+    public void deleteStudentHomeworkByStHwIdAndStId(Integer hwId, String stId) {
+        jpaQueryFactory.delete(qStudentHomework).where(qStudentHomework.hwId.eq(hwId).and(qStudentHomework.stId.eq(stId))).execute();  //excute 추가
     }
 
     public List<StudentHomework> findStudentHomeworkByHwId(Integer hwId){
