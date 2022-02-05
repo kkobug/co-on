@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 public class Teacher implements Serializable {          // point 1
     @Id
-    @Column(name = "tchr_id")
+    @Column(name = "tchr_id", updatable = false)
     String tchrId;
     @Column(name = "tchr_name")
     String tchrName;

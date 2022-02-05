@@ -117,7 +117,7 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  console.log(to)
+  console.log(to.fullPath)
 })
 
 export default router

@@ -144,11 +144,9 @@ export default {
     }
 
     const menuSelect = function (index) {
-      console.log("메뉴",index)
       store.commit('root/setMenuActive', index)
       const MenuItems = store.getters['root/getMenus']
       let keys = Object.keys(MenuItems)
-      console.log(state.activeIndex)
       router.push({
         name: keys[index]
       })

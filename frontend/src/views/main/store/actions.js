@@ -270,3 +270,29 @@ export function requestGetHwlist ({ state }, payload) {
   const url = `/studenthomework/teacher/list/${payload}`
   return $axios.get(url)
 }
+
+// Conference
+// 수업 입실
+export function requestConfEnter ({ state }, payload) {
+  console.log('requestConfEnter', payload)
+  const url = `/conference/conference/enter?stId=${payload['stId']}&condId=${payload['confId']}`
+  return $axios.post(url)
+}
+//  수업 퇴실
+export function requestConfExit ({ state }, payload) {
+  console.log('requestConfExit', payload)
+  const url = `/conference/conference/exit?stId=${payload['stId']}&condId=${payload['confId']}`
+  return $axios.put(url)
+}
+// 수업 시작/종료/인정시간 입력
+export function requestConfCreate ({ state }, payload) {
+  console.log('requestConfCreate', payload)
+  const url = `/conference/create`
+  return $axios.post(url,payload)
+}
+// 마지막 화상정보 조회
+export function requestConfInfo ({ state }, payload) {
+  console.log('requestConfInfo', payload)
+  const url = `/conference/info?studyId=${payload['studyId']}&tchrId=${payload['tchrId']}`
+  return $axios.get(url)
+}

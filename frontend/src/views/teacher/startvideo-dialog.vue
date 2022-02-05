@@ -64,11 +64,11 @@ export default {
     const store = useStore()
     const state = reactive({
       form: {
-        startTime: ref(''),
-        endTime: ref(''),
+        startTime: '',
+        endTime: '',
         atdTime: '',
         align: 'left',
-        conferenceName: (new Date()).toLocaleString().substring(6,).replace(' ','')+' - '+store.getters['root/getStudyName'],
+        conferenceName: (new Date()).toISOString().substring(0,19)+' - '+store.getters['root/getStudyName'],
         classId : computed(() => store.getters['root/getStudyId']),
         id: store.state.root.userid,
       },
@@ -83,19 +83,27 @@ export default {
       emit('closeVideoDialog')
     }
     const EnrollClass = function () {
-      console.log('시작/종료:'+unref(state.startTime)+unref(state.endTime))
-      console.log('출석인정:'+unref(state.atdTime))
-    //   // 수정 필요
-    //   store.dispatch('root/requestFindid',
-    //    {stEmail: state.form.classname})
-    //   .then(function (result) {
-    //     alert('화상 수업 등록')
-    //     handleClose()
-    //   })
-    //   .catch(function (err) {
-    //     alert(err)
-    //   })
-      console.log('등록')
+      var att=state.atdTime
+      store.dispatch('root/requestConfCreate',
+        {
+          confAtt: {
+            hour: att.substring(0,2),
+            minute: att.substring(3,5),
+            nano: 0,
+            second: '00',
+            },
+            confEnd:(new Date()).toISOString().substring(0,11)+state.endTime+(':00.000Z'),
+            confStart:(new Date()).toISOString().substring(0,11)+state.startTime+(':00.000Z'),
+            confTitle:state.form.conferenceName,
+            studyid:state.form.classId,
+            tchrId:state.form.id
+          }
+        ).then(function (result) {
+          console.log('등록')
+          handleClose()
+        }).catch(function (err) {
+          alert(err)
+        })
       }
     onMounted(()=>{
       // state.classId=store.getters['root/getStudyId']

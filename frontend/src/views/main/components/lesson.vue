@@ -164,6 +164,16 @@ export default {
       this.nowClass=classitem
       var classId=classitem.classId
       console.log('입장시간:'+new Date())
+      // 수업 입실 axios
+      // this.$store.dispatch(requestConfEnter,{stId:this.userid,confId:this.})
+      // .then(result =>{
+      //   this.classes=result.data
+      // })
+      // .catch(function(err){
+      //   console.log('getClasses err')
+      //   alert(err)
+      // })
+
       this.mySessionId=classId
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -321,11 +331,11 @@ export default {
 		}
 	},
   created:function(){
-      const localvuex=JSON.parse(localStorage.getItem('vuex'))
-      this.userId=localvuex["root"]["userid"]
-      this.getClasses()
+    const localvuex=JSON.parse(localStorage.getItem('vuex'))
+    this.userId=localvuex["root"]["userid"]
+    this.getClasses()
   },
-  mounted() {
+   mounted() {
     window.addEventListener('beforeunload', this.unLoadEvent);
   },
   beforeUnmount() {
