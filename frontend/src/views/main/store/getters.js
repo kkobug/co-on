@@ -26,3 +26,6 @@ export function getTchrNoticeList (state) {
 export function getTchrHomeworkList (state) {
 	return state.TchrHomeworkList
 }
+export function getSession (state) {
+	return state.Session
+}

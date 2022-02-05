@@ -42,4 +42,5 @@ export default {
   curClassId: 0,
   TchrNoticeList:{},
   TchrHomeworkList:{},
+  Session:false
 }

@@ -14,7 +14,7 @@
               <el-col :span="6"><div class="grid-content ">{{classitem.studyName}}</div></el-col>
               <el-col :span="6"><div class="grid-content ">{{classitem.teacher.tchrName}}</div></el-col>
               <el-col :span="6"><div class="grid-content ">{{classitem.studyDesc}}</div></el-col>
-              <el-col :span="6"><div class="grid-content " @click="joinSession(classitem.classId)">이동</div></el-col>
+              <el-col :span="6"><div class="grid-content " @click="joinSession(classitem)">이동</div></el-col>
             </el-row>
           </el-main>
       </div>
@@ -22,7 +22,7 @@
 
     <!--세션 -->
 		<div id="session" v-if="session">
-      <div>session</div>
+      <div>{{this.nowClass.studyName}}</div>
 			<div id="session-header">
 				<h1 id="session-title">{{ mySessionId }}</h1>
         <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
@@ -38,7 +38,7 @@
           <font-awesome-icon icon="video" />
         </el-button>
         <el-button circle id="buttonLeaveSession" @click="screenShare" value="Leave session">
-          <font-awesome-icon icon="User-secret" />
+          <font-awesome-icon icon="user-secret" />
         </el-button>
         <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
           <font-awesome-icon icon="door-open" />
@@ -98,7 +98,8 @@ export default {
 			classDescription: null,  // 필요 없을 수 있음
 			userid: null,        // 교사 이름 또는 학생 이름
       classid:undefined,
-      classes:undefined
+      classes:undefined,
+      nowClass:undefined,
 		}
 	},
 
@@ -111,19 +112,24 @@ export default {
         name:"video"
       })
     }
-
     // 페이지 진입시 불리는 훅
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
     })
     return {object,moveVideo}
   },
+
   methods: {
+    unLoadEvent: function (event) {
+      if (this.canLeaveSite) return;
+
+      event.preventDefault();
+      event.returnValue = '';
+    },
     getClasses(){
       this.$store.dispatch('root/requestGetClass',this.userId)
       .then(result =>{
         this.classes=result.data
-        console.log(this.classes)
       })
       .catch(function(err){
         alert(err)
@@ -132,7 +138,7 @@ export default {
     screenShare(){
       var OV = new OpenVidu();
       var sessionScreen = OV.initSession();
-      this.getToken(this.classid).then((token) => {
+      this.getToken(this.nowClass.classId).then((token) => {
         sessionScreen.connect(token).then(() => {
             var publisher = OV.initPublisher("html-element-id", { videoSource: "screen" });
 
@@ -154,8 +160,9 @@ export default {
         }));
       });
     },
-		joinSession (classId) {
-      this.classid=classId
+		joinSession (classitem) {
+      this.nowClass=classitem
+      var classId=classitem.classId
       console.log('입장시간:'+new Date())
       this.mySessionId=classId
 			// --- Get an OpenVidu object ---
@@ -189,7 +196,7 @@ export default {
 
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.classId).then(token => {
+			this.getToken(classId).then(token => {
         this.ovToken=token
 				this.session.connect(token, { clientData: this.userid })
 					.then(() => {
@@ -317,7 +324,13 @@ export default {
       const localvuex=JSON.parse(localStorage.getItem('vuex'))
       this.userId=localvuex["root"]["userid"]
       this.getClasses()
-  }
+  },
+  mounted() {
+    window.addEventListener('beforeunload', this.unLoadEvent);
+  },
+  beforeUnmount() {
+    window.removeEventListener('beforeunload', this.unLoadEvent);
+  },
 }
 </script>
 <style lang="scss">

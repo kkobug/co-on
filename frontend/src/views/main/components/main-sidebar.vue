@@ -27,7 +27,7 @@
             </el-card>
           </el-container>
 
-          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index">
+          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
             <span>{{ item.title }}</span>
           </el-menu-item>
 

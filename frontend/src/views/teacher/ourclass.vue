@@ -58,7 +58,7 @@ export default {
     Datepicker,
     StartVideoDialog
   },
-  data(){
+  data(props){
     return {
       videoDialogOpen:false,
       studentlist:null
@@ -71,6 +71,9 @@ export default {
       isVisible :false,
       students:[],
       testDate: new Date(),
+      classtitle: computed(() => store.getters['root/getStudyName']),
+      classId : computed(() => store.getters['root/getStudyId']),
+      id: store.state.root.userid
     })
     const test = function () {
       let month = String(state.testDate.getUTCMonth()+1)
