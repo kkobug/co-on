@@ -11,4 +11,5 @@ public interface StudyRoomDetailService {
     List<Studyroom> findStudyroombystId(String stId);
     List<Object[]> findStudyroombystudyId(int studyId);
 //    List<Tuple> findstIdAndstName();
+    List<Object[]> findStudyroomAndconbystId(String stId);
 }

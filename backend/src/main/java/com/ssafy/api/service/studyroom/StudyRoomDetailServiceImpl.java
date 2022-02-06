@@ -37,6 +37,11 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
         return studyRoomDetailRepository.findStudyroombystudyId(studyId);
     }
 
+    @Override
+    public List<Object[]> findStudyroomAndconbystId(String stId) {
+        return studyRoomDetailRepository.findStudyroomAndconbystId(stId);
+    }
+
 //    @Override
 //    public List<Tuple> findstIdAndstName() {
 //        return studyRoomdetailRepositorySupport.findstIdAndstName();
