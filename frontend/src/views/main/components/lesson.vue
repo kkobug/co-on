@@ -11,12 +11,17 @@
           </el-row>
           <el-main style="background-color: #E7EDDE; line-height: 100px">
             <el-row v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
-              <el-col :span="6"><div class="grid-content ">{{classitem.studyName}}</div></el-col>
-              <el-col :span="6"><div class="grid-content ">{{classitem.teacher.tchrName}}</div></el-col>
-              <el-col :span="6"><div class="grid-content ">{{classitem.studyDesc}}</div></el-col>
-              <el-col :span="6"><div class="grid-content " @click="joinSession(classitem)">이동</div></el-col>
+              <el-col :span="6"><div class="grid-content ">{{classitem[2]}}</div></el-col>
+              <el-col :span="6"><div class="grid-content ">{{classitem[1]}}</div></el-col>
+              <el-col :span="6"><div class="grid-content ">{{classitem[3]}}</div></el-col>
+              <el-col :span="6">
+                <!-- <div class="grid-content " @click="joinSession(classitem)">이동</div> -->
+                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">이동</div>
+                <div v-else class="grid-content " @click="joinSession(classitem)">불가</div>
+              </el-col>
             </el-row>
           </el-main>
+          <!-- 시작:classitem[8] 종료:classitem[9] -->
       </div>
       <!-- <chat/> -->
     </div>
@@ -24,7 +29,7 @@
     <!--세션 -->
 		<div id="session" v-if="session">
 			<div id="session-header">
-				<h1 id="session-title">{{ this.nowClass.conference.confTitle }}</h1>
+				<h1 id="session-title">{{ this.nowClass[5] }}</h1>
         <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
           <font-awesome-icon icon="microphone-slash" />
         </el-button>
@@ -94,15 +99,14 @@ export default {
 			subscribers: [],
 			camOn: false,
 			micOn: false,
-      ovToken: undefined,
 
 			mySessionId: null,         // 세션 이름 (Unique)
 			classTitle: null,        // 필요 없을 수 있음
 			classDescription: null,  // 필요 없을 수 있음
 			userId: null,        // 교사 이름 또는 학생 이름
-      classid:undefined,
       classes:undefined,
       nowClass:undefined,
+      today:new Date()
 		}
 	},
 
@@ -129,30 +133,37 @@ export default {
       event.preventDefault();
       event.returnValue = '';
     },
+    compareDate(Date1,Date2){
+      console.log(Date1)
+      if (new Date(Date1) < new Date())
+        if (new Date() < new Date(Date2))
+          return true
+      return false
+    },
     getClasses(){
-      this.$store.dispatch('root/requestGetClass',this.userId)
+      this.$store.dispatch('root/requestGetClassConfStudyId',this.userId)
       .then(result =>{
+        console.log(result.data)
         this.classes=result.data
-        this.getConf()
       })
       .catch(function(err){
         alert(err)
       })
     },
-    getConf(){
-      console.log(this.classes)
-      this.$store.dispatch('root/requestConfInfo',{studyId:this.classes[0].studyId,tchrId:this.classes[0].tchrId})
-      .then(result =>{
-        this.classes[0]['conference']=result.data
-      })
-      .catch(function(err){
-        alert(err)
-      })
-    },
+    // getConf(){
+    //   console.log(this.classes)
+    //   this.$store.dispatch('root/requestConfInfo',{studyId:this.classes[0].studyId,tchrId:this.classes[0].tchrId})
+    //   .then(result =>{
+    //     this.classes[0]['conference']=result.data
+    //   })
+    //   .catch(function(err){
+    //     alert(err)
+    //   })
+    // },
     screenShare(){
       var OV = new OpenVidu();
       var sessionScreen = OV.initSession();
-      this.getToken(this.nowClass.classId).then((token) => {
+      this.getToken(this.mySessionId).then((token) => {
         sessionScreen.connect(token).then(() => {
             var publisher = OV.initPublisher("html-element-id", { videoSource: "screen" });
 
@@ -176,9 +187,9 @@ export default {
     },
 		joinSession (classitem) {
       this.nowClass=classitem
-      this.mySessionId=classitem.tchrId+classitem.conference.confId
+      this.mySessionId=classitem[1]+classitem[4]
       // 수업 입실 axios
-      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem.conference.confId})
+      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem[4]})
       .then(result =>{
         console.log('입실 완료')
       })
@@ -218,7 +229,6 @@ export default {
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
 			this.getToken(this.mySessionId).then(token => {
-        this.ovToken=token
 				this.session.connect(token, { clientData: this.userId })
 					.then(() => {
 
@@ -258,7 +268,7 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-      this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass.conference.confId})
+      this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass[4]})
       .then(result =>{
         console.log('퇴실 완료')
       })

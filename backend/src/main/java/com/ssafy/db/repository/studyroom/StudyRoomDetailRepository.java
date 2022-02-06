@@ -17,13 +17,21 @@ public interface StudyRoomDetailRepository extends JpaRepository<StudyroomDetail
     List<Object[]> findStudyroombystudyId(int studyId);
 
 
-    @Query(value = "select st.study_id, st.tchr_id, st.study_name, st.study_desc, c.conf_id, c.conf_title, c.conf_init, c.conf_des, c.conf_start, c.conf_end, c.conf_att\n" +
+    @Query(value = "select st.study_id, st.tchr_id, st.study_name, st.study_desc, c.conf_id, c.conf_title, date_format(c.conf_init, '%Y-%m-%d %H:%i:%s'), date_format(c.conf_des, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_start, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_end, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_att, '%Y-%m-%d %H:%i:%s')\n" +
             "from studyroom as st\n" +
             "left join studyroom_detail as sd\n" +
             "on st.study_id = sd.study_id\n" +
             "left join conference as c\n" +
             "on st.study_id = c.study_id and st.tchr_id = c.tchr_id\n" +
             "where sd.st_id = :stId\n"+
-            "order by st.study_id",nativeQuery = true)
+            "order by st.study_id, c.conf_start desc",nativeQuery = true)
     List<Object[]> findStudyroomAndconbystId(String stId);
+    //    @Query(value = "select st.study_id, st.tchr_id, st.study_name, st.study_desc, c.conf_id, c.conf_title, c.conf_init, c.conf_des, c.conf_start, c.conf_end, c.conf_att\n" +
+//            "from studyroom as st\n" +
+//            "left join studyroom_detail as sd\n" +
+//            "on st.study_id = sd.study_id\n" +
+//            "left join conference as c\n" +
+//            "on st.study_id = c.study_id and st.tchr_id = c.tchr_id\n" +
+//            "where sd.st_id = :stId\n"+
+//    List<Object[]> findStudyroomAndconbystId(String stId);
 }

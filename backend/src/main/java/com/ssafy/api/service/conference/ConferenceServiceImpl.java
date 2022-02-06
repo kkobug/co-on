@@ -34,7 +34,7 @@ public class ConferenceServiceImpl implements ConferenceService{
         confed = conferenceRegisterReq.getConfEnd().split(":");
 
         LocalDateTime conferencestart = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), Integer.parseInt(confst[0]), Integer.parseInt(confst[1]));
-        LocalDateTime conferenceend = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), Integer.parseInt(confed[0]), Integer.parseInt(confed[0]));
+        LocalDateTime conferenceend = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), Integer.parseInt(confed[0]), Integer.parseInt(confed[1]));
 
         conference.setStudyId(conferenceRegisterReq.getStudyId());
         conference.setTchrId(conferenceRegisterReq.getTchrId());

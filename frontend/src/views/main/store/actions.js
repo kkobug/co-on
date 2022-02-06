@@ -129,6 +129,12 @@ export function requestGetClassStudyId ({ state }, payload) {
   const url = `/studyRoomDetail/student/studylist/${payload}`
   return $axios.get(url)
 }
+// 학생 수업 학생 ID 조회 + 화상 정보
+export function requestGetClassConfStudyId ({ state }, payload) {
+  console.log('requestGetClassConfStudyId')
+  const url = `/studyRoomDetail/student/studylistwithconference/${payload}`
+  return $axios.get(url)
+}
 // 학생 추가
 export function requestAddStudentInStudy ({ state }, payload) {
   console.log('requestAddStudentInStudy')

@@ -3,7 +3,7 @@
     <div id="chatComponent">
       <div id="chatToolbar">
         <span> CHAT</span>
-        <button mat-icon-button @click="close" id="closeButton">
+        <button @click="close" id="closeButton">
           <span>채팅창</span>
         </button>
       </div>
@@ -31,7 +31,6 @@
           placeholder="Send a message"
           autocomplete="off"
           @enter="sendMessage"
-          [(ngModel)]="message"
           id="chatInput"
         />
         <button id="sendButton" @click="sendMessage">
@@ -140,8 +139,8 @@ export default {
       this.$emit("close")
     },
    // 메세지 보내기
-    sendText(message){
-      session.connect(token, "USER_DATA")
+    sendMessage(message){
+      session.connect(token, { clientData: this.userId })
         .then(session.signal({
         data: message,  // Any string (optional)
         to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
@@ -156,8 +155,8 @@ export default {
       });
     },
     //메세지 받기
-    receiveText(message){
-      session.connect(token, "USER_DATA")
+    receiveMessage(event){
+      session.connect(token, { clientData: this.userId })
       .then(session.on('signal', (event) => {
         console.log(event.data); // Message
         console.log(event.from); // Connection object of the sender
