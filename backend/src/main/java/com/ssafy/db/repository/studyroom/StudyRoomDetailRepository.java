@@ -15,4 +15,15 @@ public interface StudyRoomDetailRepository extends JpaRepository<StudyroomDetail
             "from studyroom_detail AS d " +
             "inner join student AS s on d.st_id=s.st_id where d.study_id= :studyId", nativeQuery = true)
     List<Object[]> findStudyroombystudyId(int studyId);
+
+
+    @Query(value = "select st.study_id, st.tchr_id, st.study_name, st.study_desc, c.conf_id, c.conf_title, c.conf_init, c.conf_des, c.conf_start, c.conf_end, c.conf_att\n" +
+            "from studyroom as st\n" +
+            "left join studyroom_detail as sd\n" +
+            "on st.study_id = sd.study_id\n" +
+            "left join conference as c\n" +
+            "on st.study_id = c.study_id and st.tchr_id = c.tchr_id\n" +
+            "where sd.st_id = :stId\n"+
+            "order by st.study_id",nativeQuery = true)
+    List<Object[]> findStudyroomAndconbystId(String stId);
 }
