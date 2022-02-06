@@ -83,22 +83,15 @@ export default {
       emit('closeVideoDialog')
     }
     const EnrollClass = function () {
-      var att=state.atdTime
       store.dispatch('root/requestConfCreate',
         {
-          confAtt: {
-            hour: att.substring(0,2),
-            minute: att.substring(3,5),
-            nano: 0,
-            second: '00',
-            },
-            confEnd:(new Date()).toISOString().substring(0,11)+state.endTime+(':00.000Z'),
-            confStart:(new Date()).toISOString().substring(0,11)+state.startTime+(':00.000Z'),
-            confTitle:state.form.conferenceName,
-            studyid:state.form.classId,
-            tchrId:state.form.id
-          }
-        ).then(function (result) {
+          confAtt:state.atdTime.substring(0,2)*60+state.atdTime.substring(3,5)*1,
+          confEnd:state.endTime,
+          confStart:state.startTime,
+          confTitle:state.form.conferenceName,
+          studyId:state.form.classId,
+          tchrId:state.form.id
+        }).then(function (result) {
           console.log('등록')
           handleClose()
         }).catch(function (err) {

@@ -18,13 +18,13 @@
             </el-row>
           </el-main>
       </div>
+      <!-- <chat/> -->
     </div>
 
     <!--세션 -->
 		<div id="session" v-if="session">
-      <div>{{this.nowClass.studyName}}</div>
 			<div id="session-header">
-				<h1 id="session-title">{{ mySessionId }}</h1>
+				<h1 id="session-title">{{ this.nowClass.conference.confTitle }}</h1>
         <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
           <font-awesome-icon icon="microphone-slash" />
         </el-button>
@@ -65,6 +65,8 @@ import { useRouter } from 'vue-router'
 import axios from 'axios';
 import { OpenVidu, StreamManager } from 'openvidu-browser';
 import UserVideo from '../../video/UserVideo.vue';
+import Chat from './lesson_chat.vue';
+
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -76,6 +78,7 @@ export default {
 
   components: {
 		UserVideo,
+    Chat
 	},
 
   emits: [
@@ -96,7 +99,7 @@ export default {
 			mySessionId: null,         // 세션 이름 (Unique)
 			classTitle: null,        // 필요 없을 수 있음
 			classDescription: null,  // 필요 없을 수 있음
-			userid: null,        // 교사 이름 또는 학생 이름
+			userId: null,        // 교사 이름 또는 학생 이름
       classid:undefined,
       classes:undefined,
       nowClass:undefined,
@@ -130,6 +133,17 @@ export default {
       this.$store.dispatch('root/requestGetClass',this.userId)
       .then(result =>{
         this.classes=result.data
+        this.getConf()
+      })
+      .catch(function(err){
+        alert(err)
+      })
+    },
+    getConf(){
+      console.log(this.classes)
+      this.$store.dispatch('root/requestConfInfo',{studyId:this.classes[0].studyId,tchrId:this.classes[0].tchrId})
+      .then(result =>{
+        this.classes[0]['conference']=result.data
       })
       .catch(function(err){
         alert(err)
@@ -162,19 +176,16 @@ export default {
     },
 		joinSession (classitem) {
       this.nowClass=classitem
-      var classId=classitem.classId
-      console.log('입장시간:'+new Date())
+      this.mySessionId=classitem.tchrId+classitem.conference.confId
       // 수업 입실 axios
-      // this.$store.dispatch(requestConfEnter,{stId:this.userid,confId:this.})
-      // .then(result =>{
-      //   this.classes=result.data
-      // })
-      // .catch(function(err){
-      //   console.log('getClasses err')
-      //   alert(err)
-      // })
+      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem.conference.confId})
+      .then(result =>{
+        console.log('입실 완료')
+      })
+      .catch(function(err){
+        alert(err)
+      })
 
-      this.mySessionId=classId
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
 
@@ -206,9 +217,9 @@ export default {
 
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(classId).then(token => {
+			this.getToken(this.mySessionId).then(token => {
         this.ovToken=token
-				this.session.connect(token, { clientData: this.userid })
+				this.session.connect(token, { clientData: this.userId })
 					.then(() => {
 
 						// --- Get your own camera stream with the desired properties ---
@@ -238,10 +249,8 @@ export default {
 
 			window.addEventListener('beforeunload', this.leaveSession)
 		},
-
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
-      console.log('퇴장시간:'+new Date())
 			if (this.session) this.session.disconnect();
 
 			this.session = undefined;
@@ -249,10 +258,15 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-
+      this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass.conference.confId})
+      .then(result =>{
+        console.log('퇴실 완료')
+      })
+      .catch(function(err){
+        alert(err)
+      })
 			window.removeEventListener('beforeunload', this.leaveSession);
 		},
-
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
@@ -335,7 +349,7 @@ export default {
     this.userId=localvuex["root"]["userid"]
     this.getClasses()
   },
-   mounted() {
+  mounted() {
     window.addEventListener('beforeunload', this.unLoadEvent);
   },
   beforeUnmount() {

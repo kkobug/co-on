@@ -275,13 +275,13 @@ export function requestGetHwlist ({ state }, payload) {
 // 수업 입실
 export function requestConfEnter ({ state }, payload) {
   console.log('requestConfEnter', payload)
-  const url = `/conference/conference/enter?stId=${payload['stId']}&condId=${payload['confId']}`
+  const url = `/conference/conference/enter?stId=${payload['stId']}&confId=${payload['confId']}`
   return $axios.post(url)
 }
 //  수업 퇴실
 export function requestConfExit ({ state }, payload) {
   console.log('requestConfExit', payload)
-  const url = `/conference/conference/exit?stId=${payload['stId']}&condId=${payload['confId']}`
+  const url = `/conference/conference/exit?stId=${payload['stId']}&confId=${payload['confId']}`
   return $axios.put(url)
 }
 // 수업 시작/종료/인정시간 입력
