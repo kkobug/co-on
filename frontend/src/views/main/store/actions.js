@@ -208,11 +208,9 @@ export function requestListHomework ({ state }, payload) {
   return $axios.get(url, body)
 }
 // 교사가 출제한 과제 조회
-export function requestTchrListHomework ({ state }, payload) {
-  console.log('requestTchrListHomework')
-  const url = `/homework/teacher/${payload.tchrId}`
-  let body = payload
-  return $axios.get(url, body)
+export function requestTchrListHomework ({ state }) {
+  const url = `/homework/teacher/${state.userid}`
+  return $axios.get(url)
 }
 export function requestGetLesson ({ state }, payload) {
   console.log('requestGetLesson', payload)
@@ -223,6 +221,10 @@ export function requestGetLesson ({ state }, payload) {
 export function requestGetSTNotice ({ state }, payload) {
   console.log('requestGetSTNotice', state.userid)
   const url = `/notice/student/list/${state.userid}`
+  return $axios.get(url)
+}
+export function requestGetTchrNotice ({ state }) {
+  const url = `/notice/teacher/list/${state.userid}`
   return $axios.get(url)
 }
 export function requestGetHW ({ state }, payload) {
