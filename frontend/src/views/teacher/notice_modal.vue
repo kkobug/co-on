@@ -15,8 +15,8 @@
         <label for="noticeFile" style="display: inline-block; width: 10%; text-align: start">파일: </label>
         <input type="file" multiple="multiple" @change="addFile" ref="refNoticeFile" name="noticeFile" id="ntFile" style="width: 62%">
       </div>
-      <button v-if="isupdate" @click="updatenotice" class="purplebtn">수정</button>
-      <button v-else @click="addnotice" class="purplebtn">등록</button>
+      <div v-if="isupdate" @click="updatenotice" class="purplebtn">수정</div>
+      <div v-else @click="addnotice" class="purplebtn">등록</div>
     </form>
   </div>
 </template>
@@ -75,11 +75,8 @@ export default {
       state.form.noticeFile = filesArr
     }
     const updatenotice = function(){
-      var noticeFormData = new FormData()
+      var noticeFormData = new FormData(document.querySelector('#noticeForm'))
       noticeFormData.append('noticeId', props.pdata.noticeId)
-      noticeFormData.append('noticeTitle', state.form.noticeTitle)
-      noticeFormData.append('noticeContent', state.form.noticeContent)
-      noticeFormData.append('noticeFile', state.form.noticeFile)
       store.dispatch('root/requestUpdateNotice', noticeFormData)
       .then(res => {
         closeModal()

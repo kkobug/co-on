@@ -19,8 +19,8 @@
         <label for="hwFile">파일: </label>
         <input type="file" multiple="multiple" @change="addFile" ref="refHwFile" name="hwFile" id="hwFile" style="width: 62%">
       </div>
-      <button v-if="isupdate" @click="updatehomework" class="purplebtn"><strong>수정</strong></button>
-      <button v-else @click="addhomework" class="purplebtn"><strong>등록</strong></button>
+      <div v-if="isupdate" @click="updatehomework" class="purplebtn"><strong>수정</strong></div>
+      <div v-else @click="addhomework" class="purplebtn"><strong>등록</strong></div>
     </form>
 
   </div>

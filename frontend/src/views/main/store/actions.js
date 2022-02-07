@@ -178,8 +178,8 @@ export function requestDelNotice ({ state }, data) {
 }
 // 공지사항 수정
 export function requestUpdateNotice ({ state }, payload) {
-  console.log('requestUpdateNotice', payload.noticeId)
-  const url = `/notice/modify/${payload.noticeId}`
+  console.log('requestUpdateNotice', payload)
+  const url = `/notice/modify/${payload.get("noticeId")}`
   let body = payload
   return $axios.put(url, body)
 }
