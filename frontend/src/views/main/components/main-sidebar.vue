@@ -7,13 +7,13 @@
           active-text-color="#ffd04b"
           background-color="#4267D6"
           text-color="#fff"
-          style="height: 100%"
+          style="height: 100%; position: fixed; border-color: #4267D6; width: 240px"
           class="el-menu-vertical-demo"
           @select="menuSelect">
           <el-container class="profile-card">
             <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; color: white; border-radius: 20px">
               <p>
-                <!-- <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/프로필테스트.jpeg`)"></el-avatar> -->
+                <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/기본프로필.jpg`)"></el-avatar>
               </p>
               <div>
                 <span><strong>{{ username }}</strong></span>
@@ -31,17 +31,17 @@
             <span>{{ item.title }}</span>
           </el-menu-item>
 
-            <div v-if="whetherTchr">
-              <ul style="background: #99a9bf; color: #e5e9f2;" class="studyList">
-                <li v-for= "(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val[0], val[1])">{{val[1]}}</li>
-                <li style="position: relative; height:50px;">
-                  <div style="position : absolute; left:50%; top:50%; transform: translate(-50%, -50%)" class="studyBtn" @click="state.isVisible=true">수업생성</div>
-                </li>
-              </ul>
-              <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
-            </div>
+          <div v-if="whetherTchr">
+            <el-menu-item v-for="(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val[0], val[1])">
+                <span>{{ val[1] }}</span>
+            </el-menu-item>
+            <el-menu-item @click="state.isVisible=true">
+              <span>수업개설</span>
+            </el-menu-item>
+            <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
+          </div>
 
-          <el-menu-item class="mt-auto" style="bottom: 0; width: 100%; position : absolute" @click="logout">
+          <el-menu-item class="mt-auto" style="bottom: 0; width: 240px; position : fixed" @click="logout">
             <span >로그아웃</span>
           </el-menu-item>
         </el-menu>
@@ -72,7 +72,7 @@
   margin-right: 5px;
 }
 .li_zindex{
-  z-index: 100;
+  z-index: 1000;
   box-shadow: 3px 3px 3px 3px gray;
 }
 .studyList{

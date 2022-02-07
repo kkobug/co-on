@@ -1,38 +1,28 @@
 <template>
   <div class ="modal">
-    <div class="overlay" @click="closeModal">X</div>
-    <div><p>과제 등록</p></div>
-    <form action="#" id="hwForm" method="post" enctype="multipart/form-data">
-      <div><label for="hwTitle">제목</label><input v-model="state.form.hwTitle" name="hwTitle" type="text"></div>
-      <div><label for="hwContent">설명</label><input v-model="state.form.hwContent" name="hwContent" type="text"></div>
-      <div><label for="hwDeadline">날짜</label><input v-model="state.form.hwDeadline" name="hwDeadline" type="text"></div>
-      <div><label for="hwFile">파일</label><input type="file" multiple="multiple" @change="addFile" ref="refHwFile" name="hwFile" id="hwFile"></div>
-      <button v-if="isupdate" @click="updatehomework">수정</button>
-      <button v-else @click="addhomework">등록</button>
-    </form>
-    <!-- <el-button type="text" class="overlay" @click="closeModal" style="margin-right: 5px">❌</el-button>
+    <el-button type="text" class="overlay" @click="closeModal" style="margin-right: 5px">❌</el-button>
     <h2 style="margin-top: 4vh"><strong>과제 등록</strong></h2>
-    <el-row>
-      <el-col :span="20" :offset="2">
-        <el-form>
-          <el-form-item label="제목:">
-            <el-input v-model="state.form.hwTitle"></el-input>
-          </el-form-item>
-          <el-form-item label="설명:">
-            <el-input v-model="state.form.hwContent"></el-input>
-          </el-form-item>
-          <el-form-item label="날짜:">
-            <el-date-picker
-              v-model="state.form.hwDeadline" type="date" placeholder="Pick your birthday" style="width: 100%" format="YYYY-MM-DD" value-format="YYYYMMDD">
-            </el-date-picker>
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
-    <div class="btn-div">
-      <el-button v-if="isupdate" @click="updatehomework">수정</el-button>
-      <el-button v-else @click="addhomework">등록</el-button>
-    </div> -->
+    <form action="#" id="hwForm" method="post" enctype="multipart/form-data">
+      <div>
+        <label for="hwTitle">제목: </label>
+        <input v-model="state.form.hwTitle" name="hwTitle" type="text" style="height: 80%">
+      </div>
+      <div>
+        <label for="hwContent">설명: </label>
+        <input v-model="state.form.hwContent" name="hwContent" type="text" style="height: 80%">
+      </div>
+      <div>
+        <label for="hwDeadline">날짜: </label>
+        <input v-model="state.form.hwDeadline" name="hwDeadline" type="text" style="height: 80%">
+      </div>
+      <div>
+        <label for="hwFile">파일: </label>
+        <input type="file" multiple="multiple" @change="addFile" ref="refHwFile" name="hwFile" id="hwFile" style="width: 62%">
+      </div>
+      <button v-if="isupdate" @click="updatehomework" class="purplebtn"><strong>수정</strong></button>
+      <button v-else @click="addhomework" class="purplebtn"><strong>등록</strong></button>
+    </form>
+
   </div>
 </template>
 
@@ -144,13 +134,31 @@ export default {
     right: 10px;
     top: 10px;
   }
-  .btn-div .el-button {
+  .purplebtn {
     width: 20%;
+    height: 30px;
     background-color: #6B3BE3;
+    border: none;
     border-radius: 12px;
     text-align: center;
     color: #fff;
     margin-top: 10px;
     margin-bottom: 2vh;
+    cursor: pointer;
+  }
+  .purplebtn:hover {background-color: #fff; color: #6B3BE3;}
+  label {
+    display: inline-block;
+    width: 10%;
+    text-align: start;
+  }
+  input {
+    width: 60%;
+    border-color: #f0f0f1;
+    border-radius: 5px;
+  }
+  div {
+    margin-bottom: 1vh;
+    height: 25px;
   }
 </style>

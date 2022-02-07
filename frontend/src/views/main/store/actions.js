@@ -243,6 +243,11 @@ export function requestGetHW ({ state }, payload) {
   const url = `/homework/student/${state.userid}`
   return $axios.get(url)
 }
+export function requestRateHW ({ state }) {
+  console.log('requestRateHW')
+  const url = `/homework/student/rate/${state.userid}`
+  return $axios.get(url)
+}
 export function requestaddsthw ({ state }, payload) {
   console.log('requestaddsthw', payload)
   const url = `/studenthomework/create`
