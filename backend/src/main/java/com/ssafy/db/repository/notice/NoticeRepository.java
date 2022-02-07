@@ -13,8 +13,8 @@ import java.util.Optional;
 public interface NoticeRepository extends JpaRepository<Notice, Integer> {
 
     // 학생 ID로 모든 공지 조회 (학생이 속해있는 모든 수업에서 발생한 공지 조회)
-    @Query(value = "SELECT NOTICE.* FROM NOTICE WHERE NOTICE.notice_id IN " +
-            "(SELECT notice_id FROM studyroom_detail WHERE st_id = :stId)", nativeQuery = true)
+    @Query(value = "SELECT NOTICE.* FROM NOTICE WHERE NOTICE.study_id IN " +
+            "(SELECT study_id FROM studyroom_detail WHERE st_id = :stId)", nativeQuery = true)
     List<Notice> findNoticeBystId(String stId);
 
 }
