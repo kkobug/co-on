@@ -37,8 +37,8 @@ public class StudentHomeworkController {
 			@ModelAttribute
 					StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq
 			) throws Exception{
-				studentHomeworkService.createStudentHomework(studentHomeworkRegisterPostReq);
-				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		studentHomeworkService.createStudentHomework(studentHomeworkRegisterPostReq);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
 	@DeleteMapping("delete")

@@ -254,7 +254,7 @@ export function requestaddsthw ({ state }, payload) {
   console.log('requestaddsthw', payload)
   const url = `/studenthomework/create`
   let body = payload
-  return $axios.put(url, body)
+  return $axios.post(url, body)
 }
 export function requestdelsthw ({ state }, data) {
   console.log('requestdelsthw', data)

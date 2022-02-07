@@ -6,7 +6,7 @@
           <el-input v-model="state.hwname" autocomplete="off"></el-input>
         </el-form-item>
         <form action="#" id="stHwFile" method="post" enctype="multipart/form-data">
-          <input type="stHwFile" multiple="multiple" @change="addFile" name="stHwFile" id="stHwFile">
+          <input type="file" multiple="multiple" @change="addFile" name="stHwFile" id="stHwFile">
         </form>
 
       </el-form>

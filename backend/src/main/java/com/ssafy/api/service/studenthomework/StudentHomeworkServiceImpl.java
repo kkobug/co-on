@@ -31,12 +31,13 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
 
     @Override
     public StudentHomework createStudentHomework(StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq) {
-        StudentHomework studenthomework = new StudentHomework();
-        studenthomework.setHwId(studentHomeworkRegisterPostReq.getHwId());
-        studenthomework.setStudyId(studentHomeworkRegisterPostReq.getStudyId());
-        studenthomework.setTchrId(studentHomeworkRegisterPostReq.getTchrId());
-        studenthomework.setStId(studentHomeworkRegisterPostReq.getStId());
+        StudentHomework studenthomework = studenthomeworkRepositorySupport.findByIds(studentHomeworkRegisterPostReq.getStId(), studentHomeworkRegisterPostReq.getHwId());
+//        studenthomework.setHwId(studentHomeworkRegisterPostReq.getHwId());
+//        studenthomework.setStudyId(studentHomeworkRegisterPostReq.getStudyId());
+//        studenthomework.setTchrId(studentHomeworkRegisterPostReq.getTchrId());
+//        studenthomework.setStId(studentHomeworkRegisterPostReq.getStId());
         studenthomework.setStHwcontent(studentHomeworkRegisterPostReq.getStHwContent());
+        studenthomework.setStHwposted(LocalDateTime.now());
         studenthomeworkRepository.save(studenthomework);
         if (!studentHomeworkRegisterPostReq.getStHwFile().get(0).isEmpty()){
             List<MultipartFile> sthwFile = studentHomeworkRegisterPostReq.getStHwFile();
