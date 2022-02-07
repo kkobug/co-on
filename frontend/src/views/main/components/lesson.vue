@@ -43,8 +43,17 @@
             <el-button circle v-else id="buttonCam" @click="camControl" value="CAMON">
               <font-awesome-icon icon="video" />
             </el-button>
-            <el-button circle id="buttonLeaveSession" @click="screenShare" value="Screen share">
-              <font-awesome-icon icon="user-secret" />
+            <el-button circle v-if="shareOn" id="buttonScreenShare" @click="screenShare" value="Screen share">
+              <font-awesome-icon icon="share-square" />
+            </el-button>
+            <el-button circle v-else id="buttonScreenShare" @click="screenShare" value="Screen share">
+              <font-awesome-icon icon="share-square" />
+            </el-button>
+            <el-button circle v-if="chatOn" id="buttonChat" @click="chatControl" value="CHATOFF">
+              <font-awesome-icon icon="comment-slash" />
+            </el-button>
+            <el-button circle v-else id="buttonChat" @click="chatControl" value="CHATON">
+              <font-awesome-icon icon="comment-dots" />
             </el-button>
             <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
               <font-awesome-icon icon="door-open" />
@@ -65,12 +74,6 @@
             <div id="chatComponent">
               <div id="chatToolbar">
                 <span> CHAT</span>
-                <button @click="close" id="closeButton">
-                  <span>채팅창</span>
-                </button>
-                <button @click="sendMessage">
-                  <span>send</span>
-                </button>
               </div>
               <!-- <div class="message-wrap" >
                 <div v-for="data in this.messagelist" :key="data" class="message">
@@ -115,7 +118,6 @@ import { useRouter } from 'vue-router'
 import axios from 'axios';
 import { OpenVidu, StreamManager } from 'openvidu-browser';
 import UserVideo from '../../video/UserVideo.vue';
-import Chat from './lesson_chat.vue';
 
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -128,7 +130,6 @@ export default {
 
   components: {
 		UserVideo,
-    Chat
 	},
 
   emits: [
@@ -145,7 +146,8 @@ export default {
 			subscribers: [],
 			camOn: false,
 			micOn: false,
-      chatOn: 6,
+      shareOn: false,
+      chatOn: 0,
 
 			mySessionId: null,         // 세션 이름 (Unique)
 			classTitle: null,        // 필요 없을 수 있음
@@ -175,10 +177,6 @@ export default {
   },
 
   methods: {
-    close(){
-      console.log('close')
-      // this.$emit("close")
-    },
     unLoadEvent: function (event) {
       if (this.canLeaveSite) return;
 
@@ -239,32 +237,34 @@ export default {
       });
     },
     sendMessage(){
-      console.log(22222)
-      // var message = this.textInput
-      // console.log(message)
-      // this.getToken(this.mySessionId).then((token) => {
-      //   session.connect(token, { clientData: this.userId })
-      //     .then(session.signal({
-      //     data: message,  // Any string (optional)
-      //     to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
-      //     type: 'my-chat'             // The type of message (optional)
-      //     }).then(() => {
-      //         console.log(message);
-      //     }).catch(error => {
-      //         console.error(error);
-      //   }))
-      //   .catch(error =>{
-      //     console.error(error);
-      //   });
-      // })
+      var message = this.textInput
+      console.log(message)
+      var OV = new OpenVidu();
+      var session = OV.initSession();
+
+      this.createToken(this.tokenId).then((token) => {
+        session.connect(token, { clientData: this.userId })
+          .then(()=> {
+            session.signal({
+            data: message,  // Any string (optional)
+            to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
+            type: 'my-chat'             // The type of message (optional)
+          }).then(() => {
+              console.log(message);
+          }).catch(error => {
+              console.error(error);
+          })
+        })
+        .catch(error =>{
+          console.error(error);
+        });
+      })
     },
 
     screenShare(){
       var OV = new OpenVidu();
       var sessionScreen = OV.initSession();
-      // +this.userId+"screen"
       this.createToken(this.tokenId).then((token) => {
-        // this.session.connect(token, { clientData: this.userId+'screen' })
         sessionScreen.connect(token, { clientData: this.userId+'screen' })
         .then(() => {
             var publisher = OV.initPublisher("html-element-id", { videoSource: "screen" });
@@ -282,6 +282,7 @@ export default {
             console.warn('There was an error connecting to the session:', error.code, error.message);
         }));
       });
+      this.shareOn=true;
     },
 		joinSession (classitem) {
       this.nowClass=classitem
@@ -448,7 +449,16 @@ export default {
 		camControl () {
 			this.camOn = !this.camOn
       this.publisher.publishVideo(this.camOn)
-		}
+		},
+
+    chatControl(){
+      if (this.chatOn==0){
+        this.chatOn = 6
+      }else {
+        this.chatOn = 0
+      }
+      console.log(this.chatOn)
+    },
 	},
   created:function(){
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
@@ -533,10 +543,10 @@ export default {
 }
 // 메세지
 #chatContainer {
-  position: absolute;
+  position: fixed;
   z-index: 10;
-  width: 30%;
-  height: calc(30% - 20px);
+  width: 20%;
+  height: 100%;
 }
 input {
   font-family: 'Ubuntu', sans-serif;
@@ -556,9 +566,9 @@ input {
 }
 
 #closeButton {
-  position: absolute;
+  // position: absolute;
   right: 0;
-  top: -5px;
+  // top: -5px;
 }
 
 #chatComponent {
@@ -571,7 +581,7 @@ input {
   bottom: 0;
   margin: auto;
   height: calc(100% - 30px);
-  width: calc(100% - 30px);
+  // width: calc(100% + 30px);
   border-radius: 20px;
 }
 
@@ -707,16 +717,16 @@ span.triangle {
 #messageInput button {
   width: auto;
 }
-// #sendButton {
-//   background-color: #81e9b0;
-//   position: absolute;
-//   right: 10px;
-//   top: 0;
-//   bottom: 0;
-//   margin: auto;
-//   border: 1px solid #7ae2a9;
-//   box-shadow: none !important;
-// }
+#sendButton {
+  background-color: #81e9b0;
+  position: absolute;
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 1px solid #7ae2a9;
+  box-shadow: none !important;
+}
 // #sendButton mat-icon {
 //   margin-left: 3px !important;
 //   margin-bottom: 2px !important;
