@@ -73,9 +73,9 @@ export default {
       console.log("!!")
 
       store.dispatch('root/requestAddHomework', hwFormData)
-      // .then(res => {
-      //   closeModal()
-      // })
+      .then(res => {
+        closeModal()
+      })
     }
     const addFile = function(event) {
       var files = event.target.files
@@ -161,4 +161,11 @@ export default {
     margin-bottom: 1vh;
     height: 25px;
   }
+  .form-indiv{
+    margin : 50px;
+  }
+  .form-label{
+    margin: 15px;
+  }
+
 </style>

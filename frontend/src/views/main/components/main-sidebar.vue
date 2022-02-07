@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%">
+  <div style="height: 100%;">
     <el-row style="height: 100%">
       <el-col :span="24" style="heght: 100%">
         <el-menu

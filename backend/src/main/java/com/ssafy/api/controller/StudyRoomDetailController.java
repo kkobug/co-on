@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.studyroom.StudyRoomAddPostReq;
+import com.ssafy.api.request.studyroomdetail.StudyRoomDetailDeleteReq;
 import com.ssafy.api.service.studyroom.StudyRoomDetailService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Studyroom;
@@ -62,6 +63,7 @@ public class StudyRoomDetailController {
 
     @GetMapping("/student/studylistwithconference/{stId}")
     @ApiOperation(value = "학생 수업 조회", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
+
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
@@ -71,6 +73,7 @@ public class StudyRoomDetailController {
     public ResponseEntity<List<Object[]>> studyroomlistwithcoference(
             @PathVariable @ApiParam(value = "학생 ID 정보", required = true)String stId){
         List<Object[]> list = studyRoomDetailService.findStudyroomAndconbystId(stId);
+
         return ResponseEntity.status(200).body(list);
     }
 }

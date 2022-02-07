@@ -126,7 +126,7 @@ export function requestGetClass ({ state }, payload) {
 // 학생 수업 수업 ID 조회
 export function requestGetClassStudyId ({ state }, payload) {
   console.log('requestGetClassStudyId')
-  const url = `/studyRoomDetail/student/studylist/${payload}`
+  const url = `/studyRoomDetail/student/studylist/${payload.studyId}`
   return $axios.get(url)
 }
 // 학생 수업 학생 ID 조회 + 화상 정보
@@ -156,13 +156,7 @@ export function requestAddNotice ({ state }, payload) {
   console.log('requestAddNotice')
   const url = `/notice/create`
   let body = payload
-  return $axios.post(url, body,
-    {
-      // headers: {
-      //   'Content-Type': 'multipart/form-data'
-      // },
-    },
-  )
+  return $axios.post(url, body)
 }
 // 공지사항 삭제
 export function requestDelNotice ({ state }, data) {
@@ -182,15 +176,8 @@ export function requestAddHomework ({ state }, payload) {
   console.log('requestUpdateHomework', payload)
   const url = `/homework/create`
   let body = payload
-  return $axios.post(url, body,
-    // {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data'
-    //   }
-    // }
-  ).catch(
-    console.log(error)
-  )}
+  return $axios.post(url, body)
+}
 // 학생이 속한 수업의 공지 조회
 export function requestListNotice ({ state }, payload) {
   console.log('requestListNotice')
@@ -252,7 +239,7 @@ export function requestaddsthw ({ state }, payload) {
   console.log('requestaddsthw', payload)
   const url = `/studenthomework/create`
   let body = payload
-  return $axios.post(url, body)
+  return $axios.put(url, body)
 }
 export function requestdelsthw ({ state }, data) {
   console.log('requestdelsthw', data)
@@ -306,4 +293,9 @@ export function requestConfInfo ({ state }, payload) {
   console.log('requestConfInfo', payload)
   const url = `/conference/info?studyId=${payload['studyId']}&tchrId=${payload['tchrId']}`
   return $axios.get(url)
+}
+export function requestdelStudyStudent ({ state }, data) {
+  console.log('requestdelStudyStudent', data)
+  const url = `/studyRoomDetail/teacher/deletestudent`
+  return $axios.delete(url, {data})
 }

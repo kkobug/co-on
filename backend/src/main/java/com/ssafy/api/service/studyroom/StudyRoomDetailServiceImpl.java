@@ -1,6 +1,7 @@
 package com.ssafy.api.service.studyroom;
 
 import com.ssafy.api.request.studyroom.StudyRoomAddPostReq;
+import com.ssafy.api.request.studyroomdetail.StudyRoomDetailDeleteReq;
 import com.ssafy.db.entity.Studyroom;
 import com.ssafy.db.entity.StudyroomDetail;
 import com.ssafy.db.repository.studyroom.StudyRoomDetailRepository;
@@ -38,8 +39,10 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     }
 
     @Override
+
     public List<Object[]> findStudyroomAndconbystId(String stId) {
         return studyRoomDetailRepository.findStudyroomAndconbystId(stId);
+
     }
 
 //    @Override

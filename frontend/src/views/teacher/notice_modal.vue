@@ -65,6 +65,7 @@ export default {
 
       store.dispatch('root/requestAddNotice', noticeFormData)
       .then(res => {
+        console.log(res)
         closeModal()
       })
     }

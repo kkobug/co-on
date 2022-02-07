@@ -71,8 +71,8 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
-    public void deleteStudentHomework(Integer stHwId, String stId) {
-        studenthomeworkRepositorySupport.deleteStudentHomeworkByStHwIdAndStId(stHwId, stId);
+    public void deleteStudentHomework(Integer hwId, String stId) {
+        studenthomeworkRepositorySupport.deleteStudentHomeworkByStHwIdAndStId(hwId, stId);
     }
 
     @Override

@@ -34,4 +34,5 @@ public interface StudyRoomDetailRepository extends JpaRepository<StudyroomDetail
 //            "on st.study_id = c.study_id and st.tchr_id = c.tchr_id\n" +
 //            "where sd.st_id = :stId\n"+
 //    List<Object[]> findStudyroomAndconbystId(String stId);
+
 }
