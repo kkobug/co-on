@@ -16,15 +16,13 @@ public interface StudyRoomDetailRepository extends JpaRepository<StudyroomDetail
             "inner join student AS s on d.st_id=s.st_id where d.study_id= :studyId", nativeQuery = true)
     List<Object[]> findStudyroombystudyId(int studyId);
 
-
-    @Query(value = "select st.study_id, st.tchr_id, st.study_name, st.study_desc, c.conf_id, c.conf_title, date_format(c.conf_init, '%Y-%m-%d %H:%i:%s'), date_format(c.conf_des, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_start, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_end, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_att, '%Y-%m-%d %H:%i:%s')\n" +
-            "from studyroom as st\n" +
+@Query(value = "select st.study_id, st.tchr_id, st.study_name, st.study_desc, c.conf_id, c.conf_title, date_format(c.conf_init, '%Y-%m-%d %H:%i:%s'), date_format(c.conf_des, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_start, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_end, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_att, '%Y-%m-%d %H:%i:%s')\n" +
+            "from studyroom as st, conference as c\n" +
             "left join studyroom_detail as sd\n" +
-            "on st.study_id = sd.study_id\n" +
-            "left join conference as c\n" +
-            "on st.study_id = c.study_id and st.tchr_id = c.tchr_id\n" +
-            "where sd.st_id = :stId\n"+
-            "order by st.study_id, c.conf_start desc",nativeQuery = true)
+            "on sd.study_id = c.study_id\n" +
+            "where sd.st_id = :stId and (st.study_id, st.tchr_id, c.conf_start) in (select conf.study_id, conf.tchr_id, max(conf_start)\n"+
+            "from conference as conf\n"+
+            "group by conf.study_id)",nativeQuery = true)
     List<Object[]> findStudyroomAndconbystId(String stId);
     //    @Query(value = "select st.study_id, st.tchr_id, st.study_name, st.study_desc, c.conf_id, c.conf_title, c.conf_init, c.conf_des, c.conf_start, c.conf_end, c.conf_att\n" +
 //            "from studyroom as st\n" +
@@ -35,4 +33,10 @@ public interface StudyRoomDetailRepository extends JpaRepository<StudyroomDetail
 //            "where sd.st_id = :stId\n"+
 //    List<Object[]> findStudyroomAndconbystId(String stId);
 
+    @Query(value = "select st_id, st_name, st_contact, st_birthday, st_school, st_img\n" +
+            "from student\n" +
+            "where student.st_id in (select studyroom_detail.st_id\n" +
+            "\t\t\t\tfrom studyroom_detail\n" +
+            "                where studyroom_detail.study_id =:studyId)", nativeQuery = true)
+    List<Object[]> findstudentbystudyId(int studyId);
 }

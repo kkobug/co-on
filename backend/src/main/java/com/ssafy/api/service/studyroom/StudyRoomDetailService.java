@@ -14,4 +14,7 @@ public interface StudyRoomDetailService {
 //    List<Tuple> findstIdAndstName();
     List<Object[]> findStudyroomAndconbystId(String stId);
 
+    void deleteStudent(StudyRoomDetailDeleteReq studyRoomDetailDeleteReq);
+
+    List<Object[]> findStudentbystudyId(int studyId);
 }
