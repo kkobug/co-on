@@ -1,8 +1,8 @@
 <template>
   <div class ="modal">
-    <div class="overlay" @click="closeModal">X</div>
-      <div><p>공지 등록</p></div>
-      <form id="noticeForm" enctype="multipart/form-data">
+    <div class="overlay" style="margin-right: 5px" @click="closeModal">❌</div>
+      <h2 style="margin-top: 4vh"><strong>공지 등록</strong></h2>
+      <form style id="noticeForm" enctype="multipart/form-data">
         <div><label for="noticeTitle">제목</label><input v-model="state.form.noticeTitle"  name="noticeTitle" type="text"></div>
         <div><label for="noticeContent">내용</label><textarea v-model="state.form.noticeContent" name="noticeContent" id="" cols="30" rows="10"></textarea></div>
         <div><label for="noticeFile">파일</label><input type="file" multiple="multiple" @change="addFile" ref="refNoticeFile" name="noticeFile" id="ntFile"></div>

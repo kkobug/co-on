@@ -1,14 +1,14 @@
 <template>
   <div class ="modal">
-    <div class="overlay" @click="closeModal">X</div>
-    <div><p>과제 등록</p></div>
+    <div class="overlay" style="margin-right: 5px" @click="closeModal">❌</div>
+    <div class="form-indiv"><p>과제 등록</p></div>
     <form action="#" id="hwForm" method="post" enctype="multipart/form-data">
-      <div><label for="hwTitle">제목</label><input v-model="state.form.hwTitle" name="hwTitle" type="text"></div>
-      <div><label for="hwContent">설명</label><input v-model="state.form.hwContent" name="hwContent" type="text"></div>
-      <div><label for="hwDeadline">날짜</label><input v-model="state.form.hwDeadline" name="hwDeadline" type="text"></div>
-      <div><label for="hwFile">파일</label><input type="file" multiple="multiple" @change="addFile" ref="refHwFile" name="hwFile" id="hwFile"></div>
-      <button v-if="isupdate" @click="updatehomework">수정</button>
-      <button v-else @click="addhomework">등록</button>
+      <div class="form-indiv"><label class="form-label" for="hwTitle">제목</label><input class="form-input" v-model="state.form.hwTitle" name="hwTitle" type="text"></div>
+      <div class="form-indiv"><label class="form-label" for="hwContent">설명</label><input class="form-input" v-model="state.form.hwContent" name="hwContent" type="text"></div>
+      <div class="form-indiv"><label class="form-label" for="hwDeadline">날짜</label><input class="form-input" v-model="state.form.hwDeadline" name="hwDeadline" type="text"></div>
+      <div class="form-indiv"><label class="form-label" for="hwFile">파일</label><input class="form-input" type="file" multiple="multiple" @change="addFile" ref="refHwFile" name="hwFile" id="hwFile"></div>
+      <button class="form-indiv" v-if="isupdate" @click="updatehomework">수정</button>
+      <button class="form-indiv" v-else @click="addhomework">등록</button>
     </form>
     <!-- <el-button type="text" class="overlay" @click="closeModal" style="margin-right: 5px">❌</el-button>
     <h2 style="margin-top: 4vh"><strong>과제 등록</strong></h2>
@@ -83,9 +83,9 @@ export default {
       console.log("!!")
 
       store.dispatch('root/requestAddHomework', hwFormData)
-      // .then(res => {
-      //   closeModal()
-      // })
+      .then(res => {
+        closeModal()
+      })
     }
     const addFile = function(event) {
       var files = event.target.files
@@ -153,4 +153,11 @@ export default {
     margin-top: 10px;
     margin-bottom: 2vh;
   }
+  .form-indiv{
+    margin : 50px;
+  }
+  .form-label{
+    margin: 15px;
+  }
+
 </style>

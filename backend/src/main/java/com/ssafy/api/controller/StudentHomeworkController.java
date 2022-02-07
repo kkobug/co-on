@@ -50,9 +50,9 @@ public class StudentHomeworkController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<?> delete(@RequestBody StudentHomeworkDeleteRes studentHomeworkDeleteRes){
-		Integer stHwId = studentHomeworkDeleteRes.getStHwId();
+		Integer hwId = studentHomeworkDeleteRes.getHwId();
 		String stId = studentHomeworkDeleteRes.getStId();
-		studentHomeworkService.deleteStudentHomework(stHwId, stId);
+		studentHomeworkService.deleteStudentHomework(hwId, stId);
 		return ResponseEntity.status(200).body("OK");
 	}
 

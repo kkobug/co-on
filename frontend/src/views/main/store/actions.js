@@ -228,7 +228,7 @@ export function requestaddsthw ({ state }, payload) {
   console.log('requestaddsthw', payload)
   const url = `/studenthomework/create`
   let body = payload
-  return $axios.post(url, body)
+  return $axios.put(url, body)
 }
 export function requestdelsthw ({ state }, data) {
   console.log('requestdelsthw', data)
@@ -256,4 +256,9 @@ export function requestGetHwlist ({ state }, payload) {
   console.log('requestGetHwlist', payload)
   const url = `/studenthomework/teacher/list/${payload}`
   return $axios.get(url)
+}
+export function requestdelStudyStudent ({ state }, data) {
+  console.log('requestdelStudyStudent', data)
+  const url = `/studyRoomDetail/teacher/deletestudent`
+  return $axios.delete(url, {data})
 }

@@ -15,7 +15,7 @@ public interface StudentHomeworkService {
 	StudentHomework createStudentHomework(StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq);
 	// 과제 삭제(과제 ID와 학생 ID로 삭제)
 	@Transactional
-	void deleteStudentHomework(Integer stHwId, String stId);
+	void deleteStudentHomework(Integer hwId, String stId);
 	//학생 과제 수정
 	StudentHomework StudentHomeworkupdateNotice(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq);
 

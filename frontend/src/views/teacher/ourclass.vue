@@ -1,7 +1,7 @@
 <template>
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
-    <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
+    <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="closemodal()"></ModalView>
     <el-row :gutter="20" style="margin-top: 2vh">
       <el-col :span="20" style="margin-left: 15vh">
         <el-button class="staddbtn" @click="state.isVisible=true">학생 추가</el-button>
@@ -23,7 +23,7 @@
                 <div style="padding: 14px">
                   <span>{{o[1]}}</span>
                   <div class="bottom">
-                    <el-button type="text" class="button">Operating</el-button>
+                    <el-button type="text" class="button" @click="delstudent(o[1])">삭제</el-button>
                   </div>
                 </div>
               </el-card>
@@ -91,10 +91,23 @@ export default {
         state.students = res.data
       })
     }
+    const delstudent = function(studentID){
+      store.dispatch("root/requestdelStudyStudent", {
+        stId: studentID,
+        studyId :store.state.root.curClassId
+      })
+      .then(res =>{
+        getStudentList();
+      })
+    }
+    const closemodal = function(){
+      state.isVisible=false
+      getStudentList();
+    }
     onMounted(()=>{
       getStudentList();
     })
-    return {state, test, getStudentList, onMounted}
+    return {state, test, getStudentList, onMounted, delstudent, closemodal}
   },
   methods:{
     // moveClass: function(){

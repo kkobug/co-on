@@ -1,6 +1,7 @@
 package com.ssafy.api.service.studyroom;
 
 import com.ssafy.api.request.studyroom.StudyRoomAddPostReq;
+import com.ssafy.api.request.studyroomdetail.StudyRoomDetailDeleteReq;
 import com.ssafy.db.entity.Studyroom;
 import com.ssafy.db.entity.StudyroomDetail;
 import com.ssafy.db.repository.studyroom.StudyRoomDetailRepository;
@@ -35,6 +36,18 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     @Override
     public List<Object[]> findStudyroombystudyId(int studyId) {
         return studyRoomDetailRepository.findStudyroombystudyId(studyId);
+    }
+
+    @Override
+    public void deleteStudent(StudyRoomDetailDeleteReq studyRoomDetailDeleteReq) {
+        Integer studyId = studyRoomDetailDeleteReq.getStudyId();
+        String stId = studyRoomDetailDeleteReq.getStId();
+        studyRoomdetailRepositorySupport.deleteStudyRoomDetail(studyId, stId);
+    }
+
+    @Override
+    public List<Object[]> findStudentbystudyId(int studyId) {
+        return studyRoomDetailRepository.findstudentbystudyId(studyId);
     }
 
 //    @Override
