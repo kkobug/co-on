@@ -11,16 +11,24 @@
         <label for="hwContent">설명: </label>
         <input v-model="state.form.hwContent" name="hwContent" type="text" style="height: 80%">
       </div>
-      <div>
-        <label for="hwDeadline">날짜: </label>
-        <input v-model="state.form.hwDeadline" name="hwDeadline" type="text" style="height: 80%">
+      <div class="demo-datetime-picker">
+        <div class="block">
+          <el-date-picker
+            v-model="state.form.hwDeadline"
+            type="datetime"
+            placeholder="최종 제출일"
+            name="hwDeadline"
+            format="YYYY/MM/DD hh:mm:ss"
+          >
+          </el-date-picker>
+        </div>
       </div>
-      <div>
+      <div style="margin-top:10px;">
         <label for="hwFile">파일: </label>
         <input type="file" multiple="multiple" @change="addFile" ref="refHwFile" name="hwFile" id="hwFile" style="width: 62%">
       </div>
-      <button v-if="isupdate" @click="updatehomework" class="purplebtn"><strong>수정</strong></button>
-      <button v-else @click="addhomework" class="purplebtn"><strong>등록</strong></button>
+      <div v-if="isupdate" @click="updatehomework" class="purplebtn"><strong>수정</strong></div>
+      <div v-else @click="addhomework" class="purplebtn"><strong>등록</strong></div>
     </form>
 
   </div>
@@ -83,13 +91,9 @@ export default {
       state.form.hwFile = filesArr
     }
     const updatehomework = function(){
-      var hwFormData = new FormData()
+      var hwFormData = new FormData(document.querySelector('#hwForm'))
       hwFormData.append('hwId', state.form.hwId)
-      hwFormData.append('hwTitle', state.form.hwTitle)
-      hwFormData.append('hwContent', state.form.hwContent)
-      hwFormData.append('hwDeadline', state.form.hwDeadline)
-      hwFormData.append('hwFile', state.form.hwFile)
-      store.dispatch('root/requestUpdateNotice', hwFormData)
+      store.dispatch('root/requestupdateHomework', hwFormData)
       .then(res => {
         closeModal()
       })
@@ -166,6 +170,27 @@ export default {
   }
   .form-label{
     margin: 15px;
+  }
+  .demo-datetime-picker {
+    display: flex;
+    width: 100%;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+  .demo-datetime-picker .block {
+    padding: 0;
+    text-align: center;
+    border-right: solid 1px var(--el-border-color-base);
+    flex: 1;
+  }
+  .demo-datetime-picker .block:last-child {
+    border-right: none;
+  }
+  .demo-datetime-picker .demonstration {
+    display: block;
+    color: var(--el-text-color-secondary);
+    font-size: 14px;
+    margin-bottom: 20px;
   }
 
 </style>

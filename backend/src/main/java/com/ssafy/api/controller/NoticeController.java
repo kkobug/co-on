@@ -8,11 +8,22 @@ import com.ssafy.api.service.notice.NoticeService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Notice;
 import io.swagger.annotations.*;
+import org.kurento.client.internal.server.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -20,12 +31,12 @@ import java.util.List;
  */
 @Api(value = "유저 API", tags = {"Notice"})
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/notice")
 public class NoticeController {
 	@Autowired
 	NoticeService noticeService;
 
-	@PostMapping("/notice/create")
+	@PostMapping("/create")
 	@ApiOperation(value = "교사 공지사항 입력", notes = "<strong>클래스 id, 선생 id, 공지사항 제목, 공지사항 내용</strong>을 입력하여 공지사항을 등록한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -37,13 +48,13 @@ public class NoticeController {
 			@ApiParam(value="공지사항 작성", required = true)
 			@ModelAttribute
 					NoticeRegisterPostReq noticeRegisterPostReq
-			) throws Exception{
+	) throws Exception{
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-				noticeService.createNotice(noticeRegisterPostReq);
-				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		noticeService.createNotice(noticeRegisterPostReq);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	@DeleteMapping("/notice/delete")
+	@DeleteMapping("/delete")
 	@ApiOperation(value = "공지사항 삭제", notes = "<strong>공지사항, 교사 아이디</strong>를 통해 삭제 한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -58,7 +69,7 @@ public class NoticeController {
 		return ResponseEntity.status(200).body("OK");
 	}
 
-	@GetMapping("/notice/{noticeId}")
+	@GetMapping("/{noticeId}")
 	@ApiOperation(value = "공지사항 정보 조회", notes = "선택한 공지사항의 정보를 조회한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -72,7 +83,7 @@ public class NoticeController {
 		return ResponseEntity.status(200).body(NoticeFindID.of(notice));
 	}
 
-	@PutMapping("/notice/modify/{noticeId}")
+	@PostMapping("/modify")
 	@ApiOperation(value = "공지사항 수정", notes = "공지사항을 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -81,15 +92,16 @@ public class NoticeController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> modify(
-			@PathVariable @ApiParam(value = "공지사항 수정") Integer noticeId,
-			@ModelAttribute NoticeUpdatePutReq noticeUpdatePutReq) throws IOException {
-		Notice notice = noticeService.updateNotice(Math.toIntExact(noticeId), noticeUpdatePutReq);
-		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
+			@ApiParam(value = "공지사항 수정", required = true)
+			@ModelAttribute NoticeUpdatePutReq noticeUpdatePutReq
+	) throws IOException {
+		System.out.println("This is notice modify request!!!!!!!!!!!!!!!!!!");
+		Notice notice = noticeService.updateNotice(noticeUpdatePutReq);
+//		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-
 	}
 
-	@GetMapping("/notice/study/list/{studyId}")
+	@GetMapping("/study/list/{studyId}")
 	@ApiOperation(value = "수업에 포함된 공지사항 조회", notes = "수업 아이디를 통해 조회한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -103,7 +115,7 @@ public class NoticeController {
 		return ResponseEntity.status(200).body(list);
 	}
 
-	@GetMapping("/notice/teacher/list/{tchrId}")
+	@GetMapping("/teacher/list/{tchrId}")
 	@ApiOperation(value = "교사가 출제한 공지사항 조회", notes = "<strong>교사아이디</strong>를 통해 조회 한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -117,8 +129,8 @@ public class NoticeController {
 		return ResponseEntity.status(200).body(list);
 	}
 
-	@GetMapping("/notice/student/list/{stId}")
-	@ApiOperation(value = "학생이 속한 수업의 공지 조회", notes = "<strong>학생아이디</strong>를 통해 자신이 속한 공지를 조회 한다.")
+	@GetMapping("/student/list/{stId}")
+	@ApiOperation(value = "학생이 속한 수업의 과제 조회", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),
@@ -129,5 +141,36 @@ public class NoticeController {
 			@PathVariable @ApiParam(value = "학생ID", required = true) String stId) {
 		List<Notice> list = noticeService.findNoticeBystId(stId);
 		return ResponseEntity.status(200).body(list);
+	}
+
+	@GetMapping("/download-file")
+	@ApiOperation(value = "파일 다운", notes = "<strong>파일 정보</strong>를 통해 파일을 다운로드 한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<Resource> download(
+			@ApiParam(value = "파일 정보", required = true)
+			@RequestParam
+					String fileName,
+			@RequestParam
+					String filePath
+	) throws IOException {
+		System.out.println("11111111111111111111111");
+		Path path = Paths.get(filePath + fileName);
+		System.out.println("22222222222222222222222");
+		String contentType = Files.probeContentType(path);
+		System.out.println("33333333333333333333333");
+		HttpHeaders headers = new HttpHeaders();
+		System.out.println("44444444444444444444444");
+		headers.setContentDisposition(ContentDisposition.builder("attachment").filename(fileName, StandardCharsets.UTF_8).build());
+		System.out.println("55555555555555555555555");
+		headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+		System.out.println("66666666666666666666666");
+		Resource resource = new InputStreamResource(Files.newInputStream(path));
+		System.out.println("77777777777777777777777");
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 }

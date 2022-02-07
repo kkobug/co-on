@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 @Getter
 @Setter
@@ -15,5 +17,5 @@ public class TeacherProfilePutReq {
     @ApiModelProperty
     String tchrId;
     @ApiModelProperty
-    MultipartFile tchrProfFile;
+    List<MultipartFile> tchrProfFile;
 }

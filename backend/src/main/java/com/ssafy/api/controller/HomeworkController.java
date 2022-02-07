@@ -34,7 +34,6 @@ public class HomeworkController {
             @ModelAttribute
                     HomeworkRegisterPostReq homeworkRegisterPostReq
     ) {
-        System.out.println("!!!!!!!!!!hw controller!!!!!!!!!");
         homeworkService.createHomework(homeworkRegisterPostReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
@@ -96,7 +95,7 @@ public class HomeworkController {
         return ResponseEntity.status(200).body("OK");
     }
 
-    @PutMapping("/modify/{hwId}")
+    @PostMapping("/modify")
     @ApiOperation(value = "과제 수정", notes = "<strong>과제 ID</strong>을 통해 과제를 수정한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -105,10 +104,10 @@ public class HomeworkController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public  ResponseEntity<? extends BaseResponseBody> modifyHomework(
-            @PathVariable @ApiParam(value = "과제 수정") Integer hwId,
+            @ApiParam(value = "과제 수정")
             @ModelAttribute HomeworkModifyReq homeworkModifyReq) {
-        Homework homework = homeworkService.updateHomework(hwId, homeworkModifyReq);
-        if (homework.getHwId() != hwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
+        Homework homework = homeworkService.updateHomework(homeworkModifyReq);
+//        if (homework.getHwId() != hwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 

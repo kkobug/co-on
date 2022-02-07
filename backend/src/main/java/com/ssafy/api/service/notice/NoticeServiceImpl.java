@@ -83,14 +83,16 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public Notice updateNotice(Integer noticeId, NoticeUpdatePutReq noticeUpdatePutReq) {
-        Notice notice = noticeRepositorySupport.findByNoticeId(noticeId).get();
+    public Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) {
+        System.out.println(noticeUpdatePutReq.getNoticeId());
+        System.out.println(noticeUpdatePutReq.getNoticeTitle());
+        System.out.println(noticeUpdatePutReq.getNoticeContent());
+        Notice notice = noticeRepositorySupport.findByNoticeId(noticeUpdatePutReq.getNoticeId()).get();
         notice.setNoticeTitle(noticeUpdatePutReq.getNoticeTitle());
         notice.setNoticeContent(noticeUpdatePutReq.getNoticeContent());
         notice.setNoticePosted(LocalDateTime.now());
-        if(!Objects.equals(noticeUpdatePutReq.getNoticeId(), noticeId)) return notice;
         noticeRepository.save(notice);
-        noticeFileRepository.deleteNoticeFileByNoticeId(noticeId);
+        noticeFileRepository.deleteNoticeFileByNoticeId(noticeUpdatePutReq.getNoticeId());
         if (!noticeUpdatePutReq.getNoticeFile().get(0).isEmpty()) {
             List<MultipartFile> noticeFile = noticeUpdatePutReq.getNoticeFile();
             for (MultipartFile multipartFile : noticeFile) {

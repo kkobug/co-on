@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +36,8 @@ public class StudentHomework implements Serializable {
     @LastModifiedDate
     @Column(name = "st_hwposted")
     LocalDateTime stHwposted;
-//    @Column(name = "st_hwfile")
-//    파일 업로드 필요함!!!
+
+    @OneToMany
+    @JoinColumn(name = "st_hwid",insertable = false, updatable = false)
+    private List<StudentHomeworkFile> stHwFile;
 }
