@@ -21,42 +21,87 @@
               </el-col>
             </el-row>
           </el-main>
-          <!-- 시작:classitem[8] 종료:classitem[9] -->
       </div>
-      <!-- <chat/> -->
     </div>
 
     <!--세션 -->
 		<div id="session" v-if="session">
-			<div id="session-header">
-				<h1 id="session-title">{{ this.nowClass[5] }}</h1>
-        <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
-          <font-awesome-icon icon="microphone-slash" />
-        </el-button>
-        <el-button circle v-else id="buttonMic" @click="micControl" value="MICON">
-          <font-awesome-icon icon="microphone" />
-        </el-button>
-        <el-button circle v-if="camOn" id="buttonCam" @click="camControl" value="CAMOFF">
-          <font-awesome-icon icon="video-slash" />
-        </el-button>
-        <el-button circle v-else id="buttonCam" @click="camControl" value="CAMON">
-          <font-awesome-icon icon="video" />
-        </el-button>
-        <el-button circle id="buttonLeaveSession" @click="screenShare" value="Leave session">
-          <font-awesome-icon icon="user-secret" />
-        </el-button>
-        <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-          <font-awesome-icon icon="door-open" />
-        </el-button>
-			</div>
-			<div id="main-video" class="col-md-6">
-				<user-video :stream-manager="mainStreamManager"/>
-			</div>
-			<div id="video-container" class="col-md-6">
-        <user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+      <!-- video -->
+      <el-row>
+        <el-col :span="24-this.chatOn">
+          <div id="session-header">
+            <h1 id="session-title">{{ this.nowClass[5] }}</h1>
+            <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
+              <font-awesome-icon icon="microphone-slash" />
+            </el-button>
+            <el-button circle v-else id="buttonMic" @click="micControl" value="MICON">
+              <font-awesome-icon icon="microphone" />
+            </el-button>
+            <el-button circle v-if="camOn" id="buttonCam" @click="camControl" value="CAMOFF">
+              <font-awesome-icon icon="video-slash" />
+            </el-button>
+            <el-button circle v-else id="buttonCam" @click="camControl" value="CAMON">
+              <font-awesome-icon icon="video" />
+            </el-button>
+            <el-button circle id="buttonLeaveSession" @click="screenShare" value="Screen share">
+              <font-awesome-icon icon="user-secret" />
+            </el-button>
+            <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+              <font-awesome-icon icon="door-open" />
+            </el-button>
+          </div>
+          <div id="main-video" class="col-md-6">
+            <user-video :stream-manager="mainStreamManager"/>
+          </div>
+          <div id="video-container" class="col-md-6">
+            <user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+            <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+          </div>
+        </el-col>
+        <!-- video -->
+        <!-- chat -->
+        <el-col :span="this.chatOn">
+          <div id="chatContainer">
+            <div id="chatComponent">
+              <div id="chatToolbar">
+                <span> CHAT</span>
+                <button @click="close" id="closeButton">
+                  <span>채팅창</span>
+                </button>
+                <button @click="sendMessage">
+                  <span>send</span>
+                </button>
+              </div>
+              <!-- <div class="message-wrap" >
+                <div v-for="data in this.messagelist" :key="data" class="message">
+                  <div class="msg-detail">
+                    <div class="msg-info">
+                      <p>{{ data.nickname }}</p>
+                    </div>
+                    <div class="msg-content">
+                      <span class="triangle"></span>
+                      <p class="text">{{data.message}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <div id="messageInput">
+                <input
+                  placeholder="Send a message"
+                  autocomplete="off"
+                  v-model="this.textInput"
+                />
+                <button id="sendButton" @click="sendMessage">
+                <!-- <button id="sendButton" @click="sendMessage"> -->
+                  <span>send</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </el-col>
 
-      </div>
+        <!-- chat -->
+      </el-row>
     </div>
   </div>
 </template>
@@ -94,11 +139,13 @@ export default {
 		return {
 			OV: undefined,
 			session: undefined,
+      tokenId:undefined,
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
 			camOn: false,
 			micOn: false,
+      chatOn: 6,
 
 			mySessionId: null,         // 세션 이름 (Unique)
 			classTitle: null,        // 필요 없을 수 있음
@@ -106,7 +153,8 @@ export default {
 			userId: null,        // 교사 이름 또는 학생 이름
       classes:undefined,
       nowClass:undefined,
-      today:new Date()
+      today:new Date(),
+      textInput:'',
 		}
 	},
 
@@ -127,6 +175,10 @@ export default {
   },
 
   methods: {
+    close(){
+      console.log('close')
+      // this.$emit("close")
+    },
     unLoadEvent: function (event) {
       if (this.canLeaveSite) return;
 
@@ -134,7 +186,6 @@ export default {
       event.returnValue = '';
     },
     compareDate(Date1,Date2){
-      console.log(Date1)
       if (new Date(Date1) < new Date())
         if (new Date() < new Date(Date2))
           return true
@@ -143,45 +194,92 @@ export default {
     getClasses(){
       this.$store.dispatch('root/requestGetClassConfStudyId',this.userId)
       .then(result =>{
-        console.log(result.data)
         this.classes=result.data
       })
       .catch(function(err){
         alert(err)
       })
     },
-    // getConf(){
-    //   console.log(this.classes)
-    //   this.$store.dispatch('root/requestConfInfo',{studyId:this.classes[0].studyId,tchrId:this.classes[0].tchrId})
-    //   .then(result =>{
-    //     this.classes[0]['conference']=result.data
-    //   })
-    //   .catch(function(err){
-    //     alert(err)
-    //   })
-    // },
+
+    // session.connect(token, "USER_DATA")
+    // .then( ... )
+    // .catch( ... );
+
+//     session.on("streamCreated", function (event) {
+//     session.subscribe(event.stream, "subscriber");
+//     console.log("USER DATA: " + event.stream.connection.data);
+// });
+
+//      session.signal({
+//       data: 'My custom message',  // Any string (optional)
+//       to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
+//       type: 'my-chat'             // The type of message (optional)
+//     })
+//     .then(() => {
+//         console.log('Message successfully sent');
+//     })
+//     .catch(error => {
+//         console.error(error);
+//     });
+
+// session.on('signal', (event) => {
+//     console.log(event.data); // Message
+//     console.log(event.from); // Connection object of the sender
+//     console.log(event.type); // The type of message
+// });
+    receiveMessage(event){
+      session.connect(token, { clientData: this.userId })
+      .then(session.on('signal', (event) => {
+        console.log(event.data); // Message
+        console.log(event.from); // Connection object of the sender
+        console.log(event.type); // The type of message
+      }))
+      .catch(error =>{
+        console.error(error);
+      });
+    },
+    sendMessage(){
+      console.log(22222)
+      // var message = this.textInput
+      // console.log(message)
+      // this.getToken(this.mySessionId).then((token) => {
+      //   session.connect(token, { clientData: this.userId })
+      //     .then(session.signal({
+      //     data: message,  // Any string (optional)
+      //     to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
+      //     type: 'my-chat'             // The type of message (optional)
+      //     }).then(() => {
+      //         console.log(message);
+      //     }).catch(error => {
+      //         console.error(error);
+      //   }))
+      //   .catch(error =>{
+      //     console.error(error);
+      //   });
+      // })
+    },
+
     screenShare(){
       var OV = new OpenVidu();
       var sessionScreen = OV.initSession();
-      this.getToken(this.mySessionId).then((token) => {
-        sessionScreen.connect(token).then(() => {
+      // +this.userId+"screen"
+      this.createToken(this.tokenId).then((token) => {
+        // this.session.connect(token, { clientData: this.userId+'screen' })
+        sessionScreen.connect(token, { clientData: this.userId+'screen' })
+        .then(() => {
             var publisher = OV.initPublisher("html-element-id", { videoSource: "screen" });
-
             publisher.once('accessAllowed', (event) => {
                 publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
                     console.log('User pressed the "Stop sharing" button');
                 });
                 sessionScreen.publish(publisher);
-
             });
-
             publisher.once('accessDenied', (event) => {
                 console.warn('ScreenShare: Access Denied');
             });
-
-        }).catch((error => {
+        })
+        .catch((error => {
             console.warn('There was an error connecting to the session:', error.code, error.message);
-
         }));
       });
     },
@@ -190,9 +288,6 @@ export default {
       this.mySessionId=classitem[1]+classitem[4]
       // 수업 입실 axios
       this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem[4]})
-      .then(result =>{
-        console.log('입실 완료')
-      })
       .catch(function(err){
         alert(err)
       })
@@ -330,6 +425,7 @@ export default {
 
 		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessionsltsession_idgtconnection
 		createToken (sessionId) {
+      this.tokenId=sessionId
 			return new Promise((resolve, reject) => {
 				axios
 					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
@@ -434,5 +530,207 @@ export default {
     padding: 10px 0;
     background-color: #f9fafc;
   }
+}
+// 메세지
+#chatContainer {
+  position: absolute;
+  z-index: 10;
+  width: 30%;
+  height: calc(30% - 20px);
+}
+input {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+#chatToolbar {
+  height: 30px;
+  background-color: #3d3d3d;
+  box-sizing: border-box;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  padding-top: 4px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  color: #ffffff;
+}
+
+#closeButton {
+  position: absolute;
+  right: 0;
+  top: -5px;
+}
+
+#chatComponent {
+  background-color: #b8b8b8;
+  position: absolute;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: calc(100% - 30px);
+  width: calc(100% - 30px);
+  border-radius: 20px;
+}
+
+.message-wrap {
+  padding: 0 15px;
+  height: calc(100% - 80px);
+  overflow: auto;
+}
+
+.message {
+  position: relative;
+  padding: 7px 0;
+}
+.user-img {
+  position: absolute;
+  border-radius: 45px;
+  width: 60px;
+  height: 60px;
+  top: 15px;
+}
+
+.msg-detail {
+  width: calc(100% - 65px);
+  display: inline-block;
+}
+
+.msg-detail p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.msg-info p {
+  font-size: 0.8em;
+  color: #000000;
+  font-style: italic;
+}
+
+.msg-content {
+  position: relative;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding: 8px;
+  color: #000000;
+  width: auto;
+  max-width: 95%;
+}
+
+span.triangle {
+  border-radius: 2px;
+  height: 8px;
+  width: 8px;
+  top: 12px;
+  display: block;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+}
+
+.text {
+  word-break: break-all;
+}
+
+/* Start message from other user */
+
+.message.left .msg-detail .msg-info {
+  text-align: left;
+}
+
+.message.left .msg-detail {
+  padding-left: 65px;
+}
+
+.message.left .user-img {
+  left: -5px;
+  border: 1px solid #f0f0f094;
+}
+
+.message.left .msg-detail .msg-content {
+  background-color: #f0f0f0;
+  float: left;
+}
+.message.left .msg-detail .msg-content span.triangle {
+  background-color: #f0f0f0;
+  border-bottom-width: 0;
+  border-left-width: 0;
+  left: -5px;
+}
+
+/* End message from other user */
+
+/* Start my messages */
+
+.message.right .msg-detail .msg-info {
+  text-align: right;
+}
+.message.right .user-img {
+  right: -5px;
+  border: 1px solid #c8ffe8ab;
+}
+
+.message.right .msg-detail .msg-content {
+  background-color: #c8ffe8;
+  float: right;
+}
+.message.right .msg-detail .msg-content span.triangle {
+  background-color: #c8ffe8;
+  border-bottom-width: 0;
+  border-left-width: 0;
+  right: -5px;
+}
+
+/* End my messages */
+
+#messageInput {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  background-color: #ffffff;
+  text-align: center;
+  padding: 10px 0px;
+  height: 30px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+#messageInput input {
+  width: 80%;
+  height: 100%;
+  border: none;
+  // outline: none;
+  font-size: 14px;
+  margin-left: -6%;
+}
+#messageInput button {
+  width: auto;
+}
+// #sendButton {
+//   background-color: #81e9b0;
+//   position: absolute;
+//   right: 10px;
+//   top: 0;
+//   bottom: 0;
+//   margin: auto;
+//   border: 1px solid #7ae2a9;
+//   box-shadow: none !important;
+// }
+// #sendButton mat-icon {
+//   margin-left: 3px !important;
+//   margin-bottom: 2px !important;
+// }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6b6b6b;
+}
+
+.chatComponentLight ::-webkit-scrollbar-thumb {
+  background-color: #eeeeee !important;
 }
 </style>
