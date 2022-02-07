@@ -41,6 +41,7 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     @Override
     public List<Object[]> findStudyroomAndconbystId(String stId) {
         return studyRoomDetailRepository.findStudyroomAndconbystId(stId);
+    }
 
     public void deleteStudent(StudyRoomDetailDeleteReq studyRoomDetailDeleteReq) {
         Integer studyId = studyRoomDetailDeleteReq.getStudyId();
