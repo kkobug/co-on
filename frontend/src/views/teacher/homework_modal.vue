@@ -83,13 +83,9 @@ export default {
       state.form.hwFile = filesArr
     }
     const updatehomework = function(){
-      var hwFormData = new FormData()
+      var hwFormData = new FormData(document.querySelector('#noticeForm'))
       hwFormData.append('hwId', state.form.hwId)
-      hwFormData.append('hwTitle', state.form.hwTitle)
-      hwFormData.append('hwContent', state.form.hwContent)
-      hwFormData.append('hwDeadline', state.form.hwDeadline)
-      hwFormData.append('hwFile', state.form.hwFile)
-      store.dispatch('root/requestUpdateNotice', hwFormData)
+      store.dispatch('root/requestupdateHomework', hwFormData)
       .then(res => {
         closeModal()
       })

@@ -209,7 +209,7 @@ export function requestgetHomework ({ state }, payload) {
 }
 export function requestupdateHomework ({ state }, payload) {
   console.log('requestgetHomework', payload)
-  const url = `/homework/modify/${payload.hwId}`
+  const url = `/homework/modify/${payload.get("hwId")}`
   let body = payload
   return $axios.put(url, body)
 }
