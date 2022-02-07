@@ -11,11 +11,19 @@
         <label for="hwContent">설명: </label>
         <input v-model="state.form.hwContent" name="hwContent" type="text" style="height: 80%">
       </div>
-      <div>
-        <label for="hwDeadline">날짜: </label>
-        <input v-model="state.form.hwDeadline" name="hwDeadline" type="text" style="height: 80%">
+      <div class="demo-datetime-picker">
+        <div class="block">
+          <el-date-picker
+            v-model="state.form.hwDeadline"
+            type="datetime"
+            placeholder="최종 제출일"
+            name="hwDeadline"
+            format="YYYY/MM/DD hh:mm:ss"
+          >
+          </el-date-picker>
+        </div>
       </div>
-      <div>
+      <div style="margin-top:10px;">
         <label for="hwFile">파일: </label>
         <input type="file" multiple="multiple" @change="addFile" ref="refHwFile" name="hwFile" id="hwFile" style="width: 62%">
       </div>
@@ -162,6 +170,27 @@ export default {
   }
   .form-label{
     margin: 15px;
+  }
+  .demo-datetime-picker {
+    display: flex;
+    width: 100%;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+  .demo-datetime-picker .block {
+    padding: 0;
+    text-align: center;
+    border-right: solid 1px var(--el-border-color-base);
+    flex: 1;
+  }
+  .demo-datetime-picker .block:last-child {
+    border-right: none;
+  }
+  .demo-datetime-picker .demonstration {
+    display: block;
+    color: var(--el-text-color-secondary);
+    font-size: 14px;
+    margin-bottom: 20px;
   }
 
 </style>
