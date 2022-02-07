@@ -32,22 +32,19 @@ public class HomeworkServiceImpl implements HomeworkService{
     @Override
     public Homework createHomework(HomeworkRegisterPostReq homeworkRegisterPostReq) {
         Homework homework = new Homework();
-        System.out.println("어디가문제니 1111111");
-        System.out.println(homeworkRegisterPostReq.getHwTitle());
+        String[] dl = homeworkRegisterPostReq.getHwDeadline().split("[/ :]");
+        LocalDateTime deadline = LocalDateTime.of(
+                Integer.parseInt(dl[0]),
+                Integer.parseInt(dl[1]),
+                Integer.parseInt(dl[2]),
+                Integer.parseInt(dl[3]),
+                Integer.parseInt(dl[4]),
+                Integer.parseInt(dl[5]));
         homework.setHwTitle(homeworkRegisterPostReq.getHwTitle());
-        System.out.println("어디가문제니 2222222");
-        System.out.println(homeworkRegisterPostReq.getHwContent());
         homework.setHwContent(homeworkRegisterPostReq.getHwContent());
-        System.out.println("어디가문제니 3333333");
-        System.out.println(homeworkRegisterPostReq.getHwDeadline());
-        homework.setHwDeadline(homeworkRegisterPostReq.getHwDeadline());
-        System.out.println("어디가문제니 4444444");
-        System.out.println(homeworkRegisterPostReq.getTchrId());
+        homework.setHwDeadline(deadline);
         homework.setTchrId(homeworkRegisterPostReq.getTchrId());
-        System.out.println("어디가문제니 5555555");
-        System.out.println(homeworkRegisterPostReq.getStudyId());
         homework.setStudyId(homeworkRegisterPostReq.getStudyId());
-        System.out.println("어디가문제니 6666666");
         homeworkRepository.save(homework);
         if (!homeworkRegisterPostReq.getHwFile().get(0).isEmpty()) {
             List<MultipartFile> hwFile = homeworkRegisterPostReq.getHwFile();
@@ -113,10 +110,17 @@ public class HomeworkServiceImpl implements HomeworkService{
     @Override
     public Homework updateHomework(HomeworkModifyReq homeworkModifyReq) {
         Homework homework = homeworkRepositorySupport.findHomeworkByHwId(homeworkModifyReq.getHwId()).get();
-        homework.setHwId(homeworkModifyReq.getHwId());
+        String[] dl = homeworkModifyReq.getHwDeadline().split("[/ :]");
+        LocalDateTime deadline = LocalDateTime.of(
+                Integer.parseInt(dl[0]),
+                Integer.parseInt(dl[1]),
+                Integer.parseInt(dl[2]),
+                Integer.parseInt(dl[3]),
+                Integer.parseInt(dl[4]),
+                Integer.parseInt(dl[5]));
         homework.setHwTitle(homeworkModifyReq.getHwTitle());
         homework.setHwContent(homeworkModifyReq.getHwContent());
-        homework.setHwDeadline(homeworkModifyReq.getHwDeadline());
+        homework.setHwDeadline(deadline);
         homework.setHwPosted(LocalDateTime.now());
         homeworkRepository.save(homework);
         homeworkFileRepository.deleteHomeworkFileByHwId(homeworkModifyReq.getHwId());

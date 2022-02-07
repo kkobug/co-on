@@ -5,6 +5,9 @@
         <el-form-item prop="id" label="내용" :label-width="state.formLabelWidth" >
           <el-input v-model="state.hwname" autocomplete="off"></el-input>
         </el-form-item>
+        <form action="#" id="stHwFile" method="post" enctype="multipart/form-data">
+          <input type="stHwFile" multiple="multiple" @change="addFile" name="stHwFile" id="stHwFile">
+        </form>
 
       </el-form>
       <!-- <el-table :data="tableData" style="width: 100%">
@@ -90,6 +93,7 @@ export default {
       },
       iddata : computed(() => props.props_hw),
       hwname:"",
+      stHwFile: null,
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
     })
@@ -102,14 +106,20 @@ export default {
       emit('closeHwDialog')
     }
 
+    const addFile = function(event) {
+      var files = event.target.files
+      var filesArr = Array.prototype.slice.call(files)
+      state.stHwFile = filesArr
+    }
+
     const submit = function () {
-      store.dispatch('root/requestaddsthw',{
-        hwId: state.iddata.hwId,
-        stHwContent: state.hwname,
-        stId: store.state.root.userid,
-        studyId: state.iddata.studyId,
-        tchrId: state.iddata.tchrId,
-        })
+      var stHwFormData = new FormData(document.querySelector('#stHwFile'))
+      stHwFormData.append('hwId', state.iddata.hwId)
+      stHwFormData.append('stHwContent', state.hwname)
+      stHwFormData.append('stId', store.state.root.userid)
+      stHwFormData.append('studyId', state.iddata.studyId)
+      stHwFormData.append('tchrId', state.iddata.tchrId)
+      store.dispatch('root/requestaddsthw', stHwFormData)
       .then(function (result) {
         alert('제출 성공')
         handleClose()
@@ -121,7 +131,7 @@ export default {
       state.iddata = props.props_hw
     })
     }
-    return { state, handleClose, submit, onMounted }
+    return { state, handleClose, submit, onMounted, addFile}
 
   },
   created:function(){

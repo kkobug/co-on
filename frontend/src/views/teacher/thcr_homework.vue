@@ -12,6 +12,7 @@
           <div class ="li-lesson li-item">{{hw.hwFile}}</div>
         </div>
         <div class="li-right li-sec">
+          <div class ="li-time li-item">{{hw.hwDeadline}}</div>
           <div class ="li-time li-item">{{hw.hwPosted}}</div>
           <div class ="li-item filebar">
             첨부파일

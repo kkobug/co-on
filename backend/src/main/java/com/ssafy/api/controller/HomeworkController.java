@@ -34,7 +34,6 @@ public class HomeworkController {
             @ModelAttribute
                     HomeworkRegisterPostReq homeworkRegisterPostReq
     ) {
-        System.out.println("!!!!!!!!!!hw controller!!!!!!!!!");
         homeworkService.createHomework(homeworkRegisterPostReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
