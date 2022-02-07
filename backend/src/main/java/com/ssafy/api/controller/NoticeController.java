@@ -83,7 +83,7 @@ public class NoticeController {
 		return ResponseEntity.status(200).body(NoticeFindID.of(notice));
 	}
 
-	@PutMapping("/modify/{noticeId}")
+	@PostMapping("/modify")
 	@ApiOperation(value = "공지사항 수정", notes = "공지사항을 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -92,13 +92,13 @@ public class NoticeController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> modify(
-			@PathVariable @ApiParam(value = "공지사항 수정") Integer noticeId,
-			@ModelAttribute NoticeUpdatePutReq noticeUpdatePutReq) throws IOException {
+			@ApiParam(value = "공지사항 수정", required = true)
+			@ModelAttribute NoticeUpdatePutReq noticeUpdatePutReq
+	) throws IOException {
 		System.out.println("This is notice modify request!!!!!!!!!!!!!!!!!!");
-		Notice notice = noticeService.updateNotice(Math.toIntExact(noticeId), noticeUpdatePutReq);
-		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
+		Notice notice = noticeService.updateNotice(noticeUpdatePutReq);
+//		if(notice.getNoticeId() != noticeId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-
 	}
 
 	@GetMapping("/study/list/{studyId}")

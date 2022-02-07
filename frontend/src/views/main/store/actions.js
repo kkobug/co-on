@@ -178,10 +178,13 @@ export function requestDelNotice ({ state }, data) {
 }
 // 공지사항 수정
 export function requestUpdateNotice ({ state }, payload) {
+  console.log(payload.get('noticeTitle'))
+  console.log(payload.get('noticeContent'))
   console.log('requestUpdateNotice', payload)
-  const url = `/notice/modify/${payload.get("noticeId")}`
+  // const url = `/notice/modify/${payload.get("noticeId")}`
+  const url = `/notice/modify`
   let body = payload
-  return $axios.put(url, body)
+  return $axios.post(url, body)
 }
 // 과제 관련
 export function requestAddHomework ({ state }, payload) {

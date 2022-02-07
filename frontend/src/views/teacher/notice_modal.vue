@@ -77,6 +77,9 @@ export default {
     const updatenotice = function(){
       var noticeFormData = new FormData(document.querySelector('#noticeForm'))
       noticeFormData.append('noticeId', props.pdata.noticeId)
+      // noticeFormData.append('noticeTitle', state.form.noticeTitle)
+      // noticeFormData.append('noticeContent', state.form.noticeContent)
+      // noticeFormData.append('noticeFile', state.form.noticeFile)
       store.dispatch('root/requestUpdateNotice', noticeFormData)
       .then(res => {
         closeModal()

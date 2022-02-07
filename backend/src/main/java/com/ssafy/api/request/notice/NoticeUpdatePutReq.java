@@ -12,15 +12,11 @@ import java.util.List;
 @Setter
 @ApiModel("NoticeUpdatePutRequest")
 public class NoticeUpdatePutReq {
-    @ApiModelProperty(name = "notice ID", example = "null")
+    @ApiModelProperty(name = "noticeId", example = "null")
     Integer noticeId;
-//    @ApiModelProperty(name = "클래스 ID", example = "1")
-//    int studyId;
-//    @ApiModelProperty(name = "교수 ID", example = "1")
-//    String tchrId;
-    @ApiModelProperty(name = "공지사항 제목", example = "공지사항입니다.")
+    @ApiModelProperty(name = "noticeTitle", example = "공지사항입니다.")
     String noticeTitle;
-    @ApiModelProperty(name = "공지사항 본문", example = "공지사항 내용")
+    @ApiModelProperty(name = "noticeContent", example = "공지사항 내용")
     String noticeContent;
     @ApiModelProperty
     List<MultipartFile> noticeFile;
