@@ -16,8 +16,12 @@
           <div class ="li-item filebar">
             첨부파일
             <ul>
-              <!-- <li v-for="nf in notice.File" :key = "nf.id"></li> -->
-              <li>파일1</li>
+              <div v-for="nf in ntice.noticeFile" :key = nf.fileId>
+                <a>{{nf.fileOriginName}}</a>
+              </div>
+              <!-- <li v-for="nf in ntice.noticeFile" :key = nf.fileId></li>
+                <p>{{nf.fileOriginName}}</p>
+              <li>파일1</li> -->
             </ul>
           </div>
           <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>

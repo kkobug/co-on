@@ -9,14 +9,19 @@
         <div class="li-left li-sec">
           <div class ="li-title li-item">{{hw.hwTitle}}</div>
           <div class ="li-lesson li-item">{{hw.hwContent}}</div>
+          <div class ="li-lesson li-item">{{hw.hwFile}}</div>
         </div>
         <div class="li-right li-sec">
+          <div class ="li-time li-item">{{hw.hwDeadline}}</div>
           <div class ="li-time li-item">{{hw.hwPosted}}</div>
           <div class ="li-item filebar">
             첨부파일
             <ul>
-              <!-- <li v-for="nf in notice.File" :key = "nf.id"></li> -->
-              <li>파일1</li>
+              <div v-for="hf in hw.hwFile" :key=hf.fileId>
+                <a>{{hf.fileOriginName}}</a>
+              </div>
+              <!-- <li v-for="nf in notice.File" :key = "nf.id"></li>
+              <li>파일1</li> -->
             </ul>
           </div>
           <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>

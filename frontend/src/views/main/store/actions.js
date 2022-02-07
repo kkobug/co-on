@@ -91,7 +91,19 @@ export function requestDeleteTeacher ({ state }, payload) {
   const url = `teacher/withdrawal/${payload}`
   return $axios.delete(url)
 }
-
+// 프사 수정
+export function requestUpdateTchrProfImg ({ state }, payload) {
+  console.log('requestUpdateTchrProfImg', payload.get('tchrId'))
+  const url = `/teacher/profile`
+  let body = payload
+  return $axios.post(url, body)
+}
+export function requestUpdateStProfImg ({ state }, payload) {
+  console.log('requestUpdateStProfImg', payload.get('stId'))
+  const url = `/student/profile`
+  let body = payload
+  return $axios.put(url, body)
+}
 // StudyRoom
 // 수업 개설
 export function requestTchrCreateClass ({ state }, payload) {
@@ -166,14 +178,17 @@ export function requestDelNotice ({ state }, data) {
 }
 // 공지사항 수정
 export function requestUpdateNotice ({ state }, payload) {
-  console.log('requestUpdateNotice', payload.noticeId)
-  const url = `/notice/modify/${payload.noticeId}`
+  console.log(payload.get('noticeTitle'))
+  console.log(payload.get('noticeContent'))
+  console.log('requestUpdateNotice', payload)
+  // const url = `/notice/modify/${payload.get("noticeId")}`
+  const url = `/notice/modify`
   let body = payload
-  return $axios.put(url, body)
+  return $axios.post(url, body)
 }
 // 과제 관련
 export function requestAddHomework ({ state }, payload) {
-  console.log('requestUpdateHomework', payload)
+  console.log('requestAddHomework', payload.get("hwDeadline"))
   const url = `/homework/create`
   let body = payload
   return $axios.post(url, body)
@@ -196,10 +211,10 @@ export function requestgetHomework ({ state }, payload) {
   return $axios.get(url, body)
 }
 export function requestupdateHomework ({ state }, payload) {
-  console.log('requestgetHomework', payload)
-  const url = `/homework/modify/${payload.hwId}`
+  console.log('requestupdateHomework', payload)
+  const url = `/homework/modify`
   let body = payload
-  return $axios.put(url, body)
+  return $axios.post(url, body)
 }
 export function requestListHomework ({ state }, payload) {
   console.log('requestListHomework', payload)
@@ -239,7 +254,7 @@ export function requestaddsthw ({ state }, payload) {
   console.log('requestaddsthw', payload)
   const url = `/studenthomework/create`
   let body = payload
-  return $axios.put(url, body)
+  return $axios.post(url, body)
 }
 export function requestdelsthw ({ state }, data) {
   console.log('requestdelsthw', data)

@@ -85,10 +85,8 @@ public class TeacherServiceImpl implements TeacherService {
 	@Override
 	public Teacher changeTeacherProfile(TeacherProfilePutReq teacherProfilePutReq) {
 		Teacher teacher = teacherRepositorySupport.findById(teacherProfilePutReq.getTchrId()).get();
-		System.out.println(teacher);
-		System.out.println(teacherProfilePutReq.getTchrProfFile());
 
-		if (teacherProfilePutReq.getTchrProfFile().isEmpty()) {
+		if (teacherProfilePutReq.getTchrProfFile().get(0).isEmpty()) {
 			System.out.println("!!!!!!!!!!!!!!");
 			teacher.setTchrProfName(null);
 			teacher.setTchrProfPath(null);
@@ -97,7 +95,7 @@ public class TeacherServiceImpl implements TeacherService {
 			return teacher;
 		} else {
 			System.out.println("????????????????");
-			String sourceFileName = teacherProfilePutReq.getTchrProfFile().getOriginalFilename();
+			String sourceFileName = teacherProfilePutReq.getTchrProfFile().get(0).getOriginalFilename();
 			File destinationProfile;
 			String destinationProfileName;
 			String teacherprofPath = "D:/tchrprof/";
@@ -107,7 +105,7 @@ public class TeacherServiceImpl implements TeacherService {
 
 			destinationProfile.getParentFile().mkdirs();
 			try {
-				teacherProfilePutReq.getTchrProfFile().transferTo(destinationProfile);
+				teacherProfilePutReq.getTchrProfFile().get(0).transferTo(destinationProfile);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

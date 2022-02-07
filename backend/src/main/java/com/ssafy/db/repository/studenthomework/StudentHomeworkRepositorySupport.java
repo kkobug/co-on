@@ -36,4 +36,10 @@ public class StudentHomeworkRepositorySupport {
                 .where(qStudentHomework.stHwId.eq(stHwId)).fetchOne();
         return Optional.ofNullable(studentHomework);
     }
+
+    public StudentHomework findByIds(String stId, Integer hwId) {
+        StudentHomework studentHomework = jpaQueryFactory.select(qStudentHomework).from(qStudentHomework)
+                .where(qStudentHomework.hwId.eq(hwId).and(qStudentHomework.stId.eq(stId))).fetchOne();
+        return  studentHomework;
+    }
 }

@@ -26,6 +26,6 @@ public interface NoticeService {
 	List<Notice> findNoticeBystId(String stId);
 
 	//공지사항 수정
-	Notice updateNotice(Integer noticeId, NoticeUpdatePutReq noticeUpdatePutReq) throws IOException;
+	Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) throws IOException;
 
 }
