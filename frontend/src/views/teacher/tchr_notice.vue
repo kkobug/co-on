@@ -12,7 +12,7 @@
           <div class ="li-lesson li-item">{{ntice.noticeFile}}</div>
         </div>
         <div class="li-right li-sec">
-          <div class ="li-time li-item">{{ntice.noticePosted}}</div>
+          <div class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</div>
           <div class ="li-item filebar">
             첨부파일
             <ul>
