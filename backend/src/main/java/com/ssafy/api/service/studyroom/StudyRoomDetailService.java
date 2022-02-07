@@ -1,6 +1,7 @@
 package com.ssafy.api.service.studyroom;
 
 import com.ssafy.api.request.studyroom.StudyRoomAddPostReq;
+import com.ssafy.api.request.studyroomdetail.StudyRoomDetailDeleteReq;
 import com.ssafy.db.entity.Studyroom;
 
 import java.util.List;
@@ -11,4 +12,7 @@ public interface StudyRoomDetailService {
     List<Studyroom> findStudyroombystId(String stId);
     List<Object[]> findStudyroombystudyId(int studyId);
 //    List<Tuple> findstIdAndstName();
+    void deleteStudent(StudyRoomDetailDeleteReq studyRoomDetailDeleteReq);
+
+    List<Object[]> findStudentbystudyId(int studyId);
 }
