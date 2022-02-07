@@ -3,7 +3,7 @@
     <el-menu-item index="1" class="navitem" style="margin-left: 10px">내 수업</el-menu-item>
     <el-menu-item index="2" class="navitem">우리반보기</el-menu-item>
     <el-menu-item index="3" class="navitem">출결관리</el-menu-item>
-    <el-menu-item index="4" class = "lessonstr" @click="startVideoClass">수업 시작</el-menu-item>
+    <el-menu-item index="4" class = "lessonstr">수업 시작</el-menu-item>
   </el-menu>
 </template>
 
@@ -56,9 +56,6 @@ export default {
         emit('startvideo')
       }
     }
-    // const startVideoClass = function(){
-    //   emit(startvideo)
-    // }
 
     return {state, activeIndex, handleSelect}
   },

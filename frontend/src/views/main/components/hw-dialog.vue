@@ -3,7 +3,7 @@
     <el-dialog custom-class="login-dialog" title="ID 찾기" v-model="state.dialogVisible" @close="handleClose">
       <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
         <el-form-item prop="id" label="내용" :label-width="state.formLabelWidth" >
-          <el-input v-model="state.form.hwname" autocomplete="off"></el-input>
+          <el-input v-model="state.hwname" autocomplete="off"></el-input>
         </el-form-item>
 
       </el-form>
@@ -15,7 +15,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="submit">제출</el-button>
-          <el-button @click="cancle">취소</el-button>
+          <el-button @click="handleClose">취소</el-button>
         </span>
       </template>
     </el-dialog>
@@ -64,12 +64,12 @@ import { useRouter } from 'vue-router'
 export default {
   name: 'hw-dialog',
 
-  props: {
-    open: {
-      type: Boolean,
-      default: false
-    }
-  },
+  // props: {
+  //   open: {
+  //     type: Boolean,
+  //     default: false
+  //   }
+  // },
   props: ['props_hw', 'open'],
   setup(props, { emit }) {
     const router = useRouter()
@@ -88,37 +88,10 @@ export default {
         name: '',
         align: 'left'
       },
-      iddata : props.props_hw,
+      iddata : computed(() => props.props_hw),
       hwname:"",
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
-    })
-
-    // const tableData = [
-    //   {
-    //     date: '2016-05-03',
-    //     name: 'Tom',
-    //     address: 'No. 189, Grove St, Los Angeles',
-    //   },
-    //   {
-    //     date: '2016-05-02',
-    //     name: 'Tom',
-    //     address: 'No. 189, Grove St, Los Angeles',
-    //   },
-    //   {
-    //     date: '2016-05-04',
-    //     name: 'Tom',
-    //     address: 'No. 189, Grove St, Los Angeles',
-    //   },
-    //   {
-    //     date: '2016-05-01',
-    //     name: 'Tom',
-    //     address: 'No. 189, Grove St, Los Angeles',
-    //   },
-    // ]
-
-    onMounted(() => {
-      // console.log(loginForm.value)
     })
 
     const handleClose = function () {
@@ -128,9 +101,7 @@ export default {
       state.hwname = ""
       emit('closeHwDialog')
     }
-    const cancle = () => {
-      emit('closeHwDialog')
-    }
+
     const submit = function () {
       store.dispatch('root/requestaddsthw',{
         hwId: state.iddata.hwId,
@@ -146,8 +117,11 @@ export default {
       .catch(function (err) {
         alert(err)
       })
+    onMounted(() => {
+      state.iddata = props.props_hw
+    })
     }
-    return { state, handleClose, submit, cancle }
+    return { state, handleClose, submit, onMounted }
 
   },
   created:function(){

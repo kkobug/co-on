@@ -1,7 +1,7 @@
 <template>
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
-    <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="state.isVisible = false"></ModalView>
+    <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="closemodal()"></ModalView>
     <el-row :gutter="20" style="margin-top: 2vh">
       <el-col :span="20" style="margin-left: 15vh">
         <el-button class="staddbtn" @click="state.isVisible=true">학생 추가</el-button>
@@ -10,7 +10,7 @@
         <div class="stud">
           <el-row>
             <el-col
-            v-for="(o, index) in 24"
+            v-for="(o, index) in state.students"
             :key="o"
             :span="4"
             :offset="index > 0 ? 2 : 0"
@@ -21,9 +21,9 @@
                   class="image"
                 />
                 <div style="padding: 14px">
-                  <span>Yummy hamburger</span>
+                  <span>{{o[1]}}</span>
                   <div class="bottom">
-                    <el-button type="text" class="button">Operating</el-button>
+                    <el-button type="text" class="button" @click="delstudent(o[1])">삭제</el-button>
                   </div>
                 </div>
               </el-card>
@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import Datepicker from 'vuejs3-datepicker'
@@ -58,7 +58,7 @@ export default {
     Datepicker,
     StartVideoDialog
   },
-  data(){
+  data(props){
     return {
       videoDialogOpen:false,
       studentlist:null
@@ -71,6 +71,9 @@ export default {
       isVisible :false,
       students:[],
       testDate: new Date(),
+      classtitle: computed(() => store.getters['root/getStudyName']),
+      classId : computed(() => store.getters['root/getStudyId']),
+      id: store.state.root.userid
     })
     const test = function () {
       let month = String(state.testDate.getUTCMonth()+1)
@@ -83,8 +86,31 @@ export default {
       }
       console.log(String(state.testDate.getUTCFullYear()) + month + day)
     }
-
-    return {state, test}
+    const getStudentList = function(){
+      store.dispatch("root/requestGetClassStudyId", {
+        studyId :store.state.root.curClassId
+      })
+      .then(res =>{
+        state.students = res.data
+      })
+    }
+    const delstudent = function(studentID){
+      store.dispatch("root/requestdelStudyStudent", {
+        stId: studentID,
+        studyId :store.state.root.curClassId
+      })
+      .then(res =>{
+        getStudentList();
+      })
+    }
+    const closemodal = function(){
+      state.isVisible=false
+      getStudentList();
+    }
+    onMounted(()=>{
+      getStudentList();
+    })
+    return {state, test, getStudentList, onMounted, delstudent, closemodal}
   },
   methods:{
     // moveClass: function(){
@@ -104,17 +130,17 @@ export default {
       this.videoDialogOpen= false
     }
   },
-  created:function(){
-    this.$store.dispatch('root/requestGetStudent')
-      .then(result=> {
-          this.studentlist = result.data
-          console.log(result.data)
+  // created:function(){
+  //   this.$store.dispatch('root/requestGetStudent')
+  //     .then(result=> {
+  //         this.studentlist = result.data
+  //         console.log(result.data)
 
-        })
-        .catch(function (err) {
-          alert(err)
-        })
-  }
+  //       })
+  //       .catch(function (err) {
+  //         alert(err)
+  //       })
+  // }
 }
 
 </script>

@@ -11,20 +11,25 @@
           </el-row>
           <el-main style="background-color: #E7EDDE; line-height: 100px">
             <el-row v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
-              <el-col :span="6"><div class="grid-content ">{{classitem.studyName}}</div></el-col>
-              <el-col :span="6"><div class="grid-content ">{{classitem.teacher.tchrName}}</div></el-col>
-              <el-col :span="6"><div class="grid-content ">{{classitem.studyDesc}}</div></el-col>
-              <el-col :span="6"><div class="grid-content " @click="joinSession(classitem.classId)">이동</div></el-col>
+              <el-col :span="6"><div class="grid-content ">{{classitem[2]}}</div></el-col>
+              <el-col :span="6"><div class="grid-content ">{{classitem[1]}}</div></el-col>
+              <el-col :span="6"><div class="grid-content ">{{classitem[3]}}</div></el-col>
+              <el-col :span="6">
+                <!-- <div class="grid-content " @click="joinSession(classitem)">이동</div> -->
+                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">이동</div>
+                <div v-else class="grid-content " @click="joinSession(classitem)">불가</div>
+              </el-col>
             </el-row>
           </el-main>
+          <!-- 시작:classitem[8] 종료:classitem[9] -->
       </div>
+      <!-- <chat/> -->
     </div>
 
     <!--세션 -->
 		<div id="session" v-if="session">
-      <div>session</div>
 			<div id="session-header">
-				<h1 id="session-title">{{ mySessionId }}</h1>
+				<h1 id="session-title">{{ this.nowClass[5] }}</h1>
         <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
           <font-awesome-icon icon="microphone-slash" />
         </el-button>
@@ -38,7 +43,7 @@
           <font-awesome-icon icon="video" />
         </el-button>
         <el-button circle id="buttonLeaveSession" @click="screenShare" value="Leave session">
-          <font-awesome-icon icon="User-secret" />
+          <font-awesome-icon icon="user-secret" />
         </el-button>
         <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
           <font-awesome-icon icon="door-open" />
@@ -65,6 +70,8 @@ import { useRouter } from 'vue-router'
 import axios from 'axios';
 import { OpenVidu, StreamManager } from 'openvidu-browser';
 import UserVideo from '../../video/UserVideo.vue';
+import Chat from './lesson_chat.vue';
+
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -76,6 +83,7 @@ export default {
 
   components: {
 		UserVideo,
+    Chat
 	},
 
   emits: [
@@ -91,14 +99,14 @@ export default {
 			subscribers: [],
 			camOn: false,
 			micOn: false,
-      ovToken: undefined,
 
 			mySessionId: null,         // 세션 이름 (Unique)
 			classTitle: null,        // 필요 없을 수 있음
 			classDescription: null,  // 필요 없을 수 있음
-			userid: null,        // 교사 이름 또는 학생 이름
-      classid:undefined,
-      classes:undefined
+			userId: null,        // 교사 이름 또는 학생 이름
+      classes:undefined,
+      nowClass:undefined,
+      today:new Date()
 		}
 	},
 
@@ -111,28 +119,51 @@ export default {
         name:"video"
       })
     }
-
     // 페이지 진입시 불리는 훅
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
     })
     return {object,moveVideo}
   },
+
   methods: {
+    unLoadEvent: function (event) {
+      if (this.canLeaveSite) return;
+
+      event.preventDefault();
+      event.returnValue = '';
+    },
+    compareDate(Date1,Date2){
+      console.log(Date1)
+      if (new Date(Date1) < new Date())
+        if (new Date() < new Date(Date2))
+          return true
+      return false
+    },
     getClasses(){
-      this.$store.dispatch('root/requestGetClass',this.userId)
+      this.$store.dispatch('root/requestGetClassConfStudyId',this.userId)
       .then(result =>{
+        console.log(result.data)
         this.classes=result.data
-        console.log(this.classes)
       })
       .catch(function(err){
         alert(err)
       })
     },
+    // getConf(){
+    //   console.log(this.classes)
+    //   this.$store.dispatch('root/requestConfInfo',{studyId:this.classes[0].studyId,tchrId:this.classes[0].tchrId})
+    //   .then(result =>{
+    //     this.classes[0]['conference']=result.data
+    //   })
+    //   .catch(function(err){
+    //     alert(err)
+    //   })
+    // },
     screenShare(){
       var OV = new OpenVidu();
       var sessionScreen = OV.initSession();
-      this.getToken(this.classid).then((token) => {
+      this.getToken(this.mySessionId).then((token) => {
         sessionScreen.connect(token).then(() => {
             var publisher = OV.initPublisher("html-element-id", { videoSource: "screen" });
 
@@ -154,10 +185,18 @@ export default {
         }));
       });
     },
-		joinSession (classId) {
-      this.classid=classId
-      console.log('입장시간:'+new Date())
-      this.mySessionId=classId
+		joinSession (classitem) {
+      this.nowClass=classitem
+      this.mySessionId=classitem[1]+classitem[4]
+      // 수업 입실 axios
+      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem[4]})
+      .then(result =>{
+        console.log('입실 완료')
+      })
+      .catch(function(err){
+        alert(err)
+      })
+
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
 
@@ -189,9 +228,8 @@ export default {
 
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.classId).then(token => {
-        this.ovToken=token
-				this.session.connect(token, { clientData: this.userid })
+			this.getToken(this.mySessionId).then(token => {
+				this.session.connect(token, { clientData: this.userId })
 					.then(() => {
 
 						// --- Get your own camera stream with the desired properties ---
@@ -221,10 +259,8 @@ export default {
 
 			window.addEventListener('beforeunload', this.leaveSession)
 		},
-
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
-      console.log('퇴장시간:'+new Date())
 			if (this.session) this.session.disconnect();
 
 			this.session = undefined;
@@ -232,10 +268,15 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-
+      this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass[4]})
+      .then(result =>{
+        console.log('퇴실 완료')
+      })
+      .catch(function(err){
+        alert(err)
+      })
 			window.removeEventListener('beforeunload', this.leaveSession);
 		},
-
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
@@ -314,10 +355,16 @@ export default {
 		}
 	},
   created:function(){
-      const localvuex=JSON.parse(localStorage.getItem('vuex'))
-      this.userId=localvuex["root"]["userid"]
-      this.getClasses()
-  }
+    const localvuex=JSON.parse(localStorage.getItem('vuex'))
+    this.userId=localvuex["root"]["userid"]
+    this.getClasses()
+  },
+  mounted() {
+    window.addEventListener('beforeunload', this.unLoadEvent);
+  },
+  beforeUnmount() {
+    window.removeEventListener('beforeunload', this.unLoadEvent);
+  },
 }
 </script>
 <style lang="scss">

@@ -39,7 +39,9 @@ export default {
         studyId: store.state.root.curClassId,
         tchrId: store.state.root.userid
       })
-      closeModal()
+      .then(res=>{
+        closeModal()
+      })
     }
     return {state, addstudent, closeModal}
   },

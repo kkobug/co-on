@@ -13,7 +13,7 @@ import java.util.List;
 public class StudyroomDetail implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "studyroom_detail_id")
+    @Column(name= "studyroom_detail_id", updatable = false)
     Integer studyroomDetailId;
     @Column(name = "study_id")
     Integer studyId;

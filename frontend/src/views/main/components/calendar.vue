@@ -108,8 +108,8 @@
         </el-row>
         <el-row >
         <!-- 달력 -->
-          <el-col :span="18">
-            <div class="calendar">
+          <el-col :span="17" style="margin-left: 1vh">
+            <div class="calendar" style="margin-left: 10px">
               <vue-cal
                 class="vuecal--blue-theme cal"
                 :selected-date="this.today"
@@ -124,9 +124,18 @@
             </div>
           </el-col>
         <!-- 원형 그래프 -->
-          <el-col :span="6">
-            <div>
-              <canvas id="myChart"></canvas>
+          <el-col :span="6" style="margin-left: 2vh">
+            <div style="background-color: #1B2A57; margin-bottom: 4vh; margin-top: 1vh; text-color: #fff">
+              <canvas id="myChart" style="padding-top: 10px; padding-bottom: 20px"></canvas>
+            </div>
+            <div style="background-color: #1B2A57">
+              <el-progress type="dashboard" :percentage="this.percentageHW" style="padding-top: 10px; margin-top: 3%">
+                <template #default="{ percentage }">
+                  <span class="percentage-value">{{ percentage }}%</span>
+                  <span class="percentage-label">과제 제출률</span>
+                </template>
+              </el-progress>
+              <h4 style="margin-top: 2px; padding-bottom: 15px; color: #fff">제출한 과제: {{ this.doneHW }}  /  미제출 과제: {{ this.notyetHW }}</h4>
             </div>
           </el-col>
         </el-row>
@@ -152,7 +161,10 @@ export default {
     today:new Date(),
     dashHw:undefined,
     dashNotice:undefined,
-    drawer: false
+    drawer: false,
+    doneHW: 0,
+    notyetHW: 0,
+    percentageHW: 0
  }),
   methods: {
     setEventVal() {
@@ -216,6 +228,14 @@ export default {
         alert(err)
       })
     },
+    getProgress(){
+      this.$store.dispatch('root/requestRateHW')
+      .then(result => {
+        this.doneHW = result.data[0][0]
+        this.notyetHW = result.data[0][1]
+        this.percentageHW = Math.floor(100 * result.data[0][0] / (result.data[0][0] + result.data[0][1]))
+      })
+    },
   },
   created:function(){
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
@@ -224,6 +244,7 @@ export default {
     this.getHw()
     this.getNotice()
     this.today=this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate()
+    this.getProgress()
   },
   mounted() {
       // cdn chart.js
@@ -231,24 +252,44 @@ export default {
       recaptchaScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
       document.head.appendChild(recaptchaScript)
 
-      const ctx = document.getElementById('myChart');
-      var myChart = new Chart(ctx, {
-      type: 'doughnut',
-        data: {
-          datasets: [{
-            data: [40, 60,20,30],      // 섭취량, 총급여량 - 섭취량
-            backgroundColor: [
-              '#9DCEFF',
-              '#F2F3F6',
-              '#B3261E',
-              '#21005D',
-            ],
-            borderWidth: 0,
-            scaleBeginAtZero: true,
+      let hwlabels = []
+      let hwdata = []
+
+      this.$store.dispatch('root/requestGetHW',this.userId)
+      .then(result => {
+        let hwClass = {}
+        for (var j = 0; j < result.data.length; j++) {
+          if (result.data[j].studyroom.studyName in hwClass) {
+            hwClass[result.data[j].studyroom.studyName] += 1
+          } else {
+            hwClass[result.data[j].studyroom.studyName] = 1
           }
-        ]
-      },
-    });
+        }
+        hwlabels = Object.keys(hwClass)
+        for (var key in hwClass) {
+          hwdata.push(hwClass[key])
+        }
+
+        const ctx = document.getElementById('myChart');
+          var myChart = new Chart(ctx, {
+          type: 'doughnut',
+            data: {
+              labels: hwlabels,
+              datasets: [{
+                data: hwdata,
+                backgroundColor: [
+                  '#9DCEFF',
+                  '#F2F3F6',
+                  '#B3261E',
+                  '#21005D',
+                ],
+                borderWidth: 0,
+                scaleBeginAtZero: true,
+              }
+            ]
+          },
+        });
+      })
   },
 };
 </script>

@@ -12,6 +12,13 @@
         </div>
         <div class="li-right li-sec">
           <div class ="li-time li-item">{{hw.hwPosted}}</div>
+          <div class ="li-item filebar">
+            첨부파일
+            <ul>
+              <!-- <li v-for="nf in notice.File" :key = "nf.id"></li> -->
+              <li>파일1</li>
+            </ul>
+          </div>
           <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
           <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)">삭제</el-button>
         </div>
@@ -79,29 +86,42 @@ export default {
 };
 </script>
 <style scoped>
-*, html, body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-.el-item{
-  display: flex;
-  justify-content: space-between;
-  /* border: solid 1px black; */
-  background-color: #ecf0f1;
-  align-items: center;
-  border-radius: 20px;
-  height: 80px;
-  margin-bottom: 10px;
-}
-.li-sec{
-  display: flex;
-}
-.li-item{
-  margin: 20px;
-}
-.sub_btn{
-  padding: 5px;
-  margin: 20px;
-}
+  *, html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .el-item{
+    display: flex;
+    justify-content: space-between;
+    /* border: solid 1px black; */
+    background-color: #ecf0f1;
+    align-items: center;
+    border-radius: 20px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+  .li-sec{
+    display: flex;
+  }
+  .li-item{
+    margin: 20px;
+  }
+  .sub_btn{
+    padding: 5px;
+    margin: 20px;
+  }
+  .filebar>ul {
+    overflow: hidden;
+    height: 0;
+    position: absolute;
+    z-index: 10;
+    min-width: 100px;
+    background-color: blanchedalmond;
+    transition: height;
+    transition-duration: 0.5s;
+  }
+  .filebar:hover>ul {
+    height: 150px;
+  }
 </style>

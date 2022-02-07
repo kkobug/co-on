@@ -4,18 +4,26 @@
       <el-container style="border-style: solid; border-color: #b2bec3; border-radius: 50px; margin-top: 8vh; background-color: #fff">
         <el-form label-width="100px" label-position="left" style="width: 100%; padding: 20px; margin-top: 20px; margin-bottom: 20px">
           <span>
-            <strong style="font-size: xx-large">{{ username }}님의 회원 정보</strong>
+            <strong style="font-size: xx-large">프로필</strong>
           </span>
           <br><br><br>
-          <el-form-item prop="name" label="이름" >
-            <el-input v-model="state.form.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item prop="id" label="아이디" >
-            <el-input v-model="state.form.id" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item prop="passwordCheck" label="이메일" >
-            <el-input v-model="state.form.email" autocomplete="off"></el-input>
-          </el-form-item>
+          <el-row>
+            <el-col :span="17">
+              <el-form-item prop="name" label="이름" >
+                <el-input v-model="state.form.name" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item prop="id" label="아이디" >
+                <el-input v-model="state.form.id" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item prop="passwordCheck" label="이메일" >
+                <el-input v-model="state.form.email" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6" :offset="1" style="overflow-x: hidden">
+              <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/기본프로필.jpg`)"></el-avatar>
+              <input type="file" style="margin-top: 15px">
+            </el-col>
+          </el-row>
           <el-form-item prop="birthday" label="생년월일" >
             <el-date-picker
               v-model="state.form.birthday" type="date" placeholder="Pick your birthday" style="width: 100%" format="YYYY-MM-DD" value-format="YYYYMMDD"
