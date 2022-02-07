@@ -43,8 +43,8 @@
             <el-button circle v-else id="buttonCam" @click="camControl" value="CAMON">
               <font-awesome-icon icon="video" />
             </el-button>
-            <el-button circle v-if="shareOn" id="buttonScreenShare" @click="screenShare" value="Screen share">
-              <font-awesome-icon icon="share-square" />
+            <el-button circle v-if="shareOn" id="buttonQuitShare" @click="screenShare" value="Quit share">
+              <font-awesome-icon icon="share-square" style="color:red"/>
             </el-button>
             <el-button circle v-else id="buttonScreenShare" @click="screenShare" value="Screen share">
               <font-awesome-icon icon="share-square" />
@@ -75,27 +75,27 @@
               <div id="chatToolbar">
                 <span> CHAT</span>
               </div>
-              <!-- <div class="message-wrap" >
-                <div v-for="data in this.messagelist" :key="data" class="message">
+              <div class="message-wrap" >
+                <div v-for="data in this.messageList" :key="data" class="message">
                   <div class="msg-detail">
-                    <div class="msg-info">
-                      <p>{{ data.nickname }}</p>
-                    </div>
-                    <div class="msg-content">
-                      <span class="triangle"></span>
-                      <p class="text">{{data.message}}</p>
-                    </div>
+                    <span>{{data.creationTime}}</span>
+                    <p class="msg-info">
+                      {{ data.nickname }}
+                    </p>
+                    <p class="msg-content">
+                      {{data.message}}
+                    </p>
                   </div>
                 </div>
-              </div> -->
+              </div>
               <div id="messageInput">
                 <input
                   placeholder="Send a message"
                   autocomplete="off"
                   v-model="this.textInput"
+                  v-on:keyup.enter="sendMessage"
                 />
                 <button id="sendButton" @click="sendMessage">
-                <!-- <button id="sendButton" @click="sendMessage"> -->
                   <span>send</span>
                 </button>
               </div>
@@ -144,6 +144,7 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
+      messageList: [],
 			camOn: false,
 			micOn: false,
       shareOn: false,
@@ -199,59 +200,20 @@ export default {
       })
     },
 
-    // session.connect(token, "USER_DATA")
-    // .then( ... )
-    // .catch( ... );
 
-//     session.on("streamCreated", function (event) {
-//     session.subscribe(event.stream, "subscriber");
-//     console.log("USER DATA: " + event.stream.connection.data);
-// });
-
-//      session.signal({
-//       data: 'My custom message',  // Any string (optional)
-//       to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
-//       type: 'my-chat'             // The type of message (optional)
-//     })
-//     .then(() => {
-//         console.log('Message successfully sent');
-//     })
-//     .catch(error => {
-//         console.error(error);
-//     });
-
-// session.on('signal', (event) => {
-//     console.log(event.data); // Message
-//     console.log(event.from); // Connection object of the sender
-//     console.log(event.type); // The type of message
-// });
-    receiveMessage(event){
-      session.connect(token, { clientData: this.userId })
-      .then(session.on('signal', (event) => {
-        console.log(event.data); // Message
-        console.log(event.from); // Connection object of the sender
-        console.log(event.type); // The type of message
-      }))
-      .catch(error =>{
-        console.error(error);
-      });
-    },
     sendMessage(){
       var message = this.textInput
-      console.log(message)
       var OV = new OpenVidu();
       var session = OV.initSession();
 
       this.createToken(this.tokenId).then((token) => {
-        session.connect(token, { clientData: this.userId })
+        session.connect(token, this.userId)
           .then(()=> {
             session.signal({
             data: message,  // Any string (optional)
             to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
             type: 'my-chat'             // The type of message (optional)
-          }).then(() => {
-              console.log(message);
-          }).catch(error => {
+          }).then().catch(error => {
               console.error(error);
           })
         })
@@ -259,6 +221,7 @@ export default {
           console.error(error);
         });
       })
+      this.textInput=''
     },
 
     screenShare(){
@@ -270,7 +233,9 @@ export default {
             var publisher = OV.initPublisher("html-element-id", { videoSource: "screen" });
             publisher.once('accessAllowed', (event) => {
                 publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
-                    console.log('User pressed the "Stop sharing" button');
+                  sessionScreen.unpublish(publisher);
+                  this.shareOn=false;
+                  console.log('User pressed the "Stop sharing" button');
                 });
                 sessionScreen.publish(publisher);
             });
@@ -284,6 +249,7 @@ export default {
       });
       this.shareOn=true;
     },
+
 		joinSession (classitem) {
       this.nowClass=classitem
       this.mySessionId=classitem[1]+classitem[4]
@@ -299,7 +265,13 @@ export default {
 			// --- Init a session ---
 			this.session = this.OV.initSession();
 
-			// --- Specify the actions when events take place in the session ---
+      this.session.on("signal", (event) => {
+        this.messageList.push({
+          nickname : event.from.data,
+          message : event.data,
+          creationTime : new Date(event.from.creationTime)
+        })
+      });
 
 			// On every new Stream received...
 			this.session.on('streamCreated', ({ stream }) => {
@@ -409,7 +381,6 @@ export default {
 					.then(response => response.data)
 					.then(data => resolve(data.id))
 					.catch(error => {
-            console.log('에러 발생')
             console.log(error)
 						if (error.response.status === 409) {
 							resolve(sessionId);
@@ -457,7 +428,6 @@ export default {
       }else {
         this.chatOn = 0
       }
-      console.log(this.chatOn)
     },
 	},
   created:function(){
@@ -586,7 +556,7 @@ input {
 }
 
 .message-wrap {
-  padding: 0 15px;
+  padding: 0 4px;
   height: calc(100% - 80px);
   overflow: auto;
 }
@@ -604,7 +574,7 @@ input {
 }
 
 .msg-detail {
-  width: calc(100% - 65px);
+  // width: calc(100% - 65px);
   display: inline-block;
 }
 
@@ -629,16 +599,16 @@ input {
   max-width: 95%;
 }
 
-span.triangle {
-  border-radius: 2px;
-  height: 8px;
-  width: 8px;
-  top: 12px;
-  display: block;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-  position: absolute;
-}
+// span.triangle {
+//   border-radius: 2px;
+//   height: 8px;
+//   width: 8px;
+//   top: 12px;
+//   display: block;
+//   -webkit-transform: rotate(45deg);
+//   transform: rotate(45deg);
+//   position: absolute;
+// }
 
 .text {
   word-break: break-all;
