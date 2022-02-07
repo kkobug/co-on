@@ -82,19 +82,17 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Student changeStudentProfile(StudentProfilePutReq studentProfilePutReq) {
         Student student = studentRepositorySupport.findById(studentProfilePutReq.getStId()).get();
-        System.out.println(student);
-        System.out.println(studentProfilePutReq.getStProfFile());
 
-        if (studentProfilePutReq.getStProfFile().isEmpty()) {
+        if (studentProfilePutReq.getStProfFile().get(0).isEmpty()) {
             System.out.println("!!!!!!!!!!!!!!");
             student.setStProfName(null);
-            student.setStOriginProfName(null);
             student.setStProfPath(null);
+            student.setStOriginProfName(null);
             studentRepository.save(student);
             return student;
         } else {
             System.out.println("????????????????");
-            String sourceFileName = studentProfilePutReq.getStProfFile().getOriginalFilename();
+            String sourceFileName = studentProfilePutReq.getStProfFile().get(0).getOriginalFilename();
             File destinationProfile;
             String destinationProfileName;
             String studentprofPath = "D:/stprof/";
@@ -104,7 +102,7 @@ public class StudentServiceImpl implements StudentService{
 
             destinationProfile.getParentFile().mkdirs();
             try {
-                studentProfilePutReq.getStProfFile().transferTo(destinationProfile);
+                studentProfilePutReq.getStProfFile().get(0).transferTo(destinationProfile);
             } catch (IOException e) {
                 e.printStackTrace();
             }

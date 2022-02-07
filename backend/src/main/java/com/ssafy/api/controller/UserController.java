@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class UserController {
 	}
 
 
-	@PutMapping("/teacher/profile")
+	@PostMapping("/teacher/profile")
 	@ApiOperation(value = "교사 프로필 사진 수정", notes = "<strong>교사ID, 프로필 이미지</strong>를 통해 정보를 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -112,7 +113,7 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> teacherprof(
 			@ModelAttribute
-			TeacherProfilePutReq teacherProfilePutReq
+					TeacherProfilePutReq teacherProfilePutReq
 	) {
 		teacherService.changeTeacherProfile(teacherProfilePutReq);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));

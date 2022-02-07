@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,4 +32,8 @@ public class Notice implements Serializable {
     @LastModifiedDate
     @Column(name= "notice_posted")  // 최종 수정일
     LocalDateTime noticePosted;
+
+    @OneToMany
+    @JoinColumn(name = "notice_id",insertable = false, updatable = false)
+    private List<NoticeFile> noticeFile;
 }

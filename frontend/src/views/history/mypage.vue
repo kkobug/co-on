@@ -21,7 +21,15 @@
             </el-col>
             <el-col :span="6" :offset="1" style="overflow-x: hidden">
               <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/기본프로필.jpg`)"></el-avatar>
-              <input type="file" style="margin-top: 15px">
+              <!--
+                교사는 {tchrProfPath} + {tchrProfName}
+                학생은 {stProfPath} + {stProfName}
+                위치에서 이미지 불러오면됨!!!
+                > 우리반 보기에서도 수정바람
+              -->
+              <form action="#" id="profileForm" method="post" enctype="multipart/form-data">
+                <input type="file" accept="image/*" @change="updateProfileImage" style="margin-top: 15px" value="프로필 변경">
+              </form>
             </el-col>
           </el-row>
           <el-form-item prop="birthday" label="생년월일" >
@@ -176,6 +184,24 @@ export default {
       }
     }
 
+    const updateProfileImage = function (event) {
+      var files = event.target.files
+      var filesArr = Array.prototype.slice.call(files)[0]
+      var profileImg = new FormData(document.querySelector('#profileForm'))
+      if (store.state.root.whetherTchr) {
+        console.log(state.form.id)
+        profileImg.append('tchrId', state.form.id)
+        console.log(filesArr)
+        profileImg.append('tchrProfFile', filesArr)
+        store.dispatch('root/requestUpdateTchrProfImg', profileImg)
+      } else {
+        profileImg.append('stId', state.form.id)
+        profileImg.append('stProfFile', filesArr)
+        store.dispatch('root/requestUpdateStProfImg', profileImg)
+      }
+    }
+
+
       // 페이지 진입시 불리는 훅
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
@@ -205,7 +231,7 @@ export default {
       }
     })
 
-    return {state,clickModify,clickDelete, username }
+    return {state,clickModify,clickDelete, username, updateProfileImage}
   },
 }
 </script>

@@ -91,7 +91,19 @@ export function requestDeleteTeacher ({ state }, payload) {
   const url = `teacher/withdrawal/${payload}`
   return $axios.delete(url)
 }
-
+// 프사 수정
+export function requestUpdateTchrProfImg ({ state }, payload) {
+  console.log('requestUpdateTchrProfImg', payload.get('tchrId'))
+  const url = `/teacher/profile`
+  let body = payload
+  return $axios.post(url, body)
+}
+export function requestUpdateStProfImg ({ state }, payload) {
+  console.log('requestUpdateStProfImg', payload.get('stId'))
+  const url = `/student/profile`
+  let body = payload
+  return $axios.put(url, body)
+}
 // StudyRoom
 // 수업 개설
 export function requestTchrCreateClass ({ state }, payload) {
