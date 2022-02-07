@@ -16,7 +16,7 @@ public interface HomeworkService {
     List<Homework> findHomeworkBystId(String stId);
     Homework findHomeworkByHwId(Integer hwId);
 //    과제 수정
-    Homework updateHomework(Integer hwId, HomeworkModifyReq homeworkModifyReq);
+    Homework updateHomework(HomeworkModifyReq homeworkModifyReq);
 //    과제 삭제
     @Transactional
     void deleteHomework(Integer hwId, String tchrId);

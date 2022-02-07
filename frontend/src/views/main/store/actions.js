@@ -211,10 +211,10 @@ export function requestgetHomework ({ state }, payload) {
   return $axios.get(url, body)
 }
 export function requestupdateHomework ({ state }, payload) {
-  console.log('requestgetHomework', payload)
-  const url = `/homework/modify/${payload.get("hwId")}`
+  console.log('requestupdateHomework', payload)
+  const url = `/homework/modify`
   let body = payload
-  return $axios.put(url, body)
+  return $axios.post(url, body)
 }
 export function requestListHomework ({ state }, payload) {
   console.log('requestListHomework', payload)
