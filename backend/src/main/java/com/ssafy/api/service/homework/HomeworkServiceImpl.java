@@ -111,16 +111,15 @@ public class HomeworkServiceImpl implements HomeworkService{
     }
 
     @Override
-    public Homework updateHomework(Integer hwId, HomeworkModifyReq homeworkModifyReq) {
-        Homework homework = homeworkRepositorySupport.findHomeworkByHwId(hwId).get();
+    public Homework updateHomework(HomeworkModifyReq homeworkModifyReq) {
+        Homework homework = homeworkRepositorySupport.findHomeworkByHwId(homeworkModifyReq.getHwId()).get();
         homework.setHwId(homeworkModifyReq.getHwId());
         homework.setHwTitle(homeworkModifyReq.getHwTitle());
         homework.setHwContent(homeworkModifyReq.getHwContent());
         homework.setHwDeadline(homeworkModifyReq.getHwDeadline());
         homework.setHwPosted(LocalDateTime.now());
-        if (!Objects.equals(homeworkModifyReq.getHwId(), hwId)) return homework;
         homeworkRepository.save(homework);
-        homeworkFileRepository.deleteHomeworkFileByHwId(hwId);
+        homeworkFileRepository.deleteHomeworkFileByHwId(homeworkModifyReq.getHwId());
         if (!homeworkModifyReq.getHwFile().get(0).isEmpty()) {
             List<MultipartFile> hwFile = homeworkModifyReq.getHwFile();
             for (MultipartFile multipartFile : hwFile) {

@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,4 +36,7 @@ public class Homework implements Serializable {
     @ManyToOne
     @JoinColumn(name = "study_id", insertable = false, updatable = false)
     private Studyroom studyroom;
+    @OneToMany
+    @JoinColumn(name = "hw_id",insertable = false, updatable = false)
+    private List<HomeworkFile> hwFile;
 }
