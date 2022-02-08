@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface AttendanceRepository extends JpaRepository<Attendance, Integer> {
 
     @Query(value = "SELECT attendance.* FROM attendance " +
-            "WHERE st_Id=:stId AND conf_Id=:confId",
+            "WHERE st_Id=:stId AND conf_Id=:confId LIMIT 1",
     nativeQuery = true)
     Attendance findAttendanceByIds(String stId, Integer confId);
 }
