@@ -19,6 +19,18 @@ public interface HomeworkRepository extends JpaRepository<Homework, Integer> {
             "( select study_id from studyroom_detail where st_id = :stId)",nativeQuery = true)
     List<Homework> findHomeworkBystId(String stId);
 
-    @Query(value = "SELECT count(st_hwcontent), count(distinct hw_id) from student_homework where st_id = :stId", nativeQuery = true)
+    @Query(value = "select count(case when st_hwcontent is not null and st_hwscore is null then 1 end), count(case when st_hwcontent is not null and st_hwscore is not null then 1 end), count(case when st_hwcontent is null and hw_deadline <= now() then 1 end), count(case when st_hwcontent is null and hw_deadline > now() then 1 end)\n" +
+            "from student_homework\n" +
+            "join homework\n" +
+            "on student_homework.hw_id = homework.hw_id\n" +
+            "where student_homework.st_id = :stId", nativeQuery = true)
     List<int[]> countBystId(String stId);
+
+
+    @Query(value = "select count(case when st_hwcontent is not null and st_hwscore is null then 1 end), count(case when st_hwcontent is not null and st_hwscore is not null then 1 end), count(case when st_hwcontent is null and  hw_deadline > now() then 1 end), count(case when st_hwcontent is null and hw_deadline <= now() then 1 end)\n" +
+            "from student_homework\n" +
+            "left join homework\n" +
+            "on student_homework.hw_id = homework.hw_id\n" +
+            "where student_homework.tchr_id = :tchrId and (month(now()) = month(homework.hw_deadline) or month(now()) = month(homework.hw_posted))", nativeQuery = true)
+    List<int[]> counthomeworkBytchrId(String tchrId);
 }
