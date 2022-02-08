@@ -13,7 +13,7 @@
           <el-container class="profile-card">
             <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; color: white; border-radius: 20px">
               <p>
-                <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/기본프로필.jpg`)"></el-avatar>
+                <el-avatar :size="80" fit:cover :src="require(`@/assets/images/기본프로필.jpg`)"></el-avatar>
               </p>
               <div>
                 <span><strong>{{ username }}</strong></span>
