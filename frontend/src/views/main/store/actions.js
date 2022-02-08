@@ -316,3 +316,16 @@ export function requestdelStudyStudent ({ state }, data) {
   const url = `/studyRoomDetail/teacher/deletestudent`
   return $axios.delete(url, {data})
 }
+// 출결 관련 api
+export function requestConfTime ({ state }, payload) {
+  console.log('requestConfTime', payload)
+  const url = ``
+  let body = payload
+  return $axios.get(url, body)
+}
+export function requestConfStrecord ({ state }, payload) {
+  console.log('requestConfStrecord', payload)
+  const url = ``
+  let body = payload
+  return $axios.get(url, body)
+}

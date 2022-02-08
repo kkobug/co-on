@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,5 +32,8 @@ public class Conference {
     LocalDateTime confEnd;
     @Column(name = "conf_att", updatable = false)
     Integer confAtt;
+    @OneToMany
+    @JoinColumn(name = "conf_id",insertable = false, updatable = false)
+    private List<Attendance> attendances;
 
 }
