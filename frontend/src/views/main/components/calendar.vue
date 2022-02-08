@@ -23,7 +23,7 @@
                   </div>
                 </div>
               </div>
-              <el-drawer v-model="drawerHW" direction="ttb" size="40%">
+              <el-drawer v-model="drawerHW" direction="ttb" size="50%">
                 <template #title>
                   <h1 style="font-size: 25px; color: black">{{this.dashHw.title}}</h1>
                 </template>
@@ -62,7 +62,7 @@
                   </div>
                 </div>
               </div>
-              <el-drawer v-model="drawer" direction="ttb" size="40%">
+              <el-drawer v-model="drawer" direction="ttb" size="50%">
                 <template #title>
                   <h1 style="font-size: 25px; color: black">{{this.dashNotice.noticeTitle}}</h1>
                 </template>
