@@ -12,12 +12,7 @@
           <div class ="li-lesson li-item">{{hw.hwFile}}</div>
         </div>
         <div class="li-right li-sec">
-<<<<<<< HEAD
-          <div class ="li-time li-item">{{hw.hwDeadline}}</div>
-          <div class ="li-time li-item">{{hw.hwPosted}}</div>
-=======
           <div class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</div>
->>>>>>> feat/chat
           <div class ="li-item filebar">
             첨부파일
             <ul>
