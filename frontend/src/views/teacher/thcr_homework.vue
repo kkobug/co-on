@@ -12,8 +12,7 @@
           <div class ="li-lesson li-item">{{hw.hwFile}}</div>
         </div>
         <div class="li-right li-sec">
-          <div class ="li-time li-item">{{hw.hwDeadline}}</div>
-          <div class ="li-time li-item">{{hw.hwPosted}}</div>
+          <div class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</div>
           <div class ="li-item filebar">
             첨부파일
             <ul>
@@ -122,11 +121,12 @@ export default {
     position: absolute;
     z-index: 10;
     min-width: 100px;
-    background-color: blanchedalmond;
+    background-color: #4267D6;
     transition: height;
     transition-duration: 0.5s;
+    color: #fff;
   }
   .filebar:hover>ul {
-    height: 150px;
+    height: auto;
   }
 </style>
