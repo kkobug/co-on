@@ -16,8 +16,8 @@
               <el-col :span="6"><div class="grid-content ">{{classitem[3]}}</div></el-col>
               <el-col :span="6">
                 <!-- <div class="grid-content " @click="joinSession(classitem)">이동</div> -->
-                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">이동</div>
-                <div v-else class="grid-content " @click="joinSession(classitem)">불가</div>
+                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">{{classitem[8]}} 이동</div>
+                <div v-else class="grid-content " @click="joinSession(classitem)">{{classitem[9]}} : 불가</div>
               </el-col>
             </el-row>
           </el-main>
@@ -63,8 +63,8 @@
             <user-video :stream-manager="mainStreamManager"/>
           </div>
           <div id="video-container" class="col-md-6">
-            <user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-            <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+            <user-video id="sub" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+            <user-video id="sub" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
           </div>
         </el-col>
         <!-- video -->
@@ -712,5 +712,10 @@ input {
 
 .chatComponentLight ::-webkit-scrollbar-thumb {
   background-color: #eeeeee !important;
+}
+
+#sub {
+  width: 20%;
+  height: auto;
 }
 </style>
