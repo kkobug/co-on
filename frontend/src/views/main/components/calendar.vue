@@ -16,13 +16,20 @@
                   곧 마감인 과제
                 </span>
                 <div class="bottom">
-                  <el-button type="text" class="button">{{this.dashHw.title}}</el-button>
-                  <p>{{this.dashHw.content}}</p>
+                  <el-button type="text" class="button" @click="drawerHW = true">{{this.dashHw.title}}</el-button>
+                  <!-- <p>{{this.dashHw.content}}</p> -->
                   <div>
-                    <time class="time">{{ this.dashHw.end }}</time>
+                    <time class="time">{{ this.dashHw.end.substring(0, 10) }}</time>
                   </div>
                 </div>
               </div>
+              <el-drawer v-model="drawerHW" direction="ttb">
+                <template #title>
+                  <h1 style="font-size: 25px; color: black">{{this.dashHw.title}}</h1>
+                </template>
+                <h3>내용: {{ this.dashHw.content }}</h3>
+                <h4>제출 기한: {{ this.dashHw.end }}</h4>
+              </el-drawer>
             </el-card>
 
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
@@ -43,7 +50,7 @@
               <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
                 <font-awesome-icon icon="bell" style="font-size:80px" />
                 <span style="font-weight:bold; color:#273420; font-size:20px">
-                  New Notice
+                  Recent Notice
                 </span>
                 <div class="bottom">
                   <el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button>
@@ -127,6 +134,12 @@
           <el-col :span="6" style="margin-left: 2vh">
             <div style="background-color: #1B2A57; margin-bottom: 4vh; margin-top: 1vh; text-color: #fff">
               <canvas id="myChart" style="padding-top: 10px; padding-bottom: 20px"></canvas>
+              <div v-if="this.tchrOrNot" style="color: #fff">
+                <h4 style="margin-top: 2px; padding-bottom: 15px;">출제한 과제 비율</h4>
+              </div>
+              <div v-else style="color: #fff">
+                <h4 style="margin-top: 2px; padding-bottom: 15px;">HW Chart</h4>
+              </div>
             </div>
             <div style="background-color: #1B2A57">
               <el-progress type="dashboard" :percentage="this.percentageHW" style="padding-top: 10px; margin-top: 3%">
@@ -161,6 +174,7 @@ export default {
     today:new Date(),
     dashHw:undefined,
     dashNotice:undefined,
+    drawerHW: false,
     drawer: false,
     doneHW: 0,
     notyetHW: 0,
@@ -173,7 +187,7 @@ export default {
           start: "2022-1-21 15:25",
           end: "2022-1-21 16:25",
           title: "john 1",
-          content: '<i class="v-icon material-icons">local_hospital</i>',
+          content: 'Default',
           class: "health",
           split: 2
         }
@@ -182,7 +196,19 @@ export default {
     getNotice(){
       this.$store.dispatch('root/requestGetSTNotice',this.userId)
       .then(result =>{
-        console.log(result)
+        this.notices=result.data
+        this.dashNotice=this.notices[this.notices.length-1]
+        if (result.data.length >= 1) {
+            this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
+        }
+      })
+      .catch(function(err){
+        alert(err)
+      })
+    },
+    getNoticeTchr(){
+      this.$store.dispatch('root/requestGetTchrNotice')
+      .then(result => {
         this.notices=result.data
         this.dashNotice=this.notices[this.notices.length-1]
         if (result.data.length >= 1) {
@@ -196,11 +222,13 @@ export default {
     getHw(){
       this.$store.dispatch('root/requestGetHW',this.userId)
       .then(result =>{
+        console.log(result.data[0].hwPosted.substring(0, 16), 'getHw console')
         for (var j = 0; j < result.data.length; j++) {
           var hw = result.data[j];
           this.events.push({
             start: hw.hwPosted.substring(0,5)+hw.hwPosted.substring(6,16),//"2022-01-30 17:46:39.000000"
-            end: hw.hwDeadline.substring(0,5)+hw.hwDeadline.substring(6,16),//"2022-02-18 12:00:00"
+            //end: hw.hwDeadline.substring(0,5)+hw.hwDeadline.substring(6,16),//"2022-02-18 12:00:00"
+            end: '2022-02-08 14:00',
             title: hw.hwTitle + " - " + hw.studyroom.studyName,
             content: hw.hwContent,
             class: "health",
@@ -222,7 +250,30 @@ export default {
         // });
         // this.dashHw=hws[hws.length-1]
         this.dashHw=this.events[0]
-        console.log('과제:'+this.dashHw)
+        console.log('과제:', this.dashHw)
+      })
+      .catch(function(err){
+        alert(err)
+      })
+    },
+    getTchtHW(){
+      this.$store.dispatch('root/requestTchrListHomework')
+      .then(result =>{
+        console.log(result.data, 'getHw console')
+        for (var j = 0; j < result.data.length; j++) {
+          var hw = result.data[j];
+          this.events.push({
+            start: hw.hwPosted.substring(0,5)+hw.hwPosted.substring(6,16),//"2022-01-30 17:46:39.000000"
+            //end: hw.hwDeadline.substring(0,5)+hw.hwDeadline.substring(6,16),//"2022-02-18 12:00:00"
+            end: '2022-02-09 14:00',
+            title: hw.hwTitle + " - " + hw.studyroom.studyName,
+            content: hw.hwContent,
+            class: "health",
+            split: 2
+          });
+        }
+        this.dashHw=this.events[0]
+        console.log('선생님 과제:', this.dashHw)
       })
       .catch(function(err){
         alert(err)
@@ -240,9 +291,15 @@ export default {
   created:function(){
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
     this.userId = localvuex["root"]["userid"]
-    this.setEventVal()
-    this.getHw()
-    this.getNotice()
+    this.tchrOrNot = localvuex["root"]["whetherTchr"]
+    // this.setEventVal()
+    if (this.tchrOrNot) {
+      this.getNoticeTchr()
+      this.getTchtHW()
+    } else {
+      this.getNotice()
+      this.getHw()
+    }
     this.today=this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate()
     this.getProgress()
   },
@@ -255,41 +312,81 @@ export default {
       let hwlabels = []
       let hwdata = []
 
-      this.$store.dispatch('root/requestGetHW',this.userId)
-      .then(result => {
-        let hwClass = {}
-        for (var j = 0; j < result.data.length; j++) {
-          if (result.data[j].studyroom.studyName in hwClass) {
-            hwClass[result.data[j].studyroom.studyName] += 1
-          } else {
-            hwClass[result.data[j].studyroom.studyName] = 1
+      if (this.tchrOrNot) {
+        this.$store.dispatch('root/requestTchrListHomework')
+        .then(result => {
+          console.log(result.data, 'result.data 테스트')
+          let hwClass = {}
+          for (var j = 0; j < result.data.length; j++) {
+            if (result.data[j].studyroom.studyName in hwClass) {
+              hwClass[result.data[j].studyroom.studyName] += 1
+            } else {
+              hwClass[result.data[j].studyroom.studyName] = 1
+            }
           }
-        }
-        hwlabels = Object.keys(hwClass)
-        for (var key in hwClass) {
-          hwdata.push(hwClass[key])
-        }
+          hwlabels = Object.keys(hwClass)
+          for (var key in hwClass) {
+            hwdata.push(hwClass[key])
+          }
 
-        const ctx = document.getElementById('myChart');
-          var myChart = new Chart(ctx, {
-          type: 'doughnut',
-            data: {
-              labels: hwlabels,
-              datasets: [{
-                data: hwdata,
-                backgroundColor: [
-                  '#9DCEFF',
-                  '#F2F3F6',
-                  '#B3261E',
-                  '#21005D',
-                ],
-                borderWidth: 0,
-                scaleBeginAtZero: true,
-              }
-            ]
-          },
-        });
-      })
+          const ctx = document.getElementById('myChart');
+            var myChart = new Chart(ctx, {
+            type: 'doughnut',
+              data: {
+                labels: hwlabels,
+                datasets: [{
+                  data: hwdata,
+                  backgroundColor: [
+                    '#9DCEFF',
+                    '#F2F3F6',
+                    '#B3261E',
+                    '#21005D',
+                  ],
+                  borderWidth: 0,
+                  scaleBeginAtZero: true,
+                }
+              ]
+            },
+          });
+        })
+      } else {
+        this.$store.dispatch('root/requestGetHW',this.userId)
+        .then(result => {
+          let hwClass = {}
+          for (var j = 0; j < result.data.length; j++) {
+            if (result.data[j].studyroom.studyName in hwClass) {
+              hwClass[result.data[j].studyroom.studyName] += 1
+            } else {
+              hwClass[result.data[j].studyroom.studyName] = 1
+            }
+          }
+          hwlabels = Object.keys(hwClass)
+          for (var key in hwClass) {
+            hwdata.push(hwClass[key])
+          }
+
+          const ctx = document.getElementById('myChart');
+            var myChart = new Chart(ctx, {
+            type: 'doughnut',
+              data: {
+                labels: hwlabels,
+                datasets: [{
+                  data: hwdata,
+                  backgroundColor: [
+                    '#9DCEFF',
+                    '#F2F3F6',
+                    '#B3261E',
+                    '#21005D',
+                  ],
+                  borderWidth: 0,
+                  scaleBeginAtZero: true,
+                }
+              ]
+            },
+          });
+        })
+
+      }
   },
 };
 </script>
@@ -360,9 +457,10 @@ p{
 }
 .vuecal__event.health {
   /* background-color: rgba(164, 230, 210, 0.9); */
-  background-color: #8D9287;
+  /* background-color: #8D9287; */
+  background-color: #EDCE5A;
   /* border: 1px solid rgb(144, 210, 190); */
-  border: 1px solid #8D9287;
+  /* border: 1px solid #8D9287; */
   color: black;
 }
 .percentage-value {
