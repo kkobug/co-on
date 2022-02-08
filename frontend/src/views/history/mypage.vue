@@ -78,7 +78,8 @@ export default {
         name: '',
         birthday: '',
         password: '',
-        align: 'left'
+        align: 'left',
+        filename: '',
       },
       rules: {
         id: [
@@ -217,10 +218,7 @@ export default {
           state.form.school = res.data.tchrSchool
           state.form.birthday = res.data.tchrBirthday
           state.form.name = res.data.tchrName
-          state.imgpath = res.data.tchrProfPath + res.data.tchrProfName
-          console.log(imgpath)
-          console.log(res.data.tchrProfPath)
-          console.log(res.data.tchrProfName)
+          state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
         })
         .catch(err => {
           console.log(err.data)
@@ -235,7 +233,7 @@ export default {
           state.form.school = res.data.stSchool
           state.form.birthday = res.data.stBirthday
           state.form.name = res.data.stName
-          state.imgpath = res.data.stProfPath + res.data.stProfName
+          state.imgpath = require('@/assets/images/' + res.data.stProfPath + res.data.stProfName)
         })
       }
     })

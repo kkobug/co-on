@@ -95,7 +95,7 @@ public class StudentServiceImpl implements StudentService{
             String sourceFileName = studentProfilePutReq.getStProfFile().get(0).getOriginalFilename();
             File destinationProfile;
             String destinationProfileName;
-            String studentprofPath = "D:/stprof/";
+            String studentprofPath = "../frontend/src/assets/images/st_profiles/";
 
             destinationProfileName = "st" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
             destinationProfile = new File(studentprofPath + destinationProfileName);
@@ -109,7 +109,7 @@ public class StudentServiceImpl implements StudentService{
 
             student.setStProfName(destinationProfileName);
             student.setStOriginProfName(sourceFileName);
-            student.setStProfPath(studentprofPath);
+            student.setStProfPath("st_profiles/");
             studentRepository.save(student);
             return student;
         }
