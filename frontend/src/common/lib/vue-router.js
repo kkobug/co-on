@@ -11,6 +11,7 @@ import Tchr_nav from '@/views/teacher/tchr_nav'
 import Tchr_ourclass from '@/views/teacher/ourclass'
 import Tchr_attend from '@/views/teacher/daily_attend'
 import Tchr_contents from '@/views/teacher/tchr_contents'
+import Tchr_HWManage from '@/views/teacher/homework_manage'
 
 // import Main from '@/views/main/main'
 import Main_calendar from '@/views/main/components/calendar'
@@ -109,6 +110,12 @@ const routes = [
     component: Tchr_contents,
     props:true
   },
+  {
+    path: "/tchr_HWMange",
+    name: "Tchr_HWManage",
+    component: Tchr_HWManage,
+    props: true
+  }
 ]
 
 const router = createRouter({
