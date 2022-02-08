@@ -1,12 +1,11 @@
 package com.ssafy.db.repository.conference;
 
-import com.ssafy.db.entity.Attendance;
-import com.ssafy.db.entity.QAttendance;
-import com.ssafy.db.entity.QAttendanceRecord;
-import com.ssafy.db.entity.QConference;
+import com.ssafy.db.entity.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ConferenceRepositorySupport {

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(value = "화상 및 출결 API", tags = {"Conference"})
 @RestController
 @RequestMapping("/api/v1/conference")
@@ -50,7 +52,7 @@ public class ConferenceController {
         return ResponseEntity.status(200).body(conference);
     }
 
-    @PostMapping("/conference/enter")
+    @PostMapping("/enter")
     @ApiOperation(value = "수업 입실", notes = "수업에 입장하여 출석기록을 남긴다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -67,7 +69,7 @@ public class ConferenceController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @PutMapping("/conference/exit")
+    @PutMapping("/exit")
     @ApiOperation(value = "수업 퇴실", notes = "수업에서 퇴장하여 출석기록을 남긴다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -80,7 +82,42 @@ public class ConferenceController {
             @RequestParam
             String stId, Integer confId
     ) {
+        System.out.println("!!!!!!!!!!!!!!!!!!in exit controller");
         conferenceService.exitConference(stId, confId);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
+
+    @GetMapping("/infobydate")
+    @ApiOperation(value = "일자별 수업 리스트", notes = "날짜에 따라 수업 기록을 가져온다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "잘못된 요청"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<List<Conference>> conferenceinfobydate(
+            @ApiParam(value = "일자별 수업", required = true)
+            @RequestParam
+                    Integer studyId, String tchrId, String targetDate
+    ) {
+        List<Conference> list = conferenceService.findConferenceByDate(studyId, tchrId, targetDate);
+        return ResponseEntity.status(200).body(list);
+    }
+
+    @GetMapping("/attinfo")
+    @ApiOperation(value = "출결여부", notes = "날짜에 따라 수업 기록을 가져온다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "잘못된 요청"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<List<Conference>> conferenceinfobydate(
+            @ApiParam(value = "일자별 수업", required = true)
+            @RequestParam
+                    Integer studyId, String tchrId, String targetDate
+    ) {
+        List<Conference> list = conferenceService.findConferenceByDate(studyId, tchrId, targetDate);
+        return ResponseEntity.status(200).body(list);
     }
 }
