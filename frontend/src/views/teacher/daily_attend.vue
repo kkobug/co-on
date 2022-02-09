@@ -3,28 +3,41 @@
     <tchr-nav @startvideo="start"></tchr-nav>
     <div class="demo-date-picker">
       <div class="block">
-        <el-date-picker class = "datepick" v-model="state.studyDate" type="date" placeholder="수업일">
+        <el-date-picker
+        class = "datepick"
+        v-model="state.studyDate"
+        type="String"
+        placeholder="수업일"
+        format="YYYY-MM-DD"
+        value-format="YYYY-MM-DD"
+        >
         </el-date-picker>
-        <div class = "datepickbtn" @click ="getConfTime">조회</div>
+        <div class = "datepickbtn" @click ="getConfAttData">조회</div>
         <div>
-          <select class = "timepick">
-            <option value="none">===============</option>
-            <option v-for="con in state.conferList" @click="getConfSTrecord" :key ="con.id" :value="con.Time"></option>
-          </select>
+          <el-select v-model="value" class="m-2" placeholder="Select" @change="getConfSTrecord">
+            <el-option
+              v-for="con in state.STTimeRecord"
+              :key="con.confId"
+              :label="con.confStart"
+              :value="con"
+            >
+            </el-option>
+          </el-select>
         </div>
       </div>
     </div>
-    <el-row>
-      <el-col :span="20" style="margin-left: 15vh">
-        <el-table :data="state.STTimeRecord" height="250" style="width: 100%">
-          <el-table-column prop="date" label="Date" width="180" />
-          <el-table-column prop="name" label="Name" width="180" />
-          <el-table-column prop="entryTime" label="entryTime" width="180" />
-          <el-table-column prop="exitTime" label="exitTime" width="180" />
-          <el-table-column prop="status" label="status" />
-        </el-table>
-      </el-col>
-    </el-row>
+    <table border="1">
+      <th>학생이름</th>
+      <th>입장시간</th>
+      <th>퇴장시간</th>
+      <th>출결여부</th>
+      <tr v-for="tr in state.conferList.attendances" :key ="tr.confId">
+        <td>{{tr.stId}}</td>
+        <td><p v-for="Rin in tr.attendanceRecords" :key="Rin.attId">{{Rin.recIn}}</p></td>
+        <td><p v-for="Rin in tr.attendanceRecords" :key="Rin.attId">{{Rin.recOut}}</p></td>
+        <td>{{tr.attPass}}</td>
+      </tr>
+    </table>
     <start-video-dialog
       :open="videoDialogOpen"
       @closeVideoDialog="end"
@@ -49,24 +62,67 @@ export default {
       chooseConfer: "",
       videoDialogOpen : false,
       conferList: {},
-      STTimeRecord:[],
+      attreco:[],
+      STTimeRecord:[
+  {
+    attendances: [
+      {
+        attId: 0,
+        attPass: 0,
+        attendanceRecords: [
+          {
+            attId: 0,
+            confId: 0,
+            recId: 0,
+            recIn: "2022-02-08T07:11:07.272Z",
+            recOut: "2022-02-08T07:11:07.272Z",
+            stId: "string"
+          }
+        ],
+        confId: 0,
+        stId: "string"
+      }
+    ],
+    confAtt: 0,
+    confDes: "2022-02-08T07:11:07.272Z",
+    confEnd: "2022-02-08T07:11:07.272Z",
+    confId: 0,
+    confInit: "2022-02-08T07:11:07.272Z",
+    confStart: "2022-02-08T07:11:07.272Z",
+    confTitle: "string",
+    studyId: 0,
+    tchrId: "string"
+  }
+],
     })
-    const getConfTime = function(){
-      console.log("현재시간:",state.studyDate)
-      // store.dispatch("root/requestConfTime")
-      // .then(res =>{
-      //   state.conferList = res.data
-      //   getConfSTrecord();
-      // })
+    const getConfAttData = function(){
+      console.log("현재시간:", state.studyDate)
+      store.dispatch("root/requestConfAttData",{
+        studyId : parseInt(store.state.root.curClassId),
+        tchrId : store.state.root.userid,
+        targetDate: String(state.studyDate)
+      })
+      .then(res =>{
+        state.STTimeRecord = res.data
+
+
+      })
     }
-    const getConfSTrecord = function(){
-      // store.dispatch("root/requestConfStrecord")
-      // .then(res =>{
-      //   state.STTimeRecord = res.data
-      // })
+    const getConfSTrecord = function(conf){
+      state.conferList = conf
+      console.log("aaaa", conf)
+    }
+    const makereco = function(data){
+      var l_list = []
+      var r_list = []
+      for (var i =0; i<data.length; i++){
+        l_list.push(data[i].recIn)
+        r_list.push(data[i].recOut)
+      }
+      console.log(l_list, r_list)
     }
 
-    return { state, getConfTime }
+    return { state, getConfAttData, getConfSTrecord, makereco }
   },
   components: {
     "tchr-nav" : Tchr_nav,
