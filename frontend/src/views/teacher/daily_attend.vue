@@ -1,16 +1,43 @@
 <template>
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
-    <el-row>
-      <el-col :span="20" style="margin-left: 15vh">
-        <el-table :data="tableData" height="250" style="width: 100%">
-          <el-table-column prop="date" label="Date" width="180" />
-          <el-table-column prop="name" label="Name" width="180" />
-          <el-table-column prop="address" label="Address" />
-        </el-table>
-
-      </el-col>
-    </el-row>
+    <div class="demo-date-picker">
+      <div class="block">
+        <el-date-picker
+        class = "datepick"
+        v-model="state.studyDate"
+        type="String"
+        placeholder="수업일"
+        format="YYYY-MM-DD"
+        value-format="YYYY-MM-DD"
+        >
+        </el-date-picker>
+        <div class = "datepickbtn" @click ="getConfAttData">조회</div>
+        <div>
+          <el-select v-model="value" class="m-2" placeholder="Select" @change="getConfSTrecord">
+            <el-option
+              v-for="con in state.STTimeRecord"
+              :key="con.confId"
+              :label="con.confStart"
+              :value="con"
+            >
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+    </div>
+    <table border="1">
+      <th>학생이름</th>
+      <th>입장시간</th>
+      <th>퇴장시간</th>
+      <th>출결여부</th>
+      <tr v-for="tr in state.conferList.attendances" :key ="tr.confId">
+        <td>{{tr.stId}}</td>
+        <td><p v-for="Rin in tr.attendanceRecords" :key="Rin.attId">{{Rin.recIn}}</p></td>
+        <td><p v-for="Rin in tr.attendanceRecords" :key="Rin.attId">{{Rin.recOut}}</p></td>
+        <td>{{tr.attPass}}</td>
+      </tr>
+    </table>
     <start-video-dialog
       :open="videoDialogOpen"
       @closeVideoDialog="end"
@@ -18,7 +45,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -27,68 +54,87 @@ import StartVideoDialog from './startvideo-dialog.vue'
 
 export default {
   name: 'attend',
-  data:function(){
-    return {
-      tableData : [
-        {
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-08',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-06',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-07',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-      ],
+  setup() {
+    const router = useRouter()
+    const store = useStore()
+    const state = reactive({
+      studyDate : "",
+      chooseConfer: "",
       videoDialogOpen : false,
-    };
+      conferList: {},
+      attreco:[],
+      STTimeRecord:[
+  {
+    attendances: [
+      {
+        attId: 0,
+        attPass: 0,
+        attendanceRecords: [
+          {
+            attId: 0,
+            confId: 0,
+            recId: 0,
+            recIn: "2022-02-08T07:11:07.272Z",
+            recOut: "2022-02-08T07:11:07.272Z",
+            stId: "string"
+          }
+        ],
+        confId: 0,
+        stId: "string"
+      }
+    ],
+    confAtt: 0,
+    confDes: "2022-02-08T07:11:07.272Z",
+    confEnd: "2022-02-08T07:11:07.272Z",
+    confId: 0,
+    confInit: "2022-02-08T07:11:07.272Z",
+    confStart: "2022-02-08T07:11:07.272Z",
+    confTitle: "string",
+    studyId: 0,
+    tchrId: "string"
+  }
+],
+    })
+    const getConfAttData = function(){
+      console.log("현재시간:", state.studyDate)
+      store.dispatch("root/requestConfAttData",{
+        studyId : parseInt(store.state.root.curClassId),
+        tchrId : store.state.root.userid,
+        targetDate: String(state.studyDate)
+      })
+      .then(res =>{
+        state.STTimeRecord = res.data
+
+
+      })
+    }
+    const getConfSTrecord = function(conf){
+      state.conferList = conf
+      console.log("aaaa", conf)
+    }
+    const makereco = function(data){
+      var l_list = []
+      var r_list = []
+      for (var i =0; i<data.length; i++){
+        l_list.push(data[i].recIn)
+        r_list.push(data[i].recOut)
+      }
+      console.log(l_list, r_list)
+    }
+
+    return { state, getConfAttData, getConfSTrecord, makereco }
   },
   components: {
     "tchr-nav" : Tchr_nav,
     StartVideoDialog
   },
   methods:{
-    // moveClass: function(){
-    //   this.$router.push({name:"Tchr_ourclass"})
-    // },
-    // moveAttend: function(){
-    //   this.$router.push({name:"Tchr_attend"})
-    // },
-    // moveLesson: function(){
-    //   this.$router.push({name:"Tchr_Lesson"})
-    // },
     start (){
-      this.videoDialogOpen= true
+      state.videoDialogOpen= true
       console.log("열림")
     },
     end (){
-      this.videoDialogOpen= false
+      state.videoDialogOpen= false
     }
   }
 }
@@ -122,4 +168,21 @@ export default {
   margin: 20px;
   position: absolute;
 }
+.demo-date-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.demo-date-picker .block {
+  padding: 30px 0;
+  display: flex;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color-base);
+  flex: 1;
+}
+.demo-date-picker .block:last-child {
+  border-right: none;
+}
+
 </style>

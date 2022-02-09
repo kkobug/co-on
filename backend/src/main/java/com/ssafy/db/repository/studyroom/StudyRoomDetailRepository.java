@@ -33,7 +33,7 @@ public interface StudyRoomDetailRepository extends JpaRepository<StudyroomDetail
 //            "where sd.st_id = :stId\n"+
 //    List<Object[]> findStudyroomAndconbystId(String stId);
 
-    @Query(value = "select st_id, st_name, st_contact, st_birthday, st_school, st_img\n" +
+    @Query(value = "select st_id, st_name, st_email, st_contact, st_school, st_birthday, st_prof_name, st_origin_prof_name, st_prof_path\n" +
             "from student\n" +
             "where student.st_id in (select studyroom_detail.st_id\n" +
             "\t\t\t\tfrom studyroom_detail\n" +
