@@ -23,12 +23,14 @@
                   </div>
                 </div>
               </div>
-              <el-drawer v-model="drawerHW" direction="ttb">
+              <el-drawer v-model="drawerHW" direction="ttb" size="50%">
                 <template #title>
                   <h1 style="font-size: 25px; color: black">{{this.dashHw.title}}</h1>
                 </template>
-                <h3>내용: {{ this.dashHw.content }}</h3>
+                <h4>수업: {{ this.dashHw.className }}</h4>
+                <h4>내용: {{ this.dashHw.content }}</h4>
                 <h4>제출 기한: {{ this.dashHw.end }}</h4>
+                <h4>첨부파일: {{ this.dashHw.fileName }}</h4>
               </el-drawer>
             </el-card>
 
@@ -60,12 +62,13 @@
                   </div>
                 </div>
               </div>
-              <el-drawer v-model="drawer" direction="ttb">
+              <el-drawer v-model="drawer" direction="ttb" size="50%">
                 <template #title>
                   <h1 style="font-size: 25px; color: black">{{this.dashNotice.noticeTitle}}</h1>
                 </template>
-                <h3>내용: {{ this.dashNotice.noticeContent }}</h3>
+                <h4>내용: {{ this.dashNotice.noticeContent }}</h4>
                 <h4>제출 기한: {{ this.dashNotice.noticePosted }}</h4>
+                <h4>첨부 파일: {{ this.dashNotice.noticeFile[0].fileOriginName }}</h4>
               </el-drawer>
             </el-card>
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
@@ -222,18 +225,26 @@ export default {
     getHw(){
       this.$store.dispatch('root/requestGetHW',this.userId)
       .then(result =>{
-        console.log(result.data[0].hwPosted.substring(0, 16), 'getHw console')
         for (var j = 0; j < result.data.length; j++) {
+          if (this.events.length >= 3) {
+            break
+          }
           var hw = result.data[j];
-          this.events.push({
-            start: hw.hwPosted.substring(0,5)+hw.hwPosted.substring(6,16),//"2022-01-30 17:46:39.000000"
-            //end: hw.hwDeadline.substring(0,5)+hw.hwDeadline.substring(6,16),//"2022-02-18 12:00:00"
-            end: '2022-02-08 14:00',
-            title: hw.hwTitle + " - " + hw.studyroom.studyName,
-            content: hw.hwContent,
-            class: "health",
-            split: 2
-          });
+          if (hw.hwDeadline > this.today) {
+            this.events.push({
+              start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+              end: hw.hwDeadline.substring(0,16),
+              //start: hw.hwPosted.substring(0,5)+hw.hwPosted.substring(6,16),//"2022-01-30 17:46:39.000000"
+              //end: hw.hwDeadline.substring(0,5)+hw.hwDeadline.substring(6,16),//"2022-02-18 12:00:00"
+              title: hw.hwTitle,
+              className :hw.studyroom.studyName,
+              content: hw.hwContent,
+              teacher: hw.tchrId,
+              fileName: hw.hwFile[0].fileOriginName,
+              class: "health",
+              split: 2
+            });
+          }
         }
         // const hws=[];
         // for (var j = 0; j < this.events.length; j++) {
@@ -259,18 +270,24 @@ export default {
     getTchtHW(){
       this.$store.dispatch('root/requestTchrListHomework')
       .then(result =>{
-        console.log(result.data, 'getHw console')
         for (var j = 0; j < result.data.length; j++) {
+          if (this.events.length >= 3) {
+            break
+          }
           var hw = result.data[j];
-          this.events.push({
-            start: hw.hwPosted.substring(0,5)+hw.hwPosted.substring(6,16),//"2022-01-30 17:46:39.000000"
-            //end: hw.hwDeadline.substring(0,5)+hw.hwDeadline.substring(6,16),//"2022-02-18 12:00:00"
-            end: '2022-02-09 14:00',
-            title: hw.hwTitle + " - " + hw.studyroom.studyName,
-            content: hw.hwContent,
-            class: "health",
-            split: 2
-          });
+          if (hw.hwDeadline > this.today) {
+            this.events.push({
+              start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+              end: hw.hwDeadline.substring(0,16),
+              title: hw.hwTitle,
+              className :hw.studyroom.studyName,
+              content: hw.hwContent,
+              teacher: hw.tchrId,
+              fileName: hw.hwFile[0].fileOriginName,
+              class: "health",
+              split: 2
+            });
+          }
         }
         this.dashHw=this.events[0]
         console.log('선생님 과제:', this.dashHw)
@@ -282,6 +299,7 @@ export default {
     getProgress(){
       this.$store.dispatch('root/requestRateHW')
       .then(result => {
+        console.log(result.data[0], '과제 제출률 콘솔')
         this.doneHW = result.data[0][0]
         this.notyetHW = result.data[0][1]
         this.percentageHW = Math.floor(100 * result.data[0][0] / (result.data[0][0] + result.data[0][1]))
@@ -292,6 +310,16 @@ export default {
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
     this.userId = localvuex["root"]["userid"]
     this.tchrOrNot = localvuex["root"]["whetherTchr"]
+    const nowyear = new Date().getFullYear()
+    let nowmonth = new Date().getMonth()+1
+    let nowday = new Date().getDate()
+    if (nowmonth < 10){
+      nowmonth = '0' + nowmonth
+    }
+    if (nowday < 10) {
+      nowday = '0' + nowday
+    }
+    this.today=nowyear + '-' + nowmonth + '-' + nowday
     // this.setEventVal()
     if (this.tchrOrNot) {
       this.getNoticeTchr()
@@ -300,7 +328,6 @@ export default {
       this.getNotice()
       this.getHw()
     }
-    this.today=this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate()
     this.getProgress()
   },
   mounted() {
@@ -311,11 +338,9 @@ export default {
 
       let hwlabels = []
       let hwdata = []
-
       if (this.tchrOrNot) {
         this.$store.dispatch('root/requestTchrListHomework')
         .then(result => {
-          console.log(result.data, 'result.data 테스트')
           let hwClass = {}
           for (var j = 0; j < result.data.length; j++) {
             if (result.data[j].studyroom.studyName in hwClass) {
@@ -327,6 +352,10 @@ export default {
           hwlabels = Object.keys(hwClass)
           for (var key in hwClass) {
             hwdata.push(hwClass[key])
+          }
+          if (hwlabels.length == 0) {
+            hwlabels = ['과제없음']
+            hwdata = [0]
           }
 
           const ctx = document.getElementById('myChart');
@@ -364,6 +393,10 @@ export default {
           for (var key in hwClass) {
             hwdata.push(hwClass[key])
           }
+          if (hwlabels.length == 0) {
+            hwlabels = ['과제없음']
+            hwdata = [0]
+          }
 
           const ctx = document.getElementById('myChart');
             var myChart = new Chart(ctx, {
@@ -385,7 +418,6 @@ export default {
             },
           });
         })
-
       }
   },
 };

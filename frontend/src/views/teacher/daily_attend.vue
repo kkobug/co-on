@@ -1,14 +1,28 @@
 <template>
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
+    <div class="demo-date-picker">
+      <div class="block">
+        <el-date-picker class = "datepick" v-model="state.studyDate" type="date" placeholder="수업일">
+        </el-date-picker>
+        <div class = "datepickbtn" @click ="getConfTime">조회</div>
+        <div>
+          <select class = "timepick">
+            <option value="none">===============</option>
+            <option v-for="con in state.conferList" @click="getConfSTrecord" :key ="con.id" :value="con.Time"></option>
+          </select>
+        </div>
+      </div>
+    </div>
     <el-row>
       <el-col :span="20" style="margin-left: 15vh">
-        <el-table :data="tableData" height="250" style="width: 100%">
+        <el-table :data="state.STTimeRecord" height="250" style="width: 100%">
           <el-table-column prop="date" label="Date" width="180" />
           <el-table-column prop="name" label="Name" width="180" />
-          <el-table-column prop="address" label="Address" />
+          <el-table-column prop="entryTime" label="entryTime" width="180" />
+          <el-table-column prop="exitTime" label="exitTime" width="180" />
+          <el-table-column prop="status" label="status" />
         </el-table>
-
       </el-col>
     </el-row>
     <start-video-dialog
@@ -18,7 +32,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -27,68 +41,44 @@ import StartVideoDialog from './startvideo-dialog.vue'
 
 export default {
   name: 'attend',
-  data:function(){
-    return {
-      tableData : [
-        {
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-08',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-06',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-07',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-      ],
+  setup() {
+    const router = useRouter()
+    const store = useStore()
+    const state = reactive({
+      studyDate : "",
+      chooseConfer: "",
       videoDialogOpen : false,
-    };
+      conferList: {},
+      STTimeRecord:[],
+    })
+    const getConfTime = function(){
+      console.log("현재시간:",state.studyDate)
+      // store.dispatch("root/requestConfTime")
+      // .then(res =>{
+      //   state.conferList = res.data
+      //   getConfSTrecord();
+      // })
+    }
+    const getConfSTrecord = function(){
+      // store.dispatch("root/requestConfStrecord")
+      // .then(res =>{
+      //   state.STTimeRecord = res.data
+      // })
+    }
+
+    return { state, getConfTime }
   },
   components: {
     "tchr-nav" : Tchr_nav,
     StartVideoDialog
   },
   methods:{
-    // moveClass: function(){
-    //   this.$router.push({name:"Tchr_ourclass"})
-    // },
-    // moveAttend: function(){
-    //   this.$router.push({name:"Tchr_attend"})
-    // },
-    // moveLesson: function(){
-    //   this.$router.push({name:"Tchr_Lesson"})
-    // },
     start (){
-      this.videoDialogOpen= true
+      state.videoDialogOpen= true
       console.log("열림")
     },
     end (){
-      this.videoDialogOpen= false
+      state.videoDialogOpen= false
     }
   }
 }
@@ -122,4 +112,21 @@ export default {
   margin: 20px;
   position: absolute;
 }
+.demo-date-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.demo-date-picker .block {
+  padding: 30px 0;
+  display: flex;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color-base);
+  flex: 1;
+}
+.demo-date-picker .block:last-child {
+  border-right: none;
+}
+
 </style>
