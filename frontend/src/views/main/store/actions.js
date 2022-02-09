@@ -154,7 +154,18 @@ export function requestAddStudentInStudy ({ state }, payload) {
   let body = payload
   return $axios.post(url, body)
 }
-
+// 학생 삭제
+export function requestdelStudyStudent ({ state }, data) {
+  console.log('requestdelStudyStudent', data)
+  const url = `/studyRoomDetail/teacher/deletestudent`
+  return $axios.delete(url, {data})
+}
+// 우리반 조회
+export function requestTchrStlist ({ state }, data) {
+  console.log('requestTchrStlist', data)
+  const url = `/studyRoomDetail/teacher/studentList/${data}`
+  return $axios.get(url, {data})
+}
 // Notice
 // 공지사항 정보 조회
 export function requestgetNotice ({ state }, payload) {
@@ -311,11 +322,7 @@ export function requestConfInfo ({ state }, payload) {
   const url = `/conference/info?studyId=${payload['studyId']}&tchrId=${payload['tchrId']}`
   return $axios.get(url)
 }
-export function requestdelStudyStudent ({ state }, data) {
-  console.log('requestdelStudyStudent', data)
-  const url = `/studyRoomDetail/teacher/deletestudent`
-  return $axios.delete(url, {data})
-}
+
 // 출결 관련 api
 export function requestConfAttData ({ state }, payload) {
   console.log('requestConfAttData', payload)
