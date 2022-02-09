@@ -19,7 +19,7 @@
               <h4>파일목록</h4>
               <div v-for="nf in ntice.noticeFile" :key = nf.fileId>
                 <hr>
-                <a @click="downNoticeFile(nf.fileName, nf.filePath)">{{nf.fileOriginName}}</a>
+                <a @click="downNoticeFile(nf.fileName, nf.filePath, nf.fileOriginName)" class="filenamehover">💾 {{nf.fileOriginName}}</a>
               </div>
             </ul>
           </div>
@@ -39,6 +39,8 @@ import ModalView from "./notice_modal"
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import $axios from 'axios'
+
 export default {
   name: 'Tchr_notice',
   components:{
@@ -75,18 +77,14 @@ export default {
         getNoticeList();
       })
   }
-  const downNoticeFile = function(fileName, filePath) {
-    let win = window.open(
-      `localhost:8080/api/v1` +
-      `/notice/downolad-file?fileName=${fileName}&filePath=${filePath}`
-    )
-    win.location = `localhost:8080/api/v1` + `/notice/downolad-file?fileName=${fileName}&filePath=${filePath}`;
-    // store.dispatch('root/requestDownNoticeFile', {
-    //   fileName: fileName,
-    //   filePath: filePath,
-    // }).then(res=> {
-    //   console.log('hahaha')
-    // })
+  const downNoticeFile = function(fileName, filePath, fileOriginName) {
+    const fileurl = `http://localhost:8080/api/v1/notice/download-file?fileName=${fileName}&filePath=${filePath}`
+    const anchor = document.createElement('a')
+    anchor.href = fileurl
+    anchor.download = fileOriginName
+    document.body.appendChild(anchor)
+    anchor.click()
+    document.body.removeChild(anchor)
   }
   const closemodal = function(){
     state.isVisible = false
