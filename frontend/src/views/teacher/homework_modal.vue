@@ -11,14 +11,19 @@
         <label for="hwContent">설명: </label>
         <input v-model="state.form.hwContent" name="hwContent" type="text" style="height: 80%">
       </div>
-      <div class="demo-datetime-picker">
+      <div class="demo-date-picker">
         <div class="block">
+          <el-date-picker v-model="value1" type="date" placeholder="수업일">
+          </el-date-picker>
+        </div>
+        <div class="block">
+          <span class="demonstration">날짜를 선택해 주세요</span>
           <el-date-picker
-            v-model="state.form.hwDeadline"
-            type="datetime"
-            placeholder="최종 제출일"
-            name="hwDeadline"
-            format="YYYY/MM/DD hh:mm:ss"
+            v-model="value2"
+            type="date"
+            placeholder="수업일"
+            :disabled-date="disabledDate"
+            :shortcuts="shortcuts"
           >
           </el-date-picker>
         </div>

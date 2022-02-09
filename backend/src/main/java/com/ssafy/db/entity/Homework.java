@@ -39,4 +39,8 @@ public class Homework implements Serializable {
     @OneToMany
     @JoinColumn(name = "hw_id",insertable = false, updatable = false)
     private List<HomeworkFile> hwFile;
+
+    @OneToMany
+    @JoinColumn(name = "hw_id",insertable = false, updatable = false)
+    private List<StudentHomework> studentHomeworks;
 }

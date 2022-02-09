@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
+
 @Getter
 @Setter
 @ApiModel("TeacherFindID")
@@ -24,6 +26,12 @@ public class TeacherFindID {
     String tchrSchool;
     @ApiModelProperty(name="Teacher password")
     String tchrPassword;
+    @ApiModelProperty(name="tchr ProfName")
+    String tchrProfName;
+    @ApiModelProperty(name="tchr OriginProfName")
+    String tchrOriginProfName;
+    @ApiModelProperty(name="tchr ProfPath")
+    String tchrProfPath;
     public static TeacherFindID of(Teacher teacher){
         TeacherFindID res = new TeacherFindID();
         res.setTchrId(teacher.getTchrId());
@@ -33,6 +41,9 @@ public class TeacherFindID {
         res.setTchrBirthday(teacher.getTchrBirthday());
         res.setTchrSchool(teacher.getTchrSchool());
         res.setTchrPassword(teacher.getTchrPassword());
+        res.setTchrProfName(teacher.getTchrProfName());
+        res.setTchrOriginProfName(teacher.getTchrOriginProfName());
+        res.setTchrProfPath(teacher.getTchrProfPath());
         return res;
     }
 }

@@ -13,7 +13,8 @@
           <el-container class="profile-card">
             <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; color: white; border-radius: 20px">
               <p>
-                <el-avatar :size="80" fit:cover :src="require(`@/assets/images/기본프로필.jpg`)"></el-avatar>
+                <el-avatar :size="80" fit=cover :src="state.imgpath" v-if="state.imgpath"></el-avatar>
+                <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.jpg')" v-else></el-avatar>
               </p>
               <div>
                 <span><strong>{{ username }}</strong></span>
@@ -99,6 +100,7 @@ import ModalView from "../../teacher/tchr_create_lesson"
 import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import $axios from 'axios'
 
 export default {
   name: 'main-header',
@@ -135,7 +137,8 @@ export default {
         }
         return menuArray
       }),
-      activeIndex: computed(() => store.getters['root/getActiveMenuIndex'])
+      activeIndex: computed(() => store.getters['root/getActiveMenuIndex']),
+      imgpath: ''
     })
 
     if (state.activeIndex === -1) {
@@ -182,7 +185,23 @@ export default {
     }
     onMounted(()=>{
       if (store.state.root.whetherTchr){
+        $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
+        .then(res => {
+          if (res.data.tchrProfName) {
+            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
         getClass();
+      } else {
+        $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
+        .then(res => {
+          if (res.data.tchrProfName) {
+            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          }
+        })
       }
     })
 
