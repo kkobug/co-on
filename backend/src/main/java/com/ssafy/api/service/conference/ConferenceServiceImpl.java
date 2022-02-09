@@ -71,6 +71,7 @@ public class ConferenceServiceImpl implements ConferenceService{
     @Override
     public void enterConference(String stId, Integer confId) {
         Attendance attendance = findAttendance(stId, confId);
+        if (attendance != null) {
         LocalDateTime now = LocalDateTime.now();
 
         AttendanceRecord attendanceRecord = new AttendanceRecord();
@@ -80,6 +81,7 @@ public class ConferenceServiceImpl implements ConferenceService{
         attendanceRecord.setRecIn(now);
 
         attendanceRecordRepository.save(attendanceRecord);
+        }
     }
 
     @Override
