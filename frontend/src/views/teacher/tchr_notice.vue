@@ -19,7 +19,7 @@
               <h4>파일목록</h4>
               <div v-for="nf in ntice.noticeFile" :key = nf.fileId>
                 <hr>
-                <a class="filenamehover">💾 {{nf.fileOriginName}}</a>
+                <a @click="downNoticeFile(nf.fileName, nf.filePath)">{{nf.fileOriginName}}</a>
               </div>
             </ul>
           </div>
@@ -75,6 +75,19 @@ export default {
         getNoticeList();
       })
   }
+  const downNoticeFile = function(fileName, filePath) {
+    let win = window.open(
+      `localhost:8080/api/v1` +
+      `/notice/downolad-file?fileName=${fileName}&filePath=${filePath}`
+    )
+    win.location = `localhost:8080/api/v1` + `/notice/downolad-file?fileName=${fileName}&filePath=${filePath}`;
+    // store.dispatch('root/requestDownNoticeFile', {
+    //   fileName: fileName,
+    //   filePath: filePath,
+    // }).then(res=> {
+    //   console.log('hahaha')
+    // })
+  }
   const closemodal = function(){
     state.isVisible = false
     state.isupdate = false
@@ -84,7 +97,7 @@ export default {
   onMounted(()=>{
       getNoticeList();
     })
-    return {state, onMounted, getNoticeList, updatenotice, closemodal, delNotice}
+    return {state, onMounted, getNoticeList, updatenotice, closemodal, delNotice, downNoticeFile}
   },
 };
 </script>
