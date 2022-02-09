@@ -20,7 +20,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" :offset="1" style="overflow-x: hidden">
-              <el-avatar :size="80" :fit="cover" :src="state.imgpath"></el-avatar>
+              <el-avatar :size="80" :fit="cover" :src="state.imgpath" v-if="state.imgpath"></el-avatar>
+              <el-avatar :size="80" :fit="cover" :src="require('@/assets/images/기본프로필.jpg')" v-else></el-avatar>
               <!--
                 교사는 {tchrProfPath} + {tchrProfName}
                 학생은 {stProfPath} + {stProfName}
@@ -218,7 +219,9 @@ export default {
           state.form.school = res.data.tchrSchool
           state.form.birthday = res.data.tchrBirthday
           state.form.name = res.data.tchrName
-          state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          if (res.data.tchrProfName) {
+            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          }
         })
         .catch(err => {
           console.log(err.data)
@@ -233,7 +236,9 @@ export default {
           state.form.school = res.data.stSchool
           state.form.birthday = res.data.stBirthday
           state.form.name = res.data.stName
-          state.imgpath = require('@/assets/images/' + res.data.stProfPath + res.data.stProfName)
+          if (res.data.tchrProfName) {
+            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          }
         })
       }
     })
