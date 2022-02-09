@@ -20,7 +20,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6" :offset="1" style="overflow-x: hidden">
-              <el-avatar :size="80" :fit="cover" :src="require(`@/assets/images/기본프로필.jpg`)"></el-avatar>
+              <el-avatar :size="80" :fit="cover" :src="state.imgpath" v-if="state.imgpath"></el-avatar>
+              <el-avatar :size="80" :fit="cover" :src="require('@/assets/images/기본프로필.jpg')" v-else></el-avatar>
               <!--
                 교사는 {tchrProfPath} + {tchrProfName}
                 학생은 {stProfPath} + {stProfName}
@@ -28,7 +29,7 @@
                 > 우리반 보기에서도 수정바람
               -->
               <form action="#" id="profileForm" method="post" enctype="multipart/form-data">
-                <input type="file" accept="image/*" @change="updateProfileImage" style="margin-top: 15px" value="프로필 변경">
+                <input type="file" accept="image/*" @change="updateProfileImage" style="margin-top: 15px">
               </form>
             </el-col>
           </el-row>
@@ -78,7 +79,8 @@ export default {
         name: '',
         birthday: '',
         password: '',
-        align: 'left'
+        align: 'left',
+        filename: '',
       },
       rules: {
         id: [
@@ -90,6 +92,7 @@ export default {
       },
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px',
+      imgpath: '',
     })
     const store = useStore()
     const username = store.state.root.userid
@@ -216,6 +219,12 @@ export default {
           state.form.school = res.data.tchrSchool
           state.form.birthday = res.data.tchrBirthday
           state.form.name = res.data.tchrName
+          if (res.data.tchrProfName) {
+            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          }
+        })
+        .catch(err => {
+          console.log(err.data)
         })
       } else {
         $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
@@ -227,6 +236,9 @@ export default {
           state.form.school = res.data.stSchool
           state.form.birthday = res.data.stBirthday
           state.form.name = res.data.stName
+          if (res.data.tchrProfName) {
+            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          }
         })
       }
     })

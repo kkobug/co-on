@@ -25,7 +25,7 @@ public class AttendanceRecord {
     @Column(name = "rec_out")
     LocalDateTime recOut;
 
-    @ManyToOne
-    @JoinColumn(name = "conf_id", insertable = false, updatable = false)
-    private Conference conference;
+//    @ManyToOne
+//    @JoinColumn(name = "conf_id", insertable = false, updatable = false)
+//    private Conference conference;
 }

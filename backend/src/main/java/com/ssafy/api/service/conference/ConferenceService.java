@@ -5,6 +5,8 @@ import com.ssafy.db.entity.Attendance;
 import com.ssafy.db.entity.AttendanceRecord;
 import com.ssafy.db.entity.Conference;
 
+import java.util.List;
+
 public interface ConferenceService {
     // 화상 개설
     Conference createConference(ConferenceRegisterReq conferenceRegisterReq);
@@ -18,4 +20,6 @@ public interface ConferenceService {
     void enterConference(String stId, Integer confId);
 
     void exitConference(String stId, Integer confId);
+
+    List<Conference> findConferenceByDate(Integer studyId, String tchrId, String targetDate);
 }
