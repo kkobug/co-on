@@ -2,8 +2,10 @@ package com.ssafy.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.dialect.Ingres9Dialect;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,5 +20,8 @@ public class Attendance {
     @Column(name = "st_id", updatable = false)
     String stId;
     @Column(name = "att_pass")
-    Boolean attPass;
+    Integer attPass;
+    @OneToMany
+    @JoinColumn(name = "att_id",insertable = false, updatable = false)
+    private List<AttendanceRecord> attendanceRecords;
 }

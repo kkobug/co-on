@@ -98,7 +98,7 @@ public class TeacherServiceImpl implements TeacherService {
 			String sourceFileName = teacherProfilePutReq.getTchrProfFile().get(0).getOriginalFilename();
 			File destinationProfile;
 			String destinationProfileName;
-			String teacherprofPath = "D:/tchrprof/";
+			String teacherprofPath = "../frontend/src/assets/images/tchr_profiles/";
 
 			destinationProfileName = "tchr" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
 			destinationProfile = new File(teacherprofPath + destinationProfileName);
@@ -112,7 +112,7 @@ public class TeacherServiceImpl implements TeacherService {
 
 			teacher.setTchrProfName(destinationProfileName);
 			teacher.setTchrOriginProfName(sourceFileName);
-			teacher.setTchrProfPath(teacherprofPath);
+			teacher.setTchrProfPath("tchr_profiles/");
 			teacherRepository.save(teacher);
 			return teacher;
 		}
