@@ -290,13 +290,13 @@ export function requestGetHwlist ({ state }, payload) {
 // 수업 입실
 export function requestConfEnter ({ state }, payload) {
   console.log('requestConfEnter', payload)
-  const url = `/conference/conference/enter?stId=${payload['stId']}&confId=${payload['confId']}`
+  const url = `/conference/enter?stId=${payload['stId']}&confId=${payload['confId']}`
   return $axios.post(url)
 }
 //  수업 퇴실
 export function requestConfExit ({ state }, payload) {
   console.log('requestConfExit', payload)
-  const url = `/conference/conference/exit?stId=${payload['stId']}&confId=${payload['confId']}`
+  const url = `/conference/exit?stId=${payload['stId']}&confId=${payload['confId']}`
   return $axios.put(url)
 }
 // 수업 시작/종료/인정시간 입력
@@ -317,15 +317,10 @@ export function requestdelStudyStudent ({ state }, data) {
   return $axios.delete(url, {data})
 }
 // 출결 관련 api
-export function requestConfTime ({ state }, payload) {
-  console.log('requestConfTime', payload)
-  const url = ``
-  let body = payload
-  return $axios.get(url, body)
+export function requestConfAttData ({ state }, payload) {
+  console.log('requestConfAttData', payload)
+  const url = `/conference/infobydate?studyId=${payload['studyId']}&tchrId=${payload['tchrId']}&targetDate=${payload['targetDate']}`
+
+  return $axios.get(url)
 }
-export function requestConfStrecord ({ state }, payload) {
-  console.log('requestConfStrecord', payload)
-  const url = ``
-  let body = payload
-  return $axios.get(url, body)
-}
+
