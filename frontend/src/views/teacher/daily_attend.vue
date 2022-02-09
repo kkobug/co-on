@@ -33,8 +33,8 @@
       <th>출결여부</th>
       <tr v-for="tr in state.conferList.attendances" :key ="tr.confId">
         <td>{{tr.stId}}</td>
-        <td><p v-for="Rin in tr.attendanceRecords" :key="Rin.attId">{{Rin.recIn}}</p></td>
-        <td><p v-for="Rin in tr.attendanceRecords" :key="Rin.attId">{{Rin.recOut}}</p></td>
+        <td><p v-for="(Rin, index) in makereco(tr).start" :key="index">{{Rin}}</p></td>
+        <td><p v-for="(Rin, index) in makereco(tr).end" :key="index">{{Rin}}</p></td>
         <td>{{tr.attPass}}</td>
       </tr>
     </table>
@@ -115,11 +115,22 @@ export default {
     const makereco = function(data){
       var l_list = []
       var r_list = []
-      for (var i =0; i<data.length; i++){
-        l_list.push(data[i].recIn)
-        r_list.push(data[i].recOut)
+      for (var i =0; i<data.attendanceRecords.length; i++){
+        if (data.attendanceRecords[i].recIn){
+          l_list.push(data.attendanceRecords[i].recIn)
+        } else {
+          l_list.push("입장시간없음")
+        }
+        if (data.attendanceRecords[i].recOut){
+          r_list.push(data.attendanceRecords[i].recOut)
+        } else {
+          r_list.push("퇴장시간없음")
+        }
       }
-      console.log(l_list, r_list)
+      console.log("make", data, l_list, r_list)
+      const tlist = {start : l_list, end : r_list}
+      return tlist
+
     }
 
     return { state, getConfAttData, getConfSTrecord, makereco }
