@@ -146,6 +146,7 @@ export default {
     border-radius: 12px;
     text-align: center;
     color: #fff;
+    margin: auto;
     margin-top: 10px;
     margin-bottom: 2vh;
     cursor: pointer;

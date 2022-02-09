@@ -180,7 +180,7 @@ export default {
         })
     }
     const closeModal = function(){
-      getClass()
+      getClass();
       state.isVisible = false
     }
     onMounted(()=>{

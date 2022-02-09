@@ -12,13 +12,13 @@
         value-format="YYYY-MM-DD"
         >
         </el-date-picker>
-        <div class = "datepickbtn" @click ="getConfAttData">조회</div>
+        <el-button class = "datepickbtn" @click ="getConfAttData">조회</el-button>
         <div>
-          <el-select v-model="value" class="m-2" placeholder="Select" @change="getConfSTrecord">
+          <el-select v-model="value" class="m-2" placeholder="시간을 선택해주세요" @change="getConfSTrecord">
             <el-option
               v-for="con in state.STTimeRecord"
               :key="con.confId"
-              :label="con.confStart"
+              :label="con.confStart.substr(0, 19)"
               :value="con"
             >
             </el-option>
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <table border="1">
+    <table class= "recotable">
       <th>학생이름</th>
       <th>입장시간</th>
       <th>퇴장시간</th>
@@ -35,7 +35,8 @@
         <td>{{tr.stId}}</td>
         <td><p v-for="(Rin, index) in makereco(tr).start" :key="index">{{Rin}}</p></td>
         <td><p v-for="(Rin, index) in makereco(tr).end" :key="index">{{Rin}}</p></td>
-        <td>{{tr.attPass}}</td>
+        <td v-if="is_passible(tr.attPass)" class="ipa">O</td>
+        <td v-else class="inpa">X</td>
       </tr>
     </table>
     <start-video-dialog
@@ -74,24 +75,24 @@ export default {
             attId: 0,
             confId: 0,
             recId: 0,
-            recIn: "2022-02-08T07:11:07.272Z",
-            recOut: "2022-02-08T07:11:07.272Z",
-            stId: "string"
+            recIn: "",
+            recOut: "",
+            stId: "수업을 선택해주세요"
           }
         ],
         confId: 0,
-        stId: "string"
+        stId: "수업을 선택해주세요"
       }
     ],
     confAtt: 0,
-    confDes: "2022-02-08T07:11:07.272Z",
-    confEnd: "2022-02-08T07:11:07.272Z",
+    confDes: "",
+    confEnd: "",
     confId: 0,
-    confInit: "2022-02-08T07:11:07.272Z",
-    confStart: "2022-02-08T07:11:07.272Z",
-    confTitle: "string",
+    confInit: "",
+    confStart: "",
+    confTitle: "수업을 선택해주세요",
     studyId: 0,
-    tchrId: "string"
+    tchrId: "수업을 선택해주세요"
   }
 ],
     })
@@ -110,30 +111,33 @@ export default {
     }
     const getConfSTrecord = function(conf){
       state.conferList = conf
-      console.log("aaaa", conf)
     }
     const makereco = function(data){
       var l_list = []
       var r_list = []
       for (var i =0; i<data.attendanceRecords.length; i++){
         if (data.attendanceRecords[i].recIn){
-          l_list.push(data.attendanceRecords[i].recIn)
+          l_list.push(data.attendanceRecords[i].recIn.substr(0, 19))
         } else {
           l_list.push("입장시간없음")
         }
         if (data.attendanceRecords[i].recOut){
-          r_list.push(data.attendanceRecords[i].recOut)
+          r_list.push(data.attendanceRecords[i].recOut.substr(0, 19))
         } else {
           r_list.push("퇴장시간없음")
         }
       }
-      console.log("make", data, l_list, r_list)
       const tlist = {start : l_list, end : r_list}
       return tlist
-
     }
-
-    return { state, getConfAttData, getConfSTrecord, makereco }
+    const is_passible= function(data){
+      if (data){
+        return true
+      }else{
+        return false
+      }
+    }
+    return { state, getConfAttData, getConfSTrecord, makereco, is_passible }
   },
   components: {
     "tchr-nav" : Tchr_nav,
@@ -189,11 +193,44 @@ export default {
   padding: 30px 0;
   display: flex;
   text-align: center;
+  margin: auto;
   border-right: solid 1px var(--el-border-color-base);
-  flex: 1;
+  align-items: center;
+}
+.datepickbtn{
+  margin-right: 55vh;
+  margin-left: 1vh;
+  width: 50px;
+  height: 30px;
+  background-color: #6B3BE3;
+  color:#fff;
+  border-radius: 10px;
 }
 .demo-date-picker .block:last-child {
   border-right: none;
+}
+.recotable{
+  width: 120vh;
+  margin: auto;
+  background-color: #fff;
+  border-collapse: collapse;
+}
+.recotable>tr:nth-child(2n){
+  background-color: #c8bfdf;
+}
+.recotable th{
+  background-color: #6B3BE3;
+  color:#fff;
+  padding:12px;
+}
+.recotable p{
+  margin: 8px;
+}
+.ipa{
+  color: green;
+}
+.inpa{
+  color: red;
 }
 
 </style>

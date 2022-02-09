@@ -9,7 +9,7 @@
       </div>
       <div style="margin-bottom: 1vh;">
         <label for="noticeContent" style="display: inline-block; width: 10%; text-align: start">내용: </label>
-        <textarea v-model="state.form.noticeContent" name="noticeContent" id="" cols="41" rows="8" style="vertical-align: middle"></textarea>
+        <textarea v-model="state.form.noticeContent" name="noticeContent" id="" cols="41" rows="8" style="vertical-align: middle; resize: none;"></textarea>
       </div>
       <div style="margin-bottom: 1vh">
         <label for="noticeFile" style="display: inline-block; width: 10%; text-align: start">파일: </label>
@@ -150,6 +150,7 @@ export default {
     border-radius: 12px;
     text-align: center;
     color: #fff;
+    margin: auto;
     margin-top: 10px;
     margin-bottom: 2vh;
     cursor: pointer;

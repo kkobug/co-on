@@ -2,18 +2,19 @@
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
     <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="closemodal()"></ModalView>
-    <el-row :gutter="20" style="margin-top: 2vh">
-      <el-col :span="20" style="margin-left: 15vh">
+    <el-row :gutter="20" style="margin-top: 2vh;">
+      <el-col :span="20" style="margin-left: 15vh; min-height: 600px;">
         <el-button class="staddbtn" @click="state.isVisible=true">학생 추가</el-button>
-        <datepicker format="yyyy/MM/dd" v-model="state.testDate"></datepicker>
-        <button @click="test">test</button>
+        <!-- <datepicker format="yyyy/MM/dd" v-model="state.testDate"></datepicker>
+        <button @click="test">test</button> -->
         <div class="stud">
           <el-row>
             <el-col
             v-for="(o, index) in state.students"
             :key="o"
             :span="4"
-            :offset="index > 0 ? 2 : 0"
+            style="min-width: 150px;"
+            :offset="index > 0 ? 6 : 0"
             >
               <el-card :body-style="{ padding: '5px' }">
                 <img
@@ -199,7 +200,7 @@ export default {
     width: 10%;
     background-color: #6B3BE3;
     border-radius: 15px;
-    text-align: center;
+    text-align: end !important;
     color: #fff;
     margin-top: 10px;
     margin-bottom: 2vh;

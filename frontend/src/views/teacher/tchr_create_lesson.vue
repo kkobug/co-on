@@ -9,7 +9,7 @@
             <el-input v-model="state.form.title"></el-input>
           </el-form-item>
           <el-form-item label="내용:">
-            <el-input v-model="state.form.content" type="textarea"></el-input>
+            <el-input v-model="state.form.content" resize = none type="textarea"></el-input>
           </el-form-item>
         </el-form>
       </el-col>
@@ -48,8 +48,9 @@ export default {
           studyDesc : state.form.content,
           studyName: state.form.title,
           tchrId: store.state.root.userid})
-      console.log(state.form)
-      closeModal()
+      .then(res=>{
+        closeModal();
+      })
     }
     return {state, addclass, closeModal}
   },

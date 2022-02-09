@@ -16,8 +16,8 @@
               <el-col :span="6"><div class="grid-content ">{{classitem[3]}}</div></el-col>
               <el-col :span="6">
                 <!-- <div class="grid-content " @click="joinSession(classitem)">이동</div> -->
-                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">{{classitem[8]}} 이동</div>
-                <div v-else class="grid-content " @click="joinSession(classitem)">{{classitem[9]}} : 불가</div>
+                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">{{classitem[8].substr(0, 16)}} 이동</div>
+                <div v-else class="grid-content " @click="joinSession(classitem)">{{classitem[9].substr(0, 16)}} : 불가</div>
               </el-col>
             </el-row>
           </el-main>
