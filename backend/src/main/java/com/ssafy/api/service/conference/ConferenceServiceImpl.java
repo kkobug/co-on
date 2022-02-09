@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service("ConferenceService")
@@ -110,20 +111,18 @@ public class ConferenceServiceImpl implements ConferenceService{
                 if (confOut.isAfter(ed)) {
                     confOut = ed;
                 }
-                System.out.println("!!!!!!!!attendance time debug1");
-                System.out.println(record.getRecId());
-                System.out.println(Duration.between(confOut, confIn).getSeconds());
-                atttime += Duration.between(confOut, confIn).getSeconds();
+//                System.out.println(Duration.between(confOut, confIn).getSeconds());
+//                System.out.println(ChronoUnit.SECONDS.between(confOut, confIn));
+                atttime += Duration.between(confIn, confOut).getSeconds();
 
             }
-            System.out.println("!!!!!!!!attendance time debug2");
-            System.out.println(conference.getConfAtt());
-            System.out.println(atttime);
-            System.out.println(60L *conference.getConfAtt());
-            System.out.println("!!!!!!!!attendance time debug3");
+//            System.out.println(conference.getConfAtt());
+//            System.out.println(atttime);
+//            System.out.println(60L *conference.getConfAtt());
             if (60L *conference.getConfAtt() <= atttime) {
-                conference.setConfAtt(1);
-                conferenceRepository.save(conference);
+                Attendance attendance = findAttendance(stId, confId);
+                attendance.setAttPass(1);
+                attendanceRepository.save(attendance);
             }
             attendanceRecordRepository.save(attendanceRecord);
 
