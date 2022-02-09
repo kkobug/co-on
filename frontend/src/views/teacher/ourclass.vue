@@ -87,9 +87,7 @@ export default {
       console.log(String(state.testDate.getUTCFullYear()) + month + day)
     }
     const getStudentList = function(){
-      store.dispatch("root/requestGetClassStudyId", {
-        studyId :store.state.root.curClassId
-      })
+      store.dispatch("root/requestTchrStlist", store.state.root.curClassId)
       .then(res =>{
         state.students = res.data
       })
