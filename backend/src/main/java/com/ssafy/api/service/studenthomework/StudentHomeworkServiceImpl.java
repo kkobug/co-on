@@ -1,5 +1,6 @@
 package com.ssafy.api.service.studenthomework;
 
+import com.ssafy.api.request.studenthomework.StudentHomeworkPutReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkRegisterPostReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkUpdatePutReq;
 import com.ssafy.db.entity.StudentHomework;
@@ -135,5 +136,14 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     public StudentHomework findBystHwId(Integer stHwId) {
         StudentHomework studentHomework = studenthomeworkRepositorySupport.findBystHwId(stHwId).get();
         return studentHomework;
+    }
+
+    @Override
+    public void updateScore(StudentHomeworkPutReq studentHomeworkPutReq) {
+        int stHwId = studentHomeworkPutReq.getStHwId();
+        int stScore = studentHomeworkPutReq.getStHwscore();
+        StudentHomework studentHomework = findBystHwId(stHwId);
+        studentHomework.setStHwscore(stScore);
+        studenthomeworkRepository.save(studentHomework);
     }
 }

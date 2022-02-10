@@ -1,5 +1,6 @@
 package com.ssafy.api.service.studenthomework;
 
+import com.ssafy.api.request.studenthomework.StudentHomeworkPutReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkRegisterPostReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkUpdatePutReq;
 import com.ssafy.db.entity.StudentHomework;
@@ -25,5 +26,8 @@ public interface StudentHomeworkService {
 
 	// 공지사항 상세 조회
 	StudentHomework findBystHwId(Integer stHwId);
+
+	@Transactional
+	void updateScore(StudentHomeworkPutReq studentHomeworkPutReq);
 
 }
