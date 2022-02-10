@@ -14,8 +14,6 @@
         </el-form>
       </el-col>
     </el-row>
-    <!-- <div><label for="title">제목</label><input v-model="state.form.title" name="title" type="text"></div>
-    <div><label for="content">내용</label><textarea v-model="state.form.content" name="content" id="" cols="30" rows="10"></textarea></div> -->
     <el-button class="addbtn" @click="addclass">등록</el-button>
   </div>
 </template>
@@ -44,13 +42,19 @@ export default {
       context.emit('close-modal')
     }
     const addclass = function(){
-      store.dispatch('root/requestTchrCreateClass', {
-          studyDesc : state.form.content,
-          studyName: state.form.title,
-          tchrId: store.state.root.userid})
-      .then(res=>{
-        closeModal();
-      })
+      if(!state.form.title){
+        alert("제목을 넣어주세요")
+      } else if(!state.form.content){
+        alert("내용을 넣어주세요")
+      }else{
+        store.dispatch('root/requestTchrCreateClass', {
+            studyDesc : state.form.content,
+            studyName: state.form.title,
+            tchrId: store.state.root.userid})
+        .then(res=>{
+          closeModal();
+        })
+      }
     }
     return {state, addclass, closeModal}
   },

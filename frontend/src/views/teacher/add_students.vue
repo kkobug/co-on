@@ -20,7 +20,6 @@
 import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import StartVideoDialog from './startvideo-dialog.vue'
 export default {
   name: 'ModalView',
   setup(props, context) {
@@ -34,15 +33,21 @@ export default {
       context.emit('close-modal')
     }
     const addstudent = function(){
-      console.log(state.studId, store.state.root.studyId, store.state.root.userid)
-      store.dispatch('root/requestAddStudentInStudy', {
-        stId : state.studId,
-        studyId: store.state.root.curClassId,
-        tchrId: store.state.root.userid
-      })
-      .then(res=>{
-        closeModal()
-      })
+      if(!state.studId){
+        alert("아이디를 넣어주세요")
+      }else{
+        store.dispatch('root/requestAddStudentInStudy', {
+          stId : state.studId,
+          studyId: store.state.root.curClassId,
+          tchrId: store.state.root.userid
+        })
+        .then(res=>{
+          closeModal()
+        })
+        .catch(error=>{
+          alert(error+" (학생 아이디가 존재하는지 확인해주세요!) ")
+        })
+      }
     }
     return {state, addstudent, closeModal}
   },

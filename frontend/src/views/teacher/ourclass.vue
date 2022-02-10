@@ -26,6 +26,8 @@
               </el-card>
             </el-col>
           </el-row>
+          <div v-if="state.isdata" style="width:80%; height:300px; margin:auto; font-size:40px; color:grey; text-align:center; padding-top:20vh;"> 학생을 추가해주세요 </div>
+
         </div>
 
       </el-col>
@@ -65,6 +67,7 @@ export default {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
+      isdata:true,
       isVisible :false,
       students:[],
       testDate: new Date(),
@@ -86,8 +89,12 @@ export default {
     const getStudentList = function(){
       store.dispatch("root/requestTchrStlist", store.state.root.curClassId)
       .then(res =>{
-        console.log("aaaaaaaaaaaaaaa", res.data)
         state.students = res.data
+        if(res.data.length){
+          state.isdata=false
+        }else{
+          state.isdata=true
+        }
       })
     }
     const delstudent = function(studentID){
