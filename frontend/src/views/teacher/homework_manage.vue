@@ -27,6 +27,8 @@
               </div>
             </el-col>
             <el-col :span="1"><el-button @click="ent(item.stId)">D</el-button></el-col>
+            <el-col :span="1"><el-input class="grid-content bg-content" v-model="item.stId"/></el-col>
+            <el-col :span="1"><el-button @click="ent">D</el-button></el-col>
           </el-row>
         </el-scrollbar>
       </el-tab-pane>

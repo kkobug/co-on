@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("studyRoomDetailService")
 public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
@@ -21,11 +22,15 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
 
     @Override
     public void addStudent(StudyRoomAddPostReq studyRoomAddPostReq) {
-        StudyroomDetail detail = new StudyroomDetail();
-        detail.setStudyId(studyRoomAddPostReq.getStudyId());
-        detail.setTchrId(studyRoomAddPostReq.getTchrId());
-        detail.setStId(studyRoomAddPostReq.getStId());
-        studyRoomDetailRepository.save(detail);
+        Optional<StudyroomDetail> exist_check = studyRoomdetailRepositorySupport.findStudyroomByIds(studyRoomAddPostReq.getStId(), studyRoomAddPostReq.getStudyId());
+
+        if (!exist_check.isPresent()) {
+            StudyroomDetail detail = new StudyroomDetail();
+            detail.setStudyId(studyRoomAddPostReq.getStudyId());
+            detail.setTchrId(studyRoomAddPostReq.getTchrId());
+            detail.setStId(studyRoomAddPostReq.getStId());
+            studyRoomDetailRepository.save(detail);
+        }
     }
 
     @Override
