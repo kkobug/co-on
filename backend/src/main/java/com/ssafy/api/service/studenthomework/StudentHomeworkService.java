@@ -4,6 +4,7 @@ import com.ssafy.api.request.studenthomework.StudentHomeworkPutReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkRegisterPostReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkUpdatePutReq;
 import com.ssafy.db.entity.StudentHomework;
+import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -29,5 +30,7 @@ public interface StudentHomeworkService {
 
 	@Transactional
 	void updateScore(StudentHomeworkPutReq studentHomeworkPutReq);
+
+	Resource loadAsResource(String fileName, String filePath);
 
 }
