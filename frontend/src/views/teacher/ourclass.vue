@@ -5,8 +5,6 @@
     <el-row :gutter="20" style="margin-top: 2vh;">
       <el-col :span="20" style="margin-left: 15vh; min-height: 600px;">
         <el-button class="staddbtn" @click="state.isVisible=true">학생 추가</el-button>
-        <!-- <datepicker format="yyyy/MM/dd" v-model="state.testDate"></datepicker>
-        <button @click="test">test</button> -->
         <div class="stud">
           <el-row>
             <el-col
@@ -16,11 +14,9 @@
             style="min-width: 150px;"
             :offset="index > 0 ? 6 : 0"
             >
-              <el-card :body-style="{ padding: '5px' }">
-                <img
-                  src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                  class="image"
-                />
+              <el-card :body-style="{ padding: '5px' }" style="border-radius:5px;">
+                <el-avatar :size="80" fit=cover :src="require('@/assets/images/' + o[8] + o[6])" v-if="o[6]"></el-avatar>
+                <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.jpg')" v-else></el-avatar>
                 <div style="padding: 14px">
                   <span>{{o[1]}}</span>
                   <div class="bottom">
@@ -90,6 +86,7 @@ export default {
     const getStudentList = function(){
       store.dispatch("root/requestTchrStlist", store.state.root.curClassId)
       .then(res =>{
+        console.log("aaaaaaaaaaaaaaa", res.data)
         state.students = res.data
       })
     }
@@ -112,15 +109,6 @@ export default {
     return {state, test, getStudentList, onMounted, delstudent, closemodal}
   },
   methods:{
-    // moveClass: function(){
-    //   this.$router.push({name:"Tchr_ourClass"})
-    // },
-    // moveAttend: function(){
-    //   this.$router.push({name:"Tchr_attend"})
-    // },
-    // moveLesson: function(){
-    //   this.$router.push({name:"Tchr_Lesson"})
-    // },
     start (){
       this.videoDialogOpen= true
       console.log("열림")
@@ -129,17 +117,6 @@ export default {
       this.videoDialogOpen= false
     }
   },
-  // created:function(){
-  //   this.$store.dispatch('root/requestGetStudent')
-  //     .then(result=> {
-  //         this.studentlist = result.data
-  //         console.log(result.data)
-
-  //       })
-  //       .catch(function (err) {
-  //         alert(err)
-  //       })
-  // }
 }
 
 </script>

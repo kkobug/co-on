@@ -236,8 +236,8 @@ export default {
           state.form.school = res.data.stSchool
           state.form.birthday = res.data.stBirthday
           state.form.name = res.data.stName
-          if (res.data.tchrProfName) {
-            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          if (res.data.stProfName) {
+            state.imgpath = require('@/assets/images/' + res.data.stProfPath + res.data.stProfName)
           }
         })
       }

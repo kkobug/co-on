@@ -33,14 +33,14 @@
       <th>출결여부</th>
       <tr v-for="tr in state.conferList.attendances" :key ="tr.confId">
         <td>{{tr.stId}}</td>
-        <td><p v-for="(Rin, index) in makereco(tr).start" :key="index">{{Rin}}</p></td>
-        <td><p v-for="(Rin, index) in makereco(tr).end" :key="index">{{Rin}}</p></td>
+        <td><p v-for="(Rin, index) in makereco(tr).rstart" :key="index">{{Rin}}</p></td>
+        <td><p v-for="(Rin, index) in makereco(tr).rend" :key="index">{{Rin}}</p></td>
         <td v-if="is_passible(tr.attPass)" class="ipa">O</td>
         <td v-else class="inpa">X</td>
       </tr>
     </table>
     <start-video-dialog
-      :open="videoDialogOpen"
+      :open="state.videoDialogOpen"
       @closeVideoDialog="end"
     ></start-video-dialog>
   </div>
@@ -54,7 +54,7 @@ import Tchr_nav from './tchr_nav.vue'
 import StartVideoDialog from './startvideo-dialog.vue'
 
 export default {
-  name: 'attend',
+  name: 'daily_attend',
   setup() {
     const router = useRouter()
     const store = useStore()
@@ -105,8 +105,6 @@ export default {
       })
       .then(res =>{
         state.STTimeRecord = res.data
-
-
       })
     }
     const getConfSTrecord = function(conf){
@@ -127,7 +125,7 @@ export default {
           r_list.push("퇴장시간없음")
         }
       }
-      const tlist = {start : l_list, end : r_list}
+      const tlist = {rstart : l_list, rend : r_list}
       return tlist
     }
     const is_passible= function(data){
@@ -137,21 +135,19 @@ export default {
         return false
       }
     }
-    return { state, getConfAttData, getConfSTrecord, makereco, is_passible }
+    const start = function(){
+      console.log("열림")
+      state.videoDialogOpen= true
+    }
+    const end = function(){
+      state.videoDialogOpen= false
+    }
+    return { state, start, end, getConfAttData, getConfSTrecord, makereco, is_passible }
   },
   components: {
     "tchr-nav" : Tchr_nav,
-    StartVideoDialog
+    StartVideoDialog,
   },
-  methods:{
-    start (){
-      state.videoDialogOpen= true
-      console.log("열림")
-    },
-    end (){
-      state.videoDialogOpen= false
-    }
-  }
 }
 
 </script>

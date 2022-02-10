@@ -190,17 +190,18 @@ export default {
           if (res.data.tchrProfName) {
             state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
           }
+          getClass();
         })
         .catch(err => {
           console.log(err)
         })
-        getClass();
       } else {
         $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
         .then(res => {
-          if (res.data.tchrProfName) {
-            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          if (res.data.stProfName) {
+            state.imgpath = require('@/assets/images/' + res.data.stProfPath + res.data.stProfName)
           }
+          getClass();
         })
       }
     })
