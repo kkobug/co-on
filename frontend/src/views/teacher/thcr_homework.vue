@@ -19,7 +19,7 @@
               <h4>파일목록</h4>
               <div v-for="hf in hw.hwFile" :key=hf.fileId>
                 <hr>
-                <a class="filenamehover" @click="downHWFile(nf.fileName, nf.filePath, nf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
+                <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
               </div>
               <!-- <li v-for="nf in notice.File" :key = "nf.id"></li>
               <li>파일1</li> -->
@@ -84,7 +84,7 @@ export default {
       state.props_data={}
     }
     const downHWFile = function(fileName, filePath, fileOriginName) {
-      const fileurl = `여기고쳐야함!!`
+      const fileurl = `http://localhost:8080/api/v1/homework/download-file?fileName=${fileName}&filePath=${filePath}`
       const anchor = document.createElement('a')
       anchor.href = fileurl
       anchor.download = fileOriginName
