@@ -53,7 +53,7 @@ public class NoticeServiceImpl implements NoticeService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
-                String noticePath = "../frontend/src/assets/notice/";
+                String noticePath = "./assets/notice/";
 
                 destinationNoticeFileName = "tchr" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
@@ -67,8 +67,7 @@ public class NoticeServiceImpl implements NoticeService{
 
                 newFile.setFileName(destinationNoticeFileName);
                 newFile.setFileOriginName(sourceFileName);
-
-                newFile.setFilePath("notice/");
+                newFile.setFilePath(noticePath);
 
                 noticeFileRepository.save(newFile);
             }
@@ -104,7 +103,7 @@ public class NoticeServiceImpl implements NoticeService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
-                String noticePath = "../frontend/src/assets/notice/";
+                String noticePath = "./assets/notice/";
 
                 destinationNoticeFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
@@ -118,7 +117,7 @@ public class NoticeServiceImpl implements NoticeService{
 
                 newFile.setFileName(destinationNoticeFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath("notice/");
+                newFile.setFilePath(noticePath);
                 noticeFileRepository.save(newFile);
             }
         }

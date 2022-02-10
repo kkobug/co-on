@@ -51,7 +51,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
-                String noticePath = "../frontend/src/assets/homework/student_homework/";
+                String noticePath = "./assets/homework/student_homework/";
 
                 destinationNoticeFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
@@ -65,7 +65,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
 
                 newFile.setFileName(destinationNoticeFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath("homework/student_homework/");
+                newFile.setFilePath(noticePath);
                 studentHomeworkFileRepository.save(newFile);
 
             }

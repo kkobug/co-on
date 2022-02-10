@@ -60,7 +60,7 @@ public class HomeworkServiceImpl implements HomeworkService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationHomeworkFile;
                 String destinationHomeworkFileName;
-                String homeworkPath = "../frontend/src/assets/homework/teacher_homework/";
+                String homeworkPath = "./assets/homework/teacher_homework/";
 
                 destinationHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
@@ -74,7 +74,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 
                 newFile.setFileName(destinationHomeworkFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath("homework/teacher_homework/");
+                newFile.setFilePath(homeworkPath);
                 homeworkFileRepository.save(newFile);
             }
         }
@@ -143,7 +143,7 @@ public class HomeworkServiceImpl implements HomeworkService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationHomeworkFile;
                 String destinationHomeworkFileName;
-                String homeworkPath = "../frontend/src/assets/homework/teacher_homework/";
+                String homeworkPath = "./assets/homework/teacher_homework/";
 
                 destinationHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
@@ -157,7 +157,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 
                 newFile.setFileName(destinationHomeworkFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath("homework/teacher_homework/");
+                newFile.setFilePath(homeworkPath);
                 homeworkFileRepository.save(newFile);
             }
         }
