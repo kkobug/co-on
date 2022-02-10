@@ -29,7 +29,7 @@ public class StudyRoomdetailRepositorySupport {
 //    }
 
     @Transactional
-    public void deleteStudyRoomDetail(int studyId, String stId){
+    public void deleteStudyRoomDetail(Integer studyId, String stId){
         jpaQueryFactory.delete(qStudyroomDetail).where(qStudyroomDetail.studyId.eq(studyId).and(qStudyroomDetail.stId.eq(stId))).execute();
     }
 }

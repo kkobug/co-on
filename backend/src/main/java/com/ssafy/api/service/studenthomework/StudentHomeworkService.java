@@ -19,7 +19,7 @@ public interface StudentHomeworkService {
 	@Transactional
 	void deleteStudentHomework(Integer hwId, String stId);
 	//학생 과제 수정
-	StudentHomework StudentHomeworkupdateNotice(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq);
+//	StudentHomework updateStudentHomework(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq);
 
     //학생 과제 조회 (학생ID에 따라, 과제ID에 따라, 학생 조회)
 	List<StudentHomework> findStudentHomeworkByHwId(Integer hwId);

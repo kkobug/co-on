@@ -19,7 +19,7 @@
             <el-col :span="13">
               <div class="grid-content bg-content" v-if="item.stHwFile[0]">
                 <div v-for="file in item.stHwFile" :key="file">
-                  <a @click="downNoticeFile(file.fileName, file.filePath, file.fileOriginName)" class="filenamehover">💾 {{file.fileOriginName}}</a>&nbsp;
+                  <a @click="downStHomeworkFile(file.fileName, file.filePath, file.fileOriginName)" class="filenamehover">💾 {{file.fileOriginName}}</a>&nbsp;
                 </div>
               </div>
               <div class="grid-content bg-content" v-else>
@@ -71,8 +71,8 @@ export default {
         alert(err)
       })
     }
-    const downNoticeFile = function(fileName, filePath, fileOriginName) {
-      const fileurl = `http://localhost:8080/api/v1/notice/download-file?fileName=${fileName}&filePath=${filePath}`
+    const downStHomeworkFile = function(fileName, filePath, fileOriginName) {
+      const fileurl = `http://localhost:8080/api/v1/studenthomework/download-file?fileName=${fileName}&filePath=${filePath}`
       const anchor = document.createElement('a')
       anchor.href = fileurl
       anchor.download = fileOriginName
@@ -83,7 +83,7 @@ export default {
     const ent = function(a){
       console.log(a)
     }
-    return {Hws, activeName, getHw, ent, downNoticeFile}
+    return {Hws, activeName, getHw, ent, downStHomeworkFile}
   },
   methods:{
     start (){this.videoDialogOpen= true},

@@ -60,9 +60,9 @@ public class HomeworkServiceImpl implements HomeworkService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationHomeworkFile;
                 String destinationHomeworkFileName;
-                String homeworkPath = "D:/";
+                String homeworkPath = "../frontend/src/assets/homework/teacher_homework/";
 
-                destinationHomeworkFileName = "stu" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
 
                 destinationHomeworkFile.getParentFile().mkdirs();
@@ -74,7 +74,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 
                 newFile.setFileName(destinationHomeworkFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(homeworkPath);
+                newFile.setFilePath("homework/teacher_homework/");
                 homeworkFileRepository.save(newFile);
             }
         }
@@ -143,9 +143,9 @@ public class HomeworkServiceImpl implements HomeworkService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationHomeworkFile;
                 String destinationHomeworkFileName;
-                String homeworkPath = "D:/";
+                String homeworkPath = "../frontend/src/assets/homework/teacher_homework/";
 
-                destinationHomeworkFileName = "stu" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
 
                 destinationHomeworkFile.getParentFile().mkdirs();
@@ -157,7 +157,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 
                 newFile.setFileName(destinationHomeworkFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(homeworkPath);
+                newFile.setFilePath("homework/teacher_homework/");
                 homeworkFileRepository.save(newFile);
             }
         }

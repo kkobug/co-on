@@ -22,7 +22,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Service("StudentHomeworkService")
 public class StudentHomeworkServiceImpl implements StudentHomeworkService{
@@ -38,13 +37,11 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     @Override
     public StudentHomework createStudentHomework(StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq) {
         StudentHomework studenthomework = studenthomeworkRepositorySupport.findByIds(studentHomeworkRegisterPostReq.getStId(), studentHomeworkRegisterPostReq.getHwId());
-//        studenthomework.setHwId(studentHomeworkRegisterPostReq.getHwId());
-//        studenthomework.setStudyId(studentHomeworkRegisterPostReq.getStudyId());
-//        studenthomework.setTchrId(studentHomeworkRegisterPostReq.getTchrId());
-//        studenthomework.setStId(studentHomeworkRegisterPostReq.getStId());
         studenthomework.setStHwcontent(studentHomeworkRegisterPostReq.getStHwContent());
         studenthomework.setStHwposted(LocalDateTime.now());
-        studenthomeworkRepository.save(studenthomework);
+        System.out.println("!!!!!!!!!!!!!createStu service in!!!!!!!!!!!!!");
+        System.out.println(studentHomeworkRegisterPostReq.getStHwId());
+        studentHomeworkFileRepository.deleteStudentHomeworkFileByStHwId(studentHomeworkRegisterPostReq.getStHwId());
         if (!studentHomeworkRegisterPostReq.getStHwFile().get(0).isEmpty()){
             List<MultipartFile> sthwFile = studentHomeworkRegisterPostReq.getStHwFile();
             for (MultipartFile multipartFile : sthwFile) {
@@ -54,10 +51,9 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
-                String noticePath = "D:/";
-                LocalDateTime nowtime = LocalDateTime.now();
+                String noticePath = "../frontend/src/assets/homework/student_homework/";
 
-                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationNoticeFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
 
                 destinationNoticeFile.getParentFile().mkdirs();
@@ -69,11 +65,12 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
 
                 newFile.setFileName(destinationNoticeFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(noticePath);
+                newFile.setFilePath("homework/student_homework/");
                 studentHomeworkFileRepository.save(newFile);
 
             }
         }
+        studenthomeworkRepository.save(studenthomework);
         return studenthomework;
     }
 
@@ -82,50 +79,46 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
         studenthomeworkRepositorySupport.deleteStudentHomeworkByStHwIdAndStId(hwId, stId);
     }
 
-    @Override
-    public StudentHomework StudentHomeworkupdateNotice(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) {
-        StudentHomework studenthomework = new StudentHomework();
-        studenthomework.setStHwId(StudentHomeworkUpdatePutReq.getStHwId());
-//        studenthomework.setHwId(StudentHomeworkUpdatePutReq.getHwId());
-//        studenthomework.setStudyId(StudentHomeworkUpdatePutReq.getStudyId());
-//        studenthomework.setTchrId(StudentHomeworkUpdatePutReq.getTchrId());
-//        studenthomework.setStId(StudentHomeworkUpdatePutReq.getStId());
-        studenthomework.setStHwcontent(StudentHomeworkUpdatePutReq.getStHwContent());
-        studenthomework.setStHwposted(LocalDateTime.now());
-        if (!Objects.equals(StudentHomeworkUpdatePutReq.getStHwId(), stHwId)) return studenthomework;
-        studenthomeworkRepository.save(studenthomework);
-        studentHomeworkFileRepository.deleteStudentHomeworkFileByStHwId(stHwId);
-        if (!StudentHomeworkUpdatePutReq.getStHwFile().get(0).isEmpty()){
-            List<MultipartFile> sthwFile = StudentHomeworkUpdatePutReq.getStHwFile();
-            for (MultipartFile multipartFile : sthwFile) {
-                StudentHomeworkFile newFile = new StudentHomeworkFile();
-                newFile.setStHwId(studenthomework.getStHwId());
-
-                String sourceFileName = multipartFile.getOriginalFilename();
-                File destinationNoticeFile;
-                String destinationNoticeFileName;
-                String noticePath = "D:/";
-                LocalDateTime nowtime = LocalDateTime.now();
-
-                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
-                destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
-
-                destinationNoticeFile.getParentFile().mkdirs();
-                try {
-                    multipartFile.transferTo(destinationNoticeFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                newFile.setFileName(destinationNoticeFileName);
-                newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(noticePath);
-                studentHomeworkFileRepository.save(newFile);
-
-            }
-        }
-        return studenthomework;
-    }
+//    @Override
+//    public StudentHomework updateStudentHomework(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) {
+//        StudentHomework studenthomework = new StudentHomework();
+//        studenthomework.setStHwId(StudentHomeworkUpdatePutReq.getStHwId());
+//        studenthomework.setStHwcontent(StudentHomeworkUpdatePutReq.getStHwContent());
+//        studenthomework.setStHwposted(LocalDateTime.now());
+//        if (!Objects.equals(StudentHomeworkUpdatePutReq.getStHwId(), stHwId)) return studenthomework;
+//        studenthomeworkRepository.save(studenthomework);
+//        studentHomeworkFileRepository.deleteStudentHomeworkFileByStHwId(stHwId);
+//        if (!StudentHomeworkUpdatePutReq.getStHwFile().get(0).isEmpty()){
+//            List<MultipartFile> sthwFile = StudentHomeworkUpdatePutReq.getStHwFile();
+//            for (MultipartFile multipartFile : sthwFile) {
+//                StudentHomeworkFile newFile = new StudentHomeworkFile();
+//                newFile.setStHwId(studenthomework.getStHwId());
+//
+//                String sourceFileName = multipartFile.getOriginalFilename();
+//                File destinationNoticeFile;
+//                String destinationNoticeFileName;
+//                String noticePath = "D:/";
+//                LocalDateTime nowtime = LocalDateTime.now();
+//
+//                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+//                destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
+//
+//                destinationNoticeFile.getParentFile().mkdirs();
+//                try {
+//                    multipartFile.transferTo(destinationNoticeFile);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                newFile.setFileName(destinationNoticeFileName);
+//                newFile.setFileOriginName(sourceFileName);
+//                newFile.setFilePath(noticePath);
+//                studentHomeworkFileRepository.save(newFile);
+//
+//            }
+//        }
+//        return studenthomework;
+//    }
 
     @Override
     public List<StudentHomework> findStudentHomeworkByHwId(Integer hwId) {
