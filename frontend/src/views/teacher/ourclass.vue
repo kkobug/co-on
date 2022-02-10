@@ -1,32 +1,37 @@
 <template>
-  <div>
+  <div >
     <tchr-nav @startvideo="start"></tchr-nav>
     <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="closemodal()"></ModalView>
-    <el-row :gutter="20" style="margin-top: 2vh;">
-      <el-col :span="20" style="margin-left: 15vh; min-height: 600px;">
+    <el-row :gutter="24" style="margin: auto; margin-top: 2vh;">
+      <el-col :span="20" style="margin: auto; min-height: 600px;">
         <el-button class="staddbtn" @click="state.isVisible=true">학생 추가</el-button>
-        <div class="stud">
-          <el-row>
+        <div :span="24" class="stud">
+          <el-row style="width: 100%" :gutter="24">
             <el-col
-            v-for="(o, index) in state.students"
+            v-for="o in state.students"
             :key="o"
             :span="4"
-            style="min-width: 150px;"
-            :offset="index > 0 ? 6 : 0"
             >
-              <el-card :body-style="{ padding: '5px' }" style="border-radius:5px;">
+              <el-card :body-style="{ padding: '5px' }" style="border-radius:5px; width: 100%; position:relative; padding: 7px;">
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/' + o[8] + o[6])" v-if="o[6]"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.jpg')" v-else></el-avatar>
                 <div style="padding: 14px">
                   <span>{{o[1]}}</span>
-                  <div class="bottom">
-                    <el-button type="text" class="button" @click="delstudent(o[1])">삭제</el-button>
-                  </div>
                 </div>
+                <div>
+                  <el-form>
+                    <p>마일리지</p>
+                    <el-form-item style="margin:5px;">
+                      <el-input v-model="state.mil" ></el-input>
+                    </el-form-item>
+                    <el-button class="staddbtn" style="min-width:80px;" @click="addmil()">추가</el-button>
+                  </el-form>
+                </div>
+                <el-button type="text" class="button" @click="delstudent(o[1])">X</el-button>
               </el-card>
             </el-col>
+            <div v-if="state.isdata" style="width:80%; height:300px; margin:auto; font-size:40px; color:grey; text-align:center; padding-top:20vh;"> 학생을 추가해주세요 </div>
           </el-row>
-          <div v-if="state.isdata" style="width:80%; height:300px; margin:auto; font-size:40px; color:grey; text-align:center; padding-top:20vh;"> 학생을 추가해주세요 </div>
 
         </div>
 
@@ -70,6 +75,7 @@ export default {
       isdata:true,
       isVisible :false,
       students:[],
+      mil:[],
       testDate: new Date(),
       classtitle: computed(() => store.getters['root/getStudyName']),
       classId : computed(() => store.getters['root/getStudyId']),
@@ -171,6 +177,11 @@ export default {
 .button {
   padding: 0;
   min-height: auto;
+  position: absolute;
+  right: 5px;
+  top: 3px;
+  z-index:10;
+  color:black;
 }
 
 .image {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog custom-class="login-dialog" title="ID 찾기" v-model="state.dialogVisible" @close="handleClose">
+    <el-dialog custom-class="login-dialog" title="과제 제출" v-model="state.dialogVisible" @close="handleClose">
       <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
         <el-form-item prop="id" label="내용" :label-width="state.formLabelWidth" >
           <el-input v-model="state.hwname" autocomplete="off"></el-input>

@@ -5,10 +5,10 @@
     <el-row>
       <el-col :span="20" :offset="2">
         <el-form>
-          <el-form-item label="제목:">
+          <el-form-item label="교과명:">
             <el-input v-model="state.form.title"></el-input>
           </el-form-item>
-          <el-form-item label="내용:">
+          <el-form-item label="교과내용:">
             <el-input v-model="state.form.content" resize = none type="textarea"></el-input>
           </el-form-item>
         </el-form>
