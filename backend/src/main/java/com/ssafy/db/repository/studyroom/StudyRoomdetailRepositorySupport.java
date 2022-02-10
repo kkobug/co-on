@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class StudyRoomdetailRepositorySupport {
@@ -27,6 +28,10 @@ public class StudyRoomdetailRepositorySupport {
 //        List<Tuple> list = jpaQueryFactory.select(qStudent.stId,qStudent.stName).from(qStudent).fetch();
 //        return list;
 //    }
+
+    public Optional<StudyroomDetail> findStudyroomByIds(String stId, Integer studyId) {
+        return Optional.ofNullable(jpaQueryFactory.select(qStudyroomDetail).where(qStudyroomDetail.studyId.eq(studyId).and(qStudyroomDetail.stId.eq(stId))).fetchOne());
+    }
 
     @Transactional
     public void deleteStudyRoomDetail(int studyId, String stId){

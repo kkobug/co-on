@@ -25,7 +25,7 @@
                 파일이 없습니다
               </div>
             </el-col>
-            <el-col :span="1"><el-input class="grid-content bg-content"/></el-col>
+            <el-col :span="1"><el-input class="grid-content bg-content" v-model="item.stHwScore"/></el-col>
             <el-col :span="1"><el-button @click="ent">D</el-button></el-col>
           </el-row>
         </el-scrollbar>
