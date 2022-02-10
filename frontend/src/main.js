@@ -29,6 +29,8 @@ import {
   faDesktop,
   faFan,
   faSpinner,
+  faRunning,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons'
 library.add(
   faUserSecret,
@@ -46,6 +48,8 @@ library.add(
   faDesktop,
   faFan,
   faSpinner,
+  faRunning,
+  faUsers
   )
 
 

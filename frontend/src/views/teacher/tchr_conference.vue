@@ -1,9 +1,9 @@
 <template>
-  <div id="main-container" class="container">
+  <div class="container">
 		<div id="session">
-      <!-- video -->
       <el-row>
-        <el-col :span="24-this.chatOn">
+        <!-- video -->
+        <el-col id="set_container" :span="24-this.chatOn">
           <div id="session-header">
             <h1 id="session-title">{{ this.nowClass.confTitle }}</h1>
             <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
@@ -33,13 +33,18 @@
             <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
               <font-awesome-icon icon="door-open" />
             </el-button>
+            <el-button circle v-if="this.mainStreamManager" @click="viewAll" value="View all">
+              <font-awesome-icon icon="users" />
+            </el-button>
           </div>
-          <div id="main-video" class="col-md-6">
-            <user-video :stream-manager="mainStreamManager"/>
+          <div id="sub-container" class="center_setting">
+            <user-video id="sub-video" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+            <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
           </div>
-          <div id="video-container" class="col-md-6">
-            <user-video id="sub" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-            <user-video id="sub" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+          <div class="center_setting">
+            <div id="main-container">
+              <user-video id="main-video" :stream-manager="mainStreamManager"/>
+            </div>
           </div>
         </el-col>
         <!-- video -->
@@ -150,6 +155,7 @@ export default {
   },
 
   methods: {
+
     unLoadEvent: function (event) {
       if (this.canLeaveSite) return;
 
@@ -257,7 +263,7 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: this.micOn,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: this.camOn,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480',  // The resolution of your video
+							resolution: '1920x1080',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false       	// Whether to mirror your local video or not
@@ -363,6 +369,10 @@ export default {
         this.chatOn = 0
       }
     },
+
+    viewAll(){
+      this.mainStreamManager=undefined
+    }
 	},
   created:function(){
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
@@ -378,6 +388,38 @@ export default {
 }
 </script>
 <style lang="scss">
+.center_setting{
+  display: flex;
+  flex-wrap: wrap;
+  // flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+#set_container{
+  width:100vw;
+  height:100vh;
+}
+#session-header {
+  // height: auto;
+}
+#sub-container {
+  // width: 20% !important;
+  // width: 15% ;
+  // height: auto;
+}
+#main-container {
+  width: 65%;
+  // width: calc(36%*1920/1080) ;
+  // height: 36%;
+}
+#sub-video {
+  width: 15% !important;
+  // height: auto;
+}
+#main-video{
+  // height: 100%;
+  // width: 50% ;
+}
 .common-layout {
   .el-header,
   .el-footer {
@@ -641,10 +683,5 @@ input {
 
 .chatComponentLight ::-webkit-scrollbar-thumb {
   background-color: #eeeeee !important;
-}
-
-#sub {
-  width: 20%;
-  height: auto;
 }
 </style>

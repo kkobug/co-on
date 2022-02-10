@@ -41,13 +41,13 @@
             </el-menu-item>
             <el-menu-item v-if="state.conference" @click="MoveConference" id="desk">
               <font-awesome-icon icon="spinner" style="font-size:25px" class="fa-spin"/>
-                <p>On-Air</p>
+              <p>On-Air</p>
             </el-menu-item>
             <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
           </div>
-
           <el-menu-item class="mt-auto" style="bottom: 0; width: 240px; position : fixed" @click="logout">
-            <span >로그아웃</span>
+            <font-awesome-icon icon="running" style="font-size:25px"/>&nbsp;
+            <p>로그아웃</p>
           </el-menu-item>
         </el-menu>
       </el-col>
