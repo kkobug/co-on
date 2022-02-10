@@ -158,19 +158,10 @@ public class NoticeController {
 			@RequestParam
 					String filePath
 	) throws IOException {
-		System.out.println("11111111111111111111111");
-		Path path = Paths.get(filePath + fileName);
-		System.out.println("22222222222222222222222");
-		String contentType = Files.probeContentType(path);
-		System.out.println("33333333333333333333333");
-		HttpHeaders headers = new HttpHeaders();
-		System.out.println("44444444444444444444444");
-		headers.setContentDisposition(ContentDisposition.builder("attachment").filename(fileName, StandardCharsets.UTF_8).build());
-		System.out.println("55555555555555555555555");
-		headers.add(HttpHeaders.CONTENT_TYPE, contentType);
-		System.out.println("66666666666666666666666");
-		Resource resource = new InputStreamResource(Files.newInputStream(path));
-		System.out.println("77777777777777777777777");
-		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+		Resource file = noticeService.loadAsResource(fileName, filePath);
+
+		return ResponseEntity.ok().header(
+				HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\""
+		).body(file);
 	}
 }

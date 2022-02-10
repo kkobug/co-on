@@ -9,11 +9,16 @@ import com.ssafy.db.repository.notice.NoticeRepository;
 import com.ssafy.db.repository.notice.NoticeRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -138,4 +143,21 @@ public class NoticeServiceImpl implements NoticeService{
         return noticeRepository.findNoticeBystId(stId);
     }
 
+    @Override
+    public Resource loadAsResource(String fileName, String filePath) {
+        try {
+            System.out.println("loadAsResource run!!!!!!!!!!!!!!");
+            Path file = Paths.get(filePath).resolve(fileName);
+            System.out.println(file);
+            System.out.println("file run!!!!!!!!!!!!!!");
+            System.out.println(file.toUri());
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

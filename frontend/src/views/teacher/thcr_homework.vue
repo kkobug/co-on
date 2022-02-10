@@ -9,22 +9,24 @@
         <div class="li-left li-sec">
           <div class ="li-title li-item">{{hw.hwTitle}}</div>
           <div class ="li-lesson li-item">{{hw.hwContent}}</div>
-          <div class ="li-lesson li-item">{{hw.hwFile}}</div>
+          <!-- <div class ="li-lesson li-item">{{hw.hwFile}}</div> -->
         </div>
         <div class="li-right li-sec">
           <div class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</div>
           <div class ="li-item filebar">
             첨부파일
             <ul>
+              <h4>파일목록</h4>
               <div v-for="hf in hw.hwFile" :key=hf.fileId>
-                <a>{{hf.fileOriginName}}</a>
+                <hr>
+                <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
               </div>
               <!-- <li v-for="nf in notice.File" :key = "nf.id"></li>
               <li>파일1</li> -->
             </ul>
           </div>
           <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
-          <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)">삭제</el-button>
+          <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)" style="color: red">삭제</el-button>
         </div>
       </div>
     </div>
@@ -81,11 +83,20 @@ export default {
       state.isupdate = false
       state.props_data={}
     }
+    const downHWFile = function(fileName, filePath, fileOriginName) {
+      const fileurl = `http://localhost:8080/api/v1/homework/download-file?fileName=${fileName}&filePath=${filePath}`
+      const anchor = document.createElement('a')
+      anchor.href = fileurl
+      anchor.download = fileOriginName
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+    }
     onMounted(()=>{
       gethomeworksList();
     })
 
-    return {state, onMounted, closemodal, updatehomework, delhomeworks, gethomeworksList}
+    return {state, onMounted, closemodal, updatehomework, delhomeworks, gethomeworksList, downHWFile}
   },
 };
 </script>
@@ -121,12 +132,18 @@ export default {
     position: absolute;
     z-index: 10;
     min-width: 100px;
-    background-color: #4267D6;
+    background-color: #6B3BE3;
     transition: height;
     transition-duration: 0.5s;
     color: #fff;
+    border-radius: 10px;
+    margin-top: 5px;
   }
   .filebar:hover>ul {
     height: auto;
+  }
+  .filenamehover {
+    cursor: pointer;
+    padding: 10px;
   }
 </style>
