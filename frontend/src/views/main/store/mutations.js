@@ -40,3 +40,6 @@ export function changeClassName (state, className) {
 export function changeClassId (state, classId) {
   state.curClassId = classId
 }
+export function changeTchrConference (state, conference) {
+  state.TchrConference = conference
+}

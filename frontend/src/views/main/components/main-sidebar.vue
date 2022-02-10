@@ -39,6 +39,10 @@
             <el-menu-item @click="state.isVisible=true">
               <span>수업개설</span>
             </el-menu-item>
+            <el-menu-item v-if="state.conference" @click="MoveConference" id="desk">
+              <font-awesome-icon icon="spinner" style="font-size:25px" class="fa-spin"/>
+                <p>On-Air</p>
+            </el-menu-item>
             <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
           </div>
 
@@ -51,6 +55,18 @@
   </div>
 </template>
 <style scoped>
+#desk{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 50px;
+  background-color: red !important;
+  color: white !important;
+  font-weight: bold;
+  font-size: 25px;
+  border: solid white 4px;
+  border-radius: 20px;
+}
 .profile-card {
   padding: auto;
   justify-content: center;
@@ -138,7 +154,8 @@ export default {
         return menuArray
       }),
       activeIndex: computed(() => store.getters['root/getActiveMenuIndex']),
-      imgpath: ''
+      imgpath: '',
+      conference: '',
     })
 
     if (state.activeIndex === -1) {
@@ -170,6 +187,13 @@ export default {
       router.push({
         name: 'Tchr_main',
       })
+      getConference()
+    }
+    const MoveConference = function(){
+      store.commit('root/changeTchrConference', state.conference)
+      router.push({
+        name: 'Tchr_conference',
+      })
     }
     const getClass = function(){
       store.dispatch('root/requestGetTchrClass', {
@@ -177,6 +201,23 @@ export default {
         .then(res =>{
           store.state.root.classList = res.data
           state.tchr_scha = res.data
+        })
+    }
+    const getConference = function(){
+      store.dispatch('root/requestConfInfo', {
+            studyId: store.state.root.curClassId,
+            tchrId: store.state.root.userid})
+        .then(res =>{
+          if (res.data){
+            if (new Date(res.data.confStart) <new Date()){
+              if (new Date() < new Date(res.data.confEnd)){
+                state.conference=res.data
+              }
+            }
+          }else {
+            state.conference=''
+            console.log('화상 없음')
+          }
         })
     }
     const closeModal = function(){
@@ -191,6 +232,7 @@ export default {
             state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
           }
           getClass();
+          getConference()
         })
         .catch(err => {
           console.log(err)
@@ -206,7 +248,7 @@ export default {
       }
     })
 
-    return { state, username, whetherTchr, onMounted, MoveLesson, menuSelect, logout, goMypage, getClass, closeModal}
+    return { state, username, whetherTchr, onMounted, MoveLesson, MoveConference, menuSelect, logout, goMypage, getClass, closeModal}
   }
 }
 </script>
