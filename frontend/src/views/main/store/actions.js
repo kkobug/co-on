@@ -102,7 +102,7 @@ export function requestUpdateStProfImg ({ state }, payload) {
   console.log('requestUpdateStProfImg', payload.get('stId'))
   const url = `/student/profile`
   let body = payload
-  return $axios.put(url, body)
+  return $axios.post(url, body)
 }
 // StudyRoom
 // 수업 개설

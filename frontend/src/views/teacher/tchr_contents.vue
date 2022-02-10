@@ -10,7 +10,7 @@
       </el-col>
     </el-row>
     <start-video-dialog
-      :open="videoDialogOpen"
+      :open="state.videoDialogOpen"
       @closeVideoDialog="end"
     ></start-video-dialog>
   </div>
@@ -69,15 +69,6 @@ export default {
     return {state, delClass}
   },
   methods:{
-    // moveClass: function(){
-    //   this.$router.push({name:"Tchr_ourclass"})
-    // },
-    // moveAttend: function(){
-    //   this.$router.push({name:"Tchr_attend"})
-    // },
-    // moveLesson: function(){
-    //   this.$router.push({name:"Tchr_Lesson"})
-    // },
     start (){
       this.videoDialogOpen= true
       console.log("열림")

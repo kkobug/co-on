@@ -20,6 +20,7 @@
 import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import StartVideoDialog from './startvideo-dialog.vue'
 export default {
   name: 'ModalView',
   setup(props, context) {
