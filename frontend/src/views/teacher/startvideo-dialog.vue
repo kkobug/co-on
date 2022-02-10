@@ -71,7 +71,11 @@ export default {
         conferenceName: (new Date()).toISOString().substring(0,19)+' - '+store.getters['root/getStudyName'],
         classId : computed(() => store.getters['root/getStudyId']),
         id: store.state.root.userid,
+
       },
+      startTime: '',
+      endTime: '',
+      atdTime: '',
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px',
     })
@@ -83,20 +87,24 @@ export default {
       emit('closeVideoDialog')
     }
     const EnrollClass = function () {
-      store.dispatch('root/requestConfCreate',
-        {
-          confAtt:state.atdTime.substring(0,2)*60+state.atdTime.substring(3,5)*1,
-          confEnd:state.endTime,
-          confStart:state.startTime,
-          confTitle:state.form.conferenceName,
-          studyId:state.form.classId,
-          tchrId:state.form.id
-        }).then(function (result) {
-          console.log('등록')
-          handleClose()
-        }).catch(function (err) {
-          alert(err)
-        })
+      if(!state.atdTime||!state.endTime||!state.startTime){
+        alert("시간을 모두 입력해주세요")
+      }else{
+        store.dispatch('root/requestConfCreate',
+          {
+            confAtt:state.atdTime.substring(0,2)*60+state.atdTime.substring(3,5)*1,
+            confEnd:state.endTime,
+            confStart:state.startTime,
+            confTitle:state.form.conferenceName,
+            studyId:state.form.classId,
+            tchrId:state.form.id
+          }).then(function (result) {
+            console.log('등록')
+            handleClose()
+          }).catch(function (err) {
+            alert(err)
+          })
+        }
       }
     onMounted(()=>{
       // state.classId=store.getters['root/getStudyId']

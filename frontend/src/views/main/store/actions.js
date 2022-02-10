@@ -52,6 +52,7 @@ export function requestLookupstudent ({ state }, payload) {
 }
 // 학생 회원 정보 수정
 export function requestModifyStudent ({ state }, payload) {
+  console.log(payload)
   const url = '/student/modify'
   let body = payload
   return $axios.put(url, body)

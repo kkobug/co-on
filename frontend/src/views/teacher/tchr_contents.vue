@@ -3,14 +3,14 @@
     <tchr-nav @startvideo="start"></tchr-nav>
     <el-row :gutter="20">
       <el-col :span="20" style="margin-left: 15vh">
-          <h1 style="text-align:center; margin-top: 1vh; font-size: 30px">{{ state.classId }}반의 수업 {{ state.classtitle }}</h1>
+          <h1 style="text-align:center; margin-top: 1vh; font-size: 30px">{{ state.classtitle }}</h1>
           <homework></homework>
           <notice></notice>
           <el-button class="sub_btn" @click ="delClass">수업 삭제</el-button>
       </el-col>
     </el-row>
     <start-video-dialog
-      :open="state.videoDialogOpen"
+      :open="videoDialogOpen"
       @closeVideoDialog="end"
     ></start-video-dialog>
   </div>

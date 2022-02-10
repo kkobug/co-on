@@ -98,60 +98,66 @@ export default {
     const username = store.state.root.userid
 
     const clickModify = function () {
-      if (store.state.root.whetherTchr) {
-        store.dispatch('root/requestModifyTeacher', {
-            tchr_contact: state.form.contact,
-            tchr_email: state.form.email,
-            tchr_id: state.form.id,
-            tchr_name: state.form.name,
-            tchr_school: state.form.school,
-            tchr_birthday: state.form.birthday,
-            tchr_password: state.form.password
-        })
-        .then(function (result) {
-          alert('정보 수정(교사) 성공')
-          $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
-          .then(res => {
-            console.log(res.data)
-            state.form.id = res.data.tchrId
-            state.form.email = res.data.tchrEmail
-            state.form.contact = res.data.tchrConcat
-            state.form.school = res.data.tchrSchool
-            state.form.birthday = res.data.tchrBirthday
-            state.form.name = res.data.tchrName
-            state.form.password = ''
+      if (!state.form.id){
+        alert("아이디를 입력해주세요")
+      }else if(!state.form.password){
+        alert("비밀번호를 입력해주세요")
+      }else{
+        if (store.state.root.whetherTchr) {
+          store.dispatch('root/requestModifyTeacher', {
+              tchr_contact: state.form.contact,
+              tchr_email: state.form.email,
+              tchr_id: state.form.id,
+              tchr_name: state.form.name,
+              tchr_school: state.form.school,
+              tchr_birthday: state.form.birthday,
+              tchr_password: state.form.password
           })
-        })
-        .catch(function (err) {
-          alert(err)
-        })
-      } else {
-        store.dispatch('root/requestModifyStudent', {
-            st_contact: state.form.contact,
-            st_email: state.form.email,
-            st_id: state.form.id,
-            st_name: state.form.name,
-            st_school: state.form.school,
-            st_birthday: state.form.birthday,
-            st_password: state.form.password
-        })
-        .then(function (result) {
-          alert('정보 수정(학생) 성공')
-          $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
-          .then(res => {
-            console.log(res.data)
-            state.form.id = res.data.stId
-            state.form.email = res.data.stEmail
-            state.form.contact = res.data.stConcat
-            state.form.school = res.data.stSchool
-            state.form.birthday = res.data.stBirthday
-            state.form.name = res.data.stName
-            state.form.password = ''
+          .then(function (result) {
+            alert('정보 수정(교사) 성공')
+            $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
+            .then(res => {
+              console.log(res.data)
+              state.form.id = res.data.tchrId
+              state.form.email = res.data.tchrEmail
+              state.form.contact = res.data.tchrConcat
+              state.form.school = res.data.tchrSchool
+              state.form.birthday = res.data.tchrBirthday
+              state.form.name = res.data.tchrName
+              state.form.password = ''
+            })
           })
-        })
-        .catch(function (err) {
-          alert(err)
-        })
+          .catch(function (err) {
+            alert(err+" (비밀번호를 확인해주세요) ")
+          })
+        } else {
+          store.dispatch('root/requestModifyStudent', {
+              st_contact: state.form.contact,
+              st_email: state.form.email,
+              st_id: state.form.id,
+              st_name: state.form.name,
+              st_school: state.form.school,
+              st_birthday: state.form.birthday,
+              st_password: state.form.password
+          })
+          .then(function (result) {
+            alert('정보 수정(학생) 성공')
+            $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
+            .then(res => {
+              console.log(res.data)
+              state.form.id = res.data.stId
+              state.form.email = res.data.stEmail
+              state.form.contact = res.data.stConcat
+              state.form.school = res.data.stSchool
+              state.form.birthday = res.data.stBirthday
+              state.form.name = res.data.stName
+              state.form.password = ''
+            })
+          })
+          .catch(function (err) {
+            alert(err+" (비밀번호를 확인해주세요) ")
+          })
+        }
       }
     }
 

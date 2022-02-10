@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog custom-class="login-dialog" title="ID 찾기" v-model="state.dialogVisible" @close="handleClose">
+    <el-dialog custom-class="login-dialog" title="과제 제출" v-model="state.dialogVisible" @close="handleClose">
       <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
         <el-form-item prop="id" label="내용" :label-width="state.formLabelWidth" >
           <el-input v-model="state.hwname" autocomplete="off"></el-input>
@@ -8,13 +8,7 @@
         <form action="#" id="stHwFile" method="post" enctype="multipart/form-data">
           <input type="file" multiple="multiple" @change="addFile" name="stHwFile" id="stHwFile">
         </form>
-
       </el-form>
-      <!-- <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="date" label="Date" width="180" />
-        <el-table-column prop="name" label="Name" width="180" />
-        <el-table-column prop="address" label="Address" />
-      </el-table> -->
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="submit">제출</el-button>
@@ -67,12 +61,7 @@ import { useRouter } from 'vue-router'
 export default {
   name: 'hw-dialog',
 
-  // props: {
-  //   open: {
-  //     type: Boolean,
-  //     default: false
-  //   }
-  // },
+
   props: ['props_hw', 'open'],
   setup(props, { emit }) {
     const router = useRouter()
@@ -99,10 +88,9 @@ export default {
     })
 
     const handleClose = function () {
-      // state.form.email = ''
-      // state.form.name = ''
       state.iddata = {}
       state.hwname = ""
+      state.stHwFile= null
       emit('closeHwDialog')
     }
 
@@ -113,20 +101,24 @@ export default {
     }
 
     const submit = function () {
-      var stHwFormData = new FormData(document.querySelector('#stHwFile'))
-      stHwFormData.append('hwId', state.iddata.hwId)
-      stHwFormData.append('stHwContent', state.hwname)
-      stHwFormData.append('stId', store.state.root.userid)
-      stHwFormData.append('studyId', state.iddata.studyId)
-      stHwFormData.append('tchrId', state.iddata.tchrId)
-      store.dispatch('root/requestaddsthw', stHwFormData)
-      .then(function (result) {
-        alert('제출 성공')
-        handleClose()
-      })
-      .catch(function (err) {
-        alert(err)
-      })
+      if(!state.hwname || !state.stHwFile){
+        alert("제출되는 내용을 확인해주세요")
+      }else{
+        var stHwFormData = new FormData(document.querySelector('#stHwFile'))
+        stHwFormData.append('hwId', state.iddata.hwId)
+        stHwFormData.append('stHwContent', state.hwname)
+        stHwFormData.append('stId', store.state.root.userid)
+        stHwFormData.append('studyId', state.iddata.studyId)
+        stHwFormData.append('tchrId', state.iddata.tchrId)
+        store.dispatch('root/requestaddsthw', stHwFormData)
+        .then(function (result) {
+          alert('제출 성공')
+          handleClose()
+        })
+        .catch(function (err) {
+          alert(err)
+        })
+      }
     onMounted(() => {
       state.iddata = props.props_hw
     })
