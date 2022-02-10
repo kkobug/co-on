@@ -331,4 +331,11 @@ export function requestConfAttData ({ state }, payload) {
 
   return $axios.get(url)
 }
+//마일리지
+export function requestPlusMil ({ state }, payload) {
+  console.log('requestPlusMil', payload)
+  const url = `/studyRoomDetail/teacher/score`
+  let body = payload
+  return $axios.put(url, body)
+}
 

@@ -8,12 +8,12 @@
         <div :span="24" class="stud">
           <el-row style="width: 100%" :gutter="24">
             <el-col
-            v-for="o in state.students"
+            v-for="(o, index) in state.students"
             :key="o"
             :span="4"
             >
               <el-card :body-style="{ padding: '5px' }" style="border-radius:5px; width: 100%; position:relative; padding: 7px;">
-                <el-avatar :size="80" fit=cover :src="require('@/assets/images/' + o[8] + o[6])" v-if="o[6]"></el-avatar>
+                <el-avatar :size="80" fit=cover :src="require('@/assets/images/' + o[9] + o[7])" v-if="o[7]"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.jpg')" v-else></el-avatar>
                 <div style="padding: 14px">
                   <span>{{o[1]}}</span>
@@ -22,12 +22,12 @@
                   <el-form>
                     <p>마일리지</p>
                     <el-form-item style="margin:5px;">
-                      <el-input v-model="state.mil" ></el-input>
+                      <el-input v-model="state.mil[index]" >{{o[6]}}</el-input>
                     </el-form-item>
-                    <el-button class="staddbtn" style="min-width:80px;" @click="addmil()">추가</el-button>
+                    <el-button class="staddbtn" style="min-width:80px;" @click="addmil(o[0], index)">추가</el-button>
                   </el-form>
                 </div>
-                <el-button type="text" class="button" @click="delstudent(o[1])">X</el-button>
+                <el-button type="text" class="button" @click="delstudent(o[0])">X</el-button>
               </el-card>
             </el-col>
             <div v-if="state.isdata" style="width:80%; height:300px; margin:auto; font-size:40px; color:grey; text-align:center; padding-top:20vh;"> 학생을 추가해주세요 </div>
@@ -75,7 +75,7 @@ export default {
       isdata:true,
       isVisible :false,
       students:[],
-      mil:[],
+      mil:{},
       testDate: new Date(),
       classtitle: computed(() => store.getters['root/getStudyName']),
       classId : computed(() => store.getters['root/getStudyId']),
@@ -95,6 +95,7 @@ export default {
     const getStudentList = function(){
       store.dispatch("root/requestTchrStlist", store.state.root.curClassId)
       .then(res =>{
+        console.log(res.data)
         state.students = res.data
         if(res.data.length){
           state.isdata=false
@@ -116,10 +117,17 @@ export default {
       state.isVisible=false
       getStudentList();
     }
+    const addmil = function(id, pl){
+      store.dispatch('root/requestPlusMil',{
+        point: state.mil[pl],
+        stId: id,
+        studyId: store.state.root.curClassId
+      })
+    }
     onMounted(()=>{
       getStudentList();
     })
-    return {state, test, getStudentList, onMounted, delstudent, closemodal}
+    return {state, test, addmil, getStudentList, onMounted, delstudent, closemodal}
   },
   methods:{
     start (){
