@@ -2,6 +2,7 @@ package com.ssafy.api.service.studyroom;
 
 import com.ssafy.api.request.studyroom.StudyRoomAddPostReq;
 import com.ssafy.api.request.studyroomdetail.StudyRoomDetailDeleteReq;
+import com.ssafy.api.request.studyroomdetail.StudyRoomDetailPutReq;
 import com.ssafy.db.entity.Studyroom;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface StudyRoomDetailService {
     void deleteStudent(StudyRoomDetailDeleteReq studyRoomDetailDeleteReq);
 
     List<Object[]> findStudentbystudyId(int studyId);
+    void updateScore(StudyRoomDetailPutReq studyRoomDetailPutReq);
 }

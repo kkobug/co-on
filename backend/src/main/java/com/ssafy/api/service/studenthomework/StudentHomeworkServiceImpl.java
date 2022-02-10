@@ -142,8 +142,18 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     public void updateScore(StudentHomeworkPutReq studentHomeworkPutReq) {
         int stHwId = studentHomeworkPutReq.getStHwId();
         int stScore = studentHomeworkPutReq.getStHwscore();
+        int chgScore = studentHomeworkPutReq.getChgstHwscore();
         StudentHomework studentHomework = findBystHwId(stHwId);
-        studentHomework.setStHwscore(stScore);
+        int num = chgScore-stScore; //기존 점수와 채점점수 차이
+        int studyId = studentHomework.getStudyId();
+        String s = String.valueOf(studentHomework.getStHwscore());
+        int score = num;
+        if(s != "null" || s != "0"){ //null인 경우 nullpointer
+            score += studentHomework.getStHwscore();
+        }
+        studentHomework.setStHwscore(score);
         studenthomeworkRepository.save(studentHomework);
+        String st = studentHomework.getStId();
+        studenthomeworkRepository.updatePoint(num, studyId,st);
     }
 }
