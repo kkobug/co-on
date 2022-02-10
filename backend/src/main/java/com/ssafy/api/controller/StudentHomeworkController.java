@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.studenthomework.StudentHomeworkDeleteRes;
+import com.ssafy.api.request.studenthomework.StudentHomeworkPutReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkRegisterPostReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkUpdatePutReq;
 import com.ssafy.api.response.StHwFindID;
@@ -112,5 +113,19 @@ public class StudentHomeworkController {
 			@PathVariable @ApiParam(value = "학생기준 과제 상세 정보") Integer stHwId) {
 		StudentHomework studentHomework = studentHomeworkService.findBystHwId(stHwId);
 		return ResponseEntity.status(200).body(StHwFindID.of(studentHomework));
+	}
+
+
+	@PutMapping("/score")
+	@ApiOperation(value = "학생 과제 점수 수정", notes = "제출한 과제ID, 채점점수를 통해 학생 과제 점수를 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public  ResponseEntity<? extends BaseResponseBody> score(@RequestBody StudentHomeworkPutReq studentHomeworkPutReq){
+		studentHomeworkService.updateScore(studentHomeworkPutReq);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 }
