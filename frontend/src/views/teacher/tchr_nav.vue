@@ -1,5 +1,13 @@
 <template>
-  <el-menu mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#fff">
+  <el-menu
+    mode="horizontal"
+    :default-active="activeIndex"
+    class="el-menu-demo"
+    @select="handleSelect"
+    background-color="#545c64"
+    text-color="#fff"
+    style="border:none;"
+    active-text-color="#fff">
     <el-menu-item index="1" class="navitem" style="margin-left: 10px">내 수업</el-menu-item>
     <el-menu-item index="2" class="navitem">우리반보기</el-menu-item>
     <el-menu-item index="3" class="navitem">출결관리</el-menu-item>
@@ -25,21 +33,6 @@ export default {
       classtitle: computed(() => store.getters['root/getStudyName']),
       id: store.state.root.userid
     })
-    // const moveClass = function(){
-    //   router.push({
-    //     name: 'Tchr_ourclass'
-    //   })
-    // }
-    // const moveAttend = function(){
-    //   router.push({
-    //     name: 'Tchr_attend'
-    //   })
-    // }
-    // const moveLesson = function(){
-    //   router.push({
-    //     name: 'Tchr_contents'
-    //   })
-    // }
     const handleSelect = (key) => {
       if (key === '1') {
         router.push({
@@ -82,13 +75,8 @@ export default {
 }
 .navitem{
   padding: 10px;
-  border-bottom: solid 2px white;
   margin-right: 10px;
   height: 60px;
-}
-.navitem:hover{
-  color: yellow;
-  border-bottom: solid 2px yellow;
 }
 .lessonstr {
   right: 10px;

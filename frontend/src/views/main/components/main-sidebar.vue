@@ -11,13 +11,13 @@
           class="el-menu-vertical-demo"
           @select="menuSelect">
           <el-container class="profile-card">
-            <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; border-radius: 20px">
+            <el-card style="text-align: center; width: 220px; border: none; margin: 5px; background-color: #1B2A57; border-radius: 20px">
               <p>
                 <el-avatar :size="80" fit=cover :src="state.imgpath" v-if="state.imgpath"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
               </p>
               <div>
-                <span><strong>{{ username }}</strong></span>
+                <span style="color:white"><strong>{{ username }}</strong></span>
               </div>
               <el-button
                 color="#626aef"

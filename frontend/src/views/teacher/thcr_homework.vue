@@ -1,19 +1,17 @@
 <template>
   <div>
+    <h1 style="margin: 25px; font-size:30px; text-align: start;">제출된 과제</h1>
     <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data style="box-shadow: 3px 3px 3px 3px gray;" v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
     <div style="text-align: right">
-      <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px" class="sub_btn" @click="state.isVisible = true">숙제 생성</el-button>
+      <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">숙제 생성</el-button>
     </div>
     <div v-if="state.homeworks.length >= 1">
-      <div v-for="(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
-        <div class="li-left li-sec">
-          <div class ="li-title li-item">{{hw.hwTitle}}</div>
-          <div class ="li-lesson li-item">{{hw.hwContent}}</div>
-          <!-- <div class ="li-lesson li-item">{{hw.hwFile}}</div> -->
-        </div>
-        <div class="li-right li-sec">
-          <div class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</div>
-          <div class ="li-item filebar">
+      <el-row :gutter="24" v-for="(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
+          <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
+          <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
+          <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
+          <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
+          <el-col :span="2" class ="li-item filebar">
             첨부파일
             <ul>
               <h4>파일목록</h4>
@@ -24,11 +22,14 @@
               <!-- <li v-for="nf in notice.File" :key = "nf.id"></li>
               <li>파일1</li> -->
             </ul>
-          </div>
-          <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
-          <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)" style="color: red">삭제</el-button>
-        </div>
-      </div>
+          </el-col>
+          <el-col :span="2" >
+            <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
+          </el-col>
+          <el-col :span="2" >
+            <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)" style="color: red">삭제</el-button>
+          </el-col>
+      </el-row>
     </div>
     <div v-else style="height: 80%; padding: 100px">
       <h1>등록된 과제가 없습니다</h1>
@@ -107,40 +108,36 @@ export default {
     box-sizing: border-box;
   }
   .el-item{
-    display: flex;
-    justify-content: space-between;
-    /* border: solid 1px black; */
     background-color: #ecf0f1;
     align-items: center;
     border-radius: 20px;
-    height: 80px;
+    height: 60px;
     margin-bottom: 10px;
   }
-  .li-sec{
-    display: flex;
-  }
   .li-item{
-    margin: 20px;
+    padding: 5px;
   }
   .sub_btn{
     padding: 5px;
     margin: 20px;
   }
   .filebar>ul {
-    overflow: hidden;
-    height: 0;
+    display: none;
+    height: auto;
     position: absolute;
     z-index: 10;
-    min-width: 100px;
+    min-width: 150px;
     background-color: #6B3BE3;
-    transition: height;
-    transition-duration: 0.5s;
+    padding: 8px;
     color: #fff;
     border-radius: 10px;
     margin-top: 5px;
   }
   .filebar:hover>ul {
-    height: auto;
+    display: block;
+  }
+  .filebar:hover>ul>li {
+    margin:5px;
   }
   .filenamehover {
     cursor: pointer;
