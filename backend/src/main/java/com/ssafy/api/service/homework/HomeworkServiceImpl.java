@@ -60,9 +60,9 @@ public class HomeworkServiceImpl implements HomeworkService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationHomeworkFile;
                 String destinationHomeworkFileName;
-                String homeworkPath = "D:/";
+                String homeworkPath = "./assets/homework/teacher_homework/";
 
-                destinationHomeworkFileName = "stu" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
 
                 destinationHomeworkFile.getParentFile().mkdirs();
@@ -143,9 +143,9 @@ public class HomeworkServiceImpl implements HomeworkService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationHomeworkFile;
                 String destinationHomeworkFileName;
-                String homeworkPath = "D:/";
+                String homeworkPath = "./assets/homework/teacher_homework/";
 
-                destinationHomeworkFileName = "stu" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
 
                 destinationHomeworkFile.getParentFile().mkdirs();

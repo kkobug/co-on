@@ -39,6 +39,7 @@
         <td v-else class="inpa">X</td>
       </tr>
     </table>
+    <div v-if="state.nodata" style="width:80%; height:300px; margin:auto; font-size:40px; color:grey; text-align:center; padding-top:20vh;"> 데이터가 없습니다. </div>
     <start-video-dialog
       :open="state.videoDialogOpen"
       @closeVideoDialog="end"
@@ -59,6 +60,7 @@ export default {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
+      nodata: true,
       studyDate : "",
       chooseConfer: "",
       videoDialogOpen : false,
@@ -109,6 +111,12 @@ export default {
     }
     const getConfSTrecord = function(conf){
       state.conferList = conf
+      if (conf){
+        state.nodata = false
+      }else{
+        state.nodata = true
+      }
+
     }
     const makereco = function(data){
       var l_list = []

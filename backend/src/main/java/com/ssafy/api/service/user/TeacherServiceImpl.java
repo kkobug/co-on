@@ -100,7 +100,7 @@ public class TeacherServiceImpl implements TeacherService {
 			String destinationProfileName;
 			String teacherprofPath = "../frontend/src/assets/images/tchr_profiles/";
 
-			destinationProfileName = "tchr" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+			destinationProfileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
 			destinationProfile = new File(teacherprofPath + destinationProfileName);
 
 			destinationProfile.getParentFile().mkdirs();

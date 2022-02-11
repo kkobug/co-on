@@ -12,6 +12,7 @@ import Tchr_ourclass from '@/views/teacher/ourclass'
 import Tchr_attend from '@/views/teacher/daily_attend'
 import Tchr_contents from '@/views/teacher/tchr_contents'
 import Tchr_HWManage from '@/views/teacher/homework_manage'
+import Tchr_conference from '@/views/teacher/tchr_conference'
 
 // import Main from '@/views/main/main'
 import Main_calendar from '@/views/main/components/calendar'
@@ -114,6 +115,12 @@ const routes = [
     path: "/tchr_HWMange",
     name: "Tchr_HWManage",
     component: Tchr_HWManage,
+    props: true
+  },
+  {
+    path: "/tchr_conference",
+    name: "Tchr_conference",
+    component: Tchr_conference,
     props: true
   }
 ]

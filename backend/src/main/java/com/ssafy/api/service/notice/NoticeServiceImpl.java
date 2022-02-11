@@ -53,7 +53,7 @@ public class NoticeServiceImpl implements NoticeService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
-                String noticePath = "D:/";
+                String noticePath = "./assets/notice/";
 
                 destinationNoticeFileName = "tchr" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
@@ -67,7 +67,6 @@ public class NoticeServiceImpl implements NoticeService{
 
                 newFile.setFileName(destinationNoticeFileName);
                 newFile.setFileOriginName(sourceFileName);
-
                 newFile.setFilePath(noticePath);
 
                 noticeFileRepository.save(newFile);
@@ -89,9 +88,6 @@ public class NoticeServiceImpl implements NoticeService{
 
     @Override
     public Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) {
-        System.out.println(noticeUpdatePutReq.getNoticeId());
-        System.out.println(noticeUpdatePutReq.getNoticeTitle());
-        System.out.println(noticeUpdatePutReq.getNoticeContent());
         Notice notice = noticeRepositorySupport.findByNoticeId(noticeUpdatePutReq.getNoticeId()).get();
         notice.setNoticeTitle(noticeUpdatePutReq.getNoticeTitle());
         notice.setNoticeContent(noticeUpdatePutReq.getNoticeContent());
@@ -107,9 +103,9 @@ public class NoticeServiceImpl implements NoticeService{
                 String sourceFileName = multipartFile.getOriginalFilename();
                 File destinationNoticeFile;
                 String destinationNoticeFileName;
-                String noticePath = "D:/";
+                String noticePath = "./assets/notice/";
 
-                destinationNoticeFileName = "tchr" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+                destinationNoticeFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
                 destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
 
                 destinationNoticeFile.getParentFile().mkdirs();
