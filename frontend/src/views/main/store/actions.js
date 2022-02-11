@@ -52,6 +52,7 @@ export function requestLookupstudent ({ state }, payload) {
 }
 // 학생 회원 정보 수정
 export function requestModifyStudent ({ state }, payload) {
+  console.log(payload)
   const url = '/student/modify'
   let body = payload
   return $axios.put(url, body)
@@ -328,5 +329,12 @@ export function requestConfAttData ({ state }, payload) {
   const url = `/conference/infobydate?studyId=${payload['studyId']}&tchrId=${payload['tchrId']}&targetDate=${payload['targetDate']}`
 
   return $axios.get(url)
+}
+//마일리지
+export function requestPlusMil ({ state }, payload) {
+  console.log('requestPlusMil', payload)
+  const url = `/studyRoomDetail/teacher/score`
+  let body = payload
+  return $axios.put(url, body)
 }
 

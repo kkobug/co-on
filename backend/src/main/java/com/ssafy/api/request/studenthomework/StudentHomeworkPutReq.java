@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class StudentHomeworkPutReq {
     @ApiModelProperty(name = "학생 과제 ID", example = "1")
     int stHwId;
-    @ApiModelProperty(name = "과제 점수", example = "100")
+    @ApiModelProperty(name = "기존 과제 점수", example = "100")
     int stHwscore;
+    @ApiModelProperty(name = "바뀐 과제 점수", example = "100")
+    int chgstHwscore;
 }

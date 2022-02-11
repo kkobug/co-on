@@ -4,17 +4,17 @@
       <el-col :span="24" style="heght: 100%">
         <el-menu
           default-active="0"
-          active-text-color="#ffd04b"
+          active-text-color="#fff"
           background-color="#4267D6"
           text-color="#fff"
           style="height: 100%; position: fixed; border-color: #4267D6; width: 240px"
           class="el-menu-vertical-demo"
           @select="menuSelect">
           <el-container class="profile-card">
-            <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; color: white; border-radius: 20px">
+            <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; border-radius: 20px">
               <p>
                 <el-avatar :size="80" fit=cover :src="state.imgpath" v-if="state.imgpath"></el-avatar>
-                <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.jpg')" v-else></el-avatar>
+                <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
               </p>
               <div>
                 <span><strong>{{ username }}</strong></span>

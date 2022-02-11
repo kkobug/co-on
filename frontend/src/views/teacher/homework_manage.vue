@@ -10,7 +10,8 @@
             <el-col :span="1"><div class="grid-content bg-head">번호</div></el-col>
             <el-col :span="3"><div class="grid-content bg-head">ID</div></el-col>
             <el-col :span="6"><div class="grid-content bg-head">내용</div></el-col>
-            <el-col :span="14"><div class="grid-content bg-head">파일</div></el-col>
+            <el-col :span="12"><div class="grid-content bg-head">파일명</div></el-col>
+            <el-col :span="2"><div class="grid-content bg-head">점수</div></el-col>
           </el-row>
           <el-row v-for="(item,index) in Hw.studentHomeworks" :key="index" >
             <el-col :span="1"><div class="grid-content bg-content">{{index+1}}</div></el-col>
@@ -68,6 +69,14 @@ export default {
       store.dispatch('root/requestTchrListHomework',this.userId)
       .then(result =>{
         this.Hws=result.data
+        for (let i=0; i<result.data.length; i++) {
+          for (let j=0; j<result.data[i].studentHomeworks.length; j++) {
+            let temp = ''
+            eval("let temp" + result.data[i].hwId + result.data[i].studentHomeworks[j].stId + " = " + result.data[i].studentHomeworks[j].stHwscore);
+          }
+        }
+        console.log("!!!!!!!!!!!")
+        console.log(this.Hws)
       })
       .catch(function(err){
         alert(err)
