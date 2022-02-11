@@ -4,7 +4,7 @@
       <el-col :span="24" style="heght: 100%">
         <el-menu
           default-active="0"
-          active-text-color="#fff"
+          active-text-color="yellow"
           background-color="#4267D6"
           text-color="#fff"
           style="height: 100%; position: fixed; border-color: #4267D6; width: 240px"
@@ -28,15 +28,15 @@
             </el-card>
           </el-container>
 
-          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index">
             <span>{{ item.title }}</span>
           </el-menu-item>
 
           <div v-if="whetherTchr">
-            <el-menu-item v-for="(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val[0], val[1])">
+            <el-menu-item v-for="(val, idx) in state.tchr_scha" :key="idx" :index="idx+1" @click="MoveLesson(val[0], val[1])">
                 <span>{{ val[1] }}</span>
             </el-menu-item>
-            <el-menu-item @click="state.isVisible=true">
+            <el-menu-item @click="state.isVisible=true" :index="state.menuItems.length+1">
               <span>수업개설</span>
             </el-menu-item>
             <el-menu-item v-if="state.conference" @click="MoveConference" id="desk">
