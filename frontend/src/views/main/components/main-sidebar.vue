@@ -28,7 +28,7 @@
             </el-card>
           </el-container>
 
-          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index">
             <font-awesome-icon v-if="index==0" icon="home" style="font-size:25px"/>&nbsp;
             <span>{{ item.title }}</span>
           </el-menu-item>
@@ -37,7 +37,7 @@
             <el-menu-item v-for="(val, idx) in state.tchr_scha" :key=idx @click="MoveLesson(val[0], val[1])">
                 <span>{{ val[1] }}</span>
             </el-menu-item>
-            <el-menu-item @click="state.isVisible=true">
+            <el-menu-item @click="state.isVisible=true" :index="state.menuItems.length+1">
               <font-awesome-icon icon="chalkboard-teacher" style="font-size:25px"/>&nbsp;
               <span>수업개설</span>
             </el-menu-item>
