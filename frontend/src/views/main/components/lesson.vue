@@ -31,40 +31,45 @@
         <el-col :span="24-this.chatOn">
           <div id="session-header">
             <h1 id="session-title">{{ this.nowClass[5] }}</h1>
-            <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
-              <font-awesome-icon icon="microphone-slash" />
+            <el-button circle v-if="micOn" id="button" @click="micControl" value="MICOFF" class="fa_button">
+              <font-awesome-icon icon="microphone-slash" class="fa_icon" />
             </el-button>
-            <el-button circle v-else id="buttonMic" @click="micControl" value="MICON">
-              <font-awesome-icon icon="microphone" />
+            <el-button circle v-else id="buttonMic" @click="micControl" value="MICON" class="fa_button">
+              <font-awesome-icon icon="microphone" class="fa_icon"/>
             </el-button>
-            <el-button circle v-if="camOn" id="buttonCam" @click="camControl" value="CAMOFF">
-              <font-awesome-icon icon="video-slash" />
+            <el-button circle v-if="camOn" id="buttonCam" @click="camControl" value="CAMOFF" class="fa_button">
+              <font-awesome-icon icon="video-slash" class="fa_icon"/>
             </el-button>
-            <el-button circle v-else id="buttonCam" @click="camControl" value="CAMON">
-              <font-awesome-icon icon="video" />
+            <el-button circle v-else id="buttonCam" @click="camControl" value="CAMON" class="fa_button">
+              <font-awesome-icon icon="video" class="fa_icon"/>
             </el-button>
-            <el-button circle v-if="shareOn" id="buttonQuitShare" @click="screenShare" value="Quit share">
-              <font-awesome-icon icon="share-square" style="color:red"/>
+            <el-button circle v-if="shareOn" id="buttonQuitShare" @click="screenShare" value="Quit share" class="fa_button">
+              <font-awesome-icon icon="share-square" class="fa_icon" style="color:red"/>
             </el-button>
-            <el-button circle v-else id="buttonScreenShare" @click="screenShare" value="Screen share">
-              <font-awesome-icon icon="share-square" />
+            <el-button circle v-else id="buttonScreenShare" @click="screenShare" value="Screen share" class="fa_button">
+              <font-awesome-icon icon="share-square" class="fa_icon"/>
             </el-button>
-            <el-button circle v-if="chatOn" id="buttonChat" @click="chatControl" value="CHATOFF">
-              <font-awesome-icon icon="comment-slash" />
+            <el-button circle v-if="chatOn" id="buttonChat" @click="chatControl" value="CHATOFF" class="fa_button">
+              <font-awesome-icon icon="comment-slash" class="fa_icon"/>
             </el-button>
-            <el-button circle v-else id="buttonChat" @click="chatControl" value="CHATON">
-              <font-awesome-icon icon="comment-dots" />
+            <el-button circle v-else id="buttonChat" @click="chatControl" value="CHATON" class="fa_button">
+              <font-awesome-icon icon="comment-dots" class="fa_icon"/>
             </el-button>
-            <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-              <font-awesome-icon icon="door-open" />
+            <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session" class="fa_button">
+              <font-awesome-icon icon="door-open" class="fa_icon"/>
+            </el-button>
+            <el-button circle v-if="this.mainStreamManager" @click="viewAll" value="View all" class="fa_button">
+              <font-awesome-icon icon="users" class="fa_icon"/>
             </el-button>
           </div>
-          <div id="main-video" class="col-md-6">
-            <user-video :stream-manager="mainStreamManager"/>
+          <div id="sub-container" class="center_setting">
+            <user-video id="sub-video" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+            <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
           </div>
-          <div id="video-container" class="col-md-6">
-            <user-video id="sub" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-            <user-video id="sub" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+          <div class="center_setting">
+            <div id="main-container">
+              <user-video id="main-video" :stream-manager="mainStreamManager"/>
+            </div>
           </div>
         </el-col>
         <!-- video -->
@@ -78,13 +83,13 @@
               <div class="message-wrap" >
                 <div v-for="data in this.messageList" :key="data" class="message">
                   <div class="msg-detail">
-                    <span>{{data.creationTime}}</span>
-                    <p class="msg-info">
-                      {{ data.nickname }}
-                    </p>
-                    <p class="msg-content">
+                    <p>{{data.creationTime.toString().substr(16,8)}}</p>
+                    <span class="msg-info">
+                      {{ data.nickname }}:
+                    </span>
+                    <span class="msg-content">
                       {{data.message}}
-                    </p>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -95,8 +100,11 @@
                   v-model="this.textInput"
                   v-on:keyup.enter="sendMessage"
                 />
-                <button id="sendButton" @click="sendMessage">
-                  <span>send</span>
+                <button v-if="this.textInput" id="sendbutton" @click="sendMessage" style="border:none">
+                  <font-awesome-icon icon="arrow-circle-up" style="color:#409EFF; font-size:25px; ms:3px"/>
+                </button>
+                <button v-else id="sendbutton" style="border:none">
+                  <font-awesome-icon icon="arrow-circle-up" style="font-size:25px"/>
                 </button>
               </div>
             </div>
@@ -432,6 +440,44 @@ export default {
 }
 </script>
 <style lang="scss">
+.fa_button{
+  height: 100%;
+}
+.fa_icon{
+  font-size:30px
+}
+.center_setting{
+  display: flex;
+  flex-wrap: wrap;
+  // flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+#set_container{
+  width:100vw;
+  height:100vh;
+}
+#session-header {
+  // height: auto;
+}
+#sub-container {
+  // width: 20% !important;
+  // width: 15% ;
+  // height: auto;
+}
+#main-container {
+  width: 65%;
+  // width: calc(36%*1920/1080) ;
+  // height: 36%;
+}
+#sub-video {
+  width: 15% !important;
+  // height: auto;
+}
+#main-video{
+  // height: 100%;
+  // width: 50% ;
+}
 .common-layout {
   .el-header,
   .el-footer {
@@ -530,7 +576,7 @@ input {
 }
 
 #chatComponent {
-  background-color: #b8b8b8;
+  background-color: black;
   position: absolute;
   z-index: 99999;
   top: 0;
@@ -544,12 +590,14 @@ input {
 }
 
 .message-wrap {
+  background-color: #E0E4D7;
   padding: 0 4px;
   height: calc(100% - 80px);
   overflow: auto;
 }
 
 .message {
+  text-align: start;
   position: relative;
   padding: 7px 0;
 }
@@ -562,8 +610,8 @@ input {
 }
 
 .msg-detail {
-  // width: calc(100% - 65px);
   display: inline-block;
+  // background-color: #7ae2a9;
 }
 
 .msg-detail p {
@@ -586,17 +634,6 @@ input {
   width: auto;
   max-width: 95%;
 }
-
-// span.triangle {
-//   border-radius: 2px;
-//   height: 8px;
-//   width: 8px;
-//   top: 12px;
-//   display: block;
-//   -webkit-transform: rotate(45deg);
-//   transform: rotate(45deg);
-//   position: absolute;
-// }
 
 .text {
   word-break: break-all;
@@ -621,12 +658,6 @@ input {
   background-color: #f0f0f0;
   float: left;
 }
-.message.left .msg-detail .msg-content span.triangle {
-  background-color: #f0f0f0;
-  border-bottom-width: 0;
-  border-left-width: 0;
-  left: -5px;
-}
 
 /* End message from other user */
 
@@ -643,12 +674,6 @@ input {
 .message.right .msg-detail .msg-content {
   background-color: #c8ffe8;
   float: right;
-}
-.message.right .msg-detail .msg-content span.triangle {
-  background-color: #c8ffe8;
-  border-bottom-width: 0;
-  border-left-width: 0;
-  right: -5px;
 }
 
 /* End my messages */
@@ -676,14 +701,15 @@ input {
   width: auto;
 }
 #sendButton {
-  background-color: #81e9b0;
   position: absolute;
-  right: 10px;
   top: 0;
   bottom: 0;
-  margin: auto;
-  border: 1px solid #7ae2a9;
+  margin: 20px;
   box-shadow: none !important;
+  border:none;
+
+  // right: 10px;
+  // margin: auto;
 }
 // #sendButton mat-icon {
 //   margin-left: 3px !important;

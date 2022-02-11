@@ -6,35 +6,21 @@
           <el-input v-model="state.form.conferenceName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="id" label="시작/종료시간" :label-width="state.formLabelWidth" >
-          <el-time-select
-            v-model="state.startTime"
-            :max-time="state.endTime"
-            class="mr-4"
-            placeholder="Start time"
-            start="08:30"
-            step="00:15"
-            end="18:30"
+          <el-time-picker
+            v-model="state.start_endTime"
+            is-range
+            range-separator="To"
+            start-placeholder="Start time"
+            end-placeholder="End time"
           >
-          </el-time-select>
-          <el-time-select
-            v-model="state.endTime"
-            :min-time="state.startTime"
-            placeholder="End time"
-            start="08:30"
-            step="00:15"
-            end="18:30"
-          >
-          </el-time-select>
+          </el-time-picker>
         </el-form-item>
         <el-form-item prop="password" label="출석인정시간" :label-width="state.formLabelWidth">
-          <el-time-select
+          <el-time-picker
             v-model="state.atdTime"
-            placeholder="attendance time"
-            start="00:15"
-            step="00:15"
-            end="03:00"
+            placeholder="Arbitrary time"
           >
-          </el-time-select>
+          </el-time-picker>
         </el-form-item>
       </el-form>
       <el-row class="row-btn" style="margin-top: 40px">
@@ -64,37 +50,31 @@ export default {
     const store = useStore()
     const state = reactive({
       form: {
-        startTime: '',
-        endTime: '',
-        atdTime: '',
         align: 'left',
         conferenceName: (new Date()).toISOString().substring(0,19)+' - '+store.getters['root/getStudyName'],
         classId : computed(() => store.getters['root/getStudyId']),
         id: store.state.root.userid,
-
       },
-      startTime: '',
-      endTime: '',
-      atdTime: '',
+      start_endTime: [new Date(), new Date()],
+      atdTime: new Date(2022,1,1,0,0),
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px',
     })
 
     const handleClose = function () {
-      state.startTime = ''
-      state.endTime = ''
-      state.atdTime = ''
+      state.start_endTime = ref([new Date(), new Date()]),
+      state.atdTime = ref(new Date(2022,1,1,0,0)),
       emit('closeVideoDialog')
     }
     const EnrollClass = function () {
-      if(!state.atdTime||!state.endTime||!state.startTime){
+      if(!state.atdTime||!state.start_endTime){
         alert("시간을 모두 입력해주세요")
       }else{
         store.dispatch('root/requestConfCreate',
           {
-            confAtt:state.atdTime.substring(0,2)*60+state.atdTime.substring(3,5)*1,
-            confEnd:state.endTime,
-            confStart:state.startTime,
+            confAtt:state.atdTime.toTimeString().substring(0,2)*60 + state.atdTime.toTimeString().substring(3,5)*1,
+            confEnd:state.start_endTime[1].toTimeString().substring(0,5),
+            confStart:state.start_endTime[0].toTimeString().substring(0,5),
             confTitle:state.form.conferenceName,
             studyId:state.form.classId,
             tchrId:state.form.id
