@@ -383,10 +383,12 @@ export default {
     this.joinSession(this.$store.state.root.TchrConference)
   },
   mounted() {
-    window.addEventListener('beforeunload', this.unLoadEvent);
+    window.addEventListener('beforeunload', this.leaveSession);
   },
   beforeUnmount() {
-    window.removeEventListener('beforeunload', this.unLoadEvent);
+    console.log(new Date())
+    this.leaveSession()
+    window.removeEventListener('beforeunload', this.leaveSession);
   },
 }
 </script>
