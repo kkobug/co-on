@@ -31,6 +31,8 @@ import {
   faSpinner,
   faRunning,
   faUsers,
+  faHome,
+  faArrowCircleUp,
 } from '@fortawesome/free-solid-svg-icons'
 library.add(
   faUserSecret,
@@ -49,7 +51,9 @@ library.add(
   faFan,
   faSpinner,
   faRunning,
-  faUsers
+  faUsers,
+  faHome,
+  faArrowCircleUp,
   )
 
 

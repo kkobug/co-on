@@ -1,11 +1,10 @@
 <template>
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
-    <h1>과제 관리 페이지</h1>
-    <el-tabs v-model="activeName" class="demo-tabs">
+    <el-tabs v-model="activeName" class="demo-tabs" style="margin: 20px; background-color: white">
       <el-tab-pane label="User" name="first">User</el-tab-pane>
       <el-tab-pane v-for="Hw in Hws" :key="Hw" :label="Hw.hwTitle">
-        <el-scrollbar height="400px">
+        <el-scrollbar height="100%">
           <el-row>
             <el-col :span="1"><div class="grid-content bg-head">번호</div></el-col>
             <el-col :span="3"><div class="grid-content bg-head">ID</div></el-col>
@@ -28,8 +27,6 @@
               </div>
             </el-col>
             <el-col :span="1"><el-button @click="ent(item.stId)">D</el-button></el-col>
-            <el-col :span="1"><el-input class="grid-content bg-content" v-model="item.stId"/></el-col>
-            <el-col :span="1"><el-button @click="ent">D</el-button></el-col>
           </el-row>
         </el-scrollbar>
       </el-tab-pane>
