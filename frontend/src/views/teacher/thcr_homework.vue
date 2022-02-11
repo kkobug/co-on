@@ -5,35 +5,37 @@
     <div style="text-align: right">
       <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">숙제 생성</el-button>
     </div>
-    <div v-if="state.homeworks.length >= 1">
-      <el-row :gutter="24" v-for="(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
-          <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
-          <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
-          <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
-          <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
-          <el-col :span="2" class ="li-item filebar">
-            첨부파일
-            <ul>
-              <h4>파일목록</h4>
-              <div v-for="hf in hw.hwFile" :key=hf.fileId>
-                <hr>
-                <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
-              </div>
-              <!-- <li v-for="nf in notice.File" :key = "nf.id"></li>
-              <li>파일1</li> -->
-            </ul>
-          </el-col>
-          <el-col :span="2" >
-            <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
-          </el-col>
-          <el-col :span="2" >
-            <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)" style="color: red">삭제</el-button>
-          </el-col>
-      </el-row>
-    </div>
-    <div v-else style="height: 80%; padding: 100px">
-      <h1>등록된 과제가 없습니다</h1>
-    </div>
+    <el-scrollbar wrap-style="max-height: 220px;">
+      <div v-if="state.homeworks.length >= 1">
+        <el-row :gutter="24" v-for="(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
+            <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
+            <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
+            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
+            <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
+            <el-col :span="2" class ="li-item filebar">
+              첨부파일
+              <ul>
+                <h4>파일목록</h4>
+                <div v-for="hf in hw.hwFile" :key=hf.fileId>
+                  <hr>
+                  <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
+                </div>
+                <!-- <li v-for="nf in notice.File" :key = "nf.id"></li>
+                <li>파일1</li> -->
+              </ul>
+            </el-col>
+            <el-col :span="2" >
+              <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
+            </el-col>
+            <el-col :span="2" >
+              <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)" style="color: red">삭제</el-button>
+            </el-col>
+        </el-row>
+      </div>
+      <div v-else style="height: 80%; padding: 100px">
+        <h1>등록된 과제가 없습니다</h1>
+      </div>
+    </el-scrollbar>
   </div>
 </template>
 

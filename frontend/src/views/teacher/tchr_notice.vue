@@ -5,32 +5,35 @@
     <div style="text-align: right">
       <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">공지 생성</el-button>
     </div>
-    <div v-if="state.notices.length >= 1">
-      <el-row :gutter="24" v-for = "(ntice, index) in state.notices" :key = ntice.id class ="el-item">
-          <el-col :span="6" class ="li-title li-item">{{ntice.noticeTitle}}</el-col>
-          <el-col :span="8" class ="li-lesson li-item">{{ntice.noticeContent}}</el-col>
-          <el-col :span="3" class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</el-col>
-          <el-col :span="3" class ="li-item filebar"  style="padding:10px;">
-            첨부파일
-            <ul>
-              <h4>파일목록</h4>
-              <div v-for="nf in ntice.noticeFile" :key = nf.fileId>
-                <hr>
-                <a @click="downNoticeFile(nf.fileName, nf.filePath, nf.fileOriginName)" class="filenamehover">💾 {{nf.fileOriginName}}</a>
-              </div>
-            </ul>
-          </el-col>
-          <el-col :span="2">
-            <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
-          </el-col>
-          <el-col :span="2">
-            <el-button type="text" class="li-item" @click ="delNotice(ntice.noticeId)" style="color: red">삭제</el-button>
-          </el-col>
-      </el-row>
-    </div>
-    <div v-else style="height: 80%; padding: 100px">
-      <h1>등록된 공지가 없습니다</h1>
-    </div>
+    <el-scrollbar wrap-style="max-height: 220px;">
+      <div v-if="state.notices.length >= 1">
+        <el-row :gutter="24" v-for = "(ntice, index) in state.notices" :key = ntice.id class ="el-item">
+            <el-col :span="6" class ="li-title li-item">{{ntice.noticeTitle}}</el-col>
+            <el-col :span="8" class ="li-lesson li-item">{{ntice.noticeContent}}</el-col>
+            <el-col :span="3" class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</el-col>
+            <el-col :span="3" class ="li-item filebar"  style="padding:10px;">
+              첨부파일
+              <ul>
+                <h4>파일목록</h4>
+                <div v-for="nf in ntice.noticeFile" :key = nf.fileId>
+                  <hr>
+                  <a @click="downNoticeFile(nf.fileName, nf.filePath, nf.fileOriginName)" class="filenamehover">💾 {{nf.fileOriginName}}</a>
+                </div>
+              </ul>
+            </el-col>
+            <el-col :span="2">
+              <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
+            </el-col>
+            <el-col :span="2">
+              <el-button type="text" class="li-item" @click ="delNotice(ntice.noticeId)" style="color: red">삭제</el-button>
+            </el-col>
+        </el-row>
+      </div>
+
+      <div v-else style="height: 80%; padding: 100px">
+        <h1>등록된 공지가 없습니다</h1>
+      </div>
+    </el-scrollbar>
   </div>
 </template>
 
