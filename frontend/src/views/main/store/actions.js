@@ -130,9 +130,8 @@ export function requestGetTchrClass ({ state }, payload) {
 
 // StudyRoomDetail
 // 학생 수업 학생 ID 조회
-export function requestGetClass ({ state }, payload) {
-  console.log('requestGetClass')
-  const url = `/studyRoomDetail/student/list/${payload}`
+export function requestGetClass ({ state }) {
+  const url = `/studyRoomDetail/student/list/${state.userid}`
   return $axios.get(url)
 }
 // 학생 수업 수업 ID 조회
