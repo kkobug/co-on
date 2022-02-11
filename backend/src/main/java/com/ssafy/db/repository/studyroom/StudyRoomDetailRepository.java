@@ -2,6 +2,7 @@ package com.ssafy.db.repository.studyroom;
 
 import com.ssafy.db.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +34,15 @@ public interface StudyRoomDetailRepository extends JpaRepository<StudyroomDetail
 //            "where sd.st_id = :stId\n"+
 //    List<Object[]> findStudyroomAndconbystId(String stId);
 
-    @Query(value = "select st_id, st_name, st_email, st_contact, st_school, st_birthday, st_prof_name, st_origin_prof_name, st_prof_path\n" +
-            "from student\n" +
-            "where student.st_id in (select studyroom_detail.st_id\n" +
-            "\t\t\t\tfrom studyroom_detail\n" +
-            "                where studyroom_detail.study_id =:studyId)", nativeQuery = true)
+    @Query(value = "select s.st_id, s.st_name, s.st_email, s.st_contact, s.st_school, s.st_birthday,studyroom_detail.st_point,s.st_prof_name, s.st_origin_prof_name, s.st_prof_path \n" +
+            "from student as s\n" +
+            "left join studyroom_detail\n" +
+            "on s.st_id = studyroom_detail.st_id\n" +
+            "where studyroom_detail.study_id = :studyId", nativeQuery = true)
     List<Object[]> findstudentbystudyId(int studyId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update studyroom_detail set st_point = st_point + :score where study_id = :studyId and st_id = :stId",nativeQuery = true)
+    void updateScore(int score, int studyId, String stId);
 }

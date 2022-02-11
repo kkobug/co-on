@@ -14,6 +14,12 @@
         <el-form-item prop="email" label="이메일" :label-width="state.formLabelWidth">
           <el-input v-model="state.form.email" autocomplete="off" type="email" placeholder="E-mail"></el-input>
         </el-form-item>
+        <el-form-item prop="birthday" label="생년월일" :label-width="state.formLabelWidth">
+            <el-date-picker
+              v-model="state.form.birthday" type="date" placeholder="Pick your birthday" style="width: 100%" format="YYYY-MM-DD" value-format="YYYYMMDD"
+            >
+            </el-date-picker>
+          </el-form-item>
         <el-form-item prop="department" label="학교" :label-width="state.formLabelWidth">
           <el-input v-model="state.form.school" autocomplete="off" placeholder="School"></el-input>
         </el-form-item>
@@ -112,7 +118,8 @@ export default {
         school: '',
         contact: '',
         name: '',
-        align: 'left'
+        align: 'left',
+        birthday:'',
       },
       rules: {
         id: [
@@ -144,6 +151,7 @@ export default {
             st_name: state.form.name,
             st_password: state.form.password,
             st_school: state.form.school,
+            st_birthday:state.form.birthday,
           })
           .then(function (result) {
             alert('회원가입(학생) 성공')
@@ -169,6 +177,7 @@ export default {
             tchr_name: state.form.name,
             tchr_password: state.form.password,
             tchr_school: state.form.school,
+            tchr_birthday: state.form.birthday
           })
           .then(function (result) {
             // alert('accessToken: ' + result.data.accessToken)
@@ -191,6 +200,7 @@ export default {
       state.form.school = '',
       state.form.contact = '',
       state.form.name = '',
+      state.form.birthday = '';
       emit('closeSignupDialog')
     }
 
