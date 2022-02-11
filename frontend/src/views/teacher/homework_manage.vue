@@ -3,8 +3,8 @@
     <tchr-nav @startvideo="start"></tchr-nav>
     <el-tabs v-model="activeName" class="demo-tabs" style="margin: 20px; background-color: white">
       <el-tab-pane label="User" name="first">User</el-tab-pane>
-      <el-tab-pane v-for="Hw in Hws" :key="Hw" :label="Hw.hwTitle">
-        <el-scrollbar height="100%">
+      <el-tab-pane v-for="(Hw, idx) in Hws" :key="Hw" :label="Hw.hwTitle">
+        <el-scrollbar height="400px">
           <el-row>
             <el-col :span="1"><div class="grid-content bg-head">번호</div></el-col>
             <el-col :span="3"><div class="grid-content bg-head">ID</div></el-col>
@@ -16,7 +16,7 @@
             <el-col :span="1"><div class="grid-content bg-content">{{index+1}}</div></el-col>
             <el-col :span="3"><div class="grid-content bg-content">{{item.stId}}</div></el-col>
             <el-col :span="6"><div class="grid-content bg-content">{{item.stHwcontent}}</div></el-col>
-            <el-col :span="13">
+            <el-col :span="12">
               <div class="grid-content bg-content" v-if="item.stHwFile[0]">
                 <div v-for="file in item.stHwFile" :key="file">
                   <a @click="downStHomeworkFile(file.fileName, file.filePath, file.fileOriginName)" class="filenamehover">💾 {{file.fileOriginName}}</a>&nbsp;
@@ -26,7 +26,8 @@
                 파일이 없습니다
               </div>
             </el-col>
-            <el-col :span="1"><el-button @click="ent(item.stId)">D</el-button></el-col>
+            <el-col :span="1"><el-input v-model="state.score[idx][index]" :placeholder="item.stHwscore"></el-input></el-col>
+            <el-col :span="1"><el-button @click="ent(state.score[idx][index], item.stHwscore, item.stHwId)">채점</el-button></el-col>
           </el-row>
         </el-scrollbar>
       </el-tab-pane>
@@ -61,15 +62,17 @@ export default {
     const store = useStore()
     const Hws = []
     const activeName = ref('')
-    const score = []
+    const state = reactive({
+      score : {}
+    })
     const getHw = function () {
       store.dispatch('root/requestTchrListHomework',this.userId)
       .then(result =>{
         this.Hws=result.data
         for (let i=0; i<result.data.length; i++) {
+          state.score[i] = {}
           for (let j=0; j<result.data[i].studentHomeworks.length; j++) {
-            let temp = ''
-            eval("let temp" + result.data[i].hwId + result.data[i].studentHomeworks[j].stId + " = " + result.data[i].studentHomeworks[j].stHwscore);
+            state.score[i][j] = result.data[i].studentHomeworks[j].stHwscore
           }
         }
         console.log("!!!!!!!!!!!")
@@ -88,10 +91,18 @@ export default {
       anchor.click()
       document.body.removeChild(anchor)
     }
-    const ent = function(a){
-      console.log(a)
+    const ent = function(changed, origin, id){
+      console.log(changed, origin, id)
+      store.dispatch('root/requestPutScore', {
+          chgstHwscore: changed,
+          stHwId: id,
+          stHwscore: origin
+      })
+      .then(res => {
+        console.log("채점 완료")
+      })
     }
-    return {Hws, activeName, getHw, ent, downStHomeworkFile}
+    return {Hws, activeName, getHw, ent, downStHomeworkFile, state}
   },
   methods:{
     start (){this.videoDialogOpen= true},

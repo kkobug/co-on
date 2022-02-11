@@ -20,7 +20,7 @@
                 </div>
                 <div>
                   <el-form>
-                    <p>마일리지:{{o[6]}}</p>
+                    <p>마일리지 : {{o[6]}}</p>
                     <el-form-item style="margin:5px;">
                       <el-input v-model="state.mil[index]"></el-input>
                     </el-form-item>
