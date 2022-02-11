@@ -4,7 +4,7 @@
     <el-tabs v-model="activeName" class="demo-tabs" style="margin: 20px; background-color: white">
       <el-tab-pane label="User" name="first">User</el-tab-pane>
       <el-tab-pane v-for="(Hw, idx) in Hws" :key="Hw" :label="Hw.hwTitle">
-        <el-scrollbar height="400px">
+        <el-scrollbar height="100%">
           <el-row>
             <el-col :span="1"><div class="grid-content bg-head">번호</div></el-col>
             <el-col :span="3"><div class="grid-content bg-head">ID</div></el-col>
