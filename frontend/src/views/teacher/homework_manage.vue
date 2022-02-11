@@ -5,27 +5,30 @@
     <el-tabs v-model="activeName" class="demo-tabs">
       <el-tab-pane label="User" name="first">User</el-tab-pane>
       <el-tab-pane v-for="Hw in Hws" :key="Hw" :label="Hw.hwTitle">
-        <!-- {{Hw.studentHomeworks[0].stHwFile[0]}} -->
         <el-scrollbar height="400px">
           <el-row>
             <el-col :span="1"><div class="grid-content bg-head">번호</div></el-col>
             <el-col :span="3"><div class="grid-content bg-head">ID</div></el-col>
             <el-col :span="6"><div class="grid-content bg-head">내용</div></el-col>
-            <el-col :span="14"><div class="grid-content bg-head">파일명</div></el-col>
+            <el-col :span="12"><div class="grid-content bg-head">파일명</div></el-col>
+            <el-col :span="2"><div class="grid-content bg-head">점수</div></el-col>
           </el-row>
           <el-row v-for="(item,index) in Hw.studentHomeworks" :key="index" >
             <el-col :span="1"><div class="grid-content bg-content">{{index+1}}</div></el-col>
             <el-col :span="3"><div class="grid-content bg-content">{{item.stId}}</div></el-col>
             <el-col :span="6"><div class="grid-content bg-content">{{item.stHwcontent}}</div></el-col>
-            <el-col :span="12">
+            <el-col :span="13">
               <div class="grid-content bg-content" v-if="item.stHwFile[0]">
-                {{item.stHwFile[0].fileOriginName}}
+                <div v-for="file in item.stHwFile" :key="file">
+                  <a @click="downStHomeworkFile(file.fileName, file.filePath, file.fileOriginName)" class="filenamehover">💾 {{file.fileOriginName}}</a>&nbsp;
+                </div>
               </div>
               <div class="grid-content bg-content" v-else>
                 파일이 없습니다
               </div>
             </el-col>
-            <el-col :span="1"><el-input class="grid-content bg-content"/></el-col>
+            <el-col :span="1"><el-button @click="ent(item.stId)">D</el-button></el-col>
+            <el-col :span="1"><el-input class="grid-content bg-content" v-model="item.stId"/></el-col>
             <el-col :span="1"><el-button @click="ent">D</el-button></el-col>
           </el-row>
         </el-scrollbar>
@@ -61,20 +64,37 @@ export default {
     const store = useStore()
     const Hws = []
     const activeName = ref('')
+    const score = []
     const getHw = function () {
       store.dispatch('root/requestTchrListHomework',this.userId)
       .then(result =>{
         this.Hws=result.data
+        for (let i=0; i<result.data.length; i++) {
+          for (let j=0; j<result.data[i].studentHomeworks.length; j++) {
+            let temp = ''
+            eval("let temp" + result.data[i].hwId + result.data[i].studentHomeworks[j].stId + " = " + result.data[i].studentHomeworks[j].stHwscore);
+          }
+        }
+        console.log("!!!!!!!!!!!")
         console.log(this.Hws)
       })
       .catch(function(err){
         alert(err)
       })
     }
+    const downStHomeworkFile = function(fileName, filePath, fileOriginName) {
+      const fileurl = `http://localhost:8080/api/v1/studenthomework/download-file?fileName=${fileName}&filePath=${filePath}`
+      const anchor = document.createElement('a')
+      anchor.href = fileurl
+      anchor.download = fileOriginName
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+    }
     const ent = function(a){
       console.log(a)
     }
-    return {Hws, activeName, getHw, ent}
+    return {Hws, activeName, getHw, ent, downStHomeworkFile}
   },
   methods:{
     start (){this.videoDialogOpen= true},
@@ -136,5 +156,25 @@ export default {
   border-radius: 4px;
   background: var(--el-color-primary-light-9);
   color: var(--el-color-primary);
+}
+.filebar>ul {
+    overflow: hidden;
+    height: 0;
+    position: absolute;
+    z-index: 10;
+    min-width: 100px;
+    background-color: #6B3BE3;
+    transition: height;
+    transition-duration: 0.5s;
+    color: #fff;
+    border-radius: 10px;
+    margin-top: 5px;
+  }
+.filebar:hover>ul {
+  height: auto;
+}
+.filenamehover {
+  cursor: pointer;
+  padding: 10px;
 }
 </style>

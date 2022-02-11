@@ -97,7 +97,7 @@ public class StudentServiceImpl implements StudentService{
             String destinationProfileName;
             String studentprofPath = "../frontend/src/assets/images/st_profiles/";
 
-            destinationProfileName = "st" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+            destinationProfileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
             destinationProfile = new File(studentprofPath + destinationProfileName);
 
             destinationProfile.getParentFile().mkdirs();

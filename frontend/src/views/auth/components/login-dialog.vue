@@ -9,16 +9,7 @@
           <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
         </el-form-item>
       </el-form>
-      <!-- <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="clickStLogin">로그인(학생)</el-button>
-          <el-button @click="clickTchrLogin">로그인(교사)</el-button>
-          <el-button @click="clickSignup">회원가입</el-button>
-          <el-button @click="handleLogin">Google ID로 로그인</el-button>
-          <el-button @click="clickFindid">회원 ID 찾기</el-button>
-          <el-button @click="clickChangePassword">비밀번호 재설정</el-button>
-        </span>
-      </template> -->
+
       <el-row class="row-btn" style="margin-top: 40px">
         <el-button @click="clickStLogin" style="width: 48%">학생 로그인</el-button>
         <el-button @click="clickTchrLogin" style="width: 48%">교사 로그인</el-button>
@@ -39,25 +30,6 @@
   height: auto;
   border-radius: 30px;
 }
-/* .login-dialog .el-dialog__headerbtn {
-  float: right;
-} */
-/* .login-dialog .el-form-item__content {
-  margin-left: 0 !important;
-  float: right;
-  width: 200px;
-  display: inline-block;
-} */
-/* .login-dialog .el-form-item {
-  margin-bottom: 20px;
-} */
-/* .login-dialog .el-form-item__error {
-  font-size: 12px;
-  color: red;
-} */
-/* .login-dialog .el-input__suffix {
-  display: none;
-} */
 .login-dialog .el-dialog__footer {
   margin-left: 0 calc(50% - 100px);
   padding-top: 0;

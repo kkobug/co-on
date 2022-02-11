@@ -11,7 +11,7 @@
 
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
               <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-                <font-awesome-icon icon="clock" style="font-size:80px" />
+                <font-awesome-icon icon="clock" />
                 <span style="font-weight:bold; color:#21005D; font-size:20px">
                   곧 마감인 과제
                 </span>
@@ -36,7 +36,7 @@
 
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
               <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-                <font-awesome-icon icon="clock" style="font-size:80px" />
+                <font-awesome-icon icon="clock" />
                 <span style="font-weight:bold; color:#21005D; font-size:20px">
                   곧 마감인 과제
                 </span>
@@ -50,9 +50,9 @@
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashNotice">
               <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-                <font-awesome-icon icon="bell" style="font-size:80px" />
+                <font-awesome-icon icon="bell" />
                 <span style="font-weight:bold; color:#273420; font-size:20px">
-                  Recent Notice
+                  최신 공지
                 </span>
                 <div class="bottom">
                   <el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button>
@@ -73,9 +73,9 @@
             </el-card>
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
               <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-                <font-awesome-icon icon="bell" style="font-size:80px" />
+                <font-awesome-icon icon="bell" />
                 <span style="font-weight:bold; color:#273420; font-size:20px">
-                  New Notice
+                  최신 공지
                 </span>
                 <div class="bottom">
                   <p>등록된 공지가 없습니다</p>
@@ -86,7 +86,7 @@
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#F9DEDC" class="">
-                <font-awesome-icon icon="calendar-check" style="font-size:80px" />
+                <font-awesome-icon icon="calendar-check" />
                 <span style="font-weight:bold; color:#410E08; font-size:20px">
                   출석 확인
                 </span>
@@ -102,14 +102,14 @@
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
-                <font-awesome-icon icon="chalkboard-teacher" style="font-size:80px" />
+                <font-awesome-icon icon="chalkboard-teacher" />
                 <span style="font-weight:bold; color:#31111D; font-size:20px">
                   진행중인 수업
                 </span>
                 <div class="bottom">
-                  <el-button type="text" class="button">Operating</el-button>
+                  <el-button type="text" class="button">{{ this.progresstitle }}</el-button>
                   <div>
-                    <time class="time">{{ this.today }}</time>
+                    <time class="time">~{{ this.progressend.substring(0, 16) }}</time>
                   </div>
                 </div>
               </div>
@@ -181,7 +181,11 @@ export default {
     drawer: false,
     doneHW: 0,
     notyetHW: 0,
-    percentageHW: 0
+    percentageHW: 0,
+    myTchr: [],
+    inProgressClass: [],
+    progresstitle: '',
+    progressend: ''
  }),
   methods: {
     setEventVal() {
@@ -290,7 +294,7 @@ export default {
           }
         }
         this.dashHw=this.events[0]
-        console.log('선생님 과제:', this.dashHw)
+        console.log('선생님 과제:', this.events)
       })
       .catch(function(err){
         alert(err)
@@ -302,9 +306,56 @@ export default {
         console.log(result.data[0], '과제 제출률 콘솔')
         this.doneHW = result.data[0][0]
         this.notyetHW = result.data[0][1]
-        this.percentageHW = Math.floor(100 * result.data[0][0] / (result.data[0][0] + result.data[0][1]))
+        if (this.doneHW == 0 && this.notyetHW == 0) {
+          this.percentageHW = 0
+        } else {
+          this.percentageHW = Math.floor(100 * result.data[0][0] / (result.data[0][0] + result.data[0][1]))
+        }
       })
     },
+    getMyTchr(){
+      this.$store.dispatch('root/requestGetClass')
+      .then(result => {
+        for (let j = 0; j < result.data.length; j++) {
+          this.myTchr.push({
+            studyId: result.data[j].studyId,
+            tchrId: result.data[j].tchrId
+          })
+        }
+        for (let i = 0; i < this.myTchr.length; i++) {
+          this.$store.dispatch('root/requestConfAttData', {studyId: this.myTchr[i].studyId, targetDate: this.today, tchrId: this.myTchr[i].tchrId })
+          .then(res => {
+            const thishour = new Date().getHours()
+            const thisminutes = new Date().getMinutes()
+            let tmphour = ''
+            let tmpmin = ''
+            if (thishour < 10) {
+              tmphour = '0' + thishour
+            } else {
+              tmphour = thishour
+            }
+            if (thisminutes < 10) {
+              tmpmin = '0' + thisminutes
+            } else {
+              tmpmin = thisminutes
+            }
+            const thisTime = tmphour + ':' + tmpmin
+            for (let k = 0; k < res.data.length; k++) {
+              if (this.inProgressClass.length >= 1) {
+                break
+              }
+              const tmpclass = res.data[k]
+              if (res.data[k].confStart.substring(11, 16) < thisTime && res.data[k].confEnd.substring(11, 16) > thisTime) {
+                this.inProgressClass.push(tmpclass)
+                this.progresstitle = tmpclass.confTitle
+                this.progressend = tmpclass.confEnd
+              }
+            }
+          })
+        }
+      })
+    },
+
   },
   created:function(){
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
@@ -327,8 +378,10 @@ export default {
     } else {
       this.getNotice()
       this.getHw()
+      this.getMyTchr()
     }
     this.getProgress()
+    console.log(this.inProgressClass, '진행중인 수업 테스트')
   },
   mounted() {
       // cdn chart.js
