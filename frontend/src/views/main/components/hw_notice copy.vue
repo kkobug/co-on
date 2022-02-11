@@ -4,7 +4,6 @@
       <div class="common-layout">
         <!-- 공지사항 -->
         <h1 style="font-size: 25px; height: 4vh">공지사항</h1>
-
         <el-container style="height: 38vh">
           <el-main style="background-color: #E7EDDE; line-height: 100px" v-if="state.notice.length >= 1">
             <el-row v-for="item in state.notice" :key="item.noticeId" style="background-color: #ecf0f1; border-radius: 20px">
