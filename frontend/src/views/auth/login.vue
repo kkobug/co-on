@@ -1,8 +1,9 @@
 <template>
   <!-- login.vue -->
   <div @click="clickLogin">
+    <div>로그인</div>
     <!-- <img id="loginwall" :src="require(`@/assets/images/윈터.jpg`)"/> -->
-    <img id="loginwall" :src="require(`@/assets/images/plain-blue-background.jpg`)"/>
+    <!-- <img id="loginwall" :src="require(`@/assets/images/plain-blue-background.jpg`)"/> -->
   </div>
 </template>
 <style>

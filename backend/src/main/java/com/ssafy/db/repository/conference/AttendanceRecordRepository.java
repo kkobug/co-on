@@ -11,14 +11,14 @@ import java.util.List;
 @Repository
 public interface AttendanceRecordRepository extends JpaRepository<AttendanceRecord, Integer> {
 
-    @Query(value = "SELECT attendance_record.* FROM attendance_record " +
-            "WHERE st_Id=:stId AND conf_Id=:confId AND rec_out IS NULL LIMIT 1",
+    @Query(value = "select attendance_record.* from attendance_record " +
+            "where st_Id=:stId and conf_Id=:confId and rec_out is null limit 1",
             nativeQuery = true)
     AttendanceRecord findAttendanceRecordByIds(String stId, Integer confId);
 
 
-    @Query(value = "SELECT attendance_record.* FROM attendance_record " +
-            "WHERE st_Id=:stId AND conf_Id=:confId",
+    @Query(value = "select attendance_record.* from attendance_record " +
+            "where st_Id=:stId and conf_Id=:confId",
             nativeQuery = true)
     List<AttendanceRecord> findAllAttendanceRecordByIds(String stId, Integer confId);
 }

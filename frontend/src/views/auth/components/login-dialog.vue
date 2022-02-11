@@ -115,7 +115,6 @@ export default {
         if (valid) {
           store.dispatch('root/requestStLogin', { st_id: state.form.id, st_password: state.form.password })
           .then(function (result) {
-            alert('학생 로그인성공')
             localStorage.setItem('jwt',result.data.accessToken)
             store.commit('root/checkStudent')
             store.commit('root/registerUser',state.form.id)
@@ -127,7 +126,7 @@ export default {
             alert(err)
           })
         } else {
-          alert('Validate error!')
+          alert('아이디/비밀번호를 확인하세요')
         }
       });
     }
@@ -138,7 +137,6 @@ export default {
         if (valid) {
           store.dispatch('root/requestTchrLogin', { tchr_id: state.form.id, tchr_password: state.form.password })
           .then(function (result) {
-            alert('교사 로그인성공')
             localStorage.setItem('jwt',result.data.accessToken)
             store.commit('root/checkTeacher')
             store.commit('root/registerUser',state.form.id)
@@ -150,7 +148,7 @@ export default {
             alert(err)
           })
         } else {
-          alert('Validate error!')
+          alert('아이디/비밀번호를 확인하세요')
         }
       });
     }
