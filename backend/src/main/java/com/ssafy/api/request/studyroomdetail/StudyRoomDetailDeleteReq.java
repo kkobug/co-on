@@ -10,7 +10,7 @@ import lombok.Setter;
 @ApiModel("StudyRoomDetailDeleteRequest")
 public class StudyRoomDetailDeleteReq {
     @ApiModelProperty(name = "수업 ID", example = "1")
-    int studyId;
+    Integer studyId;
     @ApiModelProperty(name = "삭제할 학생 ID", example = "st_id1")
     String stId;
 

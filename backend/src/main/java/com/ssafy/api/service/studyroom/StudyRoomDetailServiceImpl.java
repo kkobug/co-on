@@ -2,6 +2,7 @@ package com.ssafy.api.service.studyroom;
 
 import com.ssafy.api.request.studyroom.StudyRoomAddPostReq;
 import com.ssafy.api.request.studyroomdetail.StudyRoomDetailDeleteReq;
+import com.ssafy.api.request.studyroomdetail.StudyRoomDetailPutReq;
 import com.ssafy.db.entity.Studyroom;
 import com.ssafy.db.entity.StudyroomDetail;
 import com.ssafy.db.repository.studyroom.StudyRoomDetailRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("studyRoomDetailService")
 public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
@@ -21,11 +23,17 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
 
     @Override
     public void addStudent(StudyRoomAddPostReq studyRoomAddPostReq) {
-        StudyroomDetail detail = new StudyroomDetail();
-        detail.setStudyId(studyRoomAddPostReq.getStudyId());
-        detail.setTchrId(studyRoomAddPostReq.getTchrId());
-        detail.setStId(studyRoomAddPostReq.getStId());
-        studyRoomDetailRepository.save(detail);
+        Optional<StudyroomDetail> exist_check = studyRoomdetailRepositorySupport.findStudyroomByIds(studyRoomAddPostReq.getStId(), studyRoomAddPostReq.getStudyId());
+
+        if (!exist_check.isPresent()) {
+            StudyroomDetail detail = new StudyroomDetail();
+            detail.setStudyId(studyRoomAddPostReq.getStudyId());
+            detail.setTchrId(studyRoomAddPostReq.getTchrId());
+            detail.setStId(studyRoomAddPostReq.getStId());
+            detail.setStPoint(0);   // Column 'st_point' cannot be null
+            studyRoomDetailRepository.save(detail);
+        }
+
     }
 
     @Override
@@ -52,6 +60,14 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     @Override
     public List<Object[]> findStudentbystudyId(int studyId) {
         return studyRoomDetailRepository.findstudentbystudyId(studyId);
+    }
+
+    @Override
+    public void updateScore(StudyRoomDetailPutReq studyRoomDetailPutReq) {
+        int studyId = studyRoomDetailPutReq.getStudyId();
+        String stId = studyRoomDetailPutReq.getStId();
+        int score = studyRoomDetailPutReq.getPoint();
+        studyRoomDetailRepository.updateScore(score, studyId, stId);
     }
 
 //    @Override

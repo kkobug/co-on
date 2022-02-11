@@ -21,7 +21,8 @@ public class StudyroomDetail implements Serializable {
     String tchrId;
     @Column(name ="st_id")
     String stId;
-
+    @Column(name ="st_point")
+    Integer stPoint;
     //Studyroom과 1:1 관계
 //    @OneToOne
 //    @JoinColumn(name ="study_id",insertable = false, updatable = false)

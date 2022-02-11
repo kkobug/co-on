@@ -1,6 +1,9 @@
 /* 공통으로 적용되어야할 css */
 html, body {
   height: 100vh;
+  background-repeat : no-repeat;
+  background-size : cover;
+  background-image: url("blank.jpg");
 }
 
 body {

@@ -13,8 +13,44 @@ import VCalendar from 'v-calendar'
 import googleAuth from './authentification'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUserSecret,faChalkboardTeacher,faCalendarCheck,faClock,faBell,faMicrophone,faMicrophoneSlash,faVideo,faVideoSlash,faDoorOpen,faShareSquare,faCommentDots,faCommentSlash} from '@fortawesome/free-solid-svg-icons'
-library.add(faClock,faBell,faUserSecret,faChalkboardTeacher,faCalendarCheck,faMicrophone,faMicrophoneSlash,faVideo,faVideoSlash,faDoorOpen,faShareSquare,faCommentDots,faCommentSlash)
+import {
+  faUserSecret,
+  faChalkboardTeacher,
+  faCalendarCheck,
+  faClock,
+  faBell,
+  faMicrophone,
+  faMicrophoneSlash,
+  faVideo,faVideoSlash,
+  faDoorOpen,
+  faShareSquare,
+  faCommentDots,
+  faCommentSlash,
+  faDesktop,
+  faFan,
+  faSpinner,
+  faRunning,
+  faUsers,
+} from '@fortawesome/free-solid-svg-icons'
+library.add(
+  faUserSecret,
+  faChalkboardTeacher,
+  faCalendarCheck,
+  faClock,
+  faBell,
+  faMicrophone,
+  faMicrophoneSlash,
+  faVideo,faVideoSlash,
+  faDoorOpen,
+  faShareSquare,
+  faCommentDots,
+  faCommentSlash,
+  faDesktop,
+  faFan,
+  faSpinner,
+  faRunning,
+  faUsers
+  )
 
 
 import 'element-plus/packages/theme-chalk/src/base.scss'

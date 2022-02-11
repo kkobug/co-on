@@ -1,36 +1,11 @@
 <template>
-  <div id="main-container" class="container">
-    <!-- 수업리스트 -->
-    <div id="join" v-if="!session">
-      <div class="common-layout" style="margin-top: 3vh" v-if="!session">
-          <el-row style="line-height: 60px; height: 5vh; font-size: 20px; font-weight: bold">
-            <el-col :span="6"><div class="grid-content ">과목명</div></el-col>
-            <el-col :span="6"><div class="grid-content ">교사</div></el-col>
-            <el-col :span="6"><div class="grid-content ">수업설명</div></el-col>
-            <el-col :span="6"><div class="grid-content ">화상회의</div></el-col>
-          </el-row>
-          <el-main style="background-color: #E7EDDE; line-height: 100px">
-            <el-row v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
-              <el-col :span="6"><div class="grid-content ">{{classitem[2]}}</div></el-col>
-              <el-col :span="6"><div class="grid-content ">{{classitem[1]}}</div></el-col>
-              <el-col :span="6"><div class="grid-content ">{{classitem[3]}}</div></el-col>
-              <el-col :span="6">
-                <!-- <div class="grid-content " @click="joinSession(classitem)">이동</div> -->
-                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">{{classitem[8].substr(0, 16)}} 이동</div>
-                <div v-else class="grid-content " @click="joinSession(classitem)">{{classitem[9].substr(0, 16)}} : 불가</div>
-              </el-col>
-            </el-row>
-          </el-main>
-      </div>
-    </div>
-
-    <!--세션 -->
-		<div id="session" v-if="session">
-      <!-- video -->
+  <div class="container">
+		<div id="session">
       <el-row>
-        <el-col :span="24-this.chatOn">
+        <!-- video -->
+        <el-col id="set_container" :span="24-this.chatOn">
           <div id="session-header">
-            <h1 id="session-title">{{ this.nowClass[5] }}</h1>
+            <h1 id="session-title">{{ this.nowClass.confTitle }}</h1>
             <el-button circle v-if="micOn" id="buttonMic" @click="micControl" value="MICOFF">
               <font-awesome-icon icon="microphone-slash" />
             </el-button>
@@ -58,13 +33,18 @@
             <el-button circle id="buttonLeaveSession" @click="leaveSession" value="Leave session">
               <font-awesome-icon icon="door-open" />
             </el-button>
+            <el-button circle v-if="this.mainStreamManager" @click="viewAll" value="View all">
+              <font-awesome-icon icon="users" />
+            </el-button>
           </div>
-          <div id="main-video" class="col-md-6">
-            <user-video :stream-manager="mainStreamManager"/>
+          <div id="sub-container" class="center_setting">
+            <user-video id="sub-video" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+            <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
           </div>
-          <div id="video-container" class="col-md-6">
-            <user-video id="sub" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-            <user-video id="sub" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+          <div class="center_setting">
+            <div id="main-container">
+              <user-video id="main-video" :stream-manager="mainStreamManager"/>
+            </div>
           </div>
         </el-col>
         <!-- video -->
@@ -102,7 +82,6 @@
             </div>
           </div>
         </el-col>
-
         <!-- chat -->
       </el-row>
     </div>
@@ -117,7 +96,7 @@ import { useRouter } from 'vue-router'
 // openvidu
 import axios from 'axios';
 import { OpenVidu, StreamManager } from 'openvidu-browser';
-import UserVideo from '../../video/UserVideo.vue';
+import UserVideo from '../video/UserVideo.vue';
 
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -126,7 +105,7 @@ const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
-  name: 'Lesson',
+  name: 'Tchr_conference',
 
   components: {
 		UserVideo,
@@ -154,9 +133,7 @@ export default {
 			classTitle: null,        // 필요 없을 수 있음
 			classDescription: null,  // 필요 없을 수 있음
 			userId: null,        // 교사 이름 또는 학생 이름
-      classes:undefined,
       nowClass:undefined,
-      today:new Date(),
       textInput:'',
 		}
 	},
@@ -178,28 +155,13 @@ export default {
   },
 
   methods: {
+
     unLoadEvent: function (event) {
       if (this.canLeaveSite) return;
 
       event.preventDefault();
       event.returnValue = '';
     },
-    compareDate(Date1,Date2){
-      if (new Date(Date1) < new Date())
-        if (new Date() < new Date(Date2))
-          return true
-      return false
-    },
-    getClasses(){
-      this.$store.dispatch('root/requestGetClassConfStudyId',this.userId)
-      .then(result =>{
-        this.classes=result.data
-      })
-      .catch(function(err){
-        alert(err)
-      })
-    },
-
 
     sendMessage(){
       var message = this.textInput
@@ -252,13 +214,7 @@ export default {
 
 		joinSession (classitem) {
       this.nowClass=classitem
-      this.mySessionId=classitem[1]+classitem[4]
-      // 수업 입실 axios
-      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem[4]})
-      .catch(function(err){
-        alert(err)
-      })
-
+      this.mySessionId=classitem.tchrId+classitem.confId
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
 
@@ -307,7 +263,7 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: this.micOn,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: this.camOn,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480',  // The resolution of your video
+							resolution: '1920x1080',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false       	// Whether to mirror your local video or not
@@ -336,14 +292,10 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-      this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass[4]})
-      .then(result =>{
-        console.log('퇴실 완료')
-      })
-      .catch(function(err){
-        alert(err)
-      })
 			window.removeEventListener('beforeunload', this.leaveSession);
+      this.$router.push({
+        name: 'Tchr_main',
+      })
 		},
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
@@ -417,11 +369,15 @@ export default {
         this.chatOn = 0
       }
     },
+
+    viewAll(){
+      this.mainStreamManager=undefined
+    }
 	},
   created:function(){
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
     this.userId=localvuex["root"]["userid"]
-    this.getClasses()
+    this.joinSession(this.$store.state.root.TchrConference)
   },
   mounted() {
     window.addEventListener('beforeunload', this.unLoadEvent);
@@ -432,6 +388,38 @@ export default {
 }
 </script>
 <style lang="scss">
+.center_setting{
+  display: flex;
+  flex-wrap: wrap;
+  // flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+#set_container{
+  width:100vw;
+  height:100vh;
+}
+#session-header {
+  // height: auto;
+}
+#sub-container {
+  // width: 20% !important;
+  // width: 15% ;
+  // height: auto;
+}
+#main-container {
+  width: 65%;
+  // width: calc(36%*1920/1080) ;
+  // height: 36%;
+}
+#sub-video {
+  width: 15% !important;
+  // height: auto;
+}
+#main-video{
+  // height: 100%;
+  // width: 50% ;
+}
 .common-layout {
   .el-header,
   .el-footer {
@@ -685,11 +673,6 @@ input {
   border: 1px solid #7ae2a9;
   box-shadow: none !important;
 }
-// #sendButton mat-icon {
-//   margin-left: 3px !important;
-//   margin-bottom: 2px !important;
-// }
-
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -700,10 +683,5 @@ input {
 
 .chatComponentLight ::-webkit-scrollbar-thumb {
   background-color: #eeeeee !important;
-}
-
-#sub {
-  width: 20%;
-  height: auto;
 }
 </style>

@@ -2,6 +2,7 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.studyroom.StudyRoomAddPostReq;
 import com.ssafy.api.request.studyroomdetail.StudyRoomDetailDeleteReq;
+import com.ssafy.api.request.studyroomdetail.StudyRoomDetailPutReq;
 import com.ssafy.api.service.studyroom.StudyRoomDetailService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Studyroom;
@@ -103,5 +104,20 @@ public class StudyRoomDetailController {
             @PathVariable @ApiParam(value = "수업ID 정보", required = true) int studyId) {
         List<Object[]> list = studyRoomDetailService.findStudentbystudyId(studyId);
         return ResponseEntity.status(200).body(list);
+    }
+
+    @PutMapping("/teacher/score")
+    @ApiOperation(value = "우리반 학생 마일리지 변경", notes = "<strong>수업ID</strong>를 통해 수업에 해당하는 학생들을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public  ResponseEntity<? extends BaseResponseBody> scoreupdate(
+            @RequestBody StudyRoomDetailPutReq studyRoomDetailPutReq
+            ){
+        studyRoomDetailService.updateScore(studyRoomDetailPutReq);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 }

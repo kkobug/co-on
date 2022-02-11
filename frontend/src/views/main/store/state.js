@@ -42,5 +42,6 @@ export default {
   curClassId: 0,
   TchrNoticeList:{},
   TchrHomeworkList:{},
-  Session:false
+  Session:false,
+  TchrConference: "",
 }
