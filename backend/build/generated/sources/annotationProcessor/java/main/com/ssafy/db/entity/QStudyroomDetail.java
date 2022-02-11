@@ -21,6 +21,8 @@ public class QStudyroomDetail extends EntityPathBase<StudyroomDetail> {
 
     public final StringPath stId = createString("stId");
 
+    public final NumberPath<Integer> stPoint = createNumber("stPoint", Integer.class);
+
     public final NumberPath<Integer> studyId = createNumber("studyId", Integer.class);
 
     public final NumberPath<Integer> studyroomDetailId = createNumber("studyroomDetailId", Integer.class);

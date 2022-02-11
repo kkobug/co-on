@@ -8,6 +8,8 @@ com/ssafy/db/repository/studyroom/StudyRoomRepositorySupport.java
  com.ssafy.db.repository.studyroom.StudyRoomRepositorySupport
 com/ssafy/api/controller/HomeworkController.java
  com.ssafy.api.controller.HomeworkController
+com/ssafy/api/request/studenthomework/StudentHomeworkPutReq.java
+ com.ssafy.api.request.studenthomework.StudentHomeworkPutReq
 com/ssafy/db/entity/Studyroom.java
  com.ssafy.db.entity.Studyroom
 com/ssafy/api/response/StHwFindID.java
@@ -110,6 +112,8 @@ com/ssafy/db/entity/Teacher.java
  com.ssafy.db.entity.Teacher
 com/ssafy/api/controller/NoticeController.java
  com.ssafy.api.controller.NoticeController
+com/ssafy/api/request/studyroomdetail/StudyRoomDetailPutReq.java
+ com.ssafy.api.request.studyroomdetail.StudyRoomDetailPutReq
 com/ssafy/api/response/TeacherFindID.java
  com.ssafy.api.response.TeacherFindID
 com/ssafy/api/response/StudentFindID.java
