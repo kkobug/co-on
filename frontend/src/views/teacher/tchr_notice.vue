@@ -9,23 +9,22 @@
         <div class="li-left li-sec">
           <div class ="li-title li-item">{{ntice.noticeTitle}}</div>
           <div class ="li-lesson li-item">{{ntice.noticeContent}}</div>
-          <div class ="li-lesson li-item">{{ntice.noticeFile}}</div>
+          <!-- <div class ="li-lesson li-item">{{ntice.noticeFile}}</div> -->
         </div>
         <div class="li-right li-sec">
           <div class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</div>
           <div class ="li-item filebar">
             첨부파일
             <ul>
+              <h4>파일목록</h4>
               <div v-for="nf in ntice.noticeFile" :key = nf.fileId>
-                <a>{{nf.fileOriginName}}</a>
+                <hr>
+                <a @click="downNoticeFile(nf.fileName, nf.filePath, nf.fileOriginName)" class="filenamehover">💾 {{nf.fileOriginName}}</a>
               </div>
-              <!-- <li v-for="nf in ntice.noticeFile" :key = nf.fileId></li>
-                <p>{{nf.fileOriginName}}</p>
-              <li>파일1</li> -->
             </ul>
           </div>
           <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
-          <el-button type="text" class="li-item" @click ="delNotice(ntice.noticeId)">삭제</el-button>
+          <el-button type="text" class="li-item" @click ="delNotice(ntice.noticeId)" style="color: red">삭제</el-button>
         </div>
       </div>
     </div>
@@ -40,6 +39,8 @@ import ModalView from "./notice_modal"
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import $axios from 'axios'
+
 export default {
   name: 'Tchr_notice',
   components:{
@@ -76,6 +77,15 @@ export default {
         getNoticeList();
       })
   }
+  const downNoticeFile = function(fileName, filePath, fileOriginName) {
+    const fileurl = `http://localhost:8080/api/v1/notice/download-file?fileName=${fileName}&filePath=${filePath}`
+    const anchor = document.createElement('a')
+    anchor.href = fileurl
+    anchor.download = fileOriginName
+    document.body.appendChild(anchor)
+    anchor.click()
+    document.body.removeChild(anchor)
+  }
   const closemodal = function(){
     state.isVisible = false
     state.isupdate = false
@@ -85,7 +95,7 @@ export default {
   onMounted(()=>{
       getNoticeList();
     })
-    return {state, onMounted, getNoticeList, updatenotice, closemodal, delNotice}
+    return {state, onMounted, getNoticeList, updatenotice, closemodal, delNotice, downNoticeFile}
   },
 };
 </script>
@@ -121,11 +131,18 @@ export default {
     position: absolute;
     z-index: 10;
     min-width: 100px;
-    background-color: blanchedalmond;
+    background-color: #6B3BE3;
     transition: height;
     transition-duration: 0.5s;
+    color: #fff;
+    border-radius: 10px;
+    margin-top: 5px;
   }
   .filebar:hover>ul {
-    height: 150px;
+    height: auto;
+  }
+  .filenamehover {
+    cursor: pointer;
+    padding: 10px;
   }
 </style>

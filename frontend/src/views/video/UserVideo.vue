@@ -1,7 +1,7 @@
 <template>
-<div v-if="streamManager">
-	<ov-video :stream-manager="streamManager"/>
-	<div><p>{{ clientData }}</p></div>
+<div style="padding:5px" v-if="streamManager">
+	<ov-video id="priv-video" :stream-manager="streamManager"/>
+	<div style="height:1em">{{ clientData }}</div>
 </div>
 </template>
 
@@ -25,7 +25,6 @@ export default {
 			return clientData;
 		},
 	},
-
 	methods: {
 		getConnectionData () {
 			const { connection } = this.streamManager.stream;
@@ -34,3 +33,9 @@ export default {
 	},
 };
 </script>
+<style>
+#priv-video{
+  width: 100%;
+  /* height: calc(100%-1em); */
+}
+</style>

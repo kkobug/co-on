@@ -52,6 +52,7 @@ export function requestLookupstudent ({ state }, payload) {
 }
 // 학생 회원 정보 수정
 export function requestModifyStudent ({ state }, payload) {
+  console.log(payload)
   const url = '/student/modify'
   let body = payload
   return $axios.put(url, body)
@@ -102,7 +103,7 @@ export function requestUpdateStProfImg ({ state }, payload) {
   console.log('requestUpdateStProfImg', payload.get('stId'))
   const url = `/student/profile`
   let body = payload
-  return $axios.put(url, body)
+  return $axios.post(url, body)
 }
 // StudyRoom
 // 수업 개설
@@ -130,9 +131,8 @@ export function requestGetTchrClass ({ state }, payload) {
 
 // StudyRoomDetail
 // 학생 수업 학생 ID 조회
-export function requestGetClass ({ state }, payload) {
-  console.log('requestGetClass')
-  const url = `/studyRoomDetail/student/list/${payload}`
+export function requestGetClass ({ state }) {
+  const url = `/studyRoomDetail/student/list/${state.userid}`
   return $axios.get(url)
 }
 // 학생 수업 수업 ID 조회
@@ -329,5 +329,12 @@ export function requestConfAttData ({ state }, payload) {
   const url = `/conference/infobydate?studyId=${payload['studyId']}&tchrId=${payload['tchrId']}&targetDate=${payload['targetDate']}`
 
   return $axios.get(url)
+}
+//마일리지
+export function requestPlusMil ({ state }, payload) {
+  console.log('requestPlusMil', payload)
+  const url = `/studyRoomDetail/teacher/score`
+  let body = payload
+  return $axios.put(url, body)
 }
 

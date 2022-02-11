@@ -9,7 +9,7 @@
       </div>
       <div style="margin-bottom: 1vh;">
         <label for="noticeContent" style="display: inline-block; width: 10%; text-align: start">내용: </label>
-        <textarea v-model="state.form.noticeContent" name="noticeContent" id="" cols="41" rows="8" style="vertical-align: middle"></textarea>
+        <textarea v-model="state.form.noticeContent" name="noticeContent" id="" cols="41" rows="8" style="vertical-align: middle; resize: none;"></textarea>
       </div>
       <div style="margin-bottom: 1vh">
         <label for="noticeFile" style="display: inline-block; width: 10%; text-align: start">파일: </label>
@@ -56,12 +56,16 @@ export default {
       dataChange(reqObject);
     };
     const addnotice = function(){
-      var noticeFormData = new FormData(document.querySelector('#noticeForm'))
-      noticeFormData.append('studyId', state.form.studyId)
-      noticeFormData.append('tchrId', state.form.tchrId)
-      // noticeFormData.append('noticeTitle', state.form.noticeTitle)
-      // noticeFormData.append('noticeContent', state.form.noticeContent)
-      // noticeFormData.append('noticeFile', state.form.noticeFile)
+      if(!state.form.noticeTitle){
+        alert("제목을 넣어주세요")
+      } else if(!state.form.noticeContent){
+        alert("내용을 넣어주세요")
+      }else{
+        var noticeFormData = new FormData(document.querySelector('#noticeForm'))
+        noticeFormData.append('studyId', state.form.studyId)
+        noticeFormData.append('tchrId', state.form.tchrId)
+      }
+
 
       store.dispatch('root/requestAddNotice', noticeFormData)
       .then(res => {
@@ -75,15 +79,18 @@ export default {
       state.form.noticeFile = filesArr
     }
     const updatenotice = function(){
-      var noticeFormData = new FormData(document.querySelector('#noticeForm'))
-      noticeFormData.append('noticeId', props.pdata.noticeId)
-      // noticeFormData.append('noticeTitle', state.form.noticeTitle)
-      // noticeFormData.append('noticeContent', state.form.noticeContent)
-      // noticeFormData.append('noticeFile', state.form.noticeFile)
-      store.dispatch('root/requestUpdateNotice', noticeFormData)
-      .then(res => {
-        closeModal()
-      })
+      if(!state.form.noticeTitle){
+        alert("제목을 넣어주세요")
+      } else if(!state.form.noticeContent){
+        alert("내용을 넣어주세요")
+      }else{
+        var noticeFormData = new FormData(document.querySelector('#noticeForm'))
+        noticeFormData.append('noticeId', props.pdata.noticeId)
+        store.dispatch('root/requestUpdateNotice', noticeFormData)
+        .then(res => {
+          closeModal()
+        })
+      }
     }
     const dataChange = function(pdata){
       console.log("abab",pdata)
@@ -150,6 +157,7 @@ export default {
     border-radius: 12px;
     text-align: center;
     color: #fff;
+    margin: auto;
     margin-top: 10px;
     margin-bottom: 2vh;
     cursor: pointer;

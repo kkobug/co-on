@@ -9,9 +9,12 @@ import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Homework;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Api(value = "과제 API", tags = {"Homework"})
@@ -149,5 +152,27 @@ public class HomeworkController {
     public ResponseEntity<List<int[]>> homeworkrate(@PathVariable String tchrId){
         List<int[]> list = homeworkService.countBytchrId(tchrId);
         return ResponseEntity.status(200).body(list);
+    }
+
+    @GetMapping("/download-file")
+    @ApiOperation(value = "파일 다운", notes = "<strong>파일 정보</strong>를 통해 파일을 다운로드 한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<Resource> download(
+            @ApiParam(value = "파일 정보", required = true)
+            @RequestParam
+                    String fileName,
+            @RequestParam
+                    String filePath
+    ) throws IOException {
+        Resource file = homeworkService.loadAsResource(fileName, filePath);
+
+        return ResponseEntity.ok().header(
+                HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\""
+        ).body(file);
     }
 }

@@ -17,7 +17,6 @@ public class StudentRepositorySupport {
     public  Optional<Student> findById(String stId) {
         Student student = jpaQueryFactory.select(qStudent).from(qStudent)
                 .where(qStudent.stId.eq(stId)).fetchOne();
-        if(student == null) return Optional.empty();
         return Optional.ofNullable(student);
     }
 

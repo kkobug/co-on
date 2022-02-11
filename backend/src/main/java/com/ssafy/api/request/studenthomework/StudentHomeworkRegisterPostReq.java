@@ -12,6 +12,8 @@ import java.util.List;
 @Setter
 @ApiModel("StudentHomeworkRegisterPostReq")
 public class StudentHomeworkRegisterPostReq {
+    @ApiModelProperty(name = "제출 과제 ID", example = "1")
+    Integer stHwId;
     @ApiModelProperty(name = "교수 과제 ID", example = "1")
     Integer hwId;
     @ApiModelProperty(name = "클래스 ID", example = "1")

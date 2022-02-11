@@ -16,8 +16,8 @@
               <el-col :span="6"><div class="grid-content ">{{classitem[3]}}</div></el-col>
               <el-col :span="6">
                 <!-- <div class="grid-content " @click="joinSession(classitem)">이동</div> -->
-                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">{{classitem[8]}} 이동</div>
-                <div v-else class="grid-content " @click="joinSession(classitem)">{{classitem[9]}} : 불가</div>
+                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">{{classitem[8].substr(0, 16)}} 이동</div>
+                <div v-else class="grid-content " @click="joinSession(classitem)">{{classitem[9].substr(0, 16)}} : 불가</div>
               </el-col>
             </el-row>
           </el-main>
@@ -349,18 +349,6 @@ export default {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
 		},
-
-		/**
-		 * --------------------------
-		 * SERVER-SIDE RESPONSIBILITY
-		 * --------------------------
-		 * These methods retrieve the mandatory user token from OpenVidu Server.
-		 * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
-		 * the API REST, openvidu-java-client or openvidu-node-client):
-		 *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
-		 *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
-		 *   3) The Connection.token must be consumed in Session.connect() method
-		 */
 
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));

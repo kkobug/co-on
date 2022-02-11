@@ -4,17 +4,17 @@
       <el-col :span="24" style="heght: 100%">
         <el-menu
           default-active="0"
-          active-text-color="#ffd04b"
+          active-text-color="#fff"
           background-color="#4267D6"
           text-color="#fff"
           style="height: 100%; position: fixed; border-color: #4267D6; width: 240px"
           class="el-menu-vertical-demo"
           @select="menuSelect">
           <el-container class="profile-card">
-            <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; color: white; border-radius: 20px">
+            <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; border-radius: 20px">
               <p>
                 <el-avatar :size="80" fit=cover :src="state.imgpath" v-if="state.imgpath"></el-avatar>
-                <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.jpg')" v-else></el-avatar>
+                <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
               </p>
               <div>
                 <span><strong>{{ username }}</strong></span>
@@ -39,11 +39,15 @@
             <el-menu-item @click="state.isVisible=true">
               <span>수업개설</span>
             </el-menu-item>
+            <el-menu-item v-if="state.conference" @click="MoveConference" id="desk">
+              <font-awesome-icon icon="spinner" style="font-size:25px" class="fa-spin"/>
+              <p>On-Air</p>
+            </el-menu-item>
             <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
           </div>
-
           <el-menu-item class="mt-auto" style="bottom: 0; width: 240px; position : fixed" @click="logout">
-            <span >로그아웃</span>
+            <font-awesome-icon icon="running" style="font-size:25px"/>&nbsp;
+            <p>로그아웃</p>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -51,6 +55,18 @@
   </div>
 </template>
 <style scoped>
+#desk{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 50px;
+  background-color: red !important;
+  color: white !important;
+  font-weight: bold;
+  font-size: 25px;
+  border: solid white 4px;
+  border-radius: 20px;
+}
 .profile-card {
   padding: auto;
   justify-content: center;
@@ -138,7 +154,8 @@ export default {
         return menuArray
       }),
       activeIndex: computed(() => store.getters['root/getActiveMenuIndex']),
-      imgpath: ''
+      imgpath: '',
+      conference: '',
     })
 
     if (state.activeIndex === -1) {
@@ -170,6 +187,13 @@ export default {
       router.push({
         name: 'Tchr_main',
       })
+      getConference()
+    }
+    const MoveConference = function(){
+      store.commit('root/changeTchrConference', state.conference)
+      router.push({
+        name: 'Tchr_conference',
+      })
     }
     const getClass = function(){
       store.dispatch('root/requestGetTchrClass', {
@@ -179,8 +203,25 @@ export default {
           state.tchr_scha = res.data
         })
     }
+    const getConference = function(){
+      store.dispatch('root/requestConfInfo', {
+            studyId: store.state.root.curClassId,
+            tchrId: store.state.root.userid})
+        .then(res =>{
+          if (res.data){
+            if (new Date(res.data.confStart) <new Date()){
+              if (new Date() < new Date(res.data.confEnd)){
+                state.conference=res.data
+              }
+            }
+          }else {
+            state.conference=''
+            console.log('화상 없음')
+          }
+        })
+    }
     const closeModal = function(){
-      getClass()
+      getClass();
       state.isVisible = false
     }
     onMounted(()=>{
@@ -190,22 +231,24 @@ export default {
           if (res.data.tchrProfName) {
             state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
           }
+          getClass();
+          getConference()
         })
         .catch(err => {
           console.log(err)
         })
-        getClass();
       } else {
         $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
         .then(res => {
-          if (res.data.tchrProfName) {
-            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+          if (res.data.stProfName) {
+            state.imgpath = require('@/assets/images/' + res.data.stProfPath + res.data.stProfName)
           }
+          getClass();
         })
       }
     })
 
-    return { state, username, whetherTchr, onMounted, MoveLesson, menuSelect, logout, goMypage, getClass, closeModal}
+    return { state, username, whetherTchr, onMounted, MoveLesson, MoveConference, menuSelect, logout, goMypage, getClass, closeModal}
   }
 }
 </script>

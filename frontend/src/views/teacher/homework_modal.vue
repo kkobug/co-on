@@ -71,19 +71,23 @@ export default {
       dataChange(reqObject);
     };
     const addhomework = function(){
-      var hwFormData = new FormData(document.querySelector('#hwForm'))
-      hwFormData.append('studyId', state.form.studyId)
-      hwFormData.append('tchrId', state.form.tchrId)
-      // hwFormData.append('hwTitle', state.form.hwTitle)
-      // hwFormData.append('hwContent', state.form.hwContent)
-      // hwFormData.append('hwDeadline', state.form.hwDeadline)
-      // hwFormData.append('hwFile', state.form.hwFile)
-      console.log("!!")
+      if(!state.form.hwTitle){
+        alert("제목을 넣어주세요")
+      } else if(!state.form.hwContent){
+        alert("내용을 넣어주세요")
+      } else if(!state.form.hwDeadline){
+        alert("날짜를 넣어주세요")
+      }else{
+        var hwFormData = new FormData(document.querySelector('#hwForm'))
+        hwFormData.append('studyId', state.form.studyId)
+        hwFormData.append('tchrId', state.form.tchrId)
 
-      store.dispatch('root/requestAddHomework', hwFormData)
-      .then(res => {
-        closeModal()
-      })
+        store.dispatch('root/requestAddHomework', hwFormData)
+        .then(res => {
+          closeModal()
+        })
+      }
+
     }
     const addFile = function(event) {
       var files = event.target.files
@@ -91,12 +95,20 @@ export default {
       state.form.hwFile = filesArr
     }
     const updatehomework = function(){
-      var hwFormData = new FormData(document.querySelector('#hwForm'))
-      hwFormData.append('hwId', state.form.hwId)
-      store.dispatch('root/requestupdateHomework', hwFormData)
-      .then(res => {
-        closeModal()
-      })
+      if(!state.form.hwTitle){
+        alert("제목을 넣어주세요")
+      } else if(!state.form.hwContent){
+        alert("내용을 넣어주세요")
+      } else if(!state.form.hwDeadline){
+        alert("날짜를 넣어주세요")
+      }else{
+        var hwFormData = new FormData(document.querySelector('#hwForm'))
+        hwFormData.append('hwId', state.form.hwId)
+        store.dispatch('root/requestupdateHomework', hwFormData)
+        .then(res => {
+          closeModal()
+        })
+      }
     }
     const dataChange = function(pdata){
       console.log("abab",pdata)
@@ -146,6 +158,7 @@ export default {
     border-radius: 12px;
     text-align: center;
     color: #fff;
+    margin: auto;
     margin-top: 10px;
     margin-bottom: 2vh;
     cursor: pointer;

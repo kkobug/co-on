@@ -141,7 +141,7 @@ public class UserController {
 	}
 
 
-	@PutMapping("/student/profile")
+	@PostMapping("/student/profile")
 	@ApiOperation(value = "학생 프로필 사진 수정", notes = "<strong>학생ID, 프로필 이미지</strong>를 통해 정보를 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
