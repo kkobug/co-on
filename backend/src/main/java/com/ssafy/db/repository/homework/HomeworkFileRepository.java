@@ -14,13 +14,13 @@ import java.util.List;
 public interface HomeworkFileRepository extends JpaRepository<HomeworkFile, Integer> {
 
     // 공지 ID로 모든 파일 조회
-    @Query(value = "SELECT HOMEWORK_FILE.* FROM HOMEWORK_FILE WHERE HOMEWORK_FILE.hw_id = :hwId"
+    @Query(value = "select homework_file.* from homework_file where homework_file.hw_id = :hwId"
             , nativeQuery = true)
     List<MultipartFile> findHomeworkFileByHwId(Integer hwId);
 
     // 파일 삭제
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM HOMEWORK_FILE WHERE HOMEWORK_FILE.hw_id = :hwId", nativeQuery = true)
+    @Query(value = "delete from homework_file where homework_file.hw_id = :hwId", nativeQuery = true)
     void deleteHomeworkFileByHwId(Integer hwId);
 }

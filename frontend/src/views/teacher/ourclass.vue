@@ -20,9 +20,9 @@
                 </div>
                 <div>
                   <el-form>
-                    <p>마일리지</p>
+                    <p>마일리지 : {{o[6]}}</p>
                     <el-form-item style="margin:5px;">
-                      <el-input v-model="state.mil[index]" >{{o[6]}}</el-input>
+                      <el-input v-model="state.mil[index]"></el-input>
                     </el-form-item>
                     <el-button class="staddbtn" style="min-width:80px;" @click="addmil(o[0], index)">추가</el-button>
                   </el-form>
