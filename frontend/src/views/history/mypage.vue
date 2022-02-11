@@ -162,34 +162,38 @@ export default {
     }
 
     const clickDelete = function () {
-      if (store.state.root.whetherTchr) {
-        store.dispatch('root/requestDeleteTeacher', username)
-        .then(function (result) {
-          alert('정보 수정 성공')
-          state.form.id = ''
-          state.form.email = ''
-          state.form.contact = ''
-          state.form.school = ''
-          state.form.birthday = ''
-          emit('deleteId')
-        })
-        .catch(function (err) {
-          alert(err)
-        })
-      } else {
-        store.dispatch('root/requestDeleteStudent', username)
-        .then(function (result) {
-          alert('정보 수정 성공')
-          state.form.id = ''
-          state.form.email = ''
-          state.form.contact = ''
-          state.form.school = ''
-          state.form.birthday = ''
-          emit('deleteId')
-        })
-        .catch(function (err) {
-          alert(err)
-        })
+      var dele = false
+      dele = confirm("정말로 계정을 삭제 하시겠습니까?")
+      if (dele){
+        if (store.state.root.whetherTchr) {
+          store.dispatch('root/requestDeleteTeacher', username)
+          .then(function (result) {
+            alert('정보 수정 성공')
+            state.form.id = ''
+            state.form.email = ''
+            state.form.contact = ''
+            state.form.school = ''
+            state.form.birthday = ''
+            emit('deleteId')
+          })
+          .catch(function (err) {
+            alert(err)
+          })
+        } else {
+          store.dispatch('root/requestDeleteStudent', username)
+          .then(function (result) {
+            alert('정보 수정 성공')
+            state.form.id = ''
+            state.form.email = ''
+            state.form.contact = ''
+            state.form.school = ''
+            state.form.birthday = ''
+            emit('deleteId')
+          })
+          .catch(function (err) {
+            alert(err)
+          })
+        }
       }
     }
 

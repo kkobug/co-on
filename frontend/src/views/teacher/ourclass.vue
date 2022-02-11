@@ -4,8 +4,8 @@
     <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="closemodal()"></ModalView>
     <el-row :gutter="24" style="margin: auto; margin-top: 2vh;">
       <el-col :span="20" style="margin: auto; min-height: 600px;">
-        <el-button class="staddbtn" @click="state.isVisible=true">학생 추가</el-button>
-        <div :span="24" class="stud">
+        <el-button class="staddbtn" style="border:none; position:absolute; right: 30px; top: 10px;" @click="state.isVisible=true">학생 추가</el-button>
+        <div :span="24" class="stud" style="margin-top:65px;">
           <el-row style="width: 100%" :gutter="24">
             <el-col
             v-for="(o, index) in state.students"
@@ -24,7 +24,7 @@
                     <el-form-item style="margin:5px;">
                       <el-input v-model="state.mil[index]"></el-input>
                     </el-form-item>
-                    <el-button class="staddbtn" style="min-width:80px;" @click="addmil(o[0], index)">추가</el-button>
+                    <el-button class="staddbtn" style="min-width:80px; border:none;" @click="addmil(o[0], index)">추가</el-button>
                   </el-form>
                 </div>
                 <el-button type="text" class="button" @click="delstudent(o[0])">X</el-button>
@@ -122,6 +122,9 @@ export default {
         point: state.mil[pl],
         stId: id,
         studyId: store.state.root.curClassId
+      })
+      .then(res=>{
+        getStudentList();
       })
     }
     onMounted(()=>{

@@ -12,7 +12,7 @@
         value-format="YYYY-MM-DD"
         >
         </el-date-picker>
-        <el-button class = "datepickbtn" @click ="getConfAttData">조회</el-button>
+        <el-button class = "datepickbtn" style="border:none;" @click ="getConfAttData">조회</el-button>
         <div>
           <el-select v-model="value" class="m-2" placeholder="시간을 선택해주세요" @change="getConfSTrecord">
             <el-option
