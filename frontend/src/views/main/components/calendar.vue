@@ -11,7 +11,7 @@
 
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
               <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-                <font-awesome-icon icon="clock" style="font-size:80px" />
+                <font-awesome-icon icon="clock" />
                 <span style="font-weight:bold; color:#21005D; font-size:20px">
                   곧 마감인 과제
                 </span>
@@ -36,7 +36,7 @@
 
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
               <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-                <font-awesome-icon icon="clock" style="font-size:80px" />
+                <font-awesome-icon icon="clock" />
                 <span style="font-weight:bold; color:#21005D; font-size:20px">
                   곧 마감인 과제
                 </span>
@@ -50,7 +50,7 @@
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashNotice">
               <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-                <font-awesome-icon icon="bell" style="font-size:80px" />
+                <font-awesome-icon icon="bell" />
                 <span style="font-weight:bold; color:#273420; font-size:20px">
                   Recent Notice
                 </span>
@@ -73,7 +73,7 @@
             </el-card>
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
               <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-                <font-awesome-icon icon="bell" style="font-size:80px" />
+                <font-awesome-icon icon="bell" />
                 <span style="font-weight:bold; color:#273420; font-size:20px">
                   New Notice
                 </span>
@@ -86,7 +86,7 @@
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#F9DEDC" class="">
-                <font-awesome-icon icon="calendar-check" style="font-size:80px" />
+                <font-awesome-icon icon="calendar-check" />
                 <span style="font-weight:bold; color:#410E08; font-size:20px">
                   출석 확인
                 </span>
@@ -102,7 +102,7 @@
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
-                <font-awesome-icon icon="chalkboard-teacher" style="font-size:80px" />
+                <font-awesome-icon icon="chalkboard-teacher" />
                 <span style="font-weight:bold; color:#31111D; font-size:20px">
                   진행중인 수업
                 </span>

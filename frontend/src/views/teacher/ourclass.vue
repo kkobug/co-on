@@ -12,9 +12,9 @@
             :key="o"
             :span="4"
             >
-              <el-card :body-style="{ padding: '5px' }" style="border-radius:5px; width: 100%; position:relative; padding: 7px;">
+              <el-card :body-style="{ padding: '5px' }" style="border-radius:5px; width: 100%; position:relative; padding: 7px; margin-bottom : 2vh;">
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/' + o[9] + o[7])" v-if="o[7]"></el-avatar>
-                <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.jpg')" v-else></el-avatar>
+                <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
                 <div style="padding: 14px">
                   <span>{{o[1]}}</span>
                 </div>
