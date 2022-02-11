@@ -1,8 +1,7 @@
 <template>
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
-    <h1>과제 관리 페이지</h1>
-    <el-tabs v-model="activeName" class="demo-tabs">
+    <el-tabs v-model="activeName" class="demo-tabs" style="margin: 20px; background-color: white">
       <el-tab-pane label="User" name="first">User</el-tab-pane>
       <el-tab-pane v-for="(Hw, idx) in Hws" :key="Hw" :label="Hw.hwTitle">
         <el-scrollbar height="400px">

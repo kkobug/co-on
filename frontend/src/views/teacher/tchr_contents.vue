@@ -3,10 +3,10 @@
     <tchr-nav @startvideo="start"></tchr-nav>
     <el-row :gutter="20">
       <el-col :span="20" style="margin-left: 15vh">
-          <h1 style="text-align:center; margin-top: 1vh; font-size: 30px">{{ state.classtitle }}</h1>
+          <!-- <h1 style="text-align:center; margin-top: 1vh; font-size: 30px">{{ state.classtitle }}</h1> -->
           <homework></homework>
           <notice></notice>
-          <el-button class="sub_btn" @click ="delClass">수업 삭제</el-button>
+          <el-button class="sub_btn" style="border:none;" @click ="delClass">수업 삭제</el-button>
       </el-col>
     </el-row>
     <start-video-dialog
@@ -47,24 +47,27 @@ export default {
       id: store.state.root.userid
     })
     const delClass = function(){
-      console.log(state.id ,state.classtitle)
-      store.dispatch('root/requestDeleteClass', {
+      var dele = false
+      dele = confirm("정말로 수업을 삭제 하시겠습니까?")
+      if (dele){
+        store.dispatch('root/requestDeleteClass', {
           studyName: state.classtitle,
           tchrId: state.id
           })
-      .then(function (result) {
-        store.dispatch('root/requestGetTchrClass', {
-            tchrId: store.state.root.userid})
-        .then(res =>{
-          store.state.root.classList = res.data
+        .then(function (result) {
+          store.dispatch('root/requestGetTchrClass', {
+              tchrId: store.state.root.userid})
+          .then(res =>{
+            store.state.root.classList = res.data
+          })
+          router.push({
+            name: 'Main_calendar',
+          })
         })
-        router.push({
-          name: 'Main_calendar',
+        .catch(function (err) {
+          alert(err)
         })
-      })
-      .catch(function (err) {
-        alert(err)
-      })
+      }
     }
     return {state, delClass}
   },
@@ -109,11 +112,14 @@ export default {
   position: absolute;
 }
 .sub_btn{
+  position: fixed;
+  right:10px;
+  bottom:10px;
   padding: 5px;
   margin: 20px;
-  background-color: #6B3BE3;
+  background-color: #db1d1d;
   border-radius: 15px;
-  width: 30%;
+  width: 15vh;
   height: 50px;
   text-align: center;
   color: #fff;

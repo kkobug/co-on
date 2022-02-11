@@ -11,13 +11,13 @@
           class="el-menu-vertical-demo"
           @select="menuSelect">
           <el-container class="profile-card">
-            <el-card style="text-align: center; width: 220px; margin: 5px; background-color: #1B2A57; border-radius: 20px">
+            <el-card style="text-align: center; width: 220px; border: none; margin: 5px; background-color: #1B2A57; border-radius: 20px">
               <p>
                 <el-avatar :size="80" fit=cover :src="state.imgpath" v-if="state.imgpath"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
               </p>
               <div>
-                <span><strong>{{ username }}</strong></span>
+                <span style="color:white"><strong>{{ username }}</strong></span>
               </div>
               <el-button
                 color="#626aef"
@@ -29,6 +29,7 @@
           </el-container>
 
           <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+            <font-awesome-icon v-if="index==0" icon="home" style="font-size:25px"/>&nbsp;
             <span>{{ item.title }}</span>
           </el-menu-item>
 
@@ -37,13 +38,14 @@
                 <span>{{ val[1] }}</span>
             </el-menu-item>
             <el-menu-item @click="state.isVisible=true">
+              <font-awesome-icon icon="chalkboard-teacher" style="font-size:25px"/>&nbsp;
               <span>수업개설</span>
             </el-menu-item>
             <el-menu-item v-if="state.conference" @click="MoveConference" id="desk">
               <font-awesome-icon icon="spinner" style="font-size:25px" class="fa-spin"/>
               <p>On-Air</p>
             </el-menu-item>
-            <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
+    <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
           </div>
           <el-menu-item class="mt-auto" style="bottom: 0; width: 240px; position : fixed" @click="logout">
             <font-awesome-icon icon="running" style="font-size:25px"/>&nbsp;
@@ -91,6 +93,10 @@
 .li_zindex{
   z-index: 1000;
   box-shadow: 3px 3px 3px 3px gray;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .studyList{
   border-radius: 10px;

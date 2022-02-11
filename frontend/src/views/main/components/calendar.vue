@@ -123,7 +123,7 @@
               <vue-cal
                 class="vuecal--blue-theme cal"
                 :selected-date="this.today"
-                :disable-views="['years', 'year']"
+                :disable-views="['years', 'year','week','day']"
                 active-view="month"
                 events-on-month-view="short"
                 overlaps-per-time-step

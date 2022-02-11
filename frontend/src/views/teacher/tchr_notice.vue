@@ -1,19 +1,16 @@
 <template>
   <div>
+    <h1 style="margin: 25px; font-size:30px; text-align: start;">공지사항</h1>
     <ModalView style="box-shadow: 3px 3px 3px 3px gray;" v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
     <div style="text-align: right">
-      <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px" class="sub_btn" @click="state.isVisible = true">공지 생성</el-button>
+      <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">공지 생성</el-button>
     </div>
     <div v-if="state.notices.length >= 1">
-      <div v-for = "(ntice, index) in state.notices" :key = ntice.id class ="el-item">
-        <div class="li-left li-sec">
-          <div class ="li-title li-item">{{ntice.noticeTitle}}</div>
-          <div class ="li-lesson li-item">{{ntice.noticeContent}}</div>
-          <!-- <div class ="li-lesson li-item">{{ntice.noticeFile}}</div> -->
-        </div>
-        <div class="li-right li-sec">
-          <div class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</div>
-          <div class ="li-item filebar">
+      <el-row :gutter="24" v-for = "(ntice, index) in state.notices" :key = ntice.id class ="el-item">
+          <el-col :span="6" class ="li-title li-item">{{ntice.noticeTitle}}</el-col>
+          <el-col :span="8" class ="li-lesson li-item">{{ntice.noticeContent}}</el-col>
+          <el-col :span="3" class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</el-col>
+          <el-col :span="3" class ="li-item filebar"  style="padding:10px;">
             첨부파일
             <ul>
               <h4>파일목록</h4>
@@ -22,11 +19,14 @@
                 <a @click="downNoticeFile(nf.fileName, nf.filePath, nf.fileOriginName)" class="filenamehover">💾 {{nf.fileOriginName}}</a>
               </div>
             </ul>
-          </div>
-          <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
-          <el-button type="text" class="li-item" @click ="delNotice(ntice.noticeId)" style="color: red">삭제</el-button>
-        </div>
-      </div>
+          </el-col>
+          <el-col :span="2">
+            <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
+          </el-col>
+          <el-col :span="2">
+            <el-button type="text" class="li-item" @click ="delNotice(ntice.noticeId)" style="color: red">삭제</el-button>
+          </el-col>
+      </el-row>
     </div>
     <div v-else style="height: 80%; padding: 100px">
       <h1>등록된 공지가 없습니다</h1>
@@ -106,19 +106,15 @@ export default {
     box-sizing: border-box;
   }
   .el-item{
-    display: flex;
-    justify-content: space-between;
+
     background-color: #ecf0f1;
     align-items: center;
     border-radius: 20px;
-    height: 80px;
+    height: 60px;
     margin-bottom: 10px;
   }
-  .li-sec{
-    display: flex;
-  }
   .li-item{
-    margin: 20px;
+    padding: 5px;
   }
   .sub_btn{
     padding: 5px;
@@ -126,20 +122,23 @@ export default {
 
   }
   .filebar>ul {
+    display: none;
     overflow: hidden;
-    height: 0;
+    height: auto;
+    padding: 8px;
     position: absolute;
     z-index: 10;
-    min-width: 100px;
+    min-width: 150px;
     background-color: #6B3BE3;
-    transition: height;
-    transition-duration: 0.5s;
     color: #fff;
     border-radius: 10px;
     margin-top: 5px;
   }
   .filebar:hover>ul {
-    height: auto;
+    display: block;
+  }
+  .filebar>ul>li{
+    margin: 5px;
   }
   .filenamehover {
     cursor: pointer;
