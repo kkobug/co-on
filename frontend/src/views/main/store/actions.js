@@ -296,6 +296,12 @@ export function requestGetHwlist ({ state }, payload) {
   const url = `/studenthomework/teacher/list/${payload}`
   return $axios.get(url)
 }
+export function requestPutScore ({ state }, payload) {
+  console.log('requestPostScore', payload)
+  const url = `/studenthomework/score`
+  let body = payload
+  return $axios.put(url, body)
+}
 
 // Conference
 // 수업 입실
