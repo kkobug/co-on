@@ -23,9 +23,12 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
 
     @Override
     public void addStudent(StudyRoomAddPostReq studyRoomAddPostReq) {
-        Optional<StudyroomDetail> exist_check = studyRoomdetailRepositorySupport.findStudyroomByIds(studyRoomAddPostReq.getStId(), studyRoomAddPostReq.getStudyId());
+        System.out.println("!!!!!!!!!!!!serve");
+        StudyroomDetail exist_check = studyRoomdetailRepositorySupport.findStudyroomByIds(studyRoomAddPostReq.getStId(), studyRoomAddPostReq.getStudyId());
+        System.out.println("!!!!!!!!!!!!exist cherk");
+        System.out.println(exist_check);
 
-        if (!exist_check.isPresent()) {
+        if (exist_check == null) {
             StudyroomDetail detail = new StudyroomDetail();
             detail.setStudyId(studyRoomAddPostReq.getStudyId());
             detail.setTchrId(studyRoomAddPostReq.getTchrId());
