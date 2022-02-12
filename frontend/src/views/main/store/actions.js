@@ -149,7 +149,7 @@ export function requestGetClassConfStudyId ({ state }, payload) {
 }
 // 학생 추가
 export function requestAddStudentInStudy ({ state }, payload) {
-  console.log('requestAddStudentInStudy')
+  console.log('requestAddStudentInStudy', payload)
   const url = `/studyRoomDetail/teacher/add`
   let body = payload
   return $axios.post(url, body)

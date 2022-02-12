@@ -1,7 +1,7 @@
 <template>
   <el-menu
     mode="horizontal"
-    :default-active="activeIndex"
+    :default-active="0"
     class="el-menu-demo"
     @select="handleSelect"
     background-color="#545c64"
