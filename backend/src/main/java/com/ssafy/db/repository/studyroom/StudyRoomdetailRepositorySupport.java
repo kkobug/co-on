@@ -29,8 +29,9 @@ public class StudyRoomdetailRepositorySupport {
 //        return list;
 //    }
 
-    public Optional<StudyroomDetail> findStudyroomByIds(String stId, Integer studyId) {
-        return Optional.ofNullable(jpaQueryFactory.select(qStudyroomDetail).where(qStudyroomDetail.studyId.eq(studyId).and(qStudyroomDetail.stId.eq(stId))).fetchOne());
+    public StudyroomDetail findStudyroomByIds(String stId, Integer studyId) {
+        Optional<StudyroomDetail> studyroomDetail = Optional.ofNullable(jpaQueryFactory.select(qStudyroomDetail).from(qStudyroomDetail).where(qStudyroomDetail.studyId.eq(studyId).and(qStudyroomDetail.stId.eq(stId))).fetchOne());
+        return studyroomDetail.orElse(null);
     }
 
     @Transactional
