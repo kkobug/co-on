@@ -1,11 +1,13 @@
 <template>
   <div>
-    <h1 style="margin: 25px; font-size:30px; text-align: start;">제출된 과제</h1>
-    <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data style="box-shadow: 3px 3px 3px 3px gray; z-index:11;" v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
-    <div style="text-align: right">
-      <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">과제 생성</el-button>
+    <div style="display:flex; justify-content: space-between;">
+      <h1 style="margin: 25px; font-size:30px;">제출된 과제</h1>
+      <div style="">
+        <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">과제 생성</el-button>
+      </div>
     </div>
-    <el-scrollbar wrap-style="max-height: 220px;" style="min-height:200px;">
+    <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data style="box-shadow: 3px 3px 3px 3px gray; z-index:11;" v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
+    <el-scrollbar wrap-style="max-height: 270px;" style="min-height:270px;">
       <div v-if="state.homeworks.length >= 1" style="margin:0 20px;">
         <el-row :gutter="24" v-for="(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
             <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>

@@ -71,6 +71,7 @@
               <div id="messageInput">
                 <input
                   placeholder="Send a message"
+                  class = "inputt"
                   autocomplete="off"
                   v-model="this.textInput"
                   v-on:keyup.enter="sendMessage"
@@ -505,7 +506,7 @@ export default {
   width: 20%;
   height: 100%;
 }
-input {
+.inputt {
   font-family: 'Ubuntu', sans-serif;
 }
 
