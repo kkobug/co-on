@@ -28,7 +28,7 @@
             </el-card>
           </el-container>
 
-          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index">
+          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
             <font-awesome-icon v-if="index==0" icon="home" style="font-size:25px"/>&nbsp;
             <span>{{ item.title }}</span>
           </el-menu-item>

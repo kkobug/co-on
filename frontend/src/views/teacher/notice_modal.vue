@@ -5,7 +5,7 @@
     <form action="#" id="noticeForm" method="post" enctype="multipart/form-data">
       <div style="margin-bottom: 1vh; height: 25px">
         <label for="noticeTitle" style="display: inline-block; width: 10%; text-align: start">제목:</label>
-        <input v-model="state.form.noticeTitle"  name="noticeTitle" type="text" style="width: 60%">
+        <input v-model="state.form.noticeTitle" name="noticeTitle" type="text" style="width: 60%" maxlength="50">
       </div>
       <div style="margin-bottom: 1vh;">
         <label for="noticeContent" style="display: inline-block; width: 10%; text-align: start">내용: </label>

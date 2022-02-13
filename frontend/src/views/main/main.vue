@@ -10,11 +10,7 @@
           />
       </el-aside>
       <el-main style="padding: 0">
-        <!-- <el-row> -->
-          <!-- <el-col :span="20" :offset="2"> -->
-          <router-view @deleteId="deleteId1" ></router-view>
-          <!-- </el-col> -->
-        <!-- </el-row> -->
+        <router-view @deleteId="deleteId1" ></router-view>
       </el-main>
     </el-container>
   </el-container>

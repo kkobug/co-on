@@ -128,7 +128,7 @@
                 events-on-month-view="short"
                 overlaps-per-time-step
                 :events="events"
-                style="height: auto"
+                style="height: auto;border-radius:20px;overflow:hidden;"
               >
               </vue-cal>
             </div>
@@ -188,18 +188,6 @@ export default {
     progressend: ''
  }),
   methods: {
-    setEventVal() {
-      this.events = [
-        {
-          start: "2022-1-21 15:25",
-          end: "2022-1-21 16:25",
-          title: "john 1",
-          content: 'Default',
-          class: "health",
-          split: 2
-        }
-      ];
-    },
     getNotice(){
       this.$store.dispatch('root/requestGetSTNotice',this.userId)
       .then(result =>{
@@ -238,8 +226,6 @@ export default {
             this.events.push({
               start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
               end: hw.hwDeadline.substring(0,16),
-              //start: hw.hwPosted.substring(0,5)+hw.hwPosted.substring(6,16),//"2022-01-30 17:46:39.000000"
-              //end: hw.hwDeadline.substring(0,5)+hw.hwDeadline.substring(6,16),//"2022-02-18 12:00:00"
               title: hw.hwTitle,
               className :hw.studyroom.studyName,
               content: hw.hwContent,
@@ -250,20 +236,6 @@ export default {
             });
           }
         }
-        // const hws=[];
-        // for (var j = 0; j < this.events.length; j++) {
-        //   var hw = this.events[j];
-        //   console.log("마감기한:"+hw.end)
-        //   console.log("오늘:"+this.today)
-        //   if (hw.end>=this.today){
-        //     hws.push(hw);
-        //   }
-        // }
-
-        // hws.sort(function(a, b) { // 오름차순
-        //   return a["end"] - b["end"];
-        // });
-        // this.dashHw=hws[hws.length-1]
         this.dashHw=this.events[0]
         console.log('과제:', this.dashHw)
       })
@@ -371,7 +343,6 @@ export default {
       nowday = '0' + nowday
     }
     this.today=nowyear + '-' + nowmonth + '-' + nowday
-    // this.setEventVal()
     if (this.tchrOrNot) {
       this.getNoticeTchr()
       this.getTchtHW()
@@ -494,10 +465,10 @@ p{
   clear:both;
 }
 .calendar{
-  padding: 10px;
+  /* padding: 10px; */
 }
 .cal{
-  background-color: #C4C9BC;
+  background-color: white;
 
 }
 
