@@ -3,8 +3,8 @@
     <tchr-nav @startvideo="start"></tchr-nav>
     <el-row :gutter="20">
       <el-col :span="20" style="margin-left: 15vh">
-        <homework></homework>
         <notice></notice>
+        <homework></homework>
         <el-button class="sub_btn" style="border:none;" @click ="delClass">수업 삭제</el-button>
       </el-col>
     </el-row>

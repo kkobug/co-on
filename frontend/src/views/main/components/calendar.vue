@@ -197,9 +197,6 @@ export default {
             this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
         }
       })
-      .catch(function(err){
-        alert(err)
-      })
     },
     getNoticeTchr(){
       this.$store.dispatch('root/requestGetTchrNotice')
@@ -209,9 +206,6 @@ export default {
         if (result.data.length >= 1) {
             this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
         }
-      })
-      .catch(function(err){
-        alert(err)
       })
     },
     getHw(){
@@ -239,9 +233,6 @@ export default {
         this.dashHw=this.events[0]
         console.log('과제:', this.dashHw)
       })
-      .catch(function(err){
-        alert(err)
-      })
     },
     getTchtHW(){
       this.$store.dispatch('root/requestTchrListHomework')
@@ -267,9 +258,6 @@ export default {
         }
         this.dashHw=this.events[0]
         console.log('선생님 과제:', this.events)
-      })
-      .catch(function(err){
-        alert(err)
       })
     },
     getProgress(){

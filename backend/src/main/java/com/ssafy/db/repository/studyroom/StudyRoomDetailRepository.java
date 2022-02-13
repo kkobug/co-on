@@ -17,7 +17,7 @@ public interface StudyRoomDetailRepository extends JpaRepository<StudyroomDetail
             "inner join student AS s on d.st_id=s.st_id where d.study_id= :studyId", nativeQuery = true)
     List<Object[]> findStudyroombystudyId(int studyId);
 
-@Query(value = "select st.study_id, st.tchr_id, st.study_name, st.study_desc, c.conf_id, c.conf_title, date_format(c.conf_init, '%Y-%m-%d %H:%i:%s'), date_format(c.conf_des, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_start, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_end, '%Y-%m-%d %H:%i:%s'),  date_format(c.conf_att, '%Y-%m-%d %H:%i:%s')\n" +
+@Query(value = "select st.study_id, st.tchr_id, st.study_name, st.study_desc, c.conf_id, c.conf_title, date_format(c.conf_init, '%Y-%m-%d %H:%i:%s'), date_format(c.conf_des, '%Y-%m-%d %H:%i:%s'), date_format(c.conf_start, '%Y-%m-%d %H:%i:%s'), date_format(c.conf_end, '%Y-%m-%d %H:%i:%s'), date_format(c.conf_att, '%Y-%m-%d %H:%i:%s'), sd.st_point\n" +
             "from studyroom as st, conference as c\n" +
             "left join studyroom_detail as sd\n" +
             "on sd.study_id = c.study_id\n" +
