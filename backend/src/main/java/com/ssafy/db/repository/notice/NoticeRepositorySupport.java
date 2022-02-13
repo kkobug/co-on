@@ -19,13 +19,17 @@ public class NoticeRepositorySupport {
     // 수업 ID로 공지 조회 (특정 수업에서 발생한 모든 공지)
     public List<Notice> findNoticeByStudyId(Integer studyId){
         return jpaQueryFactory.select(qnotice).from(qnotice)
-                .where(qnotice.studyId.eq(studyId)).fetch();
+                .where(qnotice.studyId.eq(studyId))
+                .orderBy(qnotice.noticePosted.desc())
+                .fetch();
     }
 
     // 교사 ID로 공지 조회 (교사가 작성한 모든 공지)
     public List<Notice> findNoticeByTchrId(String tchrId) {
         return jpaQueryFactory.select(qnotice).from(qnotice)
-                .where(qnotice.tchrId.eq(tchrId)).fetch();
+                .where(qnotice.tchrId.eq(tchrId))
+                .orderBy(qnotice.noticePosted.desc())
+                .fetch();
     }
 
     // 공지 ID로 공지 조회 (단일 공지 상세내역 조회)
