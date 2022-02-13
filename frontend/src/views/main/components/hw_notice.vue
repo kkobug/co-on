@@ -1,89 +1,92 @@
 <template>
-  <el-row>
-    <el-col :span="20" :offset="2">
-      <div class="common-layout">
-        <!-- 공지사항 -->
-        <h1 style="font-size: 25px; height: 4vh">공지사항</h1>
-
-        <el-container style="height: 38vh">
-          <el-main style="background-color: #E7EDDE; line-height: 100px" v-if="state.notice.length >= 1">
-            <el-row v-for="item in state.notice" :key="item.noticeId" style="background-color: #ecf0f1; border-radius: 20px">
-              <el-col :span="3" style="border-radius: 20px">{{item.noticeId}}</el-col>
-              <el-col :span="18">
-                <div style="border-radius: 20px">
-                  <el-popover
-                    placement="bottom"
-                    title="Title"
-                    :width="200"
-                    trigger="click"
-                    content="item.noticeContent"
-                  >
-                    <template #reference>
-                      <el-button type="text">{{item.noticeTitle}}</el-button>
-                    </template>
-                  </el-popover>
-
-                </div>
-              </el-col>
-              <el-col :span="3">
-                <div class ="li-item filebar">
-                  첨부파일
-                  <ul>
-                    <!-- <li v-for="nf in notice.File" :key = "nf.id"></li> -->
-                    <li>파일1</li>
-                  </ul>
-                </div>
-              </el-col>
-
-            </el-row>
-          </el-main>
-          <el-main v-else style="background-color: #E7EDDE">
-            <h1 style="background-color: #E7EDDE">등록된 공지가 없습니다</h1>
-          </el-main>
-        </el-container>
-
-        <!-- 과제 -->
-        <h1 style="font-size: 25px; height: 4vh">과제목록</h1>
-        <el-container style="height: 38vh">
-          <el-main style="background-color: #E7EDDE; line-height: 100px" v-if="state.hw.length >= 1">
-            <el-row v-for="item in state.hw" :key="item.id" style="background-color: #ecf0f1; border-radius: 20px">
-              <el-col :span="7"><div>{{item.hwTitle}}</div></el-col>
-              <el-col :span="7"><div>{{item.studyroom.studyName}}</div></el-col>
-              <el-col :span="3">
-                <div class ="li-item filebar">
-                  첨부파일
-                  <ul>
-                    <!-- <li v-for="nf in notice.File" :key = "nf.id"></li> -->
-                    <li>파일1</li>
-                  </ul>
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <el-button type="text" @click="onOpenHwDialog(item)">
-                  제출하기
-                </el-button>
-                <el-button type="text" @click="delStHw(item.hwid)">
-                  삭제하기
-                </el-button>
-              </el-col>
-
-            </el-row>
-          </el-main>
-          <el-main v-else style="background-color: #E7EDDE">
-            <h1 style="background-color: #E7EDDE">등록된 과제가 없습니다</h1>
-          </el-main>
-        </el-container>
-
-        <!-- 과제 제출 -->
-        <hw-dialog
-          :open="state.hwDialogOpen"
-          @closeHwDialog="onCloseHwDialog"
-          v-bind:props_hw = state.props_hw
-          style="box-shadow: 3px 3px 3px 3px gray;"
-        />
+  <div style=" margin-right: 15vh;margin-left: 15vh; overflow: hidden;">
+    <h1 style="padding: 25px; font-size:30px; text-align: start;">공지사항</h1>
+    <el-row :gutter="24" style="width:100%">
+      <el-col :span="6" class ="li-title li-item">title</el-col>
+      <el-col :span="8" class ="li-lesson li-item">content</el-col>
+      <el-col :span="3" class ="li-time li-item">게시일</el-col>
+      <el-col :span="3" class ="li-item filebar"  style="padding:10px;">
+        첨부파일
+      </el-col>
+    </el-row>
+    <el-scrollbar height="360px" >
+      <div v-if="state.notices.length >= 1" style="overflow: hidden;">
+        <el-row :gutter="24" v-for="notice in state.notices" :key = notice.id class ="el-item" style="margin-left:0px">
+          <el-col :span="6" class ="li-title li-item" style="overflow: hidden;">{{notice.noticeTitle}}</el-col>
+          <el-col :span="9" class ="li-lesson li-item" style="overflow: hidden;">
+            <el-popover
+              placement="bottom"
+              title="Title"
+              :width="200"
+              trigger="click"
+              :content="notice.noticeContent"
+            >
+              <template #reference>
+                <el-button type="text">{{notice.noticeContent}}</el-button>
+              </template>
+            </el-popover>
+          </el-col>
+          <el-col :span="4" class ="li-time li-item">{{notice.noticePosted.substring(0, 10)}}</el-col>
+          <el-col :span="3" class ="li-item filebar"  style="padding:10px;">
+            첨부파일
+            <ul>
+              <h4>파일목록</h4>
+              <div v-for="nf in notice.noticeFile" :key = nf.fileId>
+                <hr>
+                <a @click="downNoticeFile(nf.fileName, nf.filePath, nf.fileOriginName)" class="filenamehover">💾 {{nf.fileOriginName}}</a>
+              </div>
+            </ul>
+          </el-col>
+          <el-col :span="2">
+            <el-button type="text" class="li-item" @click ="delNotice(notice.noticeId)" style="color: red">삭제</el-button>
+          </el-col>
+        </el-row>
       </div>
-    </el-col>
-  </el-row>
+
+      <div v-else style="height: 80%; padding: 100px">
+        <h1>등록된 공지가 없습니다</h1>
+      </div>
+    </el-scrollbar>
+    <hr>
+    <!-- 과제 -->
+    <h1 style="padding: 25px; font-size:30px; text-align: start;">제출된 과제</h1>
+    <el-scrollbar height="360px">
+      <div v-if="state.hw.length >= 1">
+        <el-row :gutter="24" v-for="hw in state.hw" :key = hw.hwId class ="el-item">
+            <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
+            <el-col :span="7" class ="li-lesson li-item">{{type(hw.hwContent)}}</el-col>
+            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
+            <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
+            <el-col :span="2" class ="li-item filebar">
+              첨부파일
+              <ul>
+                <h4>파일목록</h4>
+                <div v-for="hf in hw.hwFile" :key=hf.fileId>
+                  <hr>
+                  <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
+                </div>
+              </ul>
+            </el-col>
+            <el-col :span="2" >
+              <el-button type="text" class ="li-item" @click="onOpenHwDialog()">제출하기</el-button>
+            </el-col>
+            <el-col :span="2" >
+              <el-button type="text" class ="li-item" @click="delStHw(hw.hwid)" style="color: red">삭제하기</el-button>
+            </el-col>
+        </el-row>
+      </div>
+      <div v-else style="height: 80%; padding: 100px">
+        <h1>등록된 과제가 없습니다</h1>
+      </div>
+    </el-scrollbar>
+    <!-- 과제 제출 -->
+    <hw-dialog
+      :open="state.hwDialogOpen"
+      @closeHwDialog="onCloseHwDialog"
+      v-bind:props_hw = state.props_hw
+      style="box-shadow: 3px 3px 3px 3px gray;"
+    />
+  </div>
 </template>
 
 <script>
@@ -97,37 +100,28 @@ export default {
   components:{
     HwDialog
   },
-  // data(){
-  //   return{
-  //     hwDialogOpen:false,
-  //   }
-  // },
-  // methods: {
-  //   onOpenHwDialog () {
-  //     this.hwDialogOpen = true
-  //   },
-  //   onCloseHwDialog () {
-  //     this.hwDialogOpen = false
-  //   },
-  // },
   setup () {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
-      notice:{},
+      notices:{},
       hw:{},
       props_hw:{},
       hwDialogOpen:false,
       notice : [],
       hw : [],
     })
-    // function submitHw(){
-    //   router.push({
-    //     name:"Tchr_Lesson"
-    //   })
-    // }\
-
-    // 페이지 진입시 불리는 훅
+    // 공지사항
+    const downNoticeFile = function(fileName, filePath, fileOriginName) {
+      const fileurl = `http://localhost:8080/api/v1/notice/download-file?fileName=${fileName}&filePath=${filePath}`
+      const anchor = document.createElement('a')
+      anchor.href = fileurl
+      anchor.download = fileOriginName
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+    }
+    // 과제
     const delStHw = function(hwid){
       store.dispatch('root/requestdelsthw' ,{
         "hwId": hwid,
@@ -143,6 +137,15 @@ export default {
       state.hwDialogOpen = false
       state.props_hw={}
     }
+    const downHWFile = function(fileName, filePath, fileOriginName) {
+      const fileurl = `http://localhost:8080/api/v1/homework/download-file?fileName=${fileName}&filePath=${filePath}`
+      const anchor = document.createElement('a')
+      anchor.href = fileurl
+      anchor.download = fileOriginName
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+    }
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
       // 과제 불러오기
@@ -150,8 +153,7 @@ export default {
         stId : store.state.root.userid
       })
       .then(function(result){
-        // alert('과제 조회 성공')
-        // console.log("homework", result.data)
+        console.log(result.data)
         state.hw=result.data
       })
       .catch(function(err){
@@ -162,36 +164,78 @@ export default {
         stId : store.state.root.userid
       })
       .then(function(result){
-        console.log("notice",result.data)
-        state.notice=result.data
+        console.log(result.data)
+        state.notices=result.data
       })
       .catch(function(err){
         alert(err)
       })
     })
-    return {state, onOpenHwDialog, onCloseHwDialog, delStHw}
+    return {state, downNoticeFile, onOpenHwDialog, onCloseHwDialog, delStHw, downHWFile}
   },
   created:function(){
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
-    // this.userId = localvuex["root"]["userid"]
-    // this.getNotice()
-    // this.getHw()
   }
 }
 </script>
 <style scoped>
-  .filebar>ul {
+*, html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .el-item{
+    background-color: #ecf0f1;
+    align-items: center;
+    border-radius: 10px;
+    height: 60px;
+    width:100%;
+    margin-bottom: 5px;
     overflow: hidden;
-    height: 0;
+  }
+  .li-item{
+    padding: 5px;
+  }
+  .sub_btn{
+    padding: 5px;
+    margin: 20px;
+
+  }
+  .filebar>ul {
+    display: none;
+    overflow: hidden;
+    height: auto;
+    padding: 8px;
     position: absolute;
-    top:60px;
     z-index: 10;
-    min-width: 100px;
-    background-color: blanchedalmond;
-    transition: height;
-    transition-duration: 0.5s;
+    min-width: 150px;
+    background-color: #6B3BE3;
+    color: #fff;
+    border-radius: 10px;
+    margin-top: 5px;
+  }
+  .filebar:hover>ul {
+    display: block;
+  }
+  .filebar>ul>li{
+    margin: 5px;
+  }
+  .filenamehover {
+    cursor: pointer;
+    padding: 10px;
   }
   .filebar:hover>ul {
     height: 150px;
   }
+  .scrollbar-demo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+  background: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+}
 </style>

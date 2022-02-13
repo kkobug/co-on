@@ -59,45 +59,44 @@ export default {
       notices:computed(() => store.getters['root/getTchrNoticeList']),
       props_data:{}
     })
-  const getNoticeList = function(){
-
-    store.dispatch('root/requestListNotice', {
-          studyId: store.state.root.curClassId})
-      .then(res =>{
-        store.state.root.TchrNoticeList = res.data
-        console.log("get data", store.state.root.TchrNoticeList)
-      })
-  }
-  const updatenotice = function(idx){
-    state.props_data = state.notices[idx]
-    state.isupdate = true
-    state.isVisible = true
-  }
-  const delNotice = function(studyid){
-    store.dispatch('root/requestDelNotice', {
-          noticeId: studyid,
-          tchrId: store.state.root.userid})
-      .then(res =>{
-        getNoticeList();
-      })
-  }
-  const downNoticeFile = function(fileName, filePath, fileOriginName) {
-    const fileurl = `http://localhost:8080/api/v1/notice/download-file?fileName=${fileName}&filePath=${filePath}`
-    const anchor = document.createElement('a')
-    anchor.href = fileurl
-    anchor.download = fileOriginName
-    document.body.appendChild(anchor)
-    anchor.click()
-    document.body.removeChild(anchor)
-  }
-  const closemodal = function(){
-    state.isVisible = false
-    state.isupdate = false
-    state.props_data={}
-    getNoticeList();
-  }
-  onMounted(()=>{
+    const getNoticeList = function(){
+      store.dispatch('root/requestListNotice', {
+            studyId: store.state.root.curClassId})
+        .then(res =>{
+          store.state.root.TchrNoticeList = res.data
+          console.log("get data", store.state.root.TchrNoticeList)
+        })
+    }
+    const updatenotice = function(idx){
+      state.props_data = state.notices[idx]
+      state.isupdate = true
+      state.isVisible = true
+    }
+    const delNotice = function(studyid){
+      store.dispatch('root/requestDelNotice', {
+            noticeId: studyid,
+            tchrId: store.state.root.userid})
+        .then(res =>{
+          getNoticeList();
+        })
+    }
+    const downNoticeFile = function(fileName, filePath, fileOriginName) {
+      const fileurl = `http://localhost:8080/api/v1/notice/download-file?fileName=${fileName}&filePath=${filePath}`
+      const anchor = document.createElement('a')
+      anchor.href = fileurl
+      anchor.download = fileOriginName
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+    }
+    const closemodal = function(){
+      state.isVisible = false
+      state.isupdate = false
+      state.props_data={}
       getNoticeList();
+    }
+    onMounted(()=>{
+        getNoticeList();
     })
     return {state, onMounted, getNoticeList, updatenotice, closemodal, delNotice, downNoticeFile}
   },
@@ -110,7 +109,6 @@ export default {
     box-sizing: border-box;
   }
   .el-item{
-
     background-color: #ecf0f1;
     align-items: center;
     border-radius: 20px;
