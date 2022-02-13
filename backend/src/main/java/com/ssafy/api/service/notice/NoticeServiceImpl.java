@@ -1,13 +1,13 @@
 package com.ssafy.api.service.notice;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+//import com.amazonaws.auth.AWSCredentials;
+//import com.amazonaws.auth.AWSStaticCredentialsProvider;
+//import com.amazonaws.auth.BasicAWSCredentials;
+//import com.amazonaws.services.s3.AmazonS3;
+//import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+//import com.amazonaws.services.s3.model.CannedAccessControlList;
+//import com.amazonaws.services.s3.model.ObjectMetadata;
+//import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.api.request.notice.NoticeRegisterPostReq;
 import com.ssafy.api.request.notice.NoticeUpdatePutReq;
 import com.ssafy.db.entity.Notice;
