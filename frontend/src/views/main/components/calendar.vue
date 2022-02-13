@@ -135,7 +135,7 @@
           </el-col>
         <!-- 원형 그래프 -->
           <el-col :span="6" style="margin-left: 2vh">
-            <div style="background-color: #1B2A57; margin-bottom: 4vh; margin-top: 1vh; text-color: #fff">
+            <div style="background-color: #1B2A57; margin-bottom: 4vh; margin-top: 1vh; text-color: #fff; border-radius: 10px;">
               <canvas id="myChart" style="padding-top: 10px; padding-bottom: 20px"></canvas>
               <div v-if="this.tchrOrNot" style="color: #fff">
                 <h4 style="margin-top: 2px; padding-bottom: 15px;">출제한 과제 비율</h4>
@@ -144,7 +144,7 @@
                 <h4 style="margin-top: 2px; padding-bottom: 15px;">HW Chart</h4>
               </div>
             </div>
-            <div style="background-color: #1B2A57">
+            <div style="background-color: #1B2A57; border-radius: 10px;">
               <el-progress type="dashboard" :percentage="this.percentageHW" style="padding-top: 10px; margin-top: 3%">
                 <template #default="{ percentage }">
                   <span class="percentage-value">{{ percentage }}%</span>

@@ -4,7 +4,7 @@
       <el-col :span="24" style="heght: 100%">
         <el-menu
           default-active="0"
-          active-text-color="yellow"
+          active-text-color="#ffd04b"
           background-color="#4267D6"
           text-color="#fff"
           style="height: 100%; position: fixed; border-color: #4267D6; width: 240px"

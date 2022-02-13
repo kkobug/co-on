@@ -106,6 +106,7 @@ export default {
         targetDate: String(state.studyDate)
       })
       .then(res =>{
+        console.log(res.data)
         state.STTimeRecord = res.data
       })
     }

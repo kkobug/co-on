@@ -1,23 +1,27 @@
 <template>
-  <div id="main-container" class="container">
+  <div id="main-container" class="container" style="margin: auto; background: none;">
     <!-- 수업리스트 -->
     <div id="join" v-if="!session">
       <div class="common-layout" style="margin-top: 3vh" v-if="!session">
           <el-row style="line-height: 60px; height: 5vh; font-size: 20px; font-weight: bold">
-            <el-col :span="6"><div class="grid-content ">과목명</div></el-col>
-            <el-col :span="6"><div class="grid-content ">교사</div></el-col>
-            <el-col :span="6"><div class="grid-content ">수업설명</div></el-col>
-            <el-col :span="6"><div class="grid-content ">화상회의</div></el-col>
+            <el-col :span="5"><div class="grid-content ">과목명</div></el-col>
+            <el-col :span="5"><div class="grid-content ">교사</div></el-col>
+            <el-col :span="5"><div class="grid-content ">수업설명</div></el-col>
+            <el-col :span="5"><div class="grid-content ">화상회의</div></el-col>
           </el-row>
-          <el-main style="background-color: #E7EDDE; line-height: 100px">
+          <el-main style="line-height: 70px">
             <el-row v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
-              <el-col :span="6"><div class="grid-content ">{{classitem[2]}}</div></el-col>
-              <el-col :span="6"><div class="grid-content ">{{classitem[1]}}</div></el-col>
-              <el-col :span="6"><div class="grid-content ">{{classitem[3]}}</div></el-col>
-              <el-col :span="6">
-                <!-- <div class="grid-content " @click="joinSession(classitem)">이동</div> -->
-                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">{{classitem[8].substr(0, 16)}} 이동</div>
-                <div v-else class="grid-content " @click="joinSession(classitem)">{{classitem[9].substr(0, 16)}} : 불가</div>
+              <el-col :span="5"><div class="grid-content ">{{classitem[2]}}</div></el-col>
+              <el-col :span="5"><div class="grid-content ">{{classitem[1]}}</div></el-col>
+              <el-col :span="5"><div class="grid-content ">{{classitem[3]}}</div></el-col>
+              <el-col :span="5">
+                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " >{{classitem[8].substr(0, 16)}}</div>
+                <div v-else class="grid-content">{{classitem[9].substr(0, 16)}}</div>
+              </el-col>
+              <el-col :span="4">
+
+                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">이동</div>
+                <div v-else class="grid-content" @click="joinSession(classitem)">대기중</div>
               </el-col>
             </el-row>
           </el-main>
@@ -499,7 +503,6 @@ export default {
   }
 
   .el-main {
-    background-color: #e9eef3;
     color: var(--el-text-color-primary);
     text-align: center;
     line-height: 160px;

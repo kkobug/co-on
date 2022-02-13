@@ -1,7 +1,7 @@
 <template>
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
-    <el-tabs v-model="activeName" class="demo-tabs" style="margin: 20px; background-color: white">
+    <el-tabs v-model="activeName" class="demo-tabs" style="margin: 10px 10vh; padding: 0 3vh; border-radius: 10px; min-height:90vh; background-color: white">
       <el-tab-pane label="User" name="first">User</el-tab-pane>
       <el-tab-pane v-for="(Hw, idx) in Hws" :key="Hw" :label="Hw.hwTitle">
         <el-scrollbar height="100%">
