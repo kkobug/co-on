@@ -1,5 +1,5 @@
 <template>
-  <div class ="modal" style="box-shadow: 3px 3px 3px 3px gray;">
+  <div class ="modal" style="box-shadow: 3px 3px 3px 3px gray; z-index:11;">
     <el-button type="text" class="overlay" @click="closeModal" style="margin-right: 5px">❌</el-button>
     <h2 style="margin-top: 4vh"><strong>학생 등록</strong></h2>
     <el-row>

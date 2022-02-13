@@ -9,21 +9,27 @@
             <el-col :span="5"><div class="grid-content ">수업설명</div></el-col>
             <el-col :span="5"><div class="grid-content ">화상회의</div></el-col>
           </el-row>
-          <el-main style="line-height: 70px">
-            <el-row v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
-              <el-col :span="5"><div class="grid-content ">{{classitem[2]}}</div></el-col>
-              <el-col :span="5"><div class="grid-content ">{{classitem[1]}}</div></el-col>
-              <el-col :span="5"><div class="grid-content ">{{classitem[3]}}</div></el-col>
-              <el-col :span="5">
-                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " >{{classitem[8].substr(0, 16)}}</div>
-                <div v-else class="grid-content ">{{classitem[9].substr(0, 16)}}</div>
-              </el-col>
-              <el-col :span="4">
-                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content con-btn" @click="joinSession(classitem)">이동</div>
-                <div v-else class="grid-content con-btn" @click="joinSession(classitem)">대기중</div>
-              </el-col>
-            </el-row>
-          </el-main>
+          <el-scrollbar height="100%" >
+            <el-main style="line-height: 70px">
+              <el-row v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
+                <el-col :span="5"><div class="grid-content ">{{classitem[2]}}</div></el-col>
+                <el-col :span="5"><div class="grid-content ">{{classitem[1]}}</div></el-col>
+                <el-col :span="5"><div class="grid-content ">{{classitem[3]}}</div></el-col>
+                <el-col :span="5">
+                  <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " >{{classitem[8].substr(0, 16)}}</div>
+                  <div v-else class="grid-content ">{{classitem[9].substr(0, 16)}}</div>
+                </el-col>
+                <el-col :span="4">
+                  <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content con-btn" @click="joinSession(classitem)">
+                    <el-button style="background-color:red; color:white; border-radius:10px;">ON-AIR</el-button>
+                  </div>
+                  <div v-else class="grid-content con-btn" @click="joinSession(classitem)">
+                    <el-button style="background-color:grey; color:white; border-radius:10px;">WAIT</el-button>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-main>
+          </el-scrollbar>
       </div>
     </div>
 

@@ -32,11 +32,12 @@
             <font-awesome-icon v-if="index==0" icon="home" style="font-size:25px"/>&nbsp;
             <span>{{ item.title }}</span>
           </el-menu-item>
-
           <div v-if="whetherTchr">
-            <el-menu-item v-for="(val, idx) in state.tchr_scha" :key="idx" :index="idx+1" @click="MoveLesson(val[0], val[1])">
-                <span>{{ val[1] }}</span>
-            </el-menu-item>
+            <el-scrollbar max-height="50vh" >
+              <el-menu-item v-for="(val, idx) in state.tchr_scha" :key="idx" :index="idx+1" @click="MoveLesson(val[0], val[1])">
+                  <span>{{ val[1] }}</span>
+              </el-menu-item>
+            </el-scrollbar>
             <el-menu-item @click="state.isVisible=true">
               <font-awesome-icon icon="chalkboard-teacher" style="font-size:25px"/>&nbsp;
               <span>수업개설</span>
@@ -45,7 +46,7 @@
               <font-awesome-icon icon="spinner" style="font-size:25px" class="fa-spin"/>
               <p>On-Air</p>
             </el-menu-item>
-    <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
+          <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
           </div>
           <el-menu-item class="mt-auto" style="bottom: 0; width: 240px; position : fixed" @click="logout">
             <font-awesome-icon icon="running" style="font-size:25px"/>&nbsp;
