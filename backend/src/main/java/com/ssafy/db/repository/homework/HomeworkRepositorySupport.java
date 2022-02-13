@@ -17,12 +17,16 @@ public class HomeworkRepositorySupport {
 
     public List<Homework> findHomeworkByStudyId(Integer studyId) {
         return jpaQueryFactory.select(qHomework).from(qHomework)
-                .where(qHomework.studyId.eq(studyId)).fetch();
+                .where(qHomework.studyId.eq(studyId))
+                .orderBy(qHomework.hwDeadline.desc())
+                .fetch();
     }
 
     public List<Homework> findHomeworkByTchrId(String tchrId) {
         return jpaQueryFactory.select(qHomework).from(qHomework)
-                .where(qHomework.tchrId.eq(tchrId)).fetch();
+                .where(qHomework.tchrId.eq(tchrId)).
+                orderBy(qHomework.hwDeadline.desc())
+                .fetch();
     }
 
     public Optional<Homework> findHomeworkByHwId(Integer hwId) {
