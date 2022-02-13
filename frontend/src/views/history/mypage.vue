@@ -114,7 +114,6 @@ export default {
               tchr_password: state.form.password
           })
           .then(function (result) {
-            alert('정보 수정(교사) 성공')
             $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
             .then(res => {
               console.log(res.data)
@@ -141,7 +140,6 @@ export default {
               st_password: state.form.password
           })
           .then(function (result) {
-            alert('정보 수정(학생) 성공')
             $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
             .then(res => {
               console.log(res.data)
@@ -168,7 +166,6 @@ export default {
         if (store.state.root.whetherTchr) {
           store.dispatch('root/requestDeleteTeacher', username)
           .then(function (result) {
-            alert('정보 수정 성공')
             state.form.id = ''
             state.form.email = ''
             state.form.contact = ''
@@ -182,7 +179,6 @@ export default {
         } else {
           store.dispatch('root/requestDeleteStudent', username)
           .then(function (result) {
-            alert('정보 수정 성공')
             state.form.id = ''
             state.form.email = ''
             state.form.contact = ''

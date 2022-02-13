@@ -16,12 +16,11 @@
               <el-col :span="5"><div class="grid-content ">{{classitem[3]}}</div></el-col>
               <el-col :span="5">
                 <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " >{{classitem[8].substr(0, 16)}}</div>
-                <div v-else class="grid-content">{{classitem[9].substr(0, 16)}}</div>
+                <div v-else class="grid-content ">{{classitem[9].substr(0, 16)}}</div>
               </el-col>
               <el-col :span="4">
-
-                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " @click="joinSession(classitem)">이동</div>
-                <div v-else class="grid-content" @click="joinSession(classitem)">대기중</div>
+                <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content con-btn" @click="joinSession(classitem)">이동</div>
+                <div v-else class="grid-content con-btn" @click="joinSession(classitem)">대기중</div>
               </el-col>
             </el-row>
           </el-main>
@@ -468,6 +467,9 @@ export default {
   // width: 20% !important;
   // width: 15% ;
   // height: auto;
+}
+.con-btn{
+  cursor:pointer;
 }
 #main-container {
   width: 65%;
