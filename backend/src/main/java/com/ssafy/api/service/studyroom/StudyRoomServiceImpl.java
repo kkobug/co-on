@@ -6,6 +6,8 @@ import com.ssafy.db.repository.studyroom.StudyRoomDetailRepository;
 import com.ssafy.db.repository.studyroom.StudyRoomRepository;
 import com.ssafy.db.repository.studyroom.StudyRoomRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +19,9 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     StudyRoomRepository studyRoomRepository;
     @Autowired
     StudyRoomRepositorySupport studyRoomRepositorySupport;
-    @Autowired
-    StudyRoomDetailRepository studyRoomDetailRepository;
+
     @Override
+    @CachePut(value = "TchrClassList", key = "#studyRoomRegisterPostReq.tchrId")
     public Studyroom createStudyRoom(StudyRoomRegisterPostReq studyRoomRegisterPostReq) {
         Studyroom studyRoom = new Studyroom();
         studyRoom.setTchrId(studyRoomRegisterPostReq.getTchrId());
@@ -29,13 +31,17 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     }
 
     @Override
+    @CachePut(value = "TchrClassList", key = "#tchrId")
     public void deleteStudyRoom(String tchrId, String studyName) {
         studyRoomRepositorySupport.deleteStudyRoomByTchrIdAndStudyName(tchrId, studyName);
     }
 
+    //교사 수업 조회  --> 교사 수업 추가, 삭제 시 캐시 변경
     @Override
+    @Cacheable(value = "TchrClassList",key = "#tchrId")
     public List<Object[]> findstudyNamebytchrId(String tchrId) {
         List<Object[]> list = studyRoomRepository.selectstudyIdAndstudyNamebytchrId(tchrId);
+        System.out.println("findstudyNamebytchrId................"+tchrId);
         return list;
     }
 
