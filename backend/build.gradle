@@ -137,6 +137,7 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     //Spring Cache 캐시관련 설정을 편리하게 지원해주는 패키지
     compile('org.springframework.boot:spring-boot-starter-cache')
+    compile(group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.6')
     //Redis 사용을 위한 라이브러리 설정
     //implementation ('org.springframework.boot:spring-boot-starter-data-redis')
     //이메일 발송을 위한 의존성 추가
@@ -160,7 +161,8 @@ dependencies {
     //Kurento (미디어서버) 관련 의존성 추가
     implementation('org.kurento:kurento-client:6.16.0')
     implementation('org.kurento:kurento-utils-js:6.15.0')
-
+    //AWS 의존성 추가
+    implementation('org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE')
 
     //IntelliJ용
     //IntelliJ에서는 하기 annotationProcessor를 쓰면 별도의 querydsl 플러그인 및 플러그인 설정이 불필요.

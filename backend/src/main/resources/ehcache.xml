@@ -1,0 +1,25 @@
+<!--https://www.ehcache.org/documentation/2.8/configuration/configuration.html-->
+<ehcache>
+    <diskStore path="java.io.tmpdir"/>
+
+    <defaultCache
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+
+    <cache  name="findById"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+
+</ehcache>

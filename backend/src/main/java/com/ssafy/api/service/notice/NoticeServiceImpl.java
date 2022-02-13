@@ -1,5 +1,13 @@
 package com.ssafy.api.service.notice;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.api.request.notice.NoticeRegisterPostReq;
 import com.ssafy.api.request.notice.NoticeUpdatePutReq;
 import com.ssafy.db.entity.Notice;
@@ -9,13 +17,16 @@ import com.ssafy.db.repository.notice.NoticeRepository;
 import com.ssafy.db.repository.notice.NoticeRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,6 +44,30 @@ public class NoticeServiceImpl implements NoticeService{
     @Autowired
     NoticeRepositorySupport noticeRepositorySupport;
 
+//    private AmazonS3 s3Client;
+//
+//    @Value("${cloud.aws.credentials.accessKey}")
+//    private String accessKey;
+//
+//    @Value("${cloud.aws.credentials.secretKey}")
+//    private String secretKey;
+//
+//    @Value("${cloud.aws.s3.bucket}")
+//    private String bucket;
+//
+//    @Value("${cloud.aws.region.static}")
+//    private String region;
+//
+//    @PostConstruct
+//    public void setS3Client() {
+//        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+//
+//        s3Client = AmazonS3ClientBuilder.standard()
+//                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+//                .withRegion(region)
+//                .build();
+//    }
+
     @Override // 공지사항 등록
     public Notice createNotice(NoticeRegisterPostReq noticeRegisterPostReq) {
         System.out.println("run service!!!!!!!!!");
@@ -41,7 +76,6 @@ public class NoticeServiceImpl implements NoticeService{
         notice.setTchrId(noticeRegisterPostReq.getTchrId());
         notice.setNoticeTitle(noticeRegisterPostReq.getNoticeTitle());
         notice.setNoticeContent(noticeRegisterPostReq.getNoticeContent());
-//        System.out.println(noticeRegisterPostReq.getNoticeFile());
         noticeRepository.save(notice);
         System.out.println(notice.getNoticeId());
         if (!noticeRegisterPostReq.getNoticeFile().get(0).isEmpty()) {
