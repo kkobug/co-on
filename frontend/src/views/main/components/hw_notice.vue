@@ -2,17 +2,15 @@
   <div style=" margin-right: 15vh;margin-left: 15vh; overflow: hidden;">
     <h1 style="padding: 25px; font-size:30px; text-align: start;">공지사항</h1>
     <el-row :gutter="24" style="width:100%;margin-left:0px" class ="el-item">
-      <el-col :span="6" class ="li-title li-item">title</el-col>
-      <el-col :span="9" class ="li-lesson li-item">content</el-col>
+      <el-col :span="6" class ="li-title li-item">교과명</el-col>
+      <el-col :span="9" class ="li-lesson li-item">내용</el-col>
       <el-col :span="4" class ="li-time li-item">게시일</el-col>
-      <el-col :span="5" class ="li-item filebar">
-        첨부파일
-      </el-col>
+      <el-col :span="5" class ="li-item filebar">파일목록</el-col>
     </el-row>
     <el-scrollbar height="360px" >
-      <div v-if="state.notices.length >= 1" style="overflow: hidden; padding:0 30px 0 15px;">
+      <div v-if="state.notices.length >= 1">
         <el-row :gutter="24" v-for="notice in state.notices" :key = notice.id class ="el-item" style="margin-left:0px">
-          <el-col :span="6" class ="li-title li-item" style="overflow: hidden;">{{notice.noticeTitle}}</el-col>
+          <el-col :span="6" class ="li-title li-item" style="overflow: hidden;">{{notice.studyroom.studyName}}</el-col>
           <el-col :span="9" class ="li-lesson li-item" style="overflow: hidden;">
             <el-popover
               placement="bottom"
@@ -55,32 +53,11 @@
             <el-col :span="4" class ="li-time li-item">제출기한</el-col>
             <el-col :span="3" class ="li-item filebar">파일 목록</el-col>
             <el-col :span="3" >
-              <el-button type="text" class ="li-item" @click="onOpenHwDialog()">제출하기</el-button>
+
             </el-col>
         </el-row>
         <span v-for="hw in state.hw" :key = hw.hwId>
           <el-row :gutter="24" v-if="isWork(hw.hwDeadline)" class ="el-item" style="margin-left:0;">
-            <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
-            <el-col :span="9" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
-            <el-col :span="4" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}}</el-col>
-            <el-col :span="3" class ="li-item filebar">
-              첨부파일
-              <ul>
-                <h4>파일목록</h4>
-                <div v-for="hf in hw.hwFile" :key=hf.fileId>
-                  <hr>
-                  <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
-                </div>
-              </ul>
-            </el-col>
-            <el-col :span="3" >
-              <el-button type="text" class ="li-item" @click="onOpenHwDialog()">제출하기</el-button>
-            </el-col>
-            <el-col :span="2" >
-              <el-button type="text" class ="li-item" @click="delStHw(hw.hwid)" style="color: red">삭제하기</el-button>
-            </el-col>
-          </el-row>
-          <el-row :gutter="24" v-else class ="el-item2">
             <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
             <el-col :span="9" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
             <el-col :span="4" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
@@ -95,7 +72,28 @@
               </ul>
             </el-col>
             <el-col :span="3" >
-              <el-button type="text" class ="li-item" @click="onOpenHwDialog()">제출하기</el-button>
+              <el-button type="text" class ="li-item" @click="onOpenHwDialog(hw)">제출하기</el-button>
+            </el-col>
+            <!-- <el-col :span="2" >
+              <el-button type="text" class ="li-item" @click="delStHw(hw.hwid)" style="color: red">삭제하기</el-button>
+            </el-col> -->
+          </el-row>
+          <el-row :gutter="24" v-else class ="el-item2" style="margin-left:0;">
+            <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
+            <el-col :span="9" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
+            <el-col :span="4" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
+            <el-col :span="3" class ="li-item filebar">
+              첨부파일
+              <ul>
+                <h4>파일목록</h4>
+                <div v-for="hf in hw.hwFile" :key=hf.fileId>
+                  <hr>
+                  <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
+                </div>
+              </ul>
+            </el-col>
+            <el-col :span="3" >
+              <el-button type="text" class ="li-item" @click="onOpenHwDialog(hw)">제출하기</el-button>
             </el-col>
             <!-- <el-col :span="2" >
               <el-button type="text" class ="li-item" @click="delStHw(hw.hwid)" style="color: red">삭제하기</el-button>
@@ -190,7 +188,7 @@ export default {
         stId : store.state.root.userid
       })
       .then(function(result){
-        console.log(result.data)
+        console.log("rhkwp", result.data)
         state.hw=result.data
       })
       .catch(function(err){
@@ -228,7 +226,7 @@ export default {
     height: 60px;
     width:100%;
     margin-bottom: 5px;
-    overflow: hidden;
+
   }
   .el-item2{
     background-color:grey;
@@ -237,7 +235,6 @@ export default {
     height: 60px;
     width:100%;
     margin-bottom: 5px;
-    overflow: hidden;
   }
   .li-item{
     padding: 5px;
@@ -249,7 +246,6 @@ export default {
   }
   .filebar>ul {
     display: none;
-    overflow: hidden;
     height: auto;
     padding: 8px;
     position: absolute;
