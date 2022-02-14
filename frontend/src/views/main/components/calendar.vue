@@ -187,6 +187,7 @@ export default {
       .then(result =>{
         console.log("ddddata:", result.data)
         for (var j = 0; j < result.data.length; j++) {
+          console.log(this.events)
           if (this.events.length >= 3) {
             console.log("there is no impending HW")
           }

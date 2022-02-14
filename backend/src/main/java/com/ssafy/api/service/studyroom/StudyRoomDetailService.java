@@ -19,4 +19,6 @@ public interface StudyRoomDetailService {
 
     List<Object[]> findStudentbystudyId(int studyId);
     void updateScore(StudyRoomDetailPutReq studyRoomDetailPutReq);
+
+    List<Object[]> findStudyroomDetailbystId(String stId);
 }

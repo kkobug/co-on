@@ -20,4 +20,16 @@ public class ConferenceRepositorySupport {
                 .where(qAttendance.stId.eq(stId).and(qAttendance.confId.eq(confId))).fetch();
         return att;
     }
+
+    public Conference findConferenceById(Integer confId) {
+        return jpaQueryFactory.select(qConference).from(qConference)
+                .where(qConference.confId.eq(confId)).fetchOne();
+    }
+
+    public Conference findConference(Integer studyId, String tchrId) {
+        return jpaQueryFactory.select(qConference).from(qConference)
+                .where(qConference.studyId.eq(studyId).and(qConference.tchrId.eq(tchrId)))
+                .orderBy(qConference.confId.desc()).limit(1).fetchOne();
+    }
+
 }

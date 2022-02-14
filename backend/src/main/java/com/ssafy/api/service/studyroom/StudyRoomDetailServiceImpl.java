@@ -3,8 +3,10 @@ package com.ssafy.api.service.studyroom;
 import com.ssafy.api.request.studyroom.StudyRoomAddPostReq;
 import com.ssafy.api.request.studyroomdetail.StudyRoomDetailDeleteReq;
 import com.ssafy.api.request.studyroomdetail.StudyRoomDetailPutReq;
+import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.Studyroom;
 import com.ssafy.db.entity.StudyroomDetail;
+import com.ssafy.db.repository.conference.ConferenceRepositorySupport;
 import com.ssafy.db.repository.studyroom.StudyRoomDetailRepository;
 import com.ssafy.db.repository.studyroom.StudyRoomdetailRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +26,8 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     StudyRoomDetailRepository studyRoomDetailRepository;
     @Autowired
     StudyRoomdetailRepositorySupport studyRoomdetailRepositorySupport;
+    @Autowired
+    ConferenceRepositorySupport conferenceRepositorySupport;
 
 
     //학생 추가   --> 우리반 조회 캐시 변겅, ((학생 출석 개수 조회 변경.10분지나면 조회가능))
@@ -97,4 +102,29 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
 //    public List<Tuple> findstIdAndstName() {
 //        return studyRoomdetailRepositorySupport.findstIdAndstName();
 //    }
+
+    @Override
+    public List<Object[]> findStudyroomDetailbystId(String stId) {
+        List<Object[]> ret = new ArrayList<>();
+        List<StudyroomDetail> studyroomDetails = studyRoomdetailRepositorySupport.findStudyroomDetailbystId(stId);
+        Conference conference;
+        for (StudyroomDetail studyroomDetail : studyroomDetails) {
+            Integer studyId = studyroomDetail.getStudyroom().getStudyId();
+            String tchrId = studyroomDetail.getStudyroom().getTchrId();
+            conference = conferenceRepositorySupport.findConference(studyId, tchrId);
+
+            if (conference == null) {
+                Object[] obj = new Object[1];
+                obj[0] = studyroomDetail;
+                ret.add(obj);
+            } else {
+                Object[] obj = new Object[2];
+                obj[0] = studyroomDetail;
+                obj[1] = conference;
+                ret.add(obj);
+            }
+        }
+        return ret;
+    }
+
 }
