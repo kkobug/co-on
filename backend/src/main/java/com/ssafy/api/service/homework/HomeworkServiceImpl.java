@@ -4,11 +4,12 @@ import com.ssafy.api.request.homework.HomeworkModifyReq;
 import com.ssafy.api.request.homework.HomeworkRegisterPostReq;
 import com.ssafy.db.entity.Homework;
 import com.ssafy.db.entity.HomeworkFile;
+import com.ssafy.db.entity.StudentHomework;
 import com.ssafy.db.repository.homework.HomeworkFileRepository;
 import com.ssafy.db.repository.homework.HomeworkRepository;
 import com.ssafy.db.repository.homework.HomeworkRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.checkerframework.checker.units.qual.C;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -94,9 +95,51 @@ public class HomeworkServiceImpl implements HomeworkService{
     //학생 과제 제출률 조회 10분마다
     @Override
     @Cacheable(value = "HwRateBystId",key = "#stId")
-    public List<int[]> countBystId(String stId) {
-        System.out.println("countBystId..............."+stId);
-        return homeworkRepository.countBystId(stId);
+    public int[] countBystId(String stId) {
+        List<Homework> homeworks = homeworkRepository.findHomeworkBystId(stId);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime deadline;
+        int[] ret = new int[6]; // 마감전, 마감후, 제출전, 제출후, 채점전, 채점후
+        for (Homework homework : homeworks) {
+            deadline = homework.getHwDeadline();
+            if (now.isBefore(deadline)) {
+                ret[0] ++;
+                for (StudentHomework studenthomework : homework.getStudentHomeworks()) {
+                    if (Objects.equals(studenthomework.getStId(), stId)) {
+                        if (studenthomework.getStHwposted() == null) {
+                            ret[2] ++;
+                        } else {
+                            ret[3] ++;
+                        }
+                        if (studenthomework.getStHwscore() == null) {
+                            ret[4] ++;
+                        } else {
+                            ret[5] ++;
+                        }
+
+                    }
+                }
+            } else {
+                ret[1] ++;
+                for (StudentHomework studenthomework : homework.getStudentHomeworks()) {
+                    if (Objects.equals(studenthomework.getStId(), stId)) {
+                        if (studenthomework.getStHwposted() == null) {
+                            ret[2] ++;
+                        } else {
+                            ret[3] ++;
+                        }
+                        if (studenthomework.getStHwscore() == null) {
+                            ret[4] ++;
+                        } else {
+                            ret[5] ++;
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return ret;
     }
 
     //선생 과제 제출률 확인 조회 10분마다

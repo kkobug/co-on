@@ -9,8 +9,8 @@
         <el-row id="dashboard">
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
-              <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-                <font-awesome-icon icon="clock" />
+              <div style="padding: 14px; text-align:left; background-color:#EADDFF;">
+                <font-awesome-icon icon="clock" style="font-size:20px"/>
                 <span style="font-weight:bold; color:#21005D; font-size:20px">
                   곧 마감인 과제
                 </span>
@@ -138,7 +138,7 @@
                 <h4 style="margin-top: 2px; padding-bottom: 15px;">출제한 과제 비율</h4>
               </div>
               <div v-else style="color: #fff">
-                <h4 style="margin-top: 2px; padding-bottom: 15px;">HW Chart</h4>
+                <h4 style="margin-top: 2px; padding-bottom: 15px;">Todo Homework</h4>
               </div>
             </div>
             <div style="background-color: #1B2A57; border-radius: 10px;">
@@ -178,6 +178,8 @@ export default {
     drawer: false,
     doneHW: 0,
     notyetHW: 0,
+    beforeDeadHW: 0,
+    afterDeadHW: 0,
     percentageHW: 0,
     myTchr: [],
     inProgressClass: [],
@@ -211,7 +213,7 @@ export default {
         console.log("ddddata:", result.data)
         for (var j = 0; j < result.data.length; j++) {
           if (this.events.length >= 3) {
-            break
+            console.log("there is no impending HW")
           }
           var hw = result.data[j];
           if (hw.hwDeadline > this.today) {
@@ -289,13 +291,15 @@ export default {
     getProgress(){
       this.$store.dispatch('root/requestRateHW')
       .then(result => {
-        console.log(result.data[0], '과제 제출률 콘솔')
-        this.doneHW = result.data[0][0]
-        this.notyetHW = result.data[0][1]
-        if (this.doneHW == 0 && this.notyetHW == 0) {
+        console.log(result.data, '과제 제출률 콘솔')
+        this.beforeDeadHW = result.data[0]
+        this.afterDeadHW = result.data[1]
+        this.notyetHW = result.data[2]
+        this.doneHW = result.data[3]
+        if (this.beforeDeadHW + this.afterDeadHW == 0) {
           this.percentageHW = 0
         } else {
-          this.percentageHW = Math.floor(100 * result.data[0][0] / (result.data[0][0] + result.data[0][1]))
+          this.percentageHW = Math.floor(100 * this.doneHW / (this.beforeDeadHW + this.afterDeadHW))
         }
       })
     },
@@ -423,10 +427,16 @@ export default {
         .then(result => {
           let hwClass = {}
           for (var j = 0; j < result.data.length; j++) {
-            if (result.data[j].studyroom.studyName in hwClass) {
-              hwClass[result.data[j].studyroom.studyName] += 1
-            } else {
-              hwClass[result.data[j].studyroom.studyName] = 1
+            for (var k = 0; k < result.data[j].studentHomeworks.length; k++) {
+              if (result.data[j].studentHomeworks[k].stId === this.userId) {
+                if (result.data[j].studentHomeworks[k].stHwposted === null) {
+                  if (result.data[j].studyroom.studyName in hwClass) {
+                    hwClass[result.data[j].studyroom.studyName] += 1
+                  } else {
+                    hwClass[result.data[j].studyroom.studyName] = 1
+                  }
+                }
+              }
             }
           }
           hwlabels = Object.keys(hwClass)
