@@ -28,7 +28,7 @@ public interface HomeworkService {
     @Transactional
     void deleteHomework(Integer hwId, String tchrId);
 
-    List<int[]> countBystId(String stId);
+    int[] countBystId(String stId);
 
     List<int[]> countBytchrId(String tchrId);
 

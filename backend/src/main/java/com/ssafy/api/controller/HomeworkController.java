@@ -136,8 +136,8 @@ public class HomeworkController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<int[]>> rate(@PathVariable String stId){
-        List<int[]> list = homeworkService.countBystId(stId);
+    public ResponseEntity<int[]> rate(@PathVariable String stId){
+        int[] list = homeworkService.countBystId(stId);
         return ResponseEntity.status(200).body(list);
     }
 
