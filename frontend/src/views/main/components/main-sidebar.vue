@@ -34,7 +34,7 @@
           </el-menu-item>
           <div v-if="whetherTchr">
             <el-scrollbar max-height="50vh" >
-              <el-menu-item v-for="(val, idx) in state.tchr_scha" :key="idx" :index="idx+1" @click="MoveLesson(val[0], val[1])">
+              <el-menu-item v-for="(val, idx) in state.tchr_scha" :key="idx" :index="(idx+1).toString()" @click="MoveLesson(val[0], val[1])">
                   <span>{{ val[1] }}</span>
               </el-menu-item>
             </el-scrollbar>

@@ -10,7 +10,7 @@
       </el-col>
     </el-row>
     <el-scrollbar height="360px" >
-      <div v-if="state.notices.length >= 1" style="overflow: hidden;">
+      <div v-if="state.notices.length >= 1" style="overflow: hidden; padding:0 30px 0 15px;">
         <el-row :gutter="24" v-for="notice in state.notices" :key = notice.id class ="el-item" style="margin-left:0px">
           <el-col :span="6" class ="li-title li-item" style="overflow: hidden;">{{notice.noticeTitle}}</el-col>
           <el-col :span="9" class ="li-lesson li-item" style="overflow: hidden;">
@@ -22,7 +22,7 @@
               :content="notice.noticeContent"
             >
               <template #reference>
-                <el-button type="text">{{notice.noticeContent}}</el-button>
+                <el-button type="text">{{notice.noticeTitle}}</el-button>
               </template>
             </el-popover>
           </el-col>
@@ -51,10 +51,11 @@
     <!-- 과제 -->
     <h1 style="padding: 25px; font-size:30px; text-align: start;">제출된 과제</h1>
     <el-scrollbar height="360px">
-      <div v-if="state.hw.length >= 1">
-        <el-row :gutter="24" v-for="hw in state.hw" :key = hw.hwId class ="el-item">
+      <div v-if="state.hw.length >= 1" style="padding:0 20px;">
+        <span v-for="hw in state.hw" :key = hw.hwId>
+          <el-row :gutter="24" v-if="isWork(hw.hwDeadline)" class ="el-item">
             <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
-            <el-col :span="7" class ="li-lesson li-item">{{type(hw.hwContent)}}</el-col>
+            <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
             <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
             <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
             <el-col :span="2" class ="li-item filebar">
@@ -73,7 +74,30 @@
             <el-col :span="2" >
               <el-button type="text" class ="li-item" @click="delStHw(hw.hwid)" style="color: red">삭제하기</el-button>
             </el-col>
-        </el-row>
+          </el-row>
+          <el-row :gutter="24" v-else class ="el-item2">
+            <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
+            <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
+            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
+            <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
+            <el-col :span="2" class ="li-item filebar">
+              첨부파일
+              <ul>
+                <h4>파일목록</h4>
+                <div v-for="hf in hw.hwFile" :key=hf.fileId>
+                  <hr>
+                  <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
+                </div>
+              </ul>
+            </el-col>
+            <el-col :span="2" >
+              <el-button type="text" class ="li-item" @click="onOpenHwDialog()">제출하기</el-button>
+            </el-col>
+            <el-col :span="2" >
+              <el-button type="text" class ="li-item" @click="delStHw(hw.hwid)" style="color: red">삭제하기</el-button>
+            </el-col>
+          </el-row>
+        </span>
       </div>
       <div v-else style="height: 80%; padding: 100px">
         <h1>등록된 과제가 없습니다</h1>
@@ -146,6 +170,15 @@ export default {
       anchor.click()
       document.body.removeChild(anchor)
     }
+    const isWork = function(dead){
+      let now = new Date();
+      var year = now.getFullYear();
+      var month = ('0' + (now.getMonth() + 1)).slice(-2);
+      var day = ('0' + now.getDate()).slice(-2);
+
+      var dateString = year + '-' + month  + '-' + day;
+      return (dead.substring(0, 10) >= dateString)
+    }
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
       // 과제 불러오기
@@ -171,7 +204,7 @@ export default {
         alert(err)
       })
     })
-    return {state, downNoticeFile, onOpenHwDialog, onCloseHwDialog, delStHw, downHWFile}
+    return {state, downNoticeFile, isWork, onOpenHwDialog, onCloseHwDialog, delStHw, downHWFile}
   },
   created:function(){
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
@@ -186,6 +219,15 @@ export default {
   }
   .el-item{
     background-color: #ecf0f1;
+    align-items: center;
+    border-radius: 10px;
+    height: 60px;
+    width:100%;
+    margin-bottom: 5px;
+    overflow: hidden;
+  }
+  .el-item2{
+    background-color:grey;
     align-items: center;
     border-radius: 10px;
     height: 60px;

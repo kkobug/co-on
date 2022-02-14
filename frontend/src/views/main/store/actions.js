@@ -254,7 +254,7 @@ export function requestGetTchrNotice ({ state }) {
   return $axios.get(url)
 }
 export function requestGetHW ({ state }, payload) {
-  console.log('requestGetHW', payload)
+  console.log('requestGetHW', payload, state.userid)
   const url = `/homework/student/${state.userid}`
   return $axios.get(url)
 }

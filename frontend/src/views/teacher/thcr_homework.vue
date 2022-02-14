@@ -9,10 +9,11 @@
     <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data style="box-shadow: 3px 3px 3px 3px gray; z-index:11;" v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
     <el-scrollbar wrap-style="max-height: 270px;" style="min-height:270px;">
       <div v-if="state.homeworks.length >= 1" style="margin:0 20px;">
-        <el-row :gutter="24" v-for="(hw, index) in state.homeworks" :key = hw.hwId class ="el-item">
+        <span v-for="(hw, index) in state.homeworks" :key = hw.hwId >
+          <el-row :gutter="24" v-if="isWork(hw.hwDeadline)" class ="el-item">
             <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
             <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
-            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
+            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}}까지</el-col>
             <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
             <el-col :span="2" class ="li-item filebar">
               첨부파일
@@ -30,7 +31,30 @@
             <el-col :span="2" >
               <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)" style="color: red">삭제</el-button>
             </el-col>
-        </el-row>
+          </el-row>
+          <el-row :gutter="24" v-else class ="el-item2">
+            <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
+            <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
+            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}}까지</el-col>
+            <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
+            <el-col :span="2" class ="li-item filebar">
+              첨부파일
+              <ul>
+                <h4>파일목록</h4>
+                <div v-for="hf in hw.hwFile" :key=hf.fileId>
+                  <hr>
+                  <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
+                </div>
+              </ul>
+            </el-col>
+            <el-col :span="2" >
+              <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
+            </el-col>
+            <el-col :span="2" >
+              <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)" style="color: red">삭제</el-button>
+            </el-col>
+          </el-row>
+        </span>
       </div>
       <div v-else style="height: 80%; padding: 100px">
         <h1>등록된 과제가 없습니다</h1>
@@ -95,11 +119,20 @@ export default {
       anchor.click()
       document.body.removeChild(anchor)
     }
+    const isWork = function(dead){
+      let now = new Date();
+      var year = now.getFullYear();
+      var month = ('0' + (now.getMonth() + 1)).slice(-2);
+      var day = ('0' + now.getDate()).slice(-2);
+
+      var dateString = year + '-' + month  + '-' + day;
+      return (dead.substring(0, 10) >= dateString)
+    }
     onMounted(()=>{
       gethomeworksList();
     })
 
-    return {state, onMounted, closemodal, updatehomework, delhomeworks, gethomeworksList, downHWFile}
+    return {state, onMounted, isWork, closemodal, updatehomework, delhomeworks, gethomeworksList, downHWFile}
   },
 };
 </script>
@@ -111,6 +144,13 @@ export default {
   }
   .el-item{
     background-color: #ecf0f1;
+    align-items: center;
+    border-radius: 20px;
+    height: 60px;
+    margin-bottom: 10px;
+  }
+  .el-item2{
+    background-color: grey;
     align-items: center;
     border-radius: 20px;
     height: 60px;

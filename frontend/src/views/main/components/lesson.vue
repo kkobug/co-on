@@ -2,20 +2,22 @@
   <div id="main-container" class="container" style="margin: auto; background: none;">
     <!-- 수업리스트 -->
     <div id="join" v-if="!session">
-      <div class="common-layout" style="margin-top: 3vh" v-if="!session">
-          <el-row style="line-height: 60px; height: 5vh; font-size: 20px; font-weight: bold">
-            <el-col :span="5"><div class="grid-content ">과목명</div></el-col>
-            <el-col :span="5"><div class="grid-content ">교사</div></el-col>
-            <el-col :span="5"><div class="grid-content ">수업설명</div></el-col>
-            <el-col :span="5"><div class="grid-content ">화상회의</div></el-col>
+      <div class="common-layout" style="margin-top: 3vh; padding:10px; " v-if="!session">
+          <el-row :gutter="20" style="line-height: 60px; height: 5vh; font-size: 20px; font-weight: bold">
+            <el-col :span="3"><div class="grid-content ">과목명</div></el-col>
+            <el-col :span="3"><div class="grid-content ">교사</div></el-col>
+            <el-col :span="2"><div class="grid-content ">마일리지</div></el-col>
+            <el-col :span="8"><div class="grid-content ">수업설명</div></el-col>
+            <el-col :span="4"><div class="grid-content ">화상회의</div></el-col>
           </el-row>
-          <el-scrollbar height="100%" >
+          <el-scrollbar height="80%;" >
             <el-main style="line-height: 70px">
-              <el-row v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
-                <el-col :span="5"><div class="grid-content ">{{classitem[2]}}</div></el-col>
-                <el-col :span="5"><div class="grid-content ">{{classitem[1]}}</div></el-col>
-                <el-col :span="5"><div class="grid-content ">{{classitem[3]}}</div></el-col>
-                <el-col :span="5">
+              <el-row :gutter="20" v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
+                <el-col :span="3"><div class="grid-content ">{{classitem[2]}}</div></el-col>
+                <el-col :span="3"><div class="grid-content ">{{classitem[1]}}</div></el-col>
+                <el-col :span="2"><div class="grid-content ">{{classitem[11]}}</div></el-col>
+                <el-col :span="8"><div class="grid-content ">{{classitem[3]}}</div></el-col>
+                <el-col :span="4">
                   <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " >{{classitem[8].substr(0, 16)}}</div>
                   <div v-else class="grid-content ">{{classitem[9].substr(0, 16)}}</div>
                 </el-col>
@@ -478,7 +480,7 @@ export default {
   cursor:pointer;
 }
 #main-container {
-  width: 65%;
+  width: 80%;
   // width: calc(36%*1920/1080) ;
   // height: 36%;
 }

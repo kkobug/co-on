@@ -1,0 +1,282 @@
+-- 디비 전체 테이블 생성(총 7개)
+use `ssafy_web_db`;
+
+-- 기존에 테이블이 있는지 check
+-- 기존 테이블이 있을 경우 drop 안됨
+drop table attendance_record;
+drop table attendance;
+drop table conference;
+drop table student_homework_file;
+drop table student_homework;
+drop table homework_file;
+drop table homework;
+drop table notice_file;
+drop table notice;
+drop table studyroom_detail;
+drop table studyroom;
+drop table teacher;
+drop table student;
+
+CREATE TABLE `student` (
+  `st_id` varchar(20) NOT NULL,
+  `st_name` varchar(10) NOT NULL,
+  `st_email` varchar(72) NOT NULL,
+  `st_password` varchar(255) NOT NULL,
+  `st_contact` varchar(13) DEFAULT NULL, 
+  `st_signup_date` DATETIME not null DEFAULT CURRENT_TIMESTAMP,
+  `st_birthday` DATE DEFAULT NULL,
+  `st_school` varchar(20) DEFAULT NULL,
+  `st_prof_name` TEXT DEFAULT NULL,
+  `st_origin_prof_name` TEXT DEFAULT NULL,
+  `st_prof_path` TEXT DEFAULT NULL,
+  PRIMARY KEY (`st_id`),
+  unique key (`st_email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `teacher` (
+  `tchr_id` varchar(20) NOT NULL,
+  `tchr_name` varchar(10) NOT NULL,
+  `tchr_email` varchar(72) NOT NULL,
+  `tchr_password` varchar(255) NOT NULL,
+  `tchr_contact` varchar(13) DEFAULT NULL,
+  `tchr_signup_date` DATETIME not null DEFAULT CURRENT_TIMESTAMP,
+  `tchr_birthday` DATE DEFAULT NULL,
+  `tchr_school` varchar(20) DEFAULT NULL,
+  `tchr_prof_name` TEXT DEFAULT NULL,
+  `tchr_origin_prof_name` TEXT DEFAULT NULL,
+  `tchr_prof_path` TEXT DEFAULT NULL,
+  PRIMARY KEY (`tchr_id`),
+  unique key (`tchr_email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `studyroom` (
+  `study_id` INT unsigned not null auto_increment,
+  `tchr_id` varchar(20) NOT NULL, 
+  `study_name` varchar(15) NOT NULL,
+  `study_desc` text default NULL,
+  PRIMARY KEY (`study_id`),
+  FOREIGN KEY (`tchr_id`)
+  REFERENCES teacher(`tchr_id`) ON UPDATE CASCADE on delete cascade
+) ENGINE=InnoDB auto_increment=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `notice` (
+  `notice_id` INT unsigned not null auto_increment,
+  `study_id` INT unsigned not null,
+  `tchr_id` varchar(20) NOT NULL,
+  `notice_title` varchar(50) NOT NULL,
+  `notice_content` text NOT NULL,
+  `notice_posted` DATETIME not null DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`notice_id`),
+  FOREIGN KEY (`study_id`)
+  REFERENCES studyroom(`study_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`tchr_id`)
+  REFERENCES teacher(`tchr_id`) ON UPDATE CASCADE on delete cascade
+) ENGINE=InnoDB auto_increment=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `notice_file` (
+  `file_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_origin_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `notice_id` INT UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`file_id`),
+  FOREIGN KEY (`notice_id`)
+  REFERENCES notice(`notice_id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `studyroom_detail`(
+  `studyroom_detail_id` INT unsigned not null auto_increment,
+  `study_id` INT unsigned not null,
+  `tchr_id` varchar(20) NOT NULL,
+  `st_id` varchar(20) NOT NULL,
+  PRIMARY KEY (`studyroom_detail_id`),
+  FOREIGN KEY (`study_id`)
+  REFERENCES studyroom(`study_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`tchr_id`)
+  REFERENCES teacher(`tchr_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`st_id`)
+  REFERENCES student(`st_id`) ON UPDATE CASCADE on delete cascade
+) ENGINE=InnoDB auto_increment=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `homework`(
+  `hw_id` INT unsigned not null auto_increment,
+  `study_id` INT unsigned not null,
+  `tchr_id` varchar(20) NOT NULL,
+  `hw_title` varchar(50) NOT NULL,
+  `hw_content` text NOT NULL,
+  `hw_deadline` DATETIME DEFAULT NULL,
+  `hw_posted` DATETIME not null DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`hw_id`),
+  FOREIGN KEY (`study_id`)
+  REFERENCES studyroom(`study_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`tchr_id`)
+  REFERENCES teacher(`tchr_id`) ON UPDATE CASCADE on delete cascade
+) ENGINE=InnoDB auto_increment=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `homework_file` (
+  `file_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_origin_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `hw_id` INT UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`file_id`),
+  FOREIGN KEY (`hw_id`)
+  REFERENCES homework(`hw_id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `student_homework`(
+  `st_hwid` INT unsigned not null auto_increment,
+  `hw_id` INT unsigned not null,
+  `study_id` INT unsigned not null,
+  `tchr_id` varchar(20) NOT NULL,
+  `st_id` varchar(20) NOT NULL,
+  `st_hwcontent` text DEFAULT NULL,
+  `st_hwposted` DATETIME DEFAULT null,
+  `st_hwscore` INT default null,
+  PRIMARY KEY (`st_hwid`),
+  FOREIGN KEY (`hw_id`)
+  REFERENCES homework(`hw_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`study_id`)
+  REFERENCES studyroom(`study_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`tchr_id`)
+  REFERENCES teacher(`tchr_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`st_id`)
+  REFERENCES student(`st_id`) ON UPDATE CASCADE on delete cascade
+) ENGINE=InnoDB auto_increment=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `student_homework_file` (
+  `file_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_origin_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `st_hwid` INT UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`file_id`),
+  FOREIGN KEY (`st_hwid`)
+  REFERENCES student_homework(`st_hwid`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `conference`(
+  `conf_id` INT unsigned not null auto_increment,
+  `study_id` INT unsigned not null,
+  `tchr_id` varchar(20) NOT NULL,
+  `conf_title` varchar(50) NOT NULL,
+  `conf_init` DATETIME DEFAULT NULL,
+  `conf_des` DATETIME DEFAULT NULL,
+  `conf_start` DATETIME DEFAULT NULL,
+  `conf_end` DATETIME DEFAULT NULL,
+  `conf_att` SMALLINT DEFAULT NULL,
+  PRIMARY KEY (`conf_id`),
+  FOREIGN KEY (`study_id`)
+  REFERENCES studyroom(`study_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`tchr_id`)
+  REFERENCES studyroom(`tchr_id`) ON UPDATE CASCADE on delete cascade
+) ENGINE=InnoDB auto_increment=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `attendance`(
+  `att_id` INT unsigned not null auto_increment,
+  `conf_id` INT unsigned not null,
+  `st_id` varchar(20) NOT NULL,
+  `att_pass` boolean not null default 0,
+  PRIMARY KEY (`att_id`),
+  FOREIGN KEY (`conf_id`)
+  REFERENCES conference(`conf_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`st_id`)
+  REFERENCES studyroom_detail(`st_id`) ON UPDATE CASCADE on delete cascade
+) ENGINE=InnoDB auto_increment=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `attendance_record`(
+  `rec_id` INT unsigned not null auto_increment,
+  `att_id` INT unsigned not null,
+  `conf_id` INT unsigned not null,
+  `st_id` varchar(20) NOT NULL,
+  `rec_in` DATETIME DEFAULT NULL,
+  `rec_out` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`rec_id`),
+  FOREIGN KEY (`att_id`)
+  REFERENCES attendance(`att_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`conf_id`)
+  REFERENCES attendance(`conf_id`) ON UPDATE CASCADE on delete cascade,
+  FOREIGN KEY (`st_id`)
+  REFERENCES attendance(`st_id`) ON UPDATE CASCADE on delete cascade
+) ENGINE=InnoDB auto_increment=1 DEFAULT CHARSET=utf8mb4;
+
+-- student table 테스트
+INSERT INTO `ssafy_web_db`.`student` (`st_id`, `st_name`, `st_email`, `st_password`, `st_contact`, `st_signup_date`, `st_birthday`, `st_school`) VALUES ('st_id1', 'kimssafy1', 'ssafy1@ssafy.com', '1234', '010-5253-5264', now(), '20050602', '싸피중1');
+INSERT INTO `ssafy_web_db`.`student` (`st_id`, `st_name`, `st_email`, `st_password`, `st_contact`, `st_signup_date`, `st_birthday`, `st_school`) VALUES ('st_id2', 'kimssafy2', 'ssafy2@ssafy.com', '1234', '010-5253-5264', now(), '20050602', '싸피중2');
+INSERT INTO `ssafy_web_db`.`student` (`st_id`, `st_name`, `st_email`, `st_password`, `st_contact`, `st_signup_date`, `st_birthday`, `st_school`) VALUES ('st_id3', 'kimssafy3', 'ssafy3@ssafy.com', '1234', '010-5253-5264', now(), '20050602', '싸피중3');
+INSERT INTO `ssafy_web_db`.`student` (`st_id`, `st_name`, `st_email`, `st_password`, `st_contact`, `st_signup_date`, `st_birthday`, `st_school`) VALUES ('st_id4', 'kimssafy4', 'ssafy4@ssafy.com', '1234', '010-5253-5264', now(), '20050602', '싸피중4');
+INSERT INTO `ssafy_web_db`.`student` (`st_id`, `st_name`, `st_email`, `st_password`, `st_contact`, `st_signup_date`, `st_birthday`, `st_school`) VALUES ('st_id5', 'kimssafy5', 'ssafy5@ssafy.com', '1234', '010-5253-5264', now(), '20050602', '싸피중5');
+SELECT * FROM ssafy_web_db.student;
+
+-- teacher table 테스트
+INSERT INTO `ssafy_web_db`.`teacher` (`tchr_id`, `tchr_name`, `tchr_email`, `tchr_password`, `tchr_contact`, `tchr_signup_date`, `tchr_birthday`, `tchr_school`) VALUES ('tchr_id1', 'kimteach1', 'ssafy1@ssafy1.com', '1234', '010-5253-5264', now(), '20050602', '싸피중1');
+INSERT INTO `ssafy_web_db`.`teacher` (`tchr_id`, `tchr_name`, `tchr_email`, `tchr_password`, `tchr_contact`, `tchr_signup_date`, `tchr_birthday`, `tchr_school`) VALUES ('tchr_id2', 'kimteach2', 'ssafy2@ssafy2.com', '1234', '010-5253-5264', now(), '20050602', '싸피중2');
+INSERT INTO `ssafy_web_db`.`teacher` (`tchr_id`, `tchr_name`, `tchr_email`, `tchr_password`, `tchr_contact`, `tchr_signup_date`, `tchr_birthday`, `tchr_school`) VALUES ('tchr_id3', 'kimteach3', 'ssafy3@ssafy3.com', '1234', '010-5253-5264', now(), '20050602', '싸피중3');
+SELECT * FROM ssafy_web_db.teacher;
+
+-- 수업 table 테스트
+INSERT INTO `ssafy_web_db`.`studyroom` (`tchr_id`, `study_name`, `study_desc`) VALUES ('tchr_id1', '수학1', '2단~9단 학습');
+INSERT INTO `ssafy_web_db`.`studyroom` (`tchr_id`, `study_name`, `study_desc`) VALUES ('tchr_id2', '수학2', '20단~90단 학습');
+INSERT INTO `ssafy_web_db`.`studyroom` (`tchr_id`, `study_name`, `study_desc`) VALUES ('tchr_id3', '수학3', '30단~60단 학습');
+SELECT * FROM ssafy_web_db.studyroom;
+
+-- 수업상세 table 테스트
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('1', 'tchr_id1', 'st_id1');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('1', 'tchr_id1', 'st_id2');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('1', 'tchr_id1', 'st_id3');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('1', 'tchr_id1', 'st_id4');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('1', 'tchr_id1', 'st_id5');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('2', 'tchr_id2', 'st_id1');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('2', 'tchr_id2', 'st_id2');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('2', 'tchr_id2', 'st_id3');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('2', 'tchr_id2', 'st_id4');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('2', 'tchr_id2', 'st_id5');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('3', 'tchr_id3', 'st_id1');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('3', 'tchr_id3', 'st_id2');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('3', 'tchr_id3', 'st_id3');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('3', 'tchr_id3', 'st_id4');
+INSERT INTO `ssafy_web_db`.`studyroom_detail` (`study_id`, `tchr_id`, `st_id`) VALUES ('3', 'tchr_id3', 'st_id5');
+SELECT * FROM ssafy_web_db.studyroom_detail;
+
+-- 공지사항 table 테스트
+INSERT INTO `ssafy_web_db`.`notice` (`study_id`, `tchr_id`, `notice_title`, `notice_content`) VALUES ('1', 'tchr_id1', '공지사항제목1', '공지내용입니다.1');
+INSERT INTO `ssafy_web_db`.`notice` (`study_id`, `tchr_id`, `notice_title`, `notice_content`) VALUES ('2', 'tchr_id2', '공지사항제목2', '공지내용입니다.2');
+INSERT INTO `ssafy_web_db`.`notice` (`study_id`, `tchr_id`, `notice_title`, `notice_content`) VALUES ('3', 'tchr_id3', '공지사항제목3', '공지내용입니다.3');
+SELECT * FROM ssafy_web_db.notice;
+
+DROP TRIGGER IF EXISTS conftoattlist;
+DROP TRIGGER IF EXISTS homeworktosthomework;
+
+-- 완성
+    DELIMITER $$
+		create trigger	conftoattlist							-- 트리거명
+			after insert 										-- 변경 후에 작동하도록 지정
+			on `ssafy_web_db`.`conference`						-- 트리거를 부착할 테이블	
+			for each row
+			begin
+			insert into attendance(conf_id, st_id) 
+			select c.conf_id, b.st_id
+			from studyroom_detail b
+			inner join conference c
+			on b.study_id=c.study_id
+			where b.study_id = new.study_id;
+		end $$
+	DELIMITER;
+    
+    
+    -- 완성
+    DELIMITER $$
+		create trigger	homeworktosthomework					-- 트리거명
+			after insert 										-- 변경 후에 작동하도록 지정
+			on `ssafy_web_db`.`homework`						-- 트리거를 부착할 테이블	
+			for each row
+			begin
+			insert into student_homework(hw_id, study_id, tchr_id, st_id) 
+			select c.hw_id, b.study_id, b.tchr_id, b.st_id
+			from studyroom_detail b
+			inner join homework c
+			on b.study_id = c.study_id
+			where b.study_id = new.study_id;
+		end $$
+    
+    

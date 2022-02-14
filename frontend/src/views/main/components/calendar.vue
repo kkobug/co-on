@@ -211,28 +211,43 @@ export default {
     getHw(){
       this.$store.dispatch('root/requestGetHW',this.userId)
       .then(result =>{
+        console.log("ddddata:", result.data)
         for (var j = 0; j < result.data.length; j++) {
           if (this.events.length >= 3) {
             break
           }
           var hw = result.data[j];
           if (hw.hwDeadline > this.today) {
-            this.events.push({
-              start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
-              end: hw.hwDeadline.substring(0,16),
-              title: hw.hwTitle,
-              className :hw.studyroom.studyName,
-              content: hw.hwContent,
-              teacher: hw.tchrId,
-              fileName: hw.hwFile[0].fileOriginName,
-              class: "health",
-              split: 2
-            });
+            if (hw.hwFile.length){
+              this.events.push({
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: hw.hwFile[0].fileOriginName,
+                class: "health",
+                split: 2
+              });
+            }else{
+              this.events.push({
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: "health",
+                split: 2
+              });
+            }
           }
         }
         this.dashHw=this.events[0]
-        console.log('과제:', this.dashHw)
       })
+      console.log('과제:', this.dashHw)
     },
     getTchtHW(){
       this.$store.dispatch('root/requestTchrListHomework')
@@ -243,22 +258,36 @@ export default {
           }
           var hw = result.data[j];
           if (hw.hwDeadline > this.today) {
-            this.events.push({
-              start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
-              end: hw.hwDeadline.substring(0,16),
-              title: hw.hwTitle,
-              className :hw.studyroom.studyName,
-              content: hw.hwContent,
-              teacher: hw.tchrId,
-              fileName: hw.hwFile[0].fileOriginName,
-              class: "health",
-              split: 2
-            });
+            if (hw.hwFile.length){
+              this.events.push({
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: hw.hwFile[0].fileOriginName,
+                class: "health",
+                split: 2
+              });
+            }else{
+              this.events.push({
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: "health",
+                split: 2
+              });
+            }
           }
         }
         this.dashHw=this.events[0]
-        console.log('선생님 과제:', this.events)
       })
+      console.log('선생님 과제:', this.events)
     },
     getProgress(){
       this.$store.dispatch('root/requestRateHW')
@@ -347,6 +376,8 @@ export default {
       let recaptchaScript = document.createElement('script')
       recaptchaScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
       document.head.appendChild(recaptchaScript)
+
+      this.dashHw=this.events[0]
 
       let hwlabels = []
       let hwdata = []
