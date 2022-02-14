@@ -87,7 +87,7 @@ public class NoticeServiceImpl implements NoticeService{
     @Cacheable(value = "findNotice",key = "#NoticeId")
     public Notice findBynoticeId(Integer NoticeId) {
         Notice notice = noticeRepositorySupport.findByNoticeId(NoticeId).get();
-        System.out.println("공지사항 상세조회..............................."+NoticeId);
+        System.out.println("Call findBynoticeId..............................."+NoticeId);
         return notice;
     }
 

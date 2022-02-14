@@ -18,6 +18,8 @@ public class QNotice extends EntityPathBase<Notice> {
 
     private static final long serialVersionUID = 1574844698L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QNotice notice = new QNotice("notice");
 
     public final StringPath noticeContent = createString("noticeContent");
@@ -32,18 +34,29 @@ public class QNotice extends EntityPathBase<Notice> {
 
     public final NumberPath<Integer> studyId = createNumber("studyId", Integer.class);
 
+    public final QStudyroom studyroom;
+
     public final StringPath tchrId = createString("tchrId");
 
     public QNotice(String variable) {
-        super(Notice.class, forVariable(variable));
+        this(Notice.class, forVariable(variable), INITS);
     }
 
     public QNotice(Path<? extends Notice> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QNotice(PathMetadata metadata) {
-        super(Notice.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QNotice(PathMetadata metadata, PathInits inits) {
+        this(Notice.class, metadata, inits);
+    }
+
+    public QNotice(Class<? extends Notice> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.studyroom = inits.isInitialized("studyroom") ? new QStudyroom(forProperty("studyroom")) : null;
     }
 
 }

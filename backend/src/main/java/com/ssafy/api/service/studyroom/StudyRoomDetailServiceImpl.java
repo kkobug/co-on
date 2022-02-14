@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +27,10 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
 
     //학생 추가   --> 우리반 조회 캐시 변겅, ((학생 출석 개수 조회 변경.10분지나면 조회가능))
     @Override
-    @CachePut(value = "findStudent",key = "#studyRoomAddPostReq.studyId")
-    @CacheEvict(value = "findStudyroomBystId", key = "#studyRoomAddPostReq.stId")
+    @Caching(evict = {
+            @CacheEvict(value = "findStudent",key = "#studyRoomAddPostReq.studyId"),
+            @CacheEvict(value = "findStudyroomBystId", key = "#studyRoomAddPostReq.stId")
+    })
     public void addStudent(StudyRoomAddPostReq studyRoomAddPostReq) {
         Optional<StudyroomDetail> exist_check = studyRoomdetailRepositorySupport.findStudyroomByIds(studyRoomAddPostReq.getStId(), studyRoomAddPostReq.getStudyId());
 
@@ -55,12 +58,15 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     @Override
     @Cacheable(value = "findStudyroomBystId", key = "#stId")
     public List<Object[]> findStudyroomAndconbystId(String stId) {
+        System.out.println("Call findStudyroomAndconbystId................."+stId);
         return studyRoomDetailRepository.findStudyroomAndconbystId(stId);
     }
 
     @Override
-    @CachePut(value = "findStudent",key = "#studyRoomDetailDeleteReq.studyId")
-    @CacheEvict(value = "findStudyroomBystId", key = "#studyRoomDetailDeleteReq.stId")
+    @Caching(evict = {
+                    @CacheEvict(value = "findStudyroomBystId", key = "#studyRoomDetailDeleteReq.stId"),
+                    @CacheEvict(value = "findStudent",key = "#studyRoomDetailDeleteReq.studyId")
+    })
     public void deleteStudent(StudyRoomDetailDeleteReq studyRoomDetailDeleteReq) {
         Integer studyId = studyRoomDetailDeleteReq.getStudyId();
         String stId = studyRoomDetailDeleteReq.getStId();

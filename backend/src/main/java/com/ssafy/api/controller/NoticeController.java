@@ -130,7 +130,7 @@ public class NoticeController {
 	}
 
 	@GetMapping("/student/list/{stId}")
-	@ApiOperation(value = "학생이 속한 수업의 과제 조회", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
+	@ApiOperation(value = "학생이 속한 수업의 공지사항 조회", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
 			@ApiResponse(code = 401, message = "인증 실패"),

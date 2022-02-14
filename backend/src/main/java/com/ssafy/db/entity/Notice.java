@@ -36,4 +36,8 @@ public class Notice implements Serializable {
     @OneToMany
     @JoinColumn(name = "notice_id",insertable = false, updatable = false)
     private List<NoticeFile> noticeFile;
+
+    @ManyToOne
+    @JoinColumn(name = "study_id",insertable = false,updatable = false)
+    private Studyroom studyroom;
 }
