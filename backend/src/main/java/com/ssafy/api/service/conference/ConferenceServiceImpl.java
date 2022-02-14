@@ -56,7 +56,7 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Override
     public Conference findConference(Integer studyId, String tchrId) {
-        return conferenceRepository.findConference(studyId, tchrId);
+        return conferenceRepositorySupport.findConference(studyId, tchrId);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class ConferenceServiceImpl implements ConferenceService{
         List<AttendanceRecord> attendanceRecords = attendanceRecordRepository.findAllAttendanceRecordByIds(stId, confId);
 
         if (attendanceRecords != null) {
-            Conference conference = conferenceRepository.findConferenceById(confId);
+            Conference conference = conferenceRepositorySupport.findConferenceById(confId);
             LocalDateTime st, ed, confIn, confOut;
             long atttime = 0;  // 출석시간
             st = conference.getConfStart();

@@ -23,12 +23,8 @@ public class StudyroomDetail implements Serializable {
     String stId;
     @Column(name ="st_point")
     Integer stPoint;
-    //Studyroom과 1:1 관계
-//    @OneToOne
-//    @JoinColumn(name ="study_id",insertable = false, updatable = false)
-//    private Studyroom studyroom;
-//    //Student와 1:N 관계
-//    @ManyToMany(cascade=CascadeType.ALL)
-//    @JoinColumn(name = "st_id",insertable = false, updatable = false)
-//    private List<Student> students;
+
+    @ManyToOne
+    @JoinColumn(name = "study_id",insertable = false,updatable = false)
+    private Studyroom studyroom;
 }

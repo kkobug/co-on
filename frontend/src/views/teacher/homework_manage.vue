@@ -93,14 +93,19 @@ export default {
     }
     const ent = function(changed, origin, id){
       console.log(changed, origin, id)
-      store.dispatch('root/requestPutScore', {
-          chgstHwscore: changed,
-          stHwId: id,
-          stHwscore: origin
-      })
-      .then(res => {
-        console.log("채점 완료")
-      })
+      if (changed !== null) {
+        if (origin === null) {
+          origin = 0
+        }
+        store.dispatch('root/requestPutScore', {
+            chgstHwscore: changed,
+            stHwId: id,
+            stHwscore: origin
+        })
+        .then(res => {
+          console.log("채점 완료")
+        })
+      }
     }
     return {Hws, activeName, getHw, ent, downStHomeworkFile, state}
   },

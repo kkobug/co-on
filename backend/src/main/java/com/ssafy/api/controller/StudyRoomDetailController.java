@@ -120,4 +120,20 @@ public class StudyRoomDetailController {
         studyRoomDetailService.updateScore(studyRoomDetailPutReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
+
+    @GetMapping("/student/studyroomdetailinfo/{stId}")
+    @ApiOperation(value = "학생 모든 수업 상세정보 조회", notes = "<strong>학생아이디</strong>를 통해 조회 한다.")
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<List<Object[]>> studyroomdetailinfo(
+            @PathVariable @ApiParam(value = "학생 ID 정보", required = true) String stId) {
+        List<Object[]> list = studyRoomDetailService.findStudyroomDetailbystId(stId);
+
+        return ResponseEntity.status(200).body(list);
+    }
 }
