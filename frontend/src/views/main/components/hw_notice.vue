@@ -1,11 +1,11 @@
 <template>
   <div style=" margin-right: 15vh;margin-left: 15vh; overflow: hidden;">
     <h1 style="padding: 25px; font-size:30px; text-align: start;">공지사항</h1>
-    <el-row :gutter="24" style="width:100%">
+    <el-row :gutter="24" style="width:100%;margin-left:0px" class ="el-item">
       <el-col :span="6" class ="li-title li-item">title</el-col>
-      <el-col :span="8" class ="li-lesson li-item">content</el-col>
-      <el-col :span="3" class ="li-time li-item">게시일</el-col>
-      <el-col :span="3" class ="li-item filebar"  style="padding:10px;">
+      <el-col :span="9" class ="li-lesson li-item">content</el-col>
+      <el-col :span="4" class ="li-time li-item">게시일</el-col>
+      <el-col :span="5" class ="li-item filebar">
         첨부파일
       </el-col>
     </el-row>
@@ -27,7 +27,7 @@
             </el-popover>
           </el-col>
           <el-col :span="4" class ="li-time li-item">{{notice.noticePosted.substring(0, 10)}}</el-col>
-          <el-col :span="3" class ="li-item filebar"  style="padding:10px;">
+          <el-col :span="5" class ="li-item filebar">
             첨부파일
             <ul>
               <h4>파일목록</h4>
@@ -36,9 +36,6 @@
                 <a @click="downNoticeFile(nf.fileName, nf.filePath, nf.fileOriginName)" class="filenamehover">💾 {{nf.fileOriginName}}</a>
               </div>
             </ul>
-          </el-col>
-          <el-col :span="2">
-            <el-button type="text" class="li-item" @click ="delNotice(notice.noticeId)" style="color: red">삭제</el-button>
           </el-col>
         </el-row>
       </div>
@@ -49,16 +46,24 @@
     </el-scrollbar>
     <hr>
     <!-- 과제 -->
-    <h1 style="padding: 25px; font-size:30px; text-align: start;">제출된 과제</h1>
+    <h1 style="padding: 25px; font-size:30px; text-align: start;">전체 과제 목록</h1>
     <el-scrollbar height="360px">
-      <div v-if="state.hw.length >= 1" style="padding:0 20px;">
+      <div v-if="state.hw.length >= 1"  >
+        <el-row :gutter="24" class ="el-item" style="margin-left:0px">
+            <el-col :span="5" class ="li-title li-item">과제 제목</el-col>
+            <el-col :span="9" class ="li-lesson li-item">과제 내용</el-col>
+            <el-col :span="4" class ="li-time li-item">제출기한</el-col>
+            <el-col :span="3" class ="li-item filebar">파일 목록</el-col>
+            <el-col :span="3" >
+              <el-button type="text" class ="li-item" @click="onOpenHwDialog()">제출하기</el-button>
+            </el-col>
+        </el-row>
         <span v-for="hw in state.hw" :key = hw.hwId>
-          <el-row :gutter="24" v-if="isWork(hw.hwDeadline)" class ="el-item">
+          <el-row :gutter="24" v-if="isWork(hw.hwDeadline)" class ="el-item" style="margin-left:0;">
             <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
-            <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
-            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
-            <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
-            <el-col :span="2" class ="li-item filebar">
+            <el-col :span="9" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
+            <el-col :span="4" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}}</el-col>
+            <el-col :span="3" class ="li-item filebar">
               첨부파일
               <ul>
                 <h4>파일목록</h4>
@@ -68,7 +73,7 @@
                 </div>
               </ul>
             </el-col>
-            <el-col :span="2" >
+            <el-col :span="3" >
               <el-button type="text" class ="li-item" @click="onOpenHwDialog()">제출하기</el-button>
             </el-col>
             <el-col :span="2" >
@@ -77,10 +82,9 @@
           </el-row>
           <el-row :gutter="24" v-else class ="el-item2">
             <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
-            <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
-            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
-            <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
-            <el-col :span="2" class ="li-item filebar">
+            <el-col :span="9" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
+            <el-col :span="4" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
+            <el-col :span="3" class ="li-item filebar">
               첨부파일
               <ul>
                 <h4>파일목록</h4>
@@ -90,12 +94,12 @@
                 </div>
               </ul>
             </el-col>
-            <el-col :span="2" >
+            <el-col :span="3" >
               <el-button type="text" class ="li-item" @click="onOpenHwDialog()">제출하기</el-button>
             </el-col>
-            <el-col :span="2" >
+            <!-- <el-col :span="2" >
               <el-button type="text" class ="li-item" @click="delStHw(hw.hwid)" style="color: red">삭제하기</el-button>
-            </el-col>
+            </el-col> -->
           </el-row>
         </span>
       </div>
