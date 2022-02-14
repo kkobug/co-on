@@ -124,9 +124,10 @@ export default {
       var year = now.getFullYear();
       var month = ('0' + (now.getMonth() + 1)).slice(-2);
       var day = ('0' + now.getDate()).slice(-2);
-
-      var dateString = year + '-' + month  + '-' + day;
-      return (dead.substring(0, 10) >= dateString)
+      var hour = now.getHours();
+      var minute = now.getMinutes();
+      var dateString = year + '-' + month  + '-' + day +" "+hour+":"+minute;
+      return dead.substring(0, 16) >= dateString
     }
     onMounted(()=>{
       gethomeworksList();

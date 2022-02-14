@@ -18,7 +18,7 @@
             type="datetime"
             placeholder="최종 제출일"
             name="hwDeadline"
-            format="YYYY/MM/DD hh:mm:ss"
+            format="YYYY/MM/DD HH:mm:ss"
           >
           </el-date-picker>
         </div>

@@ -144,6 +144,7 @@ export default {
     const whetherTchr = store.state.root.whetherTchr
 
     const state = reactive({
+      isOnAir:computed(() => store.getters['root/getStudyName']),
       isVisible: false,
       isteacher :false,
       tchr_scha: computed(() => store.getters['root/getStudy']),
@@ -174,15 +175,21 @@ export default {
       store.commit('root/setMenuActive', index)
       const MenuItems = store.getters['root/getMenus']
       let keys = Object.keys(MenuItems)
+      store.commit('root/changeClassName', "")
+      store.commit('root/changeClassId', 0)
       router.push({
         name: keys[index]
       })
+      getConference();
     }
 
     const goMypage = function(){
+      store.commit('root/changeClassName', "")
+      store.commit('root/changeClassId', 0)
       router.push({
         name: 'Mypage'
       })
+      getConference();
     }
 
     const logout = function(){
@@ -194,7 +201,7 @@ export default {
       router.push({
         name: 'Tchr_main',
       })
-      getConference()
+      getConference();
     }
     const MoveConference = function(){
       store.commit('root/changeTchrConference', state.conference)

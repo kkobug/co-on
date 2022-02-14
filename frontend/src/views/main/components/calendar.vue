@@ -8,106 +8,80 @@
         <!-- 대시보드 -->
         <el-row id="dashboard">
           <el-col :span="6">
-            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left; background-color:#EADDFF;">
-                <font-awesome-icon icon="clock" style="font-size:20px"/>
-                <span style="font-weight:bold; color:#21005D; font-size:20px">
-                  곧 마감인 과제
-                </span>
-                <div class="bottom">
-                  <el-button type="text" class="button" @click="drawerHW = true">{{this.dashHw.title}}</el-button>
-                  <div>
-                    <time class="time">{{ this.dashHw.end.substring(0, 10) }}</time>
-                  </div>
+                <div>
+                  <font-awesome-icon icon="clock" style="font-size:20px"/>
+                  <span style="font-weight:bold; color:#21005D; font-size:20px">
+                    곧 마감인 과제
+                  </span>
                 </div>
-              </div>
-              <el-drawer v-model="drawerHW" direction="ttb" size="50%">
-                <template #title>
-                  <h1 style="font-size: 25px; color: black">{{this.dashHw.title}}</h1>
-                </template>
-                <h4>수업: {{ this.dashHw.className }}</h4>
-                <h4>내용: {{ this.dashHw.content }}</h4>
-                <h4>제출 기한: {{ this.dashHw.end }}</h4>
-                <h4>첨부파일: {{ this.dashHw.fileName }}</h4>
-              </el-drawer>
-            </el-card>
-
-            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
-              <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-                <font-awesome-icon icon="clock" />
-                <span style="font-weight:bold; color:#21005D; font-size:20px">
-                  곧 마감인 과제
-                </span>
-                <div class="bottom">
+                <div class="bottom" v-if="this.dashHw">
+                  <p>{{ this.dashHw.className }} / {{this.dashHw.title}}</p>
+                  <p><time class="time">{{ this.dashHw.end.substring(0, 10) }}</time></p>
+                </div>
+                <div class="bottom" v-else>
                   <p>등록된 과제가 없습니다</p>
                 </div>
               </div>
             </el-card>
-
           </el-col>
+
+
           <el-col :span="6">
-            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashNotice">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-                <font-awesome-icon icon="bell" />
-                <span style="font-weight:bold; color:#273420; font-size:20px">
-                  최신 공지
-                </span>
-                <div class="bottom">
-                  <el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button>
-                  <div>
-                    <time class="time">{{ this.dashNotice.noticePosted }}</time>
-                  </div>
+                <div>
+                  <font-awesome-icon icon="bell" />
+                  <span style="font-weight:bold; color:#273420; font-size:20px">
+                    최신 공지
+                  </span>
                 </div>
-              </div>
-              <el-drawer v-model="drawer" direction="ttb" size="50%">
-                <template #title>
-                  <h1 style="font-size: 25px; color: black">{{this.dashNotice.noticeTitle}}</h1>
-                </template>
-                <h4>내용: {{ this.dashNotice.noticeContent }}</h4>
-                <h4>제출 기한: {{ this.dashNotice.noticePosted }}</h4>
-                <h4>첨부 파일: {{ this.dashNotice.noticeFile[0].fileOriginName }}</h4>
-              </el-drawer>
-            </el-card>
-            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
-              <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-                <font-awesome-icon icon="bell" />
-                <span style="font-weight:bold; color:#273420; font-size:20px">
-                  최신 공지
-                </span>
-                <div class="bottom">
+                <div class="bottom" v-if="this.dashNotice">
+                  <p><el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button></p>
+                  <p><time class="time">{{ this.dashNotice.noticePosted }}</time></p>
+                </div>
+                <div class="bottom" v-else>
                   <p>등록된 공지가 없습니다</p>
                 </div>
               </div>
             </el-card>
           </el-col>
+
+
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#F9DEDC" class="">
-                <font-awesome-icon icon="calendar-check" />
-                <span style="font-weight:bold; color:#410E08; font-size:20px">
-                  출석 확인
-                </span>
-                <div class="bottom">
-                  <el-button type="text" class="button">Operating</el-button>
-                  <div>
-                    <time class="time">{{ this.today }}</time>
-                  </div>
+                <div>
+                  <font-awesome-icon icon="calendar-check" />
+                  <span style="font-weight:bold; color:#410E08; font-size:20px">
+                    최근 종료된 과제
+                  </span>
+                </div>
+                <div class="bottom"  v-if="this.endhw">
+                  <p><el-button type="text" class="button">{{this.endhw.title}}</el-button></p>
+                  <p><time class="time">{{ this.endhw.end.substring(0, 10) }}</time></p>
+                </div>
+                <div class="bottom" v-else>
+                  <p>기한이 지난 과제가 없습니다</p>
                 </div>
               </div>
             </el-card>
           </el-col>
+
+
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
-                <font-awesome-icon icon="chalkboard-teacher" />
-                <span style="font-weight:bold; color:#31111D; font-size:20px">
-                  진행중인 수업
-                </span>
+                <div>
+                  <font-awesome-icon icon="chalkboard-teacher" />
+                  <span style="font-weight:bold; color:#31111D; font-size:20px">
+                    진행중인 수업
+                  </span>
+                </div>
                 <div class="bottom">
-                  <el-button type="text" class="button">{{ this.progresstitle }}</el-button>
-                  <div>
-                    <time class="time">~{{ this.progressend.substring(0, 16) }}</time>
-                  </div>
+                  <p><el-button type="text" class="button">{{ this.progresstitle }}</el-button></p>
+                  <p><time class="time">~{{ this.progressend.substring(0, 16) }}</time></p>
                 </div>
               </div>
             </el-card>
@@ -184,14 +158,15 @@ export default {
     myTchr: [],
     inProgressClass: [],
     progresstitle: '',
-    progressend: ''
+    progressend: '',
+    endhw:undefined,
  }),
   methods: {
     getNotice(){
       this.$store.dispatch('root/requestGetSTNotice',this.userId)
       .then(result =>{
         this.notices=result.data
-        this.dashNotice=this.notices[this.notices.length-1]
+        this.dashNotice=this.notices[0]
         if (result.data.length >= 1) {
             this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
         }
@@ -201,7 +176,7 @@ export default {
       this.$store.dispatch('root/requestGetTchrNotice')
       .then(result => {
         this.notices=result.data
-        this.dashNotice=this.notices[this.notices.length-1]
+        this.dashNotice=this.notices[0]
         if (result.data.length >= 1) {
             this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
         }
@@ -216,6 +191,32 @@ export default {
             console.log("there is no impending HW")
           }
           var hw = result.data[j];
+          if (this.isWork(hw.hwDeadline)){
+            this.dashHw = {
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: ["a","b","c","d","e","f","g"][j%3],
+                split: 2
+              }
+          }else if(!this.isWork(hw.hwDeadline) && !this.endhw){
+            console.log("inin")
+            this.endhw = {
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: ["a","b","c","d","e","f","g"][j%3],
+                split: 2
+              }
+          }
           if (hw.hwDeadline > this.today) {
             if (hw.hwFile.length){
               this.events.push({
@@ -244,18 +245,44 @@ export default {
             }
           }
         }
-        this.dashHw=this.events[0]
       })
-      console.log('과제:', this.dashHw)
     },
     getTchtHW(){
       this.$store.dispatch('root/requestTchrListHomework')
       .then(result =>{
+        console.log("data", result.data)
         for (var j = 0; j < result.data.length; j++) {
-          if (this.events.length >= 3) {
-            break
-          }
+
           var hw = result.data[j];
+          if (this.isWork(hw.hwDeadline)){
+            this.dashHw = {
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: ["a","b","c","d","e","f","g"][j%3],
+                split: 2
+              }
+          }else if(!this.endhw){
+            console.log("inin")
+            this.endhw = {
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: ["a","b","c","d","e","f","g"][j%3],
+                split: 2
+              }
+          }
+          // if (this.events.length >= 3) {
+          //   continue
+          // }
           if (hw.hwDeadline > this.today) {
             if (hw.hwFile.length){
               this.events.push({
@@ -284,9 +311,8 @@ export default {
             }
           }
         }
-        this.dashHw=this.events[0]
+        console.log('선생님 과제:', this.dashHw)
       })
-      console.log('선생님 과제:', this.events)
     },
     getProgress(){
       this.$store.dispatch('root/requestRateHW')
@@ -345,6 +371,18 @@ export default {
         }
       })
     },
+    isWork(dead){
+      let now = new Date();
+      var year = now.getFullYear();
+      var month = ('0' + (now.getMonth() + 1)).slice(-2);
+      var day = ('0' + now.getDate()).slice(-2);
+      var hour = now.getHours();
+      var minute = now.getMinutes();
+      var dateString = year + '-' + month  + '-' + day +" "+hour+":"+minute;
+
+      console.log(dead.substring(0, 16), dateString, dead.substring(0, 16) >= dateString)
+      return dead.substring(0, 16) >= dateString
+    }
 
   },
   created:function(){
@@ -378,7 +416,6 @@ export default {
       recaptchaScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
       document.head.appendChild(recaptchaScript)
 
-      this.dashHw=this.events[0]
 
       let hwlabels = []
       let hwdata = []
