@@ -4,6 +4,9 @@ import com.ssafy.api.request.user.TeacherModifyPutReq;
 import com.ssafy.api.request.user.TeacherProfilePutReq;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +44,7 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
+	@CachePut(value = "findById", key = "#teacherModifyInfo.tchr_id")
 	public Teacher modifyTeacher(TeacherModifyPutReq teacherModifyInfo) {
 		Teacher teacher = new Teacher();
 		teacher.setTchrId(teacherModifyInfo.getTchr_id());
@@ -54,12 +58,15 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
+	@Cacheable(value = "findById", key = "#tchrId")
 	public Teacher findById(String tchrId) {
 		Teacher teacher = teacherRepositorySupport.findById(tchrId).get();
+		System.out.println("findByIdTeacher...................................................실행"+tchrId);
 		return teacher;
 	}
 
 	@Override
+	@CacheEvict(value = "findById",key = "#tchr_id")
 	public void deleteTeacher(String tchr_id) {
 		teacherRepository.deleteById(tchr_id);
 	}

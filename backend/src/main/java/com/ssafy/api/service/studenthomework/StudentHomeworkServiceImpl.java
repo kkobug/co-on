@@ -10,6 +10,9 @@ import com.ssafy.db.repository.studenthomework.StudentHomeworkRepository;
 import com.ssafy.db.repository.studenthomework.StudentHomeworkRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     StudentHomeworkRepositorySupport studenthomeworkRepositorySupport;
 
     @Override
+    @CachePut(value = "findSubmittedHw",key = "#studentHomeworkRegisterPostReq.stId")
     public StudentHomework createStudentHomework(StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq) {
         StudentHomework studenthomework = studenthomeworkRepositorySupport.findByIds(studentHomeworkRegisterPostReq.getStId(), studentHomeworkRegisterPostReq.getHwId());
         studenthomework.setStHwcontent(studentHomeworkRegisterPostReq.getStHwContent());
@@ -75,6 +79,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
+    @CacheEvict(value = "findSubmittedHw", key = "stId")
     public void deleteStudentHomework(Integer hwId, String stId) {
         studenthomeworkRepositorySupport.deleteStudentHomeworkByStHwIdAndStId(hwId, stId);
     }
@@ -120,19 +125,26 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
 //        return studenthomework;
 //    }
 
+    //과제에 포함된 학생 과제 조회
     @Override
     public List<StudentHomework> findStudentHomeworkByHwId(Integer hwId) {
         return studenthomeworkRepositorySupport.findStudentHomeworkByHwId(hwId);
     }
 
+    //학생이 제출한 과제 조회 -> 과제 제출, 삭제시 캐시 업데이트
     @Override
+    @Cacheable(value = "findSubmittedHw",key = "#stId")
     public List<StudentHomework> findStudentHomeworkByStId(String stId) {
+        System.out.println("findStudentHomeworkByStId................"+stId);
         return studenthomeworkRepositorySupport.findStudentHomeworkByStId(stId);
     }
 
+    //학생 과제 세부 조회 10분 지나면 다시 캐시
     @Override
+    @Cacheable(value = "findStHw")
     public StudentHomework findBystHwId(Integer stHwId) {
         StudentHomework studentHomework = studenthomeworkRepositorySupport.findBystHwId(stHwId).get();
+        System.out.println("findBystHwId................"+stHwId);
         return studentHomework;
     }
 

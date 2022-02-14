@@ -9,6 +9,9 @@ import com.ssafy.db.repository.user.StudentRepository;
 import com.ssafy.db.repository.user.StudentRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,17 +47,21 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
+    @Cacheable(value = "findById", key="#stId")
     public Student findById(String stId) {
         Student student = studentRepositorySupport.findById(stId).get();
+        System.out.println("findByIdStudent...................................................실행"+stId);
         return student;
     }
 
     @Override
+    @CacheEvict(value = "findById", key="#st_id")
     public void deleteStudent(String st_id) {
         studentRepository.deleteById(st_id);
     }
 
     @Override
+    @CachePut(value = "findById",key="#studentUpdatePutReq.st_id")
     public Student updateStudent(StudentUpdatePutReq studentUpdatePutReq) {
         Student student = new Student();
         student.setStId(studentUpdatePutReq.getSt_id());

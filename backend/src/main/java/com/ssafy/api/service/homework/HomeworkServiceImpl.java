@@ -8,7 +8,11 @@ import com.ssafy.db.repository.homework.HomeworkFileRepository;
 import com.ssafy.db.repository.homework.HomeworkRepository;
 import com.ssafy.db.repository.homework.HomeworkRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -82,17 +86,24 @@ public class HomeworkServiceImpl implements HomeworkService{
     }
 
     @Override
+    @CacheEvict(value = "hwDetail",key = "hwId")
     public void deleteHomework(Integer hwId, String tchrId) {
         homeworkRepositorySupport.deleteHomeworkByHwId(hwId, tchrId);
     }
 
+    //학생 과제 제출률 조회 10분마다
     @Override
+    @Cacheable(value = "HwRateBystId",key = "#stId")
     public List<int[]> countBystId(String stId) {
+        System.out.println("countBystId..............."+stId);
         return homeworkRepository.countBystId(stId);
     }
 
+    //선생 과제 제출률 확인 조회 10분마다
     @Override
+    @Cacheable(value = "HwRateBytchrId",key = "#tchrId")
     public List<int[]> countBytchrId(String tchrId) {
+        System.out.println("countBystId..............."+tchrId);
         return homeworkRepository.counthomeworkBytchrId(tchrId);
     }
 
@@ -101,6 +112,7 @@ public class HomeworkServiceImpl implements HomeworkService{
         return homeworkRepository.findHomeworkBystId(stId);
     }
 
+    //수업에 포함된 과제 조회
     @Override
     public List<Homework> findHomeworkByStudyId(Integer studyId) {
         return homeworkRepositorySupport.findHomeworkByStudyId(studyId);
@@ -112,12 +124,15 @@ public class HomeworkServiceImpl implements HomeworkService{
     }
 
     @Override
+    @Cacheable(value = "hwDetail",key = "#hwId")
     public Homework findHomeworkByHwId(Integer hwId) {
         Homework hw = homeworkRepositorySupport.findHomeworkByHwId(hwId).get();
+        System.out.println("findHomeworkByHwId..............."+hwId);
         return hw;
     }
 
     @Override
+    @CachePut(value = "hwDetail",key = "#homeworkModifyReq.hwId")
     public Homework updateHomework(HomeworkModifyReq homeworkModifyReq) {
         Homework homework = homeworkRepositorySupport.findHomeworkByHwId(homeworkModifyReq.getHwId()).get();
         String[] dl = homeworkModifyReq.getHwDeadline().split("[/ :]");

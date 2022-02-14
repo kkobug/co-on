@@ -43,4 +43,7 @@ public class Homework implements Serializable {
     @OneToMany
     @JoinColumn(name = "hw_id",insertable = false, updatable = false)
     private List<StudentHomework> studentHomeworks;
+    @ManyToOne
+    @JoinColumn(name = "study_id",insertable = false,updatable = false)
+    private Studyroom studyrooms;
 }

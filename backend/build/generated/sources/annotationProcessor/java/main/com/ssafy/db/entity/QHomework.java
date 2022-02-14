@@ -40,6 +40,8 @@ public class QHomework extends EntityPathBase<Homework> {
 
     public final QStudyroom studyroom;
 
+    public final QStudyroom studyrooms;
+
     public final StringPath tchrId = createString("tchrId");
 
     public QHomework(String variable) {
@@ -61,6 +63,7 @@ public class QHomework extends EntityPathBase<Homework> {
     public QHomework(Class<? extends Homework> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.studyroom = inits.isInitialized("studyroom") ? new QStudyroom(forProperty("studyroom")) : null;
+        this.studyrooms = inits.isInitialized("studyrooms") ? new QStudyroom(forProperty("studyrooms")) : null;
     }
 
 }

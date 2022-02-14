@@ -9,6 +9,7 @@ import com.ssafy.db.repository.conference.AttendanceRepository;
 import com.ssafy.db.repository.conference.ConferenceRepository;
 import com.ssafy.db.repository.conference.ConferenceRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -85,6 +86,7 @@ public class ConferenceServiceImpl implements ConferenceService{
     }
 
     @Override
+//    @CachePut(value = "countStudentAtt", key="#attendanceRecord.stId")
     public void exitConference(String stId, Integer confId) {
         System.out.println("!!!!!!!!!!!in exit login");
         AttendanceRecord attendanceRecord = findAttendanceRecord(stId, confId);

@@ -9,6 +9,8 @@ import com.ssafy.db.repository.notice.NoticeRepository;
 import com.ssafy.db.repository.notice.NoticeRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -76,17 +78,21 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override // 공지사항 삭제
+    @Cacheable(value = "findNotice",key ="#noticeId")
     public void deleteNotice(Integer noticeId, String tchrId) {
         noticeRepositorySupport.deleteNoticeByNoticeIdAndTchrId(noticeId, tchrId);
     }
 
     @Override // 공지사항 상세 조회
+    @Cacheable(value = "findNotice",key = "#NoticeId")
     public Notice findBynoticeId(Integer NoticeId) {
         Notice notice = noticeRepositorySupport.findByNoticeId(NoticeId).get();
+        System.out.println("Call findBynoticeId..............................."+NoticeId);
         return notice;
     }
 
     @Override
+    @CachePut(value = "findNotcie",key = "#noticeUpdatePutReq.noticeId")
     public Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) {
         Notice notice = noticeRepositorySupport.findByNoticeId(noticeUpdatePutReq.getNoticeId()).get();
         notice.setNoticeTitle(noticeUpdatePutReq.getNoticeTitle());

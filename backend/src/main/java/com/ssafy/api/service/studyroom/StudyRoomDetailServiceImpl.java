@@ -8,6 +8,10 @@ import com.ssafy.db.entity.StudyroomDetail;
 import com.ssafy.db.repository.studyroom.StudyRoomDetailRepository;
 import com.ssafy.db.repository.studyroom.StudyRoomdetailRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +25,12 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     StudyRoomdetailRepositorySupport studyRoomdetailRepositorySupport;
 
 
+    //학생 추가   --> 우리반 조회 캐시 변겅, ((학생 출석 개수 조회 변경.10분지나면 조회가능))
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "findStudent",key = "#studyRoomAddPostReq.studyId"),
+            @CacheEvict(value = "findStudyroomBystId", key = "#studyRoomAddPostReq.stId")
+    })
     public void addStudent(StudyRoomAddPostReq studyRoomAddPostReq) {
         System.out.println("!!!!!!!!!!!!serve");
         StudyroomDetail exist_check = studyRoomdetailRepositorySupport.findStudyroomByIds(studyRoomAddPostReq.getStId(), studyRoomAddPostReq.getStudyId());
@@ -36,7 +45,6 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
             detail.setStPoint(0);   // Column 'st_point' cannot be null
             studyRoomDetailRepository.save(detail);
         }
-
     }
 
     @Override
@@ -49,19 +57,31 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
         return studyRoomDetailRepository.findStudyroombystudyId(studyId);
     }
 
+    //학생 수업 조회
     @Override
+    @Cacheable(value = "findStudyroomBystId", key = "#stId")
     public List<Object[]> findStudyroomAndconbystId(String stId) {
+        System.out.println("Call findStudyroomAndconbystId................."+stId);
         return studyRoomDetailRepository.findStudyroomAndconbystId(stId);
     }
 
+    @Override
+    @Caching(evict = {
+                    @CacheEvict(value = "findStudyroomBystId", key = "#studyRoomDetailDeleteReq.stId"),
+                    @CacheEvict(value = "findStudent",key = "#studyRoomDetailDeleteReq.studyId")
+    })
     public void deleteStudent(StudyRoomDetailDeleteReq studyRoomDetailDeleteReq) {
         Integer studyId = studyRoomDetailDeleteReq.getStudyId();
         String stId = studyRoomDetailDeleteReq.getStId();
+        System.out.println("deleteStudent실행........................"+studyId);
         studyRoomdetailRepositorySupport.deleteStudyRoomDetail(studyId, stId);
     }
 
+    //우리반 조회, 학생 추가, 학생삭제시cache 변경
     @Override
+    @Cacheable(value = "findStudent",key = "#studyId")
     public List<Object[]> findStudentbystudyId(int studyId) {
+        System.out.println("findStudentbystudyId실행........................"+studyId);
         return studyRoomDetailRepository.findstudentbystudyId(studyId);
     }
 
