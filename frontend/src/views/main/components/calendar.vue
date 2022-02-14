@@ -8,7 +8,6 @@
         <!-- 대시보드 -->
         <el-row id="dashboard">
           <el-col :span="6">
-
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
               <div style="padding: 14px; text-align:left; background-color:#EADDFF">
                 <font-awesome-icon icon="clock" />
@@ -17,7 +16,6 @@
                 </span>
                 <div class="bottom">
                   <el-button type="text" class="button" @click="drawerHW = true">{{this.dashHw.title}}</el-button>
-                  <!-- <p>{{this.dashHw.content}}</p> -->
                   <div>
                     <time class="time">{{ this.dashHw.end.substring(0, 10) }}</time>
                   </div>
@@ -56,7 +54,6 @@
                 </span>
                 <div class="bottom">
                   <el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button>
-                  <!-- <p>{{this.dashNotice.noticeContent}}</p> -->
                   <div>
                     <time class="time">{{ this.dashNotice.noticePosted }}</time>
                   </div>
@@ -231,7 +228,7 @@ export default {
               content: hw.hwContent,
               teacher: hw.tchrId,
               fileName: hw.hwFile[0].fileOriginName,
-              class: "health",
+              class: ["a","b","c","d","e","f","g"][j%3],
               split: 2
             });
           }
@@ -260,7 +257,7 @@ export default {
               content: hw.hwContent,
               teacher: hw.tchrId,
               fileName: hw.hwFile[0].fileOriginName,
-              class: "health",
+              class: ["a","b","c","d","e","f","g"][j%3],
               split: 2
             });
           }
@@ -489,7 +486,7 @@ p{
 
 .vuecal--month-view .vuecal__cell-content {
   justify-content: flex-start;
-  height: 100%;
+  height: calc(100%+80px);
   align-items: flex-end;
 }
 
@@ -501,23 +498,44 @@ p{
 }
 
 /* Different color for different event types. */
-.vuecal__event.leisure {
-  background-color: rgba(253, 156, 66, 0.9);
-  border: 1px solid rgb(233, 136, 46);
+.vuecal__cell{
+  height:94px !important;
+  overflow: hidden;
+}
+.vuecal__event.a {
+   background-color: rgb(3, 126, 243, 0.8);
+  border: 1px solid rgba(3, 126, 243);
   color: #fff;
 }
-.vuecal__event.sport {
-  background-color: rgba(255, 102, 102, 0.9);
-  border: 1px solid rgb(235, 82, 82);
+.vuecal__event.b {
+  background-color: rgba(248, 90, 64, 0.8);
+  border: 1px solid rgb(248, 90, 64);
   color: #fff;
 }
-.vuecal__event.health {
-  /* background-color: rgba(164, 230, 210, 0.9); */
-  /* background-color: #8D9287; */
-  background-color: #EDCE5A;
-  /* border: 1px solid rgb(144, 210, 190); */
-  /* border: 1px solid #8D9287; */
-  color: black;
+.vuecal__event.c {
+  background-color: rgba(0, 193, 110, 0.8);
+  border: 1px solid rgb(0, 193, 110);
+  color: #fff;
+}
+.vuecal__event.d {
+   background-color: rgb(117, 82, 204, 0.8);
+  border: 1px solid rgba(117, 82, 204);
+  color: #fff;
+}
+.vuecal__event.e {
+  background-color: rgba(12, 185, 193, 0.8);
+  border: 1px solid rgb(12, 185, 193);
+  color: #fff;
+}
+.vuecal__event.f {
+  background-color: rgba(244, 137, 36, 0.8);
+  border: 1px solid rgb(244, 137, 36);
+  color: #fff;
+}
+.vuecal__event.g {
+   background-color: rgb(82, 86, 94, 0.8);
+  border: 1px solid rgba(82, 86, 94);
+  color: #fff;
 }
 .percentage-value {
   display: block;
