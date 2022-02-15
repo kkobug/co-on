@@ -153,7 +153,7 @@ export default {
   .purplebtn {
     width: 20%;
     height: 30px;
-    background-color: #6B3BE3;
+    background-color: #91847A;
     border: none;
     border-radius: 12px;
     text-align: center;
@@ -163,7 +163,7 @@ export default {
     margin-bottom: 2vh;
     cursor: pointer;
   }
-  .purplebtn:hover {background-color: #fff; color: #6B3BE3;}
+  .purplebtn:hover {background-color: #fff; color: #91847A;}
   label {
     display: inline-block;
     width: 10%;

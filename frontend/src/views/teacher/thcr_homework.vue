@@ -3,7 +3,7 @@
     <div style="display:flex; justify-content: space-between;">
       <h1 style="margin: 25px; font-size:30px;">제출된 과제</h1>
       <div style="">
-        <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">과제 생성</el-button>
+        <el-button style="background-color: #91847A; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">과제 생성</el-button>
       </div>
     </div>
     <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data style="box-shadow: 3px 3px 3px 3px gray; z-index:11;" v-if ="state.isVisible" @close-modal="closemodal"></ModalView>

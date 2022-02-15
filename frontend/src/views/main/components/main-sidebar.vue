@@ -5,13 +5,13 @@
         <el-menu
           default-active="0"
           active-text-color="#ffd04b"
-          background-color="#4267D6"
+          background-color="#83B1C9"
           text-color="#fff"
-          style="height: 100%; position: fixed; border-color: #4267D6; width: 240px"
+          style="height: 100%; position: fixed; width: 241px;"
           class="el-menu-vertical-demo"
           @select="menuSelect">
           <el-container class="profile-card">
-            <el-card style="text-align: center; width: 220px; border: none; margin-top: 10px; background-color: #1B2A57; border-radius: 20px">
+            <el-card style="text-align: center; width: 220px; border: none; margin-top: 10px; background-color: #b2d1e4; border-radius: 20px">
               <p>
                 <el-avatar :size="80" fit=cover :src="state.imgpath" v-if="state.imgpath"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
@@ -21,7 +21,7 @@
               </div>
               <el-button
                 color="#626aef"
-                style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
+                style="margin-top: 5px; background-color: #91847A; color: white; font-weight:bold; border-color: #91847A"
                 @click="goMypage"
                 >마이페이지
               </el-button>
@@ -48,7 +48,7 @@
             </el-menu-item>
           <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
           </div>
-          <el-menu-item class="mt-auto" style="bottom: 0; width: 240px; position : fixed" @click="logout">
+          <el-menu-item class="mt-auto" style="bottom: 0; width: 240px; position : fixed; border:none;" @click="logout">
             <font-awesome-icon icon="running" style="font-size:25px"/>&nbsp;
             <p>로그아웃</p>
           </el-menu-item>

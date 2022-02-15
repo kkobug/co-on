@@ -105,9 +105,8 @@ import UserVideo from '../video/UserVideo.vue';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_URL = "https://i6e207.p.ssafy.io:4443/";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = "https://i6e207.p.ssafy.io:4443";
+const OPENVIDU_SERVER_SECRET = "aemvLK7Xruld";
 
 export default {
   name: 'Tchr_conference',

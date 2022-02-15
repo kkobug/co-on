@@ -85,6 +85,7 @@
               </div>
             </el-card>
           </el-col>
+
           <el-col v-else :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
@@ -102,42 +103,42 @@
             </el-card>
           </el-col>
         </el-row>
-        <el-row >
+        <el-row style="padding-bottom: 15px">
         <!-- 달력 -->
-          <el-col :span="17" style="margin-left: 1vh">
-            <div class="calendar" style="margin-left: 10px">
-              <vue-cal
-                class="vuecal--blue-theme cal"
-                :selected-date="this.today"
-                :disable-views="['years', 'year','week','day']"
-                active-view="month"
-                events-on-month-view="short"
-                overlaps-per-time-step
-                :events="events"
-                style="height: auto;border-radius:20px;overflow:hidden;"
-              >
-              </vue-cal>
-            </div>
+          <el-col :span="18" style="padding:12px;">
+              <div class="calendar" style="margin-left: 10px; border-radius:20px; box-shadow: 0px 4px 10px 2px #C0C4CC;">
+                <vue-cal
+                  class="vuecal--blue-theme cal"
+                  :selected-date="this.today"
+                  :disable-views="['years', 'year','week','day']"
+                  active-view="month"
+                  events-on-month-view="short"
+                  overlaps-per-time-step
+                  :events="events"
+                  style="height: auto; overflow: hidden; border-radius:20px;"
+                >
+                </vue-cal>
+              </div>
           </el-col>
         <!-- 원형 그래프 -->
-          <el-col :span="6" style="margin-left: 2vh">
-            <div style="background-color: #1B2A57; margin-bottom: 4vh; margin-top: 1vh; text-color: #fff; border-radius: 10px;">
+          <el-col :span="6" style="padding:12px;">
+            <div style="margin-bottom: 4vh; margin-top: 0.5vh; border-radius: 10px; box-shadow: 0px 4px 10px 2px #C0C4CC; background-color:#F5FDFF;">
               <canvas id="myChart" style="padding-top: 10px; padding-bottom: 20px"></canvas>
-              <div v-if="this.tchrOrNot" style="color: #fff">
+              <div v-if="this.tchrOrNot">
                 <h4 style="margin-top: 2px; padding-bottom: 15px;">출제한 과제 비율</h4>
               </div>
-              <div v-else style="color: #fff">
+              <div v-else>
                 <h4 style="margin-top: 2px; padding-bottom: 15px;">Todo Homework</h4>
               </div>
             </div>
-            <div style="background-color: #1B2A57; border-radius: 10px;">
+            <div style="margin-bottom: 4vh; border-radius: 10px; box-shadow: 0px 4px 10px 2px #C0C4CC; background-color:#F5FDFF;">
               <el-progress type="dashboard" :percentage="this.percentageHW" style="padding-top: 10px; margin-top: 3%">
                 <template #default="{ percentage }">
                   <span class="percentage-value">{{ percentage }}%</span>
                   <span class="percentage-label">과제 제출률</span>
                 </template>
               </el-progress>
-              <h4 style="margin-top: 2px; padding-bottom: 15px; color: #fff">제출한 과제: {{ this.doneHW }}  /  미제출 과제: {{ this.notyetHW }}</h4>
+              <h4 style="margin-top: 2px; padding-bottom: 15px;">제출한 과제: {{ this.doneHW }}  /  미제출 과제: {{ this.notyetHW }}</h4>
             </div>
           </el-col>
         </el-row>
@@ -638,14 +639,12 @@ p{
   display: block;
   margin-top: 10px;
   font-size: 28px;
-  color: #fff;
 }
 
 .percentage-label {
   display: block;
   margin-top: 10px;
   font-size: 12px;
-  color: #fff;
 }
 </style>
 

@@ -1,21 +1,21 @@
 <template>
-  <div style=" margin-right: 15vh;margin-left: 15vh; overflow: hidden;">
-    <h1 style="padding: 25px; font-size:30px; margin-left:10%; text-align: start;">공지사항</h1>
-    <el-row :gutter="24" style="margin : 5px auto;" class ="el-item">
-      <el-col :span="6" class ="li-title li-item">교과명</el-col>
-      <el-col :span="9" class ="li-lesson li-item">내용</el-col>
+  <div style="overflow: hidden; margin: 0vh 15vh">
+    <h1 style="padding: 1.5%; font-size:30px; margin-left:10%; text-align: start;">공지사항</h1>
+    <el-row :gutter="24" style="margin : 5px auto;" class ="el-item el-item-bgcolor1">
+      <el-col :span="4" class ="li-title li-item">교과명</el-col>
+      <el-col :span="12" class ="li-lesson li-item">내용</el-col>
       <el-col :span="4" class ="li-time li-item">게시일</el-col>
-      <el-col :span="5" class ="li-item filebar">파일목록</el-col>
+      <el-col :span="4" class ="li-item filebar">파일목록</el-col>
     </el-row>
-    <el-scrollbar height="360px" >
+    <el-scrollbar height="33.5vh" >
       <div v-if="state.notices.length >= 1">
-        <el-row :gutter="24" v-for="notice in state.notices" :key = notice.id class ="el-item" style="margin : 5px auto;">
-          <el-col :span="6" class ="li-title li-item" style="overflow: hidden;">{{notice.studyroom.studyName}}</el-col>
-          <el-col :span="9" class ="li-lesson li-item" style="overflow: hidden;">
+        <el-row :gutter="24" v-for="notice in state.notices" :key = notice.id class ="el-item el-item-bgcolor1" style="margin : 5px auto;">
+          <el-col :span="4" class ="li-title li-item" style="overflow: hidden;">{{notice.studyroom.studyName}}</el-col>
+          <el-col :span="12" class ="li-lesson li-item" style="overflow: hidden;">
             <el-popover
               placement="bottom"
               :title="notice.noticeTitle"
-              :width="400"
+              :width="500"
               trigger="click"
               :content="notice.noticeContent"
             >
@@ -25,7 +25,7 @@
             </el-popover>
           </el-col>
           <el-col :span="4" class ="li-time li-item">{{notice.noticePosted.substring(0, 10)}}</el-col>
-          <el-col :span="5" class ="li-item filebar">
+          <el-col :span="4" class ="li-item filebar">
             첨부파일
             <ul>
               <h4>파일목록</h4>
@@ -45,20 +45,20 @@
     <!-- <hr> -->
     <!-- 과제 -->
     <h1 style="padding: 25px; font-size:30px; margin-left:10%; text-align: start;">전체 과제 목록</h1>
-    <el-row :gutter="24" class ="el-item" style="margin : 5px auto;">
-      <el-col :span="5" class ="li-title li-item">교과명</el-col>
+    <el-row :gutter="24" class ="el-item el-item-bgcolor1" style="margin : 5px auto;">
+      <el-col :span="4" class ="li-title li-item">교과명</el-col>
       <el-col :span="9" class ="li-lesson li-item">내용</el-col>
       <el-col :span="4" class ="li-time li-item">제출기한</el-col>
       <el-col :span="3" class ="li-item filebar">파일 목록</el-col>
       <el-col :span="3" >
       </el-col>
     </el-row>
-    <el-scrollbar height="360px">
+    <el-scrollbar height="33.5vh">
       <div v-if="state.hw.length >= 1"  >
         <span v-for="hw in state.hw" :key = hw.hwId>
-          <el-row :gutter="24" v-if="isWork(hw.hwDeadline)" class ="el-item" style="margin : 5px auto;">
-            <el-col :span="5" class ="li-title li-item" style="overflow: hidden;">{{hw.studyroom.studyName}}</el-col>
-            <el-col :span="9" class ="li-lesson li-item" style="overflow: hidden;">
+          <el-row :gutter="24" class ="el-item" :class="{'el-item-bgcolor1' : isWork(hw.hwDeadline), 'el-item-bgcolor2': !isWork(hw.hwDeadline)}" style="margin : 5px auto;">
+            <el-col :span="4" class ="li-title li-item" style="overflow: hidden;">{{hw.studyroom.studyName}}</el-col>
+            <el-col :span="10" class ="li-lesson li-item" style="overflow: hidden;">
               <el-popover
                 placement="bottom"
                 :title="hw.hwTitle"
@@ -71,27 +71,6 @@
                 </template>
               </el-popover>
             </el-col>
-            <el-col :span="4" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
-            <el-col :span="3" class ="li-item filebar">
-              첨부파일
-              <ul>
-                <h4>파일목록</h4>
-                <div v-for="hf in hw.hwFile" :key=hf.fileId>
-                  <hr>
-                  <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
-                </div>
-              </ul>
-            </el-col>
-            <el-col :span="3" >
-              <el-button type="text" class ="li-item" @click="onOpenHwDialog(hw)">제출하기</el-button>
-            </el-col>
-            <!-- <el-col :span="2" >
-              <el-button type="text" class ="li-item" @click="delStHw(hw.hwid)" style="color: red">삭제하기</el-button>
-            </el-col> -->
-          </el-row>
-          <el-row :gutter="24" v-else class ="el-item2" style="margin : 5px auto;">
-            <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
-            <el-col :span="9" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
             <el-col :span="4" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
             <el-col :span="3" class ="li-item filebar">
               첨부파일
@@ -232,20 +211,17 @@ export default {
     box-sizing: border-box;
   }
   .el-item{
-    background-color: #ecf0f1;
     align-items: center;
     border-radius: 10px;
     height: 60px;
     width:80%;
     margin-bottom: 5px;
   }
-  .el-item2{
+  .el-item-bgcolor1{
+    background-color: #ecf0f1;
+  }
+  .el-item-bgcolor2{
     background-color:grey;
-    align-items: center;
-    border-radius: 10px;
-    height: 60px;
-    width:80%;
-    margin-bottom: 5px;
   }
   .li-item{
     padding: 5px;

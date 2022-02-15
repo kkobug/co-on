@@ -4,15 +4,15 @@
     :default-active="0"
     class="el-menu-demo"
     @select="handleSelect"
-    background-color="#545c64"
+    background-color="#b2d1e4"
     text-color="#fff"
-    style="border:none;"
+    style="border:none; font-weight: bold;"
     active-text-color="#fff">
-    <el-menu-item index="1" class="navitem" style="margin-left: 10px">내 수업</el-menu-item>
-    <el-menu-item index="2" class="navitem">우리반보기</el-menu-item>
-    <el-menu-item index="3" class="navitem">출결관리</el-menu-item>
-    <el-menu-item index="4" class="navitem">과제관리</el-menu-item>
-    <el-menu-item index="5" class = "lessonstr">수업 시작</el-menu-item>
+    <el-menu-item index="1" class="navitem" style="margin-left: 10px; font-size: 18px;">내 수업</el-menu-item>
+    <el-menu-item index="2" class="navitem" style="font-size: 18px;">우리반보기</el-menu-item>
+    <el-menu-item index="3" class="navitem" style="font-size: 18px;">출결관리</el-menu-item>
+    <el-menu-item index="4" class="navitem" style="font-size: 18px;">과제관리</el-menu-item>
+    <el-menu-item index="5" class = "lessonstr" style="font-size: 18px;">수업 시작</el-menu-item>
   </el-menu>
 </template>
 

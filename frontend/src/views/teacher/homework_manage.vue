@@ -1,14 +1,16 @@
 <template>
   <div>
     <tchr-nav @startvideo="start"></tchr-nav>
-    <el-select v-model="state.value" class="m-2" placeholder="Select" @change="changeHw">
-      <el-option
-        v-for="(Hw, idx) in state.Hws"
-        :key="idx"
-        :value="Hw.studentHomeworks"
-        :label="Hw.hwTitle"
-      />
-    </el-select>
+    <div class="selectBox">
+      <el-select v-model="state.value" class="m-2" placeholder="Select" @change="changeHw">
+        <el-option
+          v-for="(Hw, idx) in state.Hws"
+          :key="idx"
+          :value="Hw.studentHomeworks"
+          :label="Hw.hwTitle"
+        />
+      </el-select>
+    </div>
     <el-tabs v-model="activeName" class="demo-tabs" style="margin: 10px 10vh; padding: 0 3vh; border-radius: 10px; min-height:90vh; background-color: white">
       <!-- <el-tab-pane label="User" name="first">
       </el-tab-pane> -->
@@ -175,11 +177,11 @@ export default {
   border-radius: 4px;
 }
 .bg-head {
-  background: #3D6657;
+  background: #83B1C9;
   color: white;
 }
 .bg-content {
-  background: #BFEDD9;
+  background: #EBFBFF;
 }
 .bg-purple-light {
   background: #e5e9f2;
@@ -225,5 +227,10 @@ export default {
 .filenamehover {
   cursor: pointer;
   padding: 10px;
+}
+.selectBox {
+  display: flex;
+  justify-content: end;
+  margin: 2vh 10vh 2vh 0vh;
 }
 </style>

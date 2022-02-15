@@ -3,7 +3,7 @@
     <div style="display:flex; justify-content: space-between;">
       <h1 style="margin: 25px; font-size:30px;">공지사항</h1>
       <div style="">
-        <el-button style="background-color: #6B3BE3; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">공지 생성</el-button>
+        <el-button style="background-color: #91847A; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">공지 생성</el-button>
       </div>
     </div>
     <ModalView style="box-shadow: 3px 3px 3px 3px gray;  z-index:11;" v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
@@ -13,7 +13,7 @@
             <el-col :span="6" class ="li-title li-item">{{ntice.noticeTitle}}</el-col>
             <el-col :span="8" class ="li-lesson li-item">{{ntice.noticeContent}}</el-col>
             <el-col :span="3" class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</el-col>
-            <el-col :span="3" class ="li-item filebar"  style="padding:10px;">
+            <el-col :span="3" class ="li-item filebar"  style="padding:10px;" v-if="ntice.noticeFile.length">
               첨부파일
               <ul>
                 <h4>파일목록</h4>
@@ -22,6 +22,8 @@
                   <a @click="downNoticeFile(nf.fileName, nf.filePath, nf.fileOriginName)" class="filenamehover">💾 {{nf.fileOriginName}}</a>
                 </div>
               </ul>
+            </el-col>
+            <el-col :span="3" class ="li-item filebar"  style="padding:10px;" v-else>
             </el-col>
             <el-col :span="2">
               <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
@@ -110,11 +112,12 @@ export default {
     box-sizing: border-box;
   }
   .el-item{
-    background-color: #ecf0f1;
+    background-color: #F5FdFF;
     align-items: center;
     border-radius: 20px;
     height: 60px;
     margin-bottom: 10px;
+    box-shadow: 1px 1px 1px 1px #C0C4CC;
   }
   .li-item{
     padding: 5px;
@@ -132,7 +135,7 @@ export default {
     position: absolute;
     z-index: 10;
     min-width: 150px;
-    background-color: #6B3BE3;
+    background-color: #CFBCAE;
     color: #fff;
     border-radius: 10px;
     margin-top: 5px;

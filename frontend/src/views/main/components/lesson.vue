@@ -543,7 +543,7 @@ export default {
     line-height: 320px;
   }
   .el-row {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   .el-row:last-child {
     margin-bottom: 0;

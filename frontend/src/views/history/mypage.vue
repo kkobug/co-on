@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="20">
     <el-col :span="12" :offset="6">
-      <el-container style="border-radius: 50px; margin-top: 8vh; background-color: #fff">
+      <el-container style="border-radius: 50px; margin: 8vh 4vh; background-color: #fff; border-radius:20px; box-shadow: 0px 4px 10px 2px #C0C4CC;">
         <el-form label-width="100px" label-position="left" style="width: 100%; padding: 20px; margin-top: 20px; margin-bottom: 20px">
           <span>
             <strong style="font-size: xx-large">프로필</strong>
@@ -54,7 +54,7 @@
             </el-col>
           </el-row>
           <el-button
-            style="background-color: #6B3BE3; color: white; width: 40%; height: 45px; margin-top: 20px; border-radius: 15px"
+            style="background-color: #91847A; color: white; width: 40%; height: 45px; margin-top: 20px; border-radius: 15px"
             @click="clickModify">정보수정</el-button>
         </el-form>
       </el-container>

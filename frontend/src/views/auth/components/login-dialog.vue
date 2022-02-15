@@ -53,7 +53,7 @@
   margin-bottom: 15px;
 }
 .row-btn .el-button {
-  background-color: #6B3BE3;
+  background-color: #91847A;
   color: #fff;
   height: 45px;
   border-radius: 15px;
