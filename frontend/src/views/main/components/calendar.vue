@@ -486,7 +486,7 @@ p{
 
 .vuecal--month-view .vuecal__cell-content {
   justify-content: flex-start;
-  height: calc(100%+80px);
+  /* height: calc(100%+80px); */
   align-items: flex-end;
 }
 
