@@ -81,12 +81,14 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
+    @CacheEvict(value = "findById",key="#student.stId")
     public Student changeStudentPassword(Student student) {
         student.setStPassword(passwordEncoder.encode(student.getStPassword()));
         return studentRepository.save(student);
     }
 
     @Override
+    @CacheEvict(value = "findById",key="#studentUpdatePutReq.stId")
     public Student changeStudentProfile(StudentProfilePutReq studentProfilePutReq) {
         Student student = studentRepositorySupport.findById(studentProfilePutReq.getStId()).get();
 
