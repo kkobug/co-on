@@ -11,7 +11,7 @@
           class="el-menu-vertical-demo"
           @select="menuSelect">
           <el-container class="profile-card">
-            <el-card style="text-align: center; width: 220px; border: none; margin: 5px; background-color: #1B2A57; border-radius: 20px">
+            <el-card style="text-align: center; width: 220px; border: none; margin-top: 10px; background-color: #1B2A57; border-radius: 20px">
               <p>
                 <el-avatar :size="80" fit=cover :src="state.imgpath" v-if="state.imgpath"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
@@ -29,7 +29,7 @@
           </el-container>
 
           <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
-            <font-awesome-icon v-if="index==0" icon="home" style="font-size:25px"/>&nbsp;
+            <font-awesome-icon v-if="index==0" icon="home" style="font-size:20px"/>&nbsp;
             <span>{{ item.title }}</span>
           </el-menu-item>
           <div v-if="whetherTchr">
