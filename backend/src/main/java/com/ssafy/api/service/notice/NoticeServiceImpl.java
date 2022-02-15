@@ -9,6 +9,7 @@ import com.ssafy.db.repository.notice.NoticeRepository;
 import com.ssafy.db.repository.notice.NoticeRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
@@ -78,7 +79,7 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override // 공지사항 삭제
-    @Cacheable(value = "findNotice",key ="#noticeId")
+    @CacheEvict(value = "findNotice",key ="#noticeId")
     public void deleteNotice(Integer noticeId, String tchrId) {
         noticeRepositorySupport.deleteNoticeByNoticeIdAndTchrId(noticeId, tchrId);
     }

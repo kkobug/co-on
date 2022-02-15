@@ -79,7 +79,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
-    @CacheEvict(value = "findSubmittedHw", key = "stId")
+    @CacheEvict(value = "findSubmittedHw", key = "#stId")
     public void deleteStudentHomework(Integer hwId, String stId) {
         studenthomeworkRepositorySupport.deleteStudentHomeworkByStHwIdAndStId(hwId, stId);
     }
@@ -149,6 +149,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
+    @CacheEvict(value = "findStudent")
     public void updateScore(StudentHomeworkPutReq studentHomeworkPutReq) {
         int stHwId = studentHomeworkPutReq.getStHwId();
         int stScore = studentHomeworkPutReq.getStHwscore();
