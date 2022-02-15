@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%;">
     <el-row style="height: 100%">
-      <el-col :span="24" style="heght: 100%">
+      <el-col :span="24" style="height: 100%">
         <el-menu
           default-active="0"
           active-text-color="#ffd04b"
@@ -213,6 +213,7 @@ export default {
       store.dispatch('root/requestGetTchrClass', {
             tchrId: store.state.root.userid})
         .then(res =>{
+          console.log(res.data, "++++++++++++++++++")
           store.state.root.classList = res.data
           state.tchr_scha = res.data
         })

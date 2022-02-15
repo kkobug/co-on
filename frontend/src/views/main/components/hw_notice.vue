@@ -53,7 +53,7 @@
       <el-col :span="3" >
       </el-col>
     </el-row>
-    <el-scrollbar height="360px">
+    <el-scrollbar height="60px">
       <div v-if="state.hw.length >= 1"  >
         <span v-for="hw in state.hw" :key = hw.hwId>
           <el-row :gutter="24" v-if="isWork(hw.hwDeadline)" class ="el-item" style="margin : 5px auto;">
