@@ -18,18 +18,21 @@
                 <el-col :span="2"><div class="grid-content ">{{classitem[0].stPoint}}</div></el-col>
                 <el-col :span="8"><div class="grid-content ">{{classitem[0].studyroom.studyDesc}}</div></el-col>
                 <el-col v-if="classitem.length>1" :span="4">
-                  <div v-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd)" class="grid-content " >{{classitem[1].confStart.substr(0, 16)}}</div>
-                  <div v-else class="grid-content ">{{classitem[1].confEnd.substr(0, 16)}}</div>
+                  <div v-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd) == 2" class="grid-content " >{{classitem[1].confStart.substr(0, 16)}} 부터</div>
+                  <div v-else-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd) == 3" class="grid-content ">수업이 없습니다.</div>
+                  <div v-else class="grid-content ">{{classitem[1].confEnd.substr(0, 16)}}까지</div>
                 </el-col>
                 <el-col v-else :span="4">
                   <div>수업이 없습니다.</div>
                 </el-col>
                 <el-col v-if="classitem.length>1" :span="4">
-                  <div v-if="this.compareDate(classitem[1].confStart,classitem[1].confEnd)" class="grid-content con-btn" @click="joinSession(classitem[1])">
+                  <div v-if="this.compareDate(classitem[1].confStart,classitem[1].confEnd) == 2" class="grid-content con-btn" @click="joinSession(classitem[1])">
                     <el-button style="background-color:red; color:white; border-radius:10px;">ON-AIR</el-button>
                   </div>
-                  <div v-else class="grid-content con-btn">
+                  <div v-else-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd) == 1" class="grid-content con-btn">
                     <el-button style="background-color:grey; color:white; border-radius:10px;">WAIT</el-button>
+                  </div>
+                  <div v-else-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd) == 3" class="grid-content con-btn">
                   </div>
                 </el-col>
                 <el-col v-else :span="4"></el-col>
@@ -208,10 +211,13 @@ export default {
       event.returnValue = '';
     },
     compareDate(Date1,Date2){
-      if (new Date(Date1) < new Date())
-        if (new Date() < new Date(Date2))
-          return true
-      return false
+      if (new Date(Date1) > new Date()){
+        return 1
+      }else if(new Date() > new Date(Date2)){
+        return 3
+      }else{
+        return 2
+      }
     },
     getClasses(){
       this.$store.dispatch('root/requeststLesson2', this.userId)
@@ -278,7 +284,7 @@ export default {
       this.nowClass=classitem
       this.mySessionId=classitem.confId+classitem.tchrId
       // 수업 입실 axios
-      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem.tchrId})
+      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem.confId})
       .catch(function(err){
         alert(err)
       })
@@ -360,7 +366,7 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-      this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass[4]})
+      this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass.confId})
       .then(result =>{
         console.log('퇴실 완료')
       })
