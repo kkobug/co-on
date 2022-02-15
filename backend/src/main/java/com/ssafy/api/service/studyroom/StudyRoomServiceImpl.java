@@ -6,6 +6,7 @@ import com.ssafy.db.repository.studyroom.StudyRoomDetailRepository;
 import com.ssafy.db.repository.studyroom.StudyRoomRepository;
 import com.ssafy.db.repository.studyroom.StudyRoomRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     StudyRoomRepositorySupport studyRoomRepositorySupport;
 
     @Override
-    @CachePut(value = "TchrClassList", key = "#studyRoomRegisterPostReq.tchrId")
+    @CacheEvict(value = "TchrClassList", key = "#studyRoomRegisterPostReq.tchrId")
     public Studyroom createStudyRoom(StudyRoomRegisterPostReq studyRoomRegisterPostReq) {
         Studyroom studyRoom = new Studyroom();
         studyRoom.setTchrId(studyRoomRegisterPostReq.getTchrId());
@@ -31,7 +32,7 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     }
 
     @Override
-    @CachePut(value = "TchrClassList", key = "#tchrId")
+    @CacheEvict(value = "TchrClassList", key = "#tchrId")
     public void deleteStudyRoom(String tchrId, String studyName) {
         studyRoomRepositorySupport.deleteStudyRoomByTchrIdAndStudyName(tchrId, studyName);
     }

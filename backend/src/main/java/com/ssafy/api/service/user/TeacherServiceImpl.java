@@ -72,6 +72,7 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
+	@CacheEvict(value = "findById", key = "#teacher.tchrId")
 	public Teacher changeTeacherPassword(Teacher teacher) {
 		teacher.setTchrPassword(passwordEncoder.encode(teacher.getTchrPassword()));
 		return teacherRepository.save(teacher);
@@ -90,6 +91,7 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
+	@CacheEvict(value = "findById",key = "#teacherProfilePutReq.tchrId")
 	public Teacher changeTeacherProfile(TeacherProfilePutReq teacherProfilePutReq) {
 		Teacher teacher = teacherRepositorySupport.findById(teacherProfilePutReq.getTchrId()).get();
 

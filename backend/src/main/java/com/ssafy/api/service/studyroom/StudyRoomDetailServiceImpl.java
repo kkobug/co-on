@@ -91,6 +91,7 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     }
 
     @Override
+    @CacheEvict(value = "findStudent", key ="#studyRoomDetailPutReq.studyId")
     public void updateScore(StudyRoomDetailPutReq studyRoomDetailPutReq) {
         int studyId = studyRoomDetailPutReq.getStudyId();
         String stId = studyRoomDetailPutReq.getStId();
