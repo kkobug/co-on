@@ -6,9 +6,11 @@ import com.ssafy.api.request.studyroomdetail.StudyRoomDetailPutReq;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.Studyroom;
 import com.ssafy.db.entity.StudyroomDetail;
+import com.ssafy.db.entity.Teacher;
 import com.ssafy.db.repository.conference.ConferenceRepositorySupport;
 import com.ssafy.db.repository.studyroom.StudyRoomDetailRepository;
 import com.ssafy.db.repository.studyroom.StudyRoomdetailRepositorySupport;
+import com.ssafy.db.repository.user.TeacherRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -28,6 +30,8 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
     StudyRoomdetailRepositorySupport studyRoomdetailRepositorySupport;
     @Autowired
     ConferenceRepositorySupport conferenceRepositorySupport;
+    @Autowired
+    TeacherRepositorySupport teacherRepositorySupport;
 
 
     //학생 추가   --> 우리반 조회 캐시 변겅, ((학생 출석 개수 조회 변경.10분지나면 조회가능))
@@ -113,15 +117,20 @@ public class StudyRoomDetailServiceImpl implements StudyRoomDetailService{
             Integer studyId = studyroomDetail.getStudyroom().getStudyId();
             String tchrId = studyroomDetail.getStudyroom().getTchrId();
             conference = conferenceRepositorySupport.findConference(studyId, tchrId);
+            Optional<Teacher> teacher = teacherRepositorySupport.findById(tchrId);
+            String teacher_name = teacher.get().getTchrName();
+
 
             if (conference == null) {
-                Object[] obj = new Object[1];
-                obj[0] = studyroomDetail;
-                ret.add(obj);
-            } else {
                 Object[] obj = new Object[2];
                 obj[0] = studyroomDetail;
-                obj[1] = conference;
+                obj[1] = teacher_name;
+                ret.add(obj);
+            } else {
+                Object[] obj = new Object[3];
+                obj[0] = studyroomDetail;
+                obj[1] = teacher_name;
+                obj[2] = conference;
                 ret.add(obj);
             }
         }

@@ -22,4 +22,7 @@ public interface ConferenceService {
     void exitConference(String stId, Integer confId);
 
     List<Conference> findConferenceByDate(Integer studyId, String tchrId, String targetDate);
+
+    List<Object[]> findImpendingConferenceByTeacherId(String tchrId);
+
 }

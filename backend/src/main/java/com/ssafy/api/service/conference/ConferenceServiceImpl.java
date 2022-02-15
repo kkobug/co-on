@@ -4,10 +4,13 @@ import com.ssafy.api.request.conference.ConferenceRegisterReq;
 import com.ssafy.db.entity.Attendance;
 import com.ssafy.db.entity.AttendanceRecord;
 import com.ssafy.db.entity.Conference;
+import com.ssafy.db.entity.Studyroom;
 import com.ssafy.db.repository.conference.AttendanceRecordRepository;
 import com.ssafy.db.repository.conference.AttendanceRepository;
 import com.ssafy.db.repository.conference.ConferenceRepository;
 import com.ssafy.db.repository.conference.ConferenceRepositorySupport;
+import com.ssafy.db.repository.studyroom.StudyRoomRepositorySupport;
+import com.ssafy.db.repository.studyroom.StudyRoomdetailRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("ConferenceService")
@@ -30,6 +34,9 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Autowired
     AttendanceRecordRepository attendanceRecordRepository;
+
+    @Autowired
+    StudyRoomRepositorySupport studyRoomRepositorySupport;
 
     @Override
     public Conference createConference(ConferenceRegisterReq conferenceRegisterReq) {
@@ -143,5 +150,24 @@ public class ConferenceServiceImpl implements ConferenceService{
         return conferenceRepository.findConferenceByDate(studyId, tchrId, targetDate);
     }
 
+    @Override
+    public List<Object[]> findImpendingConferenceByTeacherId(String tchrId) {
+        List<Studyroom> studyrooms = studyRoomRepositorySupport.findStudyroomsByTchrId(tchrId);
+        List<Object[]> ret = new ArrayList<>();
+        LocalDateTime temp = LocalDateTime.now().plusYears(1000);
+        for (Studyroom studyroom : studyrooms) {
+            List<Conference> conferences = conferenceRepositorySupport.findConferencesByStudyId(studyroom.getStudyId());
+            for (Conference conference : conferences) {
+                if (conference.getConfStart().isBefore(temp)) {
+                    temp = conference.getConfStart();
+                    Object[] objects = new Object[2];
+                    objects[0] = studyroom;
+                    objects[1] = conference;
+                    ret.add(0, objects);
+                }
+            }
+        }
+        return ret;
+    }
 
 }

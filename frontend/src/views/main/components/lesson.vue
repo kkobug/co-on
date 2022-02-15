@@ -14,25 +14,25 @@
             <el-main style="line-height: 70px">
               <el-row :gutter="20" v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
                 <el-col :span="3"><div class="grid-content ">{{classitem[0].studyroom.studyName}}</div></el-col>
-                <el-col :span="3"><div class="grid-content ">{{classitem[0].tchrId}}</div></el-col>
+                <el-col :span="3"><div class="grid-content ">{{classitem[1]}}</div></el-col>
                 <el-col :span="2"><div class="grid-content ">{{classitem[0].stPoint}}</div></el-col>
                 <el-col :span="8"><div class="grid-content ">{{classitem[0].studyroom.studyDesc}}</div></el-col>
-                <el-col v-if="classitem.length>1" :span="4">
-                  <div v-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd) == 2" class="grid-content " >{{classitem[1].confStart.substr(0, 16)}} 부터</div>
-                  <div v-else-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd) == 3" class="grid-content ">수업이 없습니다.</div>
-                  <div v-else class="grid-content ">{{classitem[1].confEnd.substr(0, 16)}}까지</div>
+                <el-col v-if="classitem.length>2" :span="4">
+                  <div v-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 2" class="grid-content " >{{classitem[2].confStart.substr(0, 16)}} 부터</div>
+                  <div v-else-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 3" class="grid-content ">수업이 없습니다.</div>
+                  <div v-else class="grid-content ">{{classitem[2].confEnd.substr(0, 16)}}까지</div>
                 </el-col>
                 <el-col v-else :span="4">
                   <div>수업이 없습니다.</div>
                 </el-col>
-                <el-col v-if="classitem.length>1" :span="4">
-                  <div v-if="this.compareDate(classitem[1].confStart,classitem[1].confEnd) == 2" class="grid-content con-btn" @click="joinSession(classitem[1])">
+                <el-col v-if="classitem.length>2" :span="4">
+                  <div v-if="this.compareDate(classitem[2].confStart,classitem[2].confEnd) == 2" class="grid-content con-btn" @click="joinSession(classitem[2])">
                     <el-button style="background-color:red; color:white; border-radius:10px;">ON-AIR</el-button>
                   </div>
-                  <div v-else-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd) == 1" class="grid-content con-btn">
+                  <div v-else-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 1" class="grid-content con-btn">
                     <el-button style="background-color:grey; color:white; border-radius:10px;">WAIT</el-button>
                   </div>
-                  <div v-else-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd) == 3" class="grid-content con-btn">
+                  <div v-else-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 3" class="grid-content con-btn">
                   </div>
                 </el-col>
                 <el-col v-else :span="4"></el-col>

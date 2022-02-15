@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -30,6 +31,12 @@ public class ConferenceRepositorySupport {
         return jpaQueryFactory.select(qConference).from(qConference)
                 .where(qConference.studyId.eq(studyId).and(qConference.tchrId.eq(tchrId)))
                 .orderBy(qConference.confId.desc()).limit(1).fetchOne();
+    }
+
+    public List<Conference> findConferencesByStudyId(Integer studyId) {
+        return jpaQueryFactory.select(qConference).from(qConference)
+                .where(qConference.studyId.eq(studyId).and(qConference.confStart.after(LocalDateTime.now())))
+                .fetch();
     }
 
 }

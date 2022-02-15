@@ -27,4 +27,9 @@ public class StudyRoomRepositorySupport {
     public void deleteStudyRoomByTchrIdAndStudyName(String tchrId, String studyName){
         jpaQueryFactory.delete(qStudyRoom).where(qStudyRoom.tchrId.eq(tchrId).and(qStudyRoom.studyName.eq(studyName))).execute();
     }
+
+    public List<Studyroom> findStudyroomsByTchrId(String tchrId) {
+        return jpaQueryFactory.select(qStudyRoom).from(qStudyRoom)
+                .where(qStudyRoom.tchrId.eq(tchrId)).fetch();
+    }
 }
