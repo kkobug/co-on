@@ -96,8 +96,8 @@
                   </span>
                 </div>
                 <div class="bottom">
-                  <p><el-button type="text" class="button">{{ this.progresstitle }}</el-button></p>
-                  <p><time class="time">~{{ this.progressend.substring(0, 16) }}</time></p>
+                  <p><el-button type="text" class="button">{{ this.soonlessontitle }}</el-button></p>
+                  <p><time class="time">~{{ this.soonlessontime.substring(0, 16) }}</time></p>
                 </div>
               </div>
             </el-card>
@@ -178,6 +178,9 @@ export default {
     endhw:undefined,
     max_mil:0,
     mil_title:undefined,
+    soonlessontitle:"예정된 수업이 없습니다.",
+    soonlessontime:"",
+
  }),
   methods: {
     getNotice(){
@@ -414,10 +417,23 @@ export default {
         }
       })
     },
+    getsoon(){
+      const localvuex=JSON.parse(localStorage.getItem('vuex'))
+      this.$store.dispatch("root/requestSoonLesson", {tchrId : localvuex["root"]["userid"]})
+      .then(res=>{
+        console.log("dlrjek!", res.data)
+        if(res.data.length>0){
+          console.log(res.data)
+          this.soonlessontitle=res.data[0][0].studyName
+          this.soonlessontime=res.data[0][1].confStart
+        }
+      })
+    },
 
   },
   created:function(){
     this.getmil()
+    this.getsoon()
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
     this.userId = localvuex["root"]["userid"]
     this.tchrOrNot = localvuex["root"]["whetherTchr"]

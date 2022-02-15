@@ -348,4 +348,9 @@ export function requeststLesson2 ({ state }, payload) {
   const url = `/studyRoomDetail/student/studyroomdetailinfo/${payload}`
   return $axios.get(url)
 }
+export function requestSoonLesson ({ state }, payload) {
+  console.log('requestSoonLesson', payload)
+  const url = `/conference/impendingconferenceinfo?tchrId=${payload.tchrId}`
+  return $axios.get(url)
+}
 
