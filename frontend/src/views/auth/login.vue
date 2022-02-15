@@ -1,7 +1,7 @@
 <template>
   <div id="login_page">
     <div style="height:5vh; display:flex;justify-content: space-between;align-items:center" >
-      <div><img :src="require('@/assets/images/github.png')">Github</div>
+      <div>Co-on</div>
       <div>
         <el-button color="#626aef" @click="clickSignup" plain>Sign up</el-button>
         <el-button type="primary" @click="clickLogin" plain style="margin:3px;height:auto">Log in</el-button>
@@ -17,8 +17,6 @@
               <h3> 교육용 화상회의 플랫폼</h3>
               <div style="height:5vh"></div>
               <h3> "Co-On" 입니다!!</h3>
-              <!-- <h3 style="color:black">쉽게 온라인 수업을 열고 학생들을 관리한다면 어떨까요?</h3>
-              <h4 style="font-size:20px;">쉽게 온라인 수업을 열고 학생들의 출결과 과제를 관리할 수 있다면 어떨까요?</h4> -->
             </div>
             <div style="height:96vh; display: flex;
               justify-content: center;
@@ -62,18 +60,37 @@
               <img :src="require('@/assets/images/conference.png')" style="height:30vh;margin:10px; box-shadow: 12px 12px 2px 1px rgba(0, 0, 255,.2)">
             </div>
           </div>
-
           <div v-else-if="item==4">
             <div style="height:76vh; flex-direction: column" class="container bg_img">
               <div style="font-size:30px;margin-bottom:55px;font-weight:bold;color:white;">이제 시작해볼까요?</div>
               <el-button class="btn" round plain><div style="padding:5px;font-family: 'Poppins', sans-serif;" @click="clickLogin">Start Co-on</div></el-button>
-
             </div>
-            <div style="background-color:#43483E; height:20vh" class="container">
-
+            <div style="background-color:#43483E; height:20vh;">
+              <div style="margin-left:40px;display:flex;justify-content: space-between;" >
+                <div>
+                  <div style="font-size:20px;margin-top:10px;margin-bottom:10px;font-weight:bold">만든이</div>
+                  <div style="display: flex;align-items:center;">
+                    <div style="margin-right:10px;font-size:20px">
+                      <p>팀장/backend: 양지훈</p>
+                      <p>backend: 김윤지</p>
+                      <p>backend: 차상훈</p>
+                    </div>
+                    <div style="margin-left:10px;font-size:20px">
+                      <p>frontend: 이상엽</p>
+                      <p>frontend: 이승훈</p>
+                      <p>frontend: 정인수</p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <img :src="require('@/assets/images/github.png')" style="width:30px; margin:5px">
+                  <img :src="require('@/assets/images/youtube.png')" style="width:30px; margin:5px">
+                  <img :src="require('@/assets/images/instagram.png')" style="width:30px; margin:5px">
+                  <img :src="require('@/assets/images/facebook.png')" style="width:30px; margin:5px">
+                </div>
+              </div>
             </div>
           </div>
-
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -83,7 +100,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 .bg_img{
   background-image: url("../../assets/images/twinkle.gif");
-  opacity: 0.9;
+  /* opacity: 0.9; */
 }
 .btn{
   background:linear-gradient(to right, rgb(172, 182, 229), rgb(134, 253, 232));
@@ -105,15 +122,6 @@
   text-align: center;
 }
 
-/* .el-carousel__item:nth-child(2) {
-  background: linear-gradient(rgb(211, 204, 227), rgb(233, 228, 240));
-}
-.el-carousel__item:nth-child(3) {
-  background: linear-gradient(rgb(211, 204, 227), rgb(233, 228, 240));
-}
-.el-carousel__item:nth-child(4) {
-  background: linear-gradient(rgb(211, 204, 227), rgb(233, 228, 240));
-} */
 .el-carousel__item:nth-child(n) {
   background: linear-gradient(to right, rgb(86, 204, 242), rgb(47, 128, 237));
 }
