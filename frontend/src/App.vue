@@ -2,12 +2,12 @@
 <!-- 로그인 -->
   <div v-if="isLogin">
     <Main @logout3="onLogout" @deleteId2="onLogout" />
-    <!-- <router-view @logout3="onLogout"/> -->
   </div>
 <!-- 비로그인 -->
   <div v-else>
     <Login
     @openLoginDialog="onOpenLoginDialog"
+    @openSignupDialog="onOpenSignupDialog"
     />
   </div>
 <!-- 로그인 -->
