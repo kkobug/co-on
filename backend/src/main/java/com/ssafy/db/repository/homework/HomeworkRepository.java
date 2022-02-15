@@ -15,11 +15,6 @@ public interface HomeworkRepository extends JpaRepository<Homework, Integer> {
 //    Optional<Homework> findHomeworkByHwId(Integer hwId);
 //    void deleteHomeworkByHwId(Integer hwId);
 
-    @Query(value = "select homework.* from homework where homework.study_id in " +
-            "(select study_id from studyroom_detail where st_id = :stId) " +
-            "order by homework.hw_deadline desc",nativeQuery = true)
-    List<Homework> findHomeworkBystId(String stId);
-
     @Query(value = "select count(case when st_hwcontent is not null and st_hwscore is null then 1 end), count(case when st_hwcontent is not null and st_hwscore is not null then 1 end), count(case when st_hwcontent is null and hw_deadline <= now() then 1 end), count(case when st_hwcontent is null and hw_deadline > now() then 1 end)\n" +
             "from student_homework\n" +
             "join homework\n" +

@@ -165,7 +165,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
         studentHomework.setStHwscore(score);
         studenthomeworkRepository.save(studentHomework);
         String st = studentHomework.getStId();
-        studenthomeworkRepository.updatePoint(num, studyId,st);
+        studenthomeworkRepositorySupport.updatePoint(num, studyId,st);
     }
 
     @Override

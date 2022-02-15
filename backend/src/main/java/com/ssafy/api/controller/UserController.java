@@ -7,10 +7,12 @@ import com.ssafy.api.service.user.MailService;
 import com.ssafy.api.service.user.StudentService;
 import com.ssafy.api.service.user.TeacherMailService;
 import com.ssafy.api.service.user.TeacherService;
+import com.ssafy.common.auth.SsafyStudentDetails;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
