@@ -13,22 +13,26 @@
           <el-scrollbar height="80%;" >
             <el-main style="line-height: 70px">
               <el-row :gutter="20" v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
-                <el-col :span="3"><div class="grid-content ">{{classitem[2]}}</div></el-col>
-                <el-col :span="3"><div class="grid-content ">{{classitem[1]}}</div></el-col>
-                <el-col :span="2"><div class="grid-content ">{{classitem[11]}}</div></el-col>
-                <el-col :span="8"><div class="grid-content ">{{classitem[3]}}</div></el-col>
-                <el-col :span="4">
-                  <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " >{{classitem[8].substr(0, 16)}}</div>
-                  <div v-else class="grid-content ">{{classitem[9].substr(0, 16)}}</div>
+                <el-col :span="3"><div class="grid-content ">{{classitem[0].studyroom.studyName}}</div></el-col>
+                <el-col :span="3"><div class="grid-content ">{{classitem[0].tchrId}}</div></el-col>
+                <el-col :span="2"><div class="grid-content ">{{classitem[0].stPoint}}</div></el-col>
+                <el-col :span="8"><div class="grid-content ">{{classitem[0].studyroom.studyDesc}}</div></el-col>
+                <el-col v-if="classitem.length>1" :span="4">
+                  <div v-if="this.compareDate(classitem[1].confStart, classitem[1].confEnd)" class="grid-content " >{{classitem[1].confStart.substr(0, 16)}}</div>
+                  <div v-else class="grid-content ">{{classitem[1].confEnd.substr(0, 16)}}</div>
                 </el-col>
-                <el-col :span="4">
-                  <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content con-btn" @click="joinSession(classitem)">
+                <el-col v-else :span="4">
+                  <div>수업이 없습니다.</div>
+                </el-col>
+                <el-col v-if="classitem.length>1" :span="4">
+                  <div v-if="this.compareDate(classitem[1].confStart,classitem[1].confEnd)" class="grid-content con-btn" @click="joinSession(classitem[1])">
                     <el-button style="background-color:red; color:white; border-radius:10px;">ON-AIR</el-button>
                   </div>
-                  <div v-else class="grid-content con-btn" @click="joinSession(classitem)">
+                  <div v-else class="grid-content con-btn">
                     <el-button style="background-color:grey; color:white; border-radius:10px;">WAIT</el-button>
                   </div>
                 </el-col>
+                <el-col v-else :span="4"></el-col>
               </el-row>
             </el-main>
           </el-scrollbar>
@@ -210,8 +214,9 @@ export default {
       return false
     },
     getClasses(){
-      this.$store.dispatch('root/requestGetClassConfStudyId',this.userId)
+      this.$store.dispatch('root/requeststLesson2', this.userId)
       .then(result =>{
+        console.log("1111111111111", result.data)
         this.classes=result.data
       })
       .catch(function(err){
@@ -271,9 +276,9 @@ export default {
 
 		joinSession (classitem) {
       this.nowClass=classitem
-      this.mySessionId=classitem[1]+classitem[4]
+      this.mySessionId=classitem.confId+classitem.tchrId
       // 수업 입실 axios
-      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem[4]})
+      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem.tchrId})
       .catch(function(err){
         alert(err)
       })

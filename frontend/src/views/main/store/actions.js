@@ -343,4 +343,9 @@ export function requestPlusMil ({ state }, payload) {
   let body = payload
   return $axios.put(url, body)
 }
+export function requeststLesson2 ({ state }, payload) {
+  console.log('requestPlusMil', payload)
+  const url = `/studyRoomDetail/student/studyroomdetailinfo/${payload}`
+  return $axios.get(url)
+}
 

@@ -69,8 +69,23 @@
             </el-card>
           </el-col>
 
-
-          <el-col :span="6">
+          <el-col v-if="!this.tchrOrNot" :span="6">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
+              <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
+                <div>
+                  <font-awesome-icon icon="chalkboard-teacher" />
+                  <span style="font-weight:bold; color:#31111D; font-size:20px">
+                    마일리지
+                  </span>
+                </div>
+                <div class="bottom">
+                  <p><el-button type="text" class="button">{{ this.mil_title }}</el-button></p>
+                  <p><time class="time">{{ this.max_mil }}</time></p>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col v-else :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
                 <div>
@@ -160,6 +175,8 @@ export default {
     progresstitle: '',
     progressend: '',
     endhw:undefined,
+    max_mil:0,
+    mil_title:undefined,
  }),
   methods: {
     getNotice(){
@@ -383,10 +400,23 @@ export default {
 
       console.log(dead.substring(0, 16), dateString, dead.substring(0, 16) >= dateString)
       return dead.substring(0, 16) >= dateString
-    }
+    },
+    getmil(){
+      const localvuex=JSON.parse(localStorage.getItem('vuex'))
+      this.$store.dispatch("root/requeststLesson2", localvuex["root"]["userid"])
+      .then(res=>{
+        for (var ele of res.data) {
+          if (ele[0].stPoint >= this.max_mil){
+            this.max_mil = ele[0].stPoint
+            this.mil_title = ele[0].studyroom.studyName
+          }
+        }
+      })
+    },
 
   },
   created:function(){
+    this.getmil()
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
     this.userId = localvuex["root"]["userid"]
     this.tchrOrNot = localvuex["root"]["whetherTchr"]
@@ -412,11 +442,11 @@ export default {
     console.log(this.inProgressClass, '진행중인 수업 테스트')
   },
   mounted() {
+      this.getmil()
       // cdn chart.js
       let recaptchaScript = document.createElement('script')
       recaptchaScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
       document.head.appendChild(recaptchaScript)
-
 
       let hwlabels = []
       let hwdata = []
