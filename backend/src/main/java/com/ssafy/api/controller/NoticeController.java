@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.amazonaws.services.s3.transfer.internal.DownloadS3ObjectCallable;
 import com.ssafy.api.request.notice.NoticeDeleteRes;
 import com.ssafy.api.request.notice.NoticeRegisterPostReq;
 import com.ssafy.api.request.notice.NoticeUpdatePutReq;
@@ -151,17 +152,11 @@ public class NoticeController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Resource> download(
+	public ResponseEntity<byte[]> download(
 			@ApiParam(value = "파일 정보", required = true)
 			@RequestParam
-					String fileName,
-			@RequestParam
-					String filePath
+					String fileName
 	) throws IOException {
-		Resource file = noticeService.loadAsResource(fileName, filePath);
-
-		return ResponseEntity.ok().header(
-				HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\""
-		).body(file);
+		return noticeService.loadAsResource(fileName);
 	}
 }

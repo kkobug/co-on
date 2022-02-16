@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-//@NoArgsConstructor
 public class NoticeFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +26,12 @@ public class NoticeFile {
 
     @Column(name= "file_path")
     String filePath;
+
+    @Column(name= "file_ext")
+    String fileExt;
+
+    @Column(name = "file_size")
+    String fileSize;
 
 //    @ManyToOne
 //    @JoinColumn(name = "notice_id",insertable = false, updatable = false)
