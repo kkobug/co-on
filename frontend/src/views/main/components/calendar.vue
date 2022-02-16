@@ -580,7 +580,6 @@ p{
 }
 .cal{
   background-color: white;
-
 }
 
 #dashboard{
@@ -596,6 +595,14 @@ p{
 
 *.vuecal--month-view .vuecal__cell {
   height: 80px;
+}
+
+.vuecal--blue-theme .vuecal__cell-events-count, .vuecal--blue-theme .vuecal__menu {
+    background-color: #83B1C9;
+}
+
+.vuecal--blue-theme .vuecal__title-bar {
+    background-color: #b2d1e4;
 }
 
 .vuecal--month-view .vuecal__cell-content {
@@ -615,6 +622,7 @@ p{
 .vuecal__cell{
   height:94px !important;
   overflow: hidden;
+
 }
 .vuecal__event.a {
    background-color: rgb(3, 126, 243, 0.8);

@@ -1,22 +1,37 @@
 <template>
-  <div>
+  <div style="overflow: hidden; margin: 0vh 9vw">
     <div style="display:flex; justify-content: space-between;">
-      <h1 style="margin: 25px; font-size:30px;">제출된 과제</h1>
+      <h1 style="padding: 1.5%; font-size:30px; margin-left:2vw; text-align: start;">과제목록</h1>
       <div style="">
         <el-button style="background-color: #91847A; color: #fff; width: 100px; height: 40px; border-radius: 15px; border:none;" class="sub_btn" @click="state.isVisible = true">과제 생성</el-button>
       </div>
     </div>
+    <el-row :gutter="24" style="margin : 5px; margin-bottom : 10px;" class ="el-item el-item-bgcolor1">
+      <el-col :span="4" class ="li-title li-item">교과명</el-col>
+      <el-col :span="11" class ="li-lesson li-item">
+        <div>
+          <span>과제</span>&nbsp;
+          <el-tooltip
+            content="제목을 클릭해 과제를 확인하세요"
+            raw-content
+          >
+            <span><font-awesome-icon icon="question-circle" /></span>
+          </el-tooltip>
+        </div>
+      </el-col>
+      <el-col :span="2" class ="li-item filebar">파일</el-col>
+      <el-col :span="4" class ="li-time li-item">제출기한</el-col>
+      <el-col :span="3" class ="li-time li-item">관리</el-col>
+    </el-row>
     <ModalView v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data style="box-shadow: 3px 3px 3px 3px gray; z-index:11;" v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
-    <el-scrollbar wrap-style="max-height: 270px;" style="min-height:270px;">
+    <el-scrollbar style="height:31vh;">
       <div v-if="state.homeworks.length >= 1" style="margin:0 20px;">
         <span v-for="(hw, index) in state.homeworks" :key = hw.hwId >
-          <el-row :gutter="24" v-if="isWork(hw.hwDeadline)" class ="el-item">
-            <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
-            <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
-            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}}까지</el-col>
-            <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
-            <el-col :span="2" class ="li-item filebar">
-              첨부파일
+          <el-row :gutter="24" class ="el-item" :class="{'el-item-bgcolor1' : isWork(hw.hwDeadline), 'el-item-bgcolor2': !isWork(hw.hwDeadline)}">
+            <el-col :span="4" class ="li-title li-item">{{hw.hwTitle}}</el-col>
+            <el-col :span="11" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
+            <el-col :span="2" class ="li-item filebar" v-if="hw.hwFile.length">
+              <span><font-awesome-icon icon="file-download" /></span>
               <ul>
                 <h4>파일목록</h4>
                 <div v-for="hf in hw.hwFile" :key=hf.fileId>
@@ -25,29 +40,9 @@
                 </div>
               </ul>
             </el-col>
-            <el-col :span="2" >
-              <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
-            </el-col>
-            <el-col :span="2" >
-              <el-button type="text" class ="li-item" @click = "delhomeworks(hw.hwId)" style="color: red">삭제</el-button>
-            </el-col>
-          </el-row>
-          <el-row :gutter="24" v-else class ="el-item2">
-            <el-col :span="5" class ="li-title li-item">{{hw.hwTitle}}</el-col>
-            <el-col :span="7" class ="li-lesson li-item">{{hw.hwContent}}</el-col>
-            <el-col :span="3" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}}까지</el-col>
-            <el-col :span="3" class ="li-time li-item">{{hw.hwPosted.substring(0, 10)}}</el-col>
-            <el-col :span="2" class ="li-item filebar">
-              첨부파일
-              <ul>
-                <h4>파일목록</h4>
-                <div v-for="hf in hw.hwFile" :key=hf.fileId>
-                  <hr>
-                  <a class="filenamehover" @click="downHWFile(hf.fileName, hf.filePath, hf.fileOriginName)">💾 {{hf.fileOriginName}}</a>
-                </div>
-              </ul>
-            </el-col>
-            <el-col :span="2" >
+            <el-col :span="2" class ="li-item filebar" v-else></el-col>
+            <el-col :span="4" class ="li-time li-item">{{hw.hwDeadline.substring(0, 10)}} 까지</el-col>
+            <el-col :span="1" >
               <el-button type="text" class ="li-item" @click = "updatehomework(index)">수정</el-button>
             </el-col>
             <el-col :span="2" >
@@ -144,11 +139,24 @@ export default {
     box-sizing: border-box;
   }
   .el-item{
-    background-color: #ecf0f1;
     align-items: center;
-    border-radius: 20px;
+    border-radius: 10px;
     height: 60px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+  }
+  .el-item-bgcolor0{
+    /* 상단 탭 */
+  }
+  .el-item-bgcolor1{
+    background-color: #F5FdFF;  /* 남은 과제 */
+    box-shadow: 1px 1px 1px 1px #C0C4CC;
+  }
+  .el-item-bgcolor2{
+    background-color:grey;  /* 날짜 지났는데 못한 과제 */
+    box-shadow: 1px 1px 1px 1px #C0C4CC;
+  }
+  .el-item-bgcolor3{
+    /* 완료한 과제 */
   }
   .el-item2{
     background-color: grey;

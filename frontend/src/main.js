@@ -33,6 +33,8 @@ import {
   faUsers,
   faHome,
   faArrowCircleUp,
+  faFileDownload,
+  faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons'
 library.add(
   faUserSecret,
@@ -54,6 +56,8 @@ library.add(
   faUsers,
   faHome,
   faArrowCircleUp,
+  faFileDownload,
+  faQuestionCircle,
   )
 
 
