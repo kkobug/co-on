@@ -230,7 +230,7 @@ export default {
 }
 .selectBox {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin: 2vh 10vh 2vh 0vh;
 }
 </style>
