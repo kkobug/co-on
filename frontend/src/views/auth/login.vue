@@ -16,7 +16,7 @@
               <h3>안녕하십니까!</h3>
               <h3> 교육용 화상회의 플랫폼</h3>
               <div style="height:5vh"></div>
-              <h3> "Co-On" 입니다!!</h3>
+              <h3> "Co-on" 입니다!!</h3>
             </div>
             <div style="height:96vh; display: flex;
               justify-content: center;

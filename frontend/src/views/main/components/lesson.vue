@@ -128,7 +128,6 @@
             </div>
           </div>
         </el-col>
-
         <!-- chat -->
       </el-row>
     </div>
@@ -144,8 +143,6 @@ import { useRouter } from 'vue-router'
 import axios from 'axios';
 import { OpenVidu, StreamManager } from 'openvidu-browser';
 import UserVideo from '../../video/UserVideo.vue';
-
-
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const OPENVIDU_SERVER_URL = "https://i6e207.p.ssafy.io:4443";
@@ -186,7 +183,6 @@ export default {
       textInput:'',
 		}
 	},
-
   setup () {
     const router = useRouter()
     const store = useStore()
@@ -218,6 +214,9 @@ export default {
       }else{
         return 2
       }
+    },
+    viewAll(){
+      this.mainStreamManager=undefined
     },
     getClasses(){
       this.$store.dispatch('root/requeststLesson2', this.userId)
@@ -479,14 +478,6 @@ export default {
   width:100vw;
   height:100vh;
 }
-#session-header {
-  // height: auto;
-}
-#sub-container {
-  // width: 20% !important;
-  // width: 15% ;
-  // height: auto;
-}
 .con-btn{
   cursor:pointer;
 }
@@ -498,10 +489,6 @@ export default {
 #sub-video {
   width: 15% !important;
   // height: auto;
-}
-#main-video{
-  // height: 100%;
-  // width: 50% ;
 }
 .common-layout {
   .el-header,
