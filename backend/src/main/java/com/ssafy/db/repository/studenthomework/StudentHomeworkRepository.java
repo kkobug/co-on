@@ -11,11 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface StudentHomeworkRepository extends JpaRepository<StudentHomework, Integer> {
-    Optional<StudentHomework> findBystHwId(Integer StHwId);
-    @Transactional
-    void deleteStudentHomeworkByStHwIdAndStId(Integer stHwId, String stId);
-
-    @Modifying
-    @Query(value = "update studyroom_detail set st_point = st_point + :point where study_id = :studyId and st_id = :st",nativeQuery = true)
-    void updatePoint(int point,int studyId, String st);
+//    Optional<StudentHomework> findBystHwId(Integer StHwId);
 }

@@ -143,7 +143,7 @@ public class NoticeServiceImpl implements NoticeService{
 
     @Override
     public List<Notice> findNoticeBystId(String stId) {
-        return noticeRepository.findNoticeBystId(stId);
+        return noticeRepositorySupport.findNoticeBystId(stId);
     }
 
     @Override

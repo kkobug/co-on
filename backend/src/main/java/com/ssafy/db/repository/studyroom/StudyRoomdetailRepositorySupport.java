@@ -43,4 +43,5 @@ public class StudyRoomdetailRepositorySupport {
         return jpaQueryFactory.select(qStudyroomDetail).from(qStudyroomDetail)
                 .where(qStudyroomDetail.stId.eq(stId)).fetch();
     }
+
 }

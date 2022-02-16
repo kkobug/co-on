@@ -10,9 +10,10 @@ import com.ssafy.db.repository.conference.AttendanceRepository;
 import com.ssafy.db.repository.conference.ConferenceRepository;
 import com.ssafy.db.repository.conference.ConferenceRepositorySupport;
 import com.ssafy.db.repository.studyroom.StudyRoomRepositorySupport;
-import com.ssafy.db.repository.studyroom.StudyRoomdetailRepositorySupport;
+
+import com.ssafy.db.repository.conference.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -37,6 +38,8 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Autowired
     StudyRoomRepositorySupport studyRoomRepositorySupport;
+    @Autowired
+    AttendanceRepositorySupport attendanceRepositorySupport;
 
     @Override
     public Conference createConference(ConferenceRegisterReq conferenceRegisterReq) {
@@ -73,7 +76,7 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Override
     public AttendanceRecord findAttendanceRecord(String stId, Integer confId) {
-        return attendanceRecordRepository.findAttendanceRecordByIds(stId, confId);
+        return attendanceRepositorySupport.findAttendanceRecordByIds(stId, confId);
     }
 
     @Override
@@ -102,8 +105,7 @@ public class ConferenceServiceImpl implements ConferenceService{
         LocalDateTime now = LocalDateTime.now();
         attendanceRecord.setRecOut(now);
 
-        List<AttendanceRecord> attendanceRecords = attendanceRecordRepository.findAllAttendanceRecordByIds(stId, confId);
-
+        List<AttendanceRecord> attendanceRecords = attendanceRepositorySupport.findAttendanceRecord(stId,confId);
         if (attendanceRecords != null) {
             Conference conference = conferenceRepositorySupport.findConferenceById(confId);
             LocalDateTime st, ed, confIn, confOut;

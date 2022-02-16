@@ -96,7 +96,7 @@ public class HomeworkServiceImpl implements HomeworkService{
     @Override
     @Cacheable(value = "HwRateBystId",key = "#stId")
     public int[] countBystId(String stId) {
-        List<Homework> homeworks = homeworkRepository.findHomeworkBystId(stId);
+        List<Homework> homeworks = homeworkRepositorySupport.findHomeworkBystId(stId);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime deadline;
         int[] ret = new int[6]; // 마감전, 마감후, 제출전, 제출후, 채점전, 채점후
@@ -152,7 +152,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 
     @Override
     public List<Homework> findHomeworkBystId(String stId) {
-        return homeworkRepository.findHomeworkBystId(stId);
+        return homeworkRepositorySupport.findHomeworkBystId(stId);
     }
 
     //수업에 포함된 과제 조회

@@ -3,6 +3,7 @@ package com.ssafy.db.repository.studenthomework;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.db.entity.QNotice;
 import com.ssafy.db.entity.QStudentHomework;
+import com.ssafy.db.entity.QStudyroomDetail;
 import com.ssafy.db.entity.StudentHomework;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,7 @@ public class StudentHomeworkRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
     QStudentHomework qStudentHomework = QStudentHomework.studentHomework;
-
+    QStudyroomDetail qStudyroomDetail = QStudyroomDetail.studyroomDetail;
     public void deleteStudentHomeworkByStHwIdAndStId(Integer hwId, String stId) {
         jpaQueryFactory.delete(qStudentHomework).where(qStudentHomework.hwId.eq(hwId).and(qStudentHomework.stId.eq(stId))).execute();  //excute 추가
     }
@@ -41,5 +42,9 @@ public class StudentHomeworkRepositorySupport {
         StudentHomework studentHomework = jpaQueryFactory.select(qStudentHomework).from(qStudentHomework)
                 .where(qStudentHomework.hwId.eq(hwId).and(qStudentHomework.stId.eq(stId))).fetchOne();
         return  studentHomework;
+    }
+
+    public void updatePoint(int point, int studyId, String st){
+        jpaQueryFactory.update(qStudyroomDetail).set(qStudyroomDetail.stPoint, point).where(qStudyroomDetail.studyId.eq(studyId).and(qStudyroomDetail.stId.eq(st)));
     }
 }
