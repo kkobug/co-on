@@ -411,14 +411,6 @@ export default {
   width:100vw;
   height:100vh;
 }
-#session-header {
-  // height: auto;
-}
-#sub-container {
-  // width: 20% !important;
-  // width: 15% ;
-  // height: auto;
-}
 #main-container {
   width: 65%;
   // width: calc(36%*1920/1080) ;
@@ -427,10 +419,6 @@ export default {
 #sub-video {
   width: 15% !important;
   // height: auto;
-}
-#main-video{
-  // height: 100%;
-  // width: 50% ;
 }
 .common-layout {
   .el-header,
