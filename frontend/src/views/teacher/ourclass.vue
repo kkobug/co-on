@@ -9,7 +9,7 @@
           <el-row style="width: 100%" :gutter="24">
             <el-col v-for="(o, index) in state.students" :key="o" :span="4" >
               <el-card :body-style="{ padding: '5px' }" style="border-radius:5px; width: 100%; position:relative; padding: 7px; margin-bottom : 2vh;">
-                <el-avatar :size="80" fit=cover :src="state.profiles.o[0]" v-if="o[7]"></el-avatar>
+                <el-avatar :size="80" fit=cover :src="state.profiles[o[0]]" v-if="o[7]"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
                 <div style="padding: 14px">
                   <span>{{o[1]}}</span>
@@ -96,7 +96,11 @@ export default {
                 fileName: res.data[i][7],
               })
               .then(resp => {
-                state.profiles[res.data[i][0]] = resp
+                state.profiles[res.data[i][0]] = resp.data
+                console.log(state.profiles)
+              })
+              .catch(error =>{
+                console.log(error)
               })
             }
           }
