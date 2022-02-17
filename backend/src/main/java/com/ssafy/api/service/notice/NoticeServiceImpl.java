@@ -109,7 +109,7 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    @CachePut(value = "findNotcie",key = "#noticeUpdatePutReq.noticeId")
+    @CachePut(value = "findNotice",key = "#noticeUpdatePutReq.noticeId")
     public Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) throws IOException{
         Notice notice = noticeRepositorySupport.findByNoticeId(noticeUpdatePutReq.getNoticeId()).get();
         notice.setNoticeTitle(noticeUpdatePutReq.getNoticeTitle());
