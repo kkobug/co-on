@@ -35,7 +35,6 @@ export default {
 </script>
 <style>
 #priv-video{
-  width: 100%;
-  /* height: calc(100%-1em); */
+  width: 90%;
 }
 </style>

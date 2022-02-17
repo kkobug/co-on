@@ -1,10 +1,10 @@
 <template>
   <div id="login_page">
-    <div style="height:5vh; display:flex;justify-content: space-between;align-items:center" >
-      <div>Co-on</div>
+    <div style="height:5vh; display:flex;justify-content: space-between;align-items:center;background-color:white" >
+      <div class="logo">co-on</div>
       <div>
-        <el-button color="#626aef" @click="clickSignup" plain>Sign up</el-button>
-        <el-button type="primary" @click="clickLogin" plain style="margin:3px;height:auto">Log in</el-button>
+        <el-button color="#626aef" @click="clickSignup" plain style="border:none">Sign up</el-button>
+        <el-button type="primary" @click="clickLogin" plain style="margin:3px;height:auto;border:none">Log in</el-button>
       </div>
     </div>
     <div >
@@ -16,7 +16,7 @@
               <h3>안녕하십니까!</h3>
               <h3> 교육용 화상회의 플랫폼</h3>
               <div style="height:5vh"></div>
-              <h3> "Co-On" 입니다!!</h3>
+              <h3> "Co-on" 입니다!!</h3>
             </div>
             <div style="height:96vh; display: flex;
               justify-content: center;
@@ -65,7 +65,7 @@
               <div style="font-size:30px;margin-bottom:55px;font-weight:bold;color:white;">이제 시작해볼까요?</div>
               <el-button class="btn" round plain><div style="padding:5px;font-family: 'Poppins', sans-serif;" @click="clickLogin">Start Co-on</div></el-button>
             </div>
-            <div style="background-color:#43483E; height:20vh;">
+            <div style="background-color:white; height:20vh;">
               <div style="margin-left:40px;display:flex;justify-content: space-between;" >
                 <div>
                   <div style="font-size:20px;margin-top:10px;margin-bottom:10px;font-weight:bold">만든이</div>
@@ -82,7 +82,7 @@
                     </div>
                   </div>
                 </div>
-                <div>
+                <div style="display:flex;align-items: end;">
                   <img :src="require('@/assets/images/github.png')" style="width:30px; margin:5px">
                   <img :src="require('@/assets/images/youtube.png')" style="width:30px; margin:5px">
                   <img :src="require('@/assets/images/instagram.png')" style="width:30px; margin:5px">
@@ -98,9 +98,27 @@
 </template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+input.img-button {
+        background: url("../../assets/images/github.png" ) no-repeat;
+        border: none;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+      }
+#login_page{
+  background-color: white;
+}
+.logo{
+  background: linear-gradient(to right, rgb(86, 204, 242), rgb(47, 128, 237));
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight: bold;
+  font-size:40px;
+  margin-left:20px
+}
 .bg_img{
   background-image: url("../../assets/images/twinkle.gif");
-  /* opacity: 0.9; */
 }
 .btn{
   background:linear-gradient(to right, rgb(172, 182, 229), rgb(134, 253, 232));
