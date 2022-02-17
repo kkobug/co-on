@@ -35,14 +35,12 @@
 </template>
 
 <script>
-import { reactive, computed, ref, onMounted } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 export default {
   name: 'ModalView',
   props: ["pdata", "isupdate"],
   setup(props, context) {
-    const router = useRouter()
     const store = useStore()
     const state = reactive({
       form : {
@@ -67,7 +65,6 @@ export default {
     }
     const showRequest = (request)=> {
       const reqObject = JSON.parse(JSON.stringify(request));
-      console.log('request', reqObject);
       dataChange(reqObject);
     };
     const addhomework = function(){
@@ -111,14 +108,12 @@ export default {
       }
     }
     const dataChange = function(pdata){
-      console.log("abab",pdata)
       state.form.hwTitle = pdata.hwTitle
       state.form.hwContent = pdata.hwContent
       state.form.hwDeadline = pdata.hwDeadline
       state.form.hwId = pdata.hwId
     }
     onMounted(()=>{
-      console.log("안녕하세요", props.pdata, props.isupdate)
       showRequest(props.pdata);
     })
     return {state, addhomework, closeModal, dataChange, updatehomework, addFile}

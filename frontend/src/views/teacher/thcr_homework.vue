@@ -8,11 +8,7 @@
     </div>
     <el-row :gutter="24" style="margin : 5px; margin-bottom : 10px;" class ="el-item el-item-bgcolor1">
       <el-col :span="4" class ="li-title li-item">교과명</el-col>
-      <el-col :span="11" class ="li-lesson li-item">
-        <div>
-          <span>과제</span>
-        </div>
-      </el-col>
+      <el-col :span="11" class ="li-lesson li-item"><div><span>과제</span></div></el-col>
       <el-col :span="2" class ="li-item filebar">파일</el-col>
       <el-col :span="4" class ="li-time li-item">제출기한</el-col>
       <el-col :span="3" class ="li-time li-item">관리</el-col>
@@ -54,16 +50,14 @@
 
 <script>
 import ModalView from "./homework_modal"
-import { reactive, computed, ref, onMounted } from 'vue'
+import { reactive, computed,onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 export default {
   name: 'Tchr_homework',
   components:{
     ModalView,
   },
   setup() {
-    const router = useRouter()
     const store = useStore()
     const state = reactive({
       isupdate : false,
@@ -90,7 +84,6 @@ export default {
     const updatehomework = function(idx){
       state.props_data = state.homeworks[idx]
       state.isupdate = true
-      console.log(state.homeworks[idx])
       state.isVisible = true
     }
     const closemodal = function(){

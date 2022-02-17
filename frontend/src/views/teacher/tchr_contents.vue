@@ -73,7 +73,6 @@ export default {
   methods:{
     start (){
       this.videoDialogOpen= true
-      console.log("열림")
     },
     end (){
       this.videoDialogOpen= false

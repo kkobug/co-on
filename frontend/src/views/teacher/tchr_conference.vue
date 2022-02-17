@@ -106,10 +106,9 @@
 import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-
 // openvidu
 import axios from 'axios';
-import { OpenVidu, StreamManager } from 'openvidu-browser';
+import { OpenVidu} from 'openvidu-browser';
 import UserVideo from '../video/UserVideo.vue';
 
 
@@ -409,7 +408,6 @@ export default {
 .center_setting{
   display: flex;
   flex-wrap: wrap;
-  // flex-direction: column;
   align-content: center;
   justify-content: center;
 }
@@ -422,7 +420,6 @@ export default {
 }
 #sub-video {
   width: 15% !important;
-  // height: auto;
 }
 .common-layout {
   .el-header,

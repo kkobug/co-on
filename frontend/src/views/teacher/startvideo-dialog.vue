@@ -31,9 +31,8 @@
   </div>
 </template>
 <script>
-import { reactive, computed, ref, onMounted, unref } from 'vue'
+import { reactive, computed, ref} from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 
 export default {
   name: 'startvideo-dialog',
@@ -46,7 +45,6 @@ export default {
   },
 
   setup(props, { emit }) {
-    const router = useRouter()
     const store = useStore()
     const state = reactive({
       form: {
@@ -79,16 +77,12 @@ export default {
             studyId:state.form.classId,
             tchrId:state.form.id
           }).then(function (result) {
-            console.log('등록')
             handleClose()
           }).catch(function (err) {
             alert(err)
           })
         }
       }
-    onMounted(()=>{
-      // state.classId=store.getters['root/getStudyId']
-    })
     return { state, handleClose, EnrollClass }
   },
 }
