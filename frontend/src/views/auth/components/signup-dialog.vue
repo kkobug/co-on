@@ -15,11 +15,10 @@
           <el-input v-model="state.form.email" autocomplete="off" type="email" placeholder="E-mail"></el-input>
         </el-form-item>
         <el-form-item prop="birthday" label="생년월일" :label-width="state.formLabelWidth">
-            <el-date-picker
-              v-model="state.form.birthday" type="date" placeholder="Pick your birthday" style="width: 100%" format="YYYY-MM-DD" value-format="YYYYMMDD"
-            >
-            </el-date-picker>
-          </el-form-item>
+          <el-date-picker
+            v-model="state.form.birthday" type="date" placeholder="Pick your birthday" style="width: 100%" format="YYYY-MM-DD" value-format="YYYYMMDD">
+          </el-date-picker>
+        </el-form-item>
         <el-form-item prop="department" label="학교" :label-width="state.formLabelWidth">
           <el-input v-model="state.form.school" autocomplete="off" placeholder="School"></el-input>
         </el-form-item>
@@ -152,10 +151,10 @@ export default {
             handleClose()
           })
           .catch(function (err) {
-            alert('Form에 맞는 양식으로 작성해 주세요!')
+            alert('아이디/비밀번호/이름/이메일/생일을 전부 입력하고 아이디와 이메일 중복을 확인해주세요')
           })
         } else {
-          alert('Form에 맞는 양식으로 작성해 주세요!')
+          alert('아이디/비밀번호/이름/이메일/생일을 전부 입력하고 아이디와 이메일 중복을 확인해주세요')
         }
       });
     }

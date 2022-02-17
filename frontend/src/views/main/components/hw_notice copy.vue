@@ -136,7 +136,6 @@ export default {
     const onOpenHwDialog=function(item){
       state.props_hw = item
       state.hwDialogOpen = true
-      console.log("열림", state.props_hw)
     }
     const onCloseHwDialog=function(){
       state.hwDialogOpen = false
@@ -144,24 +143,19 @@ export default {
     }
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
-      // 과제 불러오기
       store.dispatch('root/requestGetHW',{
         stId : store.state.root.userid
       })
       .then(function(result){
-        // alert('과제 조회 성공')
-        // console.log("homework", result.data)
         state.hw=result.data
       })
       .catch(function(err){
         alert(err)
       })
-      // 공지사항 불러오기
       store.dispatch('root/requestGetSTNotice',{
         stId : store.state.root.userid
       })
       .then(function(result){
-        console.log("notice",result.data)
         state.notice=result.data
       })
       .catch(function(err){

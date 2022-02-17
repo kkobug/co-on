@@ -21,18 +21,11 @@
 <script>
 import { reactive } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 export default {
   name: 'ModalView',
   setup(props, context) {
-    const router = useRouter()
     const store = useStore()
-    const state = reactive({
-      form:{
-        title:"",
-        content:"",
-      }
-    })
+    const state = reactive({form:{title:"",content:""}})
     const closeModal = function(){
       state.form=
       {
@@ -74,7 +67,6 @@ export default {
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    /* border : solid 1px black; */
     border-radius: 20px;
     background-color: white;
     text-align: center;

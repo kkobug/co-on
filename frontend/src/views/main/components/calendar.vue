@@ -2,14 +2,10 @@
   <el-row>
     <el-col :span="22" :offset="1">
       <div>
-        <!-- <div class="head" >
-          Main
-        </div> -->
-        <!-- 대시보드 -->
         <el-row id="dashboard">
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
-              <div style="padding: 14px; text-align:left; background-color:#EADDFF;">
+              <div style="padding: 14px; text-align:left; background-color:#EADDFF;height:12vh">
                 <div>
                   <font-awesome-icon icon="clock" style="font-size:20px"/>
                   <span style="font-weight:bold; color:#21005D; font-size:20px">
@@ -30,7 +26,7 @@
 
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
-              <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
+              <div style="padding: 14px; text-align:left;background-color:#D9E7CB;height:12vh">
                 <div>
                   <font-awesome-icon icon="bell" />
                   <span style="font-weight:bold; color:#273420; font-size:20px">
@@ -38,7 +34,7 @@
                   </span>
                 </div>
                 <div class="bottom" v-if="this.dashNotice">
-                  <p><el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button></p>
+                  <p>{{this.dashNotice.noticeTitle}}</p>
                   <p><time class="time">{{ this.dashNotice.noticePosted }}</time></p>
                 </div>
                 <div class="bottom" v-else>
@@ -51,7 +47,7 @@
 
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
-              <div style="padding: 14px; text-align:left;background-color:#F9DEDC" class="">
+              <div style="padding: 14px; text-align:left;background-color:#F9DEDC;height:12vh">
                 <div>
                   <font-awesome-icon icon="calendar-check" />
                   <span style="font-weight:bold; color:#410E08; font-size:20px">
@@ -59,7 +55,7 @@
                   </span>
                 </div>
                 <div class="bottom"  v-if="this.endhw">
-                  <p><el-button type="text" class="button">{{this.endhw.title}}</el-button></p>
+                  <p>{{this.endhw.title}}</p>
                   <p><time class="time">{{ this.endhw.end.substring(0, 10) }}</time></p>
                 </div>
                 <div class="bottom" v-else>
@@ -71,7 +67,7 @@
 
           <el-col v-if="!this.tchrOrNot" :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
-              <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
+              <div style="padding: 14px; text-align:left;background-color:#FFD8E4; height:12vh">
                 <div>
                   <font-awesome-icon icon="chalkboard-teacher" />
                   <span style="font-weight:bold; color:#31111D; font-size:20px">
@@ -79,7 +75,7 @@
                   </span>
                 </div>
                 <div class="bottom">
-                  <p><el-button type="text" class="button">{{ this.mil_title }}</el-button></p>
+                  <p>{{ this.mil_title }}</p>
                   <p><time class="time">{{ this.max_mil }}</time></p>
                 </div>
               </div>
@@ -206,12 +202,7 @@ export default {
     getHw(){
       this.$store.dispatch('root/requestGetHW',this.userId)
       .then(result =>{
-        console.log("ddddata:", result.data)
         for (var j = 0; j < result.data.length; j++) {
-          console.log(this.events)
-          if (this.events.length >= 3) {
-            console.log("there is no impending HW")
-          }
           var hw = result.data[j];
           if (this.isWork(hw.hwDeadline)){
             this.dashHw = {
@@ -226,7 +217,6 @@ export default {
                 split: 2
               }
           }else if(!this.isWork(hw.hwDeadline) && !this.endhw){
-            console.log("inin")
             this.endhw = {
                 start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
                 end: hw.hwDeadline.substring(0,16),
@@ -272,7 +262,6 @@ export default {
     getTchtHW(){
       this.$store.dispatch('root/requestTchrListHomework')
       .then(result =>{
-        console.log("data", result.data)
         for (var j = 0; j < result.data.length; j++) {
 
           var hw = result.data[j];
@@ -289,7 +278,6 @@ export default {
                 split: 2
               }
           }else if(!this.endhw){
-            console.log("inin")
             this.endhw = {
                 start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
                 end: hw.hwDeadline.substring(0,16),
@@ -302,13 +290,10 @@ export default {
                 split: 2
               }
           }
-          // if (this.events.length >= 3) {
-          //   continue
-          // }
           if (hw.hwDeadline > this.today) {
             if (hw.hwFile.length){
               this.events.push({
-                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                start: hw.hwPosted.substring(0, 16),
                 end: hw.hwDeadline.substring(0,16),
                 title: hw.hwTitle,
                 className :hw.studyroom.studyName,
@@ -320,7 +305,7 @@ export default {
               });
             }else{
               this.events.push({
-                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                start: hw.hwPosted.substring(0, 16),
                 end: hw.hwDeadline.substring(0,16),
                 title: hw.hwTitle,
                 className :hw.studyroom.studyName,
@@ -333,13 +318,11 @@ export default {
             }
           }
         }
-        console.log('선생님 과제:', this.dashHw)
       })
     },
     getProgress(){
       this.$store.dispatch('root/requestRateHW')
       .then(result => {
-        console.log(result.data, '과제 제출률 콘솔')
         this.beforeDeadHW = result.data[0]
         this.afterDeadHW = result.data[1]
         this.notyetHW = result.data[2]
@@ -402,7 +385,6 @@ export default {
       var minute = now.getMinutes();
       var dateString = year + '-' + month  + '-' + day +" "+hour+":"+minute;
 
-      console.log(dead.substring(0, 16), dateString, dead.substring(0, 16) >= dateString)
       return dead.substring(0, 16) >= dateString
     },
     getmil(){
@@ -421,9 +403,7 @@ export default {
       const localvuex=JSON.parse(localStorage.getItem('vuex'))
       this.$store.dispatch("root/requestSoonLesson", {tchrId : localvuex["root"]["userid"]})
       .then(res=>{
-        console.log("dlrjek!", res.data)
         if(res.data.length>0){
-          console.log(res.data)
           this.soonlessontitle=res.data[0][0].studyName
           this.soonlessontime=res.data[0][1].confStart
         }
@@ -456,7 +436,6 @@ export default {
       this.getMyTchr()
     }
     this.getProgress()
-    console.log(this.inProgressClass, '진행중인 수업 테스트')
   },
   mounted() {
       this.getmil()
@@ -560,10 +539,8 @@ export default {
 
 <style>
 @import url('../../../../node_modules/vue-cal/dist/vuecal.css');
-/* 수정 요함 */
 canvas{
   width:100%!important;
-  /* height: auto !important; */
 }
 p{
   margin: 5px;
@@ -574,9 +551,6 @@ p{
 }
 .bottom{
   clear:both;
-}
-.calendar{
-  /* padding: 10px; */
 }
 .cal{
   background-color: white;
@@ -607,7 +581,6 @@ p{
 
 .vuecal--month-view .vuecal__cell-content {
   justify-content: flex-start;
-  /* height: calc(100%+80px); */
   align-items: flex-end;
 }
 

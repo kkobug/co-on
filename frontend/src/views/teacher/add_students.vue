@@ -11,7 +11,6 @@
         </el-form>
       </el-col>
     </el-row>
-    <!-- <div><label for="studid">학생 아이디</label><input v-model="state.studId"  name="studid" type="text"></div> -->
     <el-button class="addbtn" @click="addstudent">추가</el-button>
   </div>
 </template>
@@ -67,7 +66,6 @@ export default {
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    /* border : solid 1px black; */
     border-radius: 20px;
     background-color: white;
   }

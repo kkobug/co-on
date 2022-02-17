@@ -7,11 +7,7 @@
         <el-button class="staddbtn" style="border:none; position:absolute; right: 30px; top: 10px;" @click="state.isVisible=true">학생 추가</el-button>
         <div :span="24" class="stud" style="margin-top:65px;">
           <el-row style="width: 100%" :gutter="24">
-            <el-col
-            v-for="(o, index) in state.students"
-            :key="o"
-            :span="4"
-            >
+            <el-col v-for="(o, index) in state.students" :key="o" :span="4" >
               <el-card :body-style="{ padding: '5px' }" style="border-radius:5px; width: 100%; position:relative; padding: 7px; margin-bottom : 2vh;">
                 <el-avatar :size="80" fit=cover :src="state.profiles.o[0]" v-if="o[7]"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
@@ -32,9 +28,7 @@
             </el-col>
             <div v-if="state.isdata" style="width:80%; height:300px; margin:auto; font-size:40px; color:grey; text-align:center; padding-top:20vh;"> 학생을 추가해주세요 </div>
           </el-row>
-
         </div>
-
       </el-col>
     </el-row>
      <start-video-dialog
@@ -47,7 +41,6 @@
 <script>
 import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 import Datepicker from 'vuejs3-datepicker'
 
 import ModalView from "./add_students.vue"
@@ -69,7 +62,6 @@ export default {
     }
   },
   setup() {
-    const router = useRouter()
     const store = useStore()
     const state = reactive({
       isdata:true,
@@ -91,12 +83,10 @@ export default {
       if (day.length === 1) {
         day = '0' + day
       }
-      console.log(String(state.testDate.getUTCFullYear()) + month + day)
     }
     const getStudentList = function(){
       store.dispatch("root/requestTchrStlist", store.state.root.curClassId)
       .then(res =>{
-        console.log(res.data)
         state.students = res.data
         if(res.data.length){
           state.isdata=false
@@ -146,7 +136,6 @@ export default {
   methods:{
     start (){
       this.videoDialogOpen= true
-      console.log("열림")
     },
     end (){
       this.videoDialogOpen= false

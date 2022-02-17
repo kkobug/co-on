@@ -5,7 +5,6 @@
         <!-- video -->
         <el-col id="set_container" :span="24-this.chatOn">
           <div id="session-header">
-            <h1 id="session-title">{{ this.nowClass.confTitle }}</h1>
             <el-button circle v-if="micOn" id="button" @click="micControl" value="MICOFF" class="fa_button">
               <font-awesome-icon icon="microphone-slash" class="fa_icon" />
             </el-button>
@@ -106,10 +105,9 @@
 import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-
 // openvidu
 import axios from 'axios';
-import { OpenVidu, StreamManager } from 'openvidu-browser';
+import { OpenVidu} from 'openvidu-browser';
 import UserVideo from '../video/UserVideo.vue';
 
 
@@ -188,11 +186,9 @@ export default {
             to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
             type: 'my-chat'             // The type of message (optional)
           }).then().catch(error => {
-              console.error(error);
           })
         })
         .catch(error =>{
-          console.error(error);
         });
       })
       this.textInput=''
@@ -209,16 +205,13 @@ export default {
                 publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
                   sessionScreen.unpublish(publisher);
                   this.shareOn=false;
-                  console.log('User pressed the "Stop sharing" button');
                 });
                 sessionScreen.publish(publisher);
             });
             publisher.once('accessDenied', (event) => {
-                console.warn('ScreenShare: Access Denied');
             });
         })
         .catch((error => {
-            console.warn('There was an error connecting to the session:', error.code, error.message);
         }));
       });
       this.shareOn=true;
@@ -257,7 +250,6 @@ export default {
 
 			// On every asynchronous exception...
 			this.session.on('exception', ({ exception }) => {
-				console.warn(exception);
 			});
 
 			// --- Connect to the session with a valid user token ---
@@ -289,7 +281,6 @@ export default {
 						this.session.publish(this.publisher);
 					})
 					.catch(error => {
-						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
 
@@ -333,11 +324,9 @@ export default {
 					.then(response => response.data)
 					.then(data => resolve(data.id))
 					.catch(error => {
-            console.log(error)
 						if (error.response.status === 409) {
 							resolve(sessionId);
 						} else {
-							console.warn(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`);
 							if (window.confirm(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`)) {
 								location.assign(`${OPENVIDU_SERVER_URL}/accept-certificate`);
 							}
@@ -395,7 +384,6 @@ export default {
     window.addEventListener('beforeunload', this.leaveSession);
   },
   beforeUnmount() {
-    console.log(new Date())
     this.leaveSession()
     window.removeEventListener('beforeunload', this.leaveSession);
   },
@@ -419,7 +407,6 @@ export default {
 .center_setting{
   display: flex;
   flex-wrap: wrap;
-  // flex-direction: column;
   align-content: center;
   justify-content: center;
 }
@@ -432,7 +419,6 @@ export default {
 }
 #sub-video {
   width: 15% !important;
-  // height: auto;
 }
 .common-layout {
   .el-header,

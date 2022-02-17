@@ -102,7 +102,6 @@ export default {
 
     const submit = function () {
       var stHwFormData = new FormData(document.querySelector('#stHwFile'))
-      console.log(state.iddata)
       stHwFormData.append('stHwId', state.iddata.studentHomeworks[0].stHwId)
       stHwFormData.append('hwId', state.iddata.hwId)
       stHwFormData.append('stHwContent', state.hwname)
@@ -127,7 +126,6 @@ export default {
   },
   created:function(){
       const localvuex=JSON.parse(localStorage.getItem('vuex'))
-      console.log(localvuex)
   }
 
 }

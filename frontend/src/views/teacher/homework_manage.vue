@@ -12,9 +12,6 @@
       </el-select>
     </div>
     <el-tabs v-model="activeName" class="demo-tabs" style="margin: 10px 10vh; padding: 0 3vh; border-radius: 10px; min-height:90vh; background-color: white">
-      <!-- <el-tab-pane label="User" name="first">
-      </el-tab-pane> -->
-      <!-- <el-tab-pane v-for="(nhw, idx) in state.nowHw" :key="idx" :label="Hw.hwTitle"> -->
         <el-scrollbar height="100%">
           <el-row>
             <el-col :span="1"><div class="grid-content bg-head">번호</div></el-col>
@@ -107,7 +104,6 @@ export default {
       })
     }
     const ent = function(changed, origin, id, idx){
-      console.log(changed, origin, id)
       if (changed !== null) {
         if (origin === null) {
           origin = 0
@@ -120,7 +116,6 @@ export default {
         .then(res => {
           state.score[idx]=changed
           state.nowHw[idx].stHwscore = changed
-          console.log("채점 완료")
         })
       }
     }
@@ -132,18 +127,13 @@ export default {
       }
     }
     const pageload = function() {
-      console.log("pageload in!!!!!!!!!!!")
       store.dispatch('root/requestListHomework', {
         studyId: store.state.root.curClassId,
       })
       .then (res => {
         state.Hws = res.data
-        console.log("mounted axios success")
-        console.log(state.Hws)
       })
       .catch (err => {
-        console.log("mounted axios fail")
-        console.log(err)
       })
     }
     onMounted (() => {
@@ -158,7 +148,6 @@ export default {
   created: function(){
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
     this.userId=localvuex["root"]["userid"]
-    // this.getHw()
   },
 
 }
@@ -167,17 +156,12 @@ export default {
 <style scoped>
 .el-row {
   margin: 4px;
-  /* border: solid;
-  border-bottom-width: thick 2px;
-  border-color: #3D6657; */
-
 }
 .el-row:last-child {
   margin-bottom: 0;
 }
 .el-col {
   padding: 2px;
-
   border-radius: 4px;
 }
 .bg-head {

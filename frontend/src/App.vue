@@ -43,9 +43,6 @@ import LoginDialog from './views/auth/components/login-dialog.vue'
 import SignupDialog from './views/auth/components/signup-dialog.vue'
 import FindidDialog from './views/auth/components/findid-dialog.vue'
 import ChangePasswordDialog from './views/auth/components/changepassword-dialog.vue'
-
-import { useStore } from 'vuex'
-
 export default {
   name: 'App',
 
@@ -60,7 +57,6 @@ export default {
 
   data () {
     return {
-      // isLogin: false,
       isLogin:false,
       loginDialogOpen: false,
       signupDialogOpen: false,
@@ -109,7 +105,6 @@ export default {
     if(token){
       this.isLogin = true
     }
-    console.log("isLogin : "+this.isLogin)
   },
 }
 </script>

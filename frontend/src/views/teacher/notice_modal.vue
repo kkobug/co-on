@@ -52,7 +52,6 @@ export default {
     }
     const showRequest = (request)=> {
       const reqObject = JSON.parse(JSON.stringify(request));
-      console.log('request', reqObject);
       dataChange(reqObject);
     };
     const addnotice = function(){
@@ -65,11 +64,8 @@ export default {
         noticeFormData.append('studyId', state.form.studyId)
         noticeFormData.append('tchrId', state.form.tchrId)
       }
-
-
       store.dispatch('root/requestAddNotice', noticeFormData)
       .then(res => {
-        console.log(res)
         closeModal()
       })
     }
@@ -93,14 +89,11 @@ export default {
       }
     }
     const dataChange = function(pdata){
-      console.log("abab",pdata)
       state.form.noticeTitle = pdata.noticeTitle
       state.form.noticeContent = pdata.noticeContent
       state.form.ntid = pdata.noticeId
     }
     onMounted(()=>{
-      console.log("안녕하세요", props.pdata, props.isupdate)
-
       showRequest(props.pdata);
     })
     return {state, onMounted, addnotice, closeModal, dataChange, updatenotice, updatenotice, addFile}
@@ -121,7 +114,6 @@ export default {
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    /* border : solid 1px black; */
     border-radius: 20px;
     background-color: white;
   }
