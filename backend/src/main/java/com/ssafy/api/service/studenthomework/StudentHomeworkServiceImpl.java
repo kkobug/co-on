@@ -188,7 +188,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
         int studyId = studentHomework.getStudyId();
         String s = String.valueOf(studentHomework.getStHwscore());
         int score = num;
-        if(s != "null" || s != "0"){ //null인 경우 nullpointer
+        if(!"null".equals(s)){
             score += studentHomework.getStHwscore();
         }
         studentHomework.setStHwscore(score);
