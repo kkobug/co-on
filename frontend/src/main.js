@@ -9,8 +9,6 @@ import axios from './common/lib/axios'
 import i18n from './common/lib/i18n'
 import router from './common/lib/vue-router'
 import VCalendar from 'v-calendar'
-// import GAuth from 'vue-google-oauth2'
-import googleAuth from './authentification'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {

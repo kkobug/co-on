@@ -78,12 +78,14 @@
   width: 40%;
   border-radius: 15px;
 }
+.el-picker-panel__icon-btn{
+  background-color: black;
+}
 </style>
 
 <script>
 import { reactive, computed, ref} from 'vue'
 import { useStore } from 'vuex'
-
 export default {
   name: 'signup-dialog',
   props: {
@@ -92,7 +94,6 @@ export default {
       default: false
     }
   },
-
   setup(props, { emit }) {
     const store = useStore()
     const signupForm = ref(null)

@@ -84,7 +84,7 @@
 
           <el-col v-else :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
-              <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
+              <div style="padding: 14px; text-align:left;background-color:#FFD8E4; height:12vh">
                 <div>
                   <font-awesome-icon icon="chalkboard-teacher" />
                   <span style="font-weight:bold; color:#31111D; font-size:20px">
@@ -92,7 +92,7 @@
                   </span>
                 </div>
                 <div class="bottom">
-                  <p><el-button type="text" class="button">{{ this.soonlessontitle }}</el-button></p>
+                  <p>{{ this.soonlessontitle }}</p>
                   <p><time class="time">~{{ this.soonlessontime.substring(0, 16) }}</time></p>
                 </div>
               </div>

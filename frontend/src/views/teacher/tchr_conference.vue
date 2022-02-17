@@ -165,7 +165,6 @@ export default {
   },
 
   methods: {
-
     unLoadEvent: function (event) {
       if (this.canLeaveSite) return;
 
@@ -296,8 +295,12 @@ export default {
 			this.subscribers = [];
 			this.OV = undefined;
 			window.removeEventListener('beforeunload', this.leaveSession);
+      const MenuItems = this.$store.getters['root/getMenus']
+      let keys = Object.keys(MenuItems)
+      this.$store.commit('root/changeClassName', "")
+      this.$store.commit('root/changeClassId', 0)
       this.$router.push({
-        name: 'Tchr_main',
+        name: keys[0]
       })
 		},
 		updateMainVideoStreamManager (stream) {
@@ -574,8 +577,7 @@ export default {
   border-radius: 5px;
   padding: 8px;
   color: #000000;
-  width: auto;
-  max-width: 95%;
+  width: 100%;
 }
 
 .text {

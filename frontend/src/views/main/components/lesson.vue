@@ -608,8 +608,7 @@ input {
   border-radius: 5px;
   padding: 8px;
   color: #000000;
-  width: auto;
-  max-width: 95%;
+  width: 100%;
 }
 .text {
   word-break: break-all;

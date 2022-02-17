@@ -128,9 +128,4 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
-
-router.afterEach((to) => {
-  console.log(to.fullPath)
-})
-
 export default router

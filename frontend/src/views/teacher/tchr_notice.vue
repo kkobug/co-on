@@ -31,7 +31,7 @@
             </el-col>
             <el-col :span="2" class ="li-item filebar"  style="padding:10px;" v-else>
             </el-col>
-            <el-col :span="4" class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</el-col>
+            <el-col :span="4" class ="li-time li-item" style="height:auto">{{ntice.noticePosted.substring(0, 10)}}</el-col>
             <el-col :span="1">
               <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
             </el-col>
