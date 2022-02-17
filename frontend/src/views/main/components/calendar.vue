@@ -121,7 +121,7 @@
             <div style="margin-bottom: 4vh; margin-top: 0.5vh; border-radius: 10px; box-shadow: 0px 4px 10px 2px #C0C4CC; background-color:#F5FDFF;">
               <canvas id="myChart" style="padding-top: 10px; padding-bottom: 20px"></canvas>
               <div v-if="this.tchrOrNot">
-                <h4 style="margin-top: 2px; padding-bottom: 15px;">출제한 과제 비율</h4>
+                <h4 style="margin-top: 2px; padding-bottom: 15px;">출제한 과제</h4>
               </div>
               <div v-else>
                 <h4 style="margin-top: 2px; padding-bottom: 15px;">Todo Homework</h4>
@@ -131,10 +131,12 @@
               <el-progress type="dashboard" :percentage="this.percentageHW" style="padding-top: 10px; margin-top: 3%">
                 <template #default="{ percentage }">
                   <span class="percentage-value">{{ percentage }}%</span>
-                  <span class="percentage-label">과제 제출률</span>
+                  <span v-if="this.tchrOrNot" class="percentage-label">이 달의 과제 제출률</span>
+                  <span v-else class="percentage-label">과제 제출률</span>
                 </template>
               </el-progress>
-              <h4 style="margin-top: 2px; padding-bottom: 15px;">제출한 과제: {{ this.doneHW }}  /  미제출 과제: {{ this.notyetHW }}</h4>
+              <h4 style="margin-top: 2px; padding-bottom: 15px;">제출: {{ this.doneHW }}  /  미제출: {{ this.notyetHW }}</h4>
+
             </div>
           </el-col>
         </el-row>
@@ -321,18 +323,33 @@ export default {
       })
     },
     getProgress(){
-      this.$store.dispatch('root/requestRateHW')
-      .then(result => {
-        this.beforeDeadHW = result.data[0]
-        this.afterDeadHW = result.data[1]
-        this.notyetHW = result.data[2]
-        this.doneHW = result.data[3]
-        if (this.beforeDeadHW + this.afterDeadHW == 0) {
-          this.percentageHW = 0
-        } else {
-          this.percentageHW = Math.floor(100 * this.doneHW / (this.beforeDeadHW + this.afterDeadHW))
-        }
-      })
+      if(this.tchrOrNot){
+        this.$store.dispatch('root/requestRateHW2')
+        .then(result => {
+          this.beforeDeadHW = result.data[0][3]
+          this.afterDeadHW = result.data[0][2]
+          this.notyetHW = result.data[0][1]
+          this.doneHW = result.data[0][0]
+          if (this.beforeDeadHW + this.afterDeadHW == 0) {
+            this.percentageHW = 0
+          } else {
+            this.percentageHW = Math.floor(100 * this.doneHW / (this.beforeDeadHW + this.afterDeadHW))
+          }
+        })
+      }else{
+        this.$store.dispatch('root/requestRateHW')
+        .then(result => {
+          this.beforeDeadHW = result.data[0]
+          this.afterDeadHW = result.data[1]
+          this.notyetHW = result.data[2]
+          this.doneHW = result.data[3]
+          if (this.beforeDeadHW + this.afterDeadHW == 0) {
+            this.percentageHW = 0
+          } else {
+            this.percentageHW = Math.floor(100 * this.doneHW / (this.beforeDeadHW + this.afterDeadHW))
+          }
+        })
+      }
     },
     getMyTchr(){
       this.$store.dispatch('root/requestGetClass')
