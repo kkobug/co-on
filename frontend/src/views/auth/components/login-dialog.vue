@@ -33,7 +33,6 @@
 .login-dialog .el-dialog__footer {
   margin-left: 0 calc(50% - 100px);
   padding-top: 0;
-  /* display: inline-block; */
   display: inline-block;
 }
 .login-dialog .dialog-footer .el-button {
@@ -58,13 +57,10 @@
   height: 45px;
   border-radius: 15px;
 }
-
-
 </style>
 <script>
-import { reactive, computed, ref, onMounted } from 'vue'
+import { reactive, computed, ref} from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 
 export default {
   name: 'login-dialog',
@@ -77,16 +73,8 @@ export default {
   },
 
   setup(props, { emit }) {
-    const router = useRouter()
     const store = useStore()
-    // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const loginForm = ref(null)
-    // const checkTchr = ref(1)
-    /*
-      // Element UI Validator
-      // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
-      //
-    */
     const state = reactive({
       form: {
         id: '',
@@ -104,13 +92,7 @@ export default {
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
     })
-
-    onMounted(() => {
-      // console.log(loginForm.value)
-    })
-
     const clickStLogin = function () {
-      // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       loginForm.value.validate((valid) => {
         if (valid) {
           store.dispatch('root/requestStLogin', { st_id: state.form.id, st_password: state.form.password })
@@ -123,16 +105,14 @@ export default {
             emit('login')
           })
           .catch(function (err) {
-            alert(err)
+            alert('아이디/비밀번호를 확인하세요')
           })
         } else {
           alert('아이디/비밀번호를 확인하세요')
         }
       });
     }
-
     const clickTchrLogin = function () {
-      // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       loginForm.value.validate((valid) => {
         if (valid) {
           store.dispatch('root/requestTchrLogin', { tchr_id: state.form.id, tchr_password: state.form.password })
@@ -145,15 +125,13 @@ export default {
             emit('login')
           })
           .catch(function (err) {
-            alert(err)
+            alert('아이디/비밀번호를 확인하세요')
           })
         } else {
           alert('아이디/비밀번호를 확인하세요')
         }
       });
     }
-
-
     const clickSignup = () => {
       handleClose()
       emit('openSignupDialog')
@@ -166,7 +144,6 @@ export default {
       handleClose()
       emit('openChangePasswordDialog')
     }
-
     const handleClose = function () {
       state.form.id = ''
       state.form.password = ''
@@ -174,17 +151,6 @@ export default {
     }
 
     return { loginForm, state, clickStLogin, clickTchrLogin, clickSignup, handleClose, clickFindid, clickChangePassword }
-  },
-
-  methods: {
-    async handleLogin() {
-      try {
-        const GoogleUser = await this.$gAuth.signIn();
-        console.log(GoogleUser);
-      } catch (e) {
-        console.error(e);
-      }
-    },
   },
 }
 </script>
