@@ -116,7 +116,6 @@ export default {
           .then(function (result) {
             $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
             .then(res => {
-              console.log(res.data)
               state.form.id = res.data.tchrId
               state.form.email = res.data.tchrEmail
               state.form.contact = res.data.tchrConcat
@@ -142,7 +141,6 @@ export default {
           .then(function (result) {
             $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
             .then(res => {
-              console.log(res.data)
               state.form.id = res.data.stId
               state.form.email = res.data.stEmail
               state.form.contact = res.data.stConcat
@@ -198,9 +196,7 @@ export default {
       var filesArr = Array.prototype.slice.call(files)[0]
       var profileImg = new FormData(document.querySelector('#profileForm'))
       if (store.state.root.whetherTchr) {
-        console.log(state.form.id)
         profileImg.append('tchrId', state.form.id)
-        console.log(filesArr)
         profileImg.append('tchrProfFile', filesArr)
         store.dispatch('root/requestUpdateTchrProfImg', profileImg)
       } else {
@@ -214,11 +210,9 @@ export default {
       // 페이지 진입시 불리는 훅
     onMounted (() => {
       store.commit('root/setMenuActiveMenuName', 'history')
-      console.log(store.state.root.userid, store.state.root.whetherTchr)
       if (store.state.root.whetherTchr) {
         $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
         .then(res => {
-          console.log(res.data)
           state.form.id = res.data.tchrId
           state.form.email = res.data.tchrEmail
           state.form.contact = res.data.tchrConcat
@@ -233,12 +227,10 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err.data)
         })
       } else {
         $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
         .then(res => {
-          console.log(res.data)
           state.form.id = res.data.stId
           state.form.email = res.data.stEmail
           state.form.contact = res.data.stConcat

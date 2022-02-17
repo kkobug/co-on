@@ -4,11 +4,11 @@
     <div id="join" v-if="!session">
       <div class="common-layout" style="margin-top: 3vh; padding:10px; " v-if="!session">
           <el-row :gutter="20" style="line-height: 60px; height: 5vh; font-size: 20px; font-weight: bold">
-            <el-col :span="3"><div class="grid-content ">과목명</div></el-col>
-            <el-col :span="3"><div class="grid-content ">교사</div></el-col>
+            <el-col :span="3"><div class="grid-content ">&ensp;&ensp;&ensp;과목명</div></el-col>
+            <el-col :span="3"><div class="grid-content ">&ensp;&ensp;교사</div></el-col>
             <el-col :span="3"><div class="grid-content ">마일리지</div></el-col>
             <el-col :span="7"><div class="grid-content ">수업설명</div></el-col>
-            <el-col :span="4"><div class="grid-content ">화상회의</div></el-col>
+            <el-col :span="4"><div class="grid-content ">수업시간</div></el-col>
           </el-row>
           <el-scrollbar height="80%;" >
             <el-main style="line-height: 70px">
@@ -18,9 +18,8 @@
                 <el-col :span="3"><div class="grid-content ">{{classitem[0].stPoint}}</div></el-col>
                 <el-col :span="7"><div class="grid-content ">{{classitem[0].studyroom.studyDesc}}</div></el-col>
                 <el-col v-if="classitem.length>2" :span="4">
-                  <div v-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 2" class="grid-content " >{{classitem[2].confStart.substr(0, 16)}} 부터</div>
+                  <div v-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 2" class="grid-content " >&ensp;&ensp;{{classitem[2].confStart.substr(10,6)}}~{{classitem[2].confEnd.substr(10,6)}}</div>
                   <div v-else-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 3" class="grid-content ">수업이 없습니다.</div>
-                  <div v-else class="grid-content ">{{classitem[2].confEnd.substr(0, 16)}}까지</div>
                 </el-col>
                 <el-col v-else :span="4">
                   <div>수업이 없습니다.</div>
@@ -253,11 +252,9 @@ export default {
             to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
             type: 'my-chat'             // The type of message (optional)
           }).then().catch(error => {
-              console.error(error);
           })
         })
         .catch(error =>{
-          console.error(error);
         });
       })
       this.textInput=''
@@ -274,16 +271,13 @@ export default {
                 publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
                   sessionScreen.unpublish(publisher);
                   this.shareOn=false;
-                  console.log('User pressed the "Stop sharing" button');
                 });
                 sessionScreen.publish(publisher);
             });
             publisher.once('accessDenied', (event) => {
-                console.warn('ScreenShare: Access Denied');
             });
         })
         .catch((error => {
-            console.warn('There was an error connecting to the session:', error.code, error.message);
         }));
       });
       this.shareOn=true;
@@ -323,15 +317,10 @@ export default {
 			});
 			// On every asynchronous exception...
 			this.session.on('exception', ({ exception }) => {
-				console.warn(exception);
 			});
-			// --- Connect to the session with a valid user token ---
-			// 'getToken' method is simulating what your server-side should do.
-			// 'token' parameter should be retrieved and returned by your own backend
 			this.getToken(this.mySessionId).then(token => {
 				this.session.connect(token, { clientData: this.userId })
 					.then(() => {
-						// --- Get your own camera stream with the desired properties ---
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 							videoSource: undefined, // The source of video. If undefined default webcam
@@ -348,15 +337,12 @@ export default {
 						this.session.publish(this.publisher);
 					})
 					.catch(error => {
-						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
 			window.addEventListener('beforeunload', this.leaveSession)
 		},
 		leaveSession () {
-			// --- Leave the session by calling 'disconnect' method over the Session object ---
 			if (this.session) this.session.disconnect();
-
 			this.session = undefined;
 			this.mainStreamManager = undefined;
 			this.publisher = undefined;
@@ -364,7 +350,6 @@ export default {
 			this.OV = undefined;
       this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass.confId})
       .then(result =>{
-        console.log('퇴실 완료')
       })
       .catch(function(err){
         alert(err)
@@ -379,8 +364,6 @@ export default {
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
-
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessions
 		createSession (sessionId) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -395,11 +378,9 @@ export default {
 					.then(response => response.data)
 					.then(data => resolve(data.id))
 					.catch(error => {
-            console.log(error)
 						if (error.response.status === 409) {
 							resolve(sessionId);
 						} else {
-							console.warn(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`);
 							if (window.confirm(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`)) {
 								location.assign(`${OPENVIDU_SERVER_URL}/accept-certificate`);
 							}
@@ -408,8 +389,6 @@ export default {
 					});
 			});
 		},
-
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessionsltsession_idgtconnection
 		createToken (sessionId) {
       this.tokenId=sessionId
 			return new Promise((resolve, reject) => {
@@ -557,7 +536,6 @@ export default {
     background-color: #f9fafc;
   }
 }
-// 메세지
 #chatContainer {
   position: fixed;
   z-index: 10;
@@ -567,7 +545,6 @@ export default {
 input {
   font-family: 'Ubuntu', sans-serif;
 }
-
 #chatToolbar {
   height: 30px;
   background-color: #3d3d3d;
@@ -580,13 +557,9 @@ input {
   border-top-right-radius: 6px;
   color: #ffffff;
 }
-
 #closeButton {
-  // position: absolute;
   right: 0;
-  // top: -5px;
 }
-
 #chatComponent {
   background-color: black;
   position: absolute;
@@ -597,7 +570,6 @@ input {
   bottom: 0;
   margin: auto;
   height: calc(100% - 30px);
-  // width: calc(100% + 30px);
   border-radius: 20px;
 }
 
@@ -607,7 +579,6 @@ input {
   height: calc(100% - 80px);
   overflow: auto;
 }
-
 .message {
   text-align: start;
   position: relative;
@@ -620,23 +591,18 @@ input {
   height: 60px;
   top: 15px;
 }
-
 .msg-detail {
   display: inline-block;
-  // background-color: #7ae2a9;
 }
-
 .msg-detail p {
   margin: 0;
   font-size: 15px;
 }
-
 .msg-info p {
   font-size: 0.8em;
   color: #000000;
   font-style: italic;
 }
-
 .msg-content {
   position: relative;
   margin-top: 5px;
@@ -646,35 +612,23 @@ input {
   width: auto;
   max-width: 95%;
 }
-
 .text {
   word-break: break-all;
 }
-
-/* Start message from other user */
-
 .message.left .msg-detail .msg-info {
   text-align: left;
 }
-
 .message.left .msg-detail {
   padding-left: 65px;
 }
-
 .message.left .user-img {
   left: -5px;
   border: 1px solid #f0f0f094;
 }
-
 .message.left .msg-detail .msg-content {
   background-color: #f0f0f0;
   float: left;
 }
-
-/* End message from other user */
-
-/* Start my messages */
-
 .message.right .msg-detail .msg-info {
   text-align: right;
 }
@@ -682,14 +636,10 @@ input {
   right: -5px;
   border: 1px solid #c8ffe8ab;
 }
-
 .message.right .msg-detail .msg-content {
   background-color: #c8ffe8;
   float: right;
 }
-
-/* End my messages */
-
 #messageInput {
   position: absolute;
   bottom: 0px;
@@ -719,27 +669,16 @@ input {
   margin: 20px;
   box-shadow: none !important;
   border:none;
-
-  // right: 10px;
-  // margin: auto;
 }
-// #sendButton mat-icon {
-//   margin-left: 3px !important;
-//   margin-bottom: 2px !important;
-// }
-
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-thumb {
   background-color: #6b6b6b;
 }
-
 .chatComponentLight ::-webkit-scrollbar-thumb {
   background-color: #eeeeee !important;
 }
-
 #sub {
   width: 20%;
   height: auto;
