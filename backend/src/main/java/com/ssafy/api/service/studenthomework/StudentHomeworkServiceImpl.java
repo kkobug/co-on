@@ -55,7 +55,6 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
         StudentHomework studenthomework = new StudentHomework();
         studenthomework.setStHwcontent(studentHomeworkRegisterPostReq.getStHwContent());
         studenthomework.setStHwposted(LocalDateTime.now());
-        studenthomeworkRepository.save(studenthomework);
         if (!studentHomeworkRegisterPostReq.getStHwFile().get(0).isEmpty()){
             List<MultipartFile> sthwFile = studentHomeworkRegisterPostReq.getStHwFile();
             for (MultipartFile multipartFile : sthwFile) {
@@ -103,7 +102,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
-    @CachePut(value = "findSubmittedHw",key = "#studentHomeworkRegisterPostReq.stId")
+    @CacheEvict(value = "findSubmittedHw")
     public StudentHomework updateStudentHomework(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) throws IOException{
         StudentHomework studenthomework = studenthomeworkRepositorySupport.findBystHwId(stHwId).get();
         studenthomework.setStHwId(StudentHomeworkUpdatePutReq.getStHwId());
@@ -111,8 +110,12 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
         studenthomework.setStHwposted(LocalDateTime.now());
         studenthomeworkRepository.save(studenthomework);
         studentHomeworkFileRepository.deleteStudentHomeworkFileByStHwId(stHwId);
+
+
+        System.out.println("file..................................."+StudentHomeworkUpdatePutReq.getStHwFile());
         if (!StudentHomeworkUpdatePutReq.getStHwFile().get(0).isEmpty()){
             List<MultipartFile> sthwFile = StudentHomeworkUpdatePutReq.getStHwFile();
+            System.out.println("if..........................");
             for (MultipartFile multipartFile : sthwFile) {
                 LocalDateTime now = LocalDateTime.now();
                 StudentHomeworkFile newFile = new StudentHomeworkFile();
