@@ -13,7 +13,7 @@
                 <el-input v-model="state.form.name" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item prop="id" label="아이디" >
-                <el-input v-model="state.form.id" autocomplete="off"></el-input>
+                <el-input v-model="state.form.id" :disabled="true" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item prop="passwordCheck" label="이메일" >
                 <el-input v-model="state.form.email" autocomplete="off"></el-input>

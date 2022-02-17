@@ -222,6 +222,7 @@ export default {
             studyId: store.state.root.curClassId,
             tchrId: store.state.root.userid})
         .then(res =>{
+          console.log(1111111111111111111111111111111111111111,res.data)
           if (res.data){
             if (new Date(res.data.confStart) <new Date()){
               if (new Date() < new Date(res.data.confEnd)){
