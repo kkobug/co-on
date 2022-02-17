@@ -224,6 +224,10 @@ export function requestRateHW ({ state }) {
   const url = `/homework/student/rate/${state.userid}`
   return $axios.get(url)
 }
+export function requestRateHW2 ({ state }) {
+  const url = `/homework/teacher/rate/${state.userid}`
+  return $axios.get(url)
+}
 export function requestaddsthw ({ state }, payload) {
   const url = `/studenthomework/create`
   let body = payload
