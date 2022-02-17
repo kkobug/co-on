@@ -68,15 +68,15 @@
             <div style="background-color:white; height:5vh;">
               <div style="margin-left:40px;display:flex;justify-content: space-between;" >
                 <div style="display: flex;align-items:center;">
-                  <div style="margin-right:10px;font-size:20px">
+                  <div style="margin-right:10px;font-size:15px">
                     <p>frontend: 이상엽 이승훈 정인수 /backend: 양지훈 김윤지 차상훈</p>
                   </div>
                 </div>
                 <div style="display:flex;align-items: end;">
-                  <img :src="require('@/assets/images/github.png')" style="width:30px; margin:5px">
-                  <img :src="require('@/assets/images/youtube.png')" style="width:30px; margin:5px">
-                  <img :src="require('@/assets/images/instagram.png')" style="width:30px; margin:5px">
-                  <img :src="require('@/assets/images/facebook.png')" style="width:30px; margin:5px">
+                  <a href="https://github.com/"><img :src="require('@/assets/images/github.png')" style="width:23px; margin:5px"></a>
+                  <a href="https://www.youtube.com/"><img :src="require('@/assets/images/youtube.png')" style="width:23px; margin:5px"></a>
+                  <a href="https://www.instagram.com/"><img :src="require('@/assets/images/instagram.png')" style="width:23px; margin:5px"></a>
+                  <a href="https://www.facebook.com/"><img :src="require('@/assets/images/facebook.png')" style="width:23px; margin:5px"></a>
                 </div>
               </div>
             </div>

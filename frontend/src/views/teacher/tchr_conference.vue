@@ -5,7 +5,6 @@
         <!-- video -->
         <el-col id="set_container" :span="24-this.chatOn">
           <div id="session-header">
-            <h1 id="session-title">{{ this.nowClass.confTitle }}</h1>
             <el-button circle v-if="micOn" id="button" @click="micControl" value="MICOFF" class="fa_button">
               <font-awesome-icon icon="microphone-slash" class="fa_icon" />
             </el-button>

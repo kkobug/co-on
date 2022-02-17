@@ -40,7 +40,6 @@
           </el-scrollbar>
       </div>
     </div>
-
     <!--세션 -->
 		<div id="session" v-if="session">
       <!-- video -->
