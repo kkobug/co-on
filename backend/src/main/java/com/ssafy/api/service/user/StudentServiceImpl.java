@@ -101,7 +101,7 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    @CacheEvict(value = "findById",key="#studentUpdatePutReq.stId")
+    @CacheEvict(value = "findById",key="#studentProfilePutReq.stId")
     public Student changeStudentProfile(StudentProfilePutReq studentProfilePutReq) throws IOException{
         Student student = studentRepositorySupport.findById(studentProfilePutReq.getStId());
 

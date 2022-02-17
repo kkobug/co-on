@@ -109,7 +109,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 
     @Override
     @CacheEvict(value = "hwDetail",key = "hwId")
-    public void deleteHomework(Integer hwId, String tchrId) {
+    public void deleteHomework(int hwId, String tchrId) {
         homeworkRepositorySupport.deleteHomeworkByHwId(hwId, tchrId);
     }
 
