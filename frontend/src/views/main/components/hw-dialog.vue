@@ -102,7 +102,12 @@ export default {
 
     const submit = function () {
       var stHwFormData = new FormData(document.querySelector('#stHwFile'))
-      stHwFormData.append('stHwId', state.iddata.studentHomeworks[0].stHwId)
+      for (var da of state.iddata.studentHomeworks){
+        if (da.stId == store.state.root.userid){
+          stHwFormData.append('stHwId', da.stHwId)
+          console.log(da.stHwId)
+        }
+      }
       stHwFormData.append('stHwContent', state.hwname)
       store.dispatch('root/requestUpdateSthw', stHwFormData)
       .then(function (result) {
