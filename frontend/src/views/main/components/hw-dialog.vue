@@ -103,12 +103,8 @@ export default {
     const submit = function () {
       var stHwFormData = new FormData(document.querySelector('#stHwFile'))
       stHwFormData.append('stHwId', state.iddata.studentHomeworks[0].stHwId)
-      stHwFormData.append('hwId', state.iddata.hwId)
       stHwFormData.append('stHwContent', state.hwname)
-      stHwFormData.append('stId', store.state.root.userid)
-      stHwFormData.append('studyId', state.iddata.studyId)
-      stHwFormData.append('tchrId', state.iddata.tchrId)
-      store.dispatch('root/requestaddsthw', stHwFormData)
+      store.dispatch('root/requestUpdateSthw', stHwFormData)
       .then(function (result) {
         alert('제출 성공')
         handleClose()

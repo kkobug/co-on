@@ -243,9 +243,9 @@ export function requestGetSthwdetail ({ state }, payload) {
   return $axios.get(url, body)
 }
 export function requestUpdateSthw ({ state }, payload) {
-  const url = `/studenthomework/modify/${payload}`
+  const url = `/studenthomework/modify/${payload.get('stHwId')}`
   let body = payload
-  return $axios.put(url, body)
+  return $axios.post(url, body)
 }
 export function requestGetDonesthw ({ state }, payload) {
   const url = `/studenthomework/student/list/${payload}`
