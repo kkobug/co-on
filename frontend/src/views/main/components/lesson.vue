@@ -231,14 +231,12 @@ export default {
     getClasses(){
       this.$store.dispatch('root/requeststLesson2', this.userId)
       .then(result =>{
-        console.log("1111111111111", result.data)
         this.classes=result.data
       })
       .catch(function(err){
         alert(err)
       })
     },
-
 
     sendMessage(){
       var message = this.textInput
@@ -297,10 +295,8 @@ export default {
       .catch(function(err){
         alert(err)
       })
-
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
-
 			// --- Init a session ---
 			this.session = this.OV.initSession();
 
@@ -311,13 +307,11 @@ export default {
           creationTime : new Date(event.from.creationTime)
         })
       });
-
 			// On every new Stream received...
 			this.session.on('streamCreated', ({ stream }) => {
 				const subscriber = this.session.subscribe(stream);
 				this.subscribers.push(subscriber);
 			});
-
 			// On every Stream destroyed...
 			this.session.on('streamDestroyed', ({ stream }) => {
 				const index = this.subscribers.indexOf(stream.streamManager, 0);
@@ -325,22 +319,17 @@ export default {
 					this.subscribers.splice(index, 1);
 				}
 			});
-
 			// On every asynchronous exception...
 			this.session.on('exception', ({ exception }) => {
 				console.warn(exception);
 			});
-
 			// --- Connect to the session with a valid user token ---
-
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
 			this.getToken(this.mySessionId).then(token => {
 				this.session.connect(token, { clientData: this.userId })
 					.then(() => {
-
 						// --- Get your own camera stream with the desired properties ---
-
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 							videoSource: undefined, // The source of video. If undefined default webcam
@@ -351,19 +340,15 @@ export default {
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false       	// Whether to mirror your local video or not
 						});
-
 						this.mainStreamManager = publisher;
 						this.publisher = publisher;
-
 						// --- Publish your stream ---
-
 						this.session.publish(this.publisher);
 					})
 					.catch(error => {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
-
 			window.addEventListener('beforeunload', this.leaveSession)
 		},
 		leaveSession () {

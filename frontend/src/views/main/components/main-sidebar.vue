@@ -29,7 +29,7 @@
           </el-container>
 
           <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
-            <font-awesome-icon v-if="index==0" icon="home" style="font-size:20px"/>&nbsp;
+            <font-awesome-icon v-if="index==0" icon="home" style="font-size:30px"/>&nbsp;
             <span>{{ item.title }}</span>
           </el-menu-item>
           <div v-if="whetherTchr">
@@ -211,9 +211,8 @@ export default {
     }
     const getClass = function(){
       store.dispatch('root/requestGetTchrClass', {
-            tchrId: store.state.root.userid})
+          tchrId: store.state.root.userid})
         .then(res =>{
-          console.log(res.data, "++++++++++++++++++")
           store.state.root.classList = res.data
           state.tchr_scha = res.data
         })
@@ -231,7 +230,6 @@ export default {
             }
           }else {
             state.conference=''
-            console.log('화상 없음')
           }
         })
     }
@@ -253,7 +251,6 @@ export default {
           getConference()
         })
         .catch(err => {
-          console.log(err)
         })
       } else {
         $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )

@@ -28,7 +28,6 @@
           </div >
 
           <div v-else-if="item===2" class="container">
-
             <div style="height:96vh; display: flex;
               justify-content: center;
               align-items:center ;
@@ -60,26 +59,17 @@
               <img :src="require('@/assets/images/conference.png')" style="height:30vh;margin:10px; box-shadow: 12px 12px 2px 1px rgba(0, 0, 255,.2)">
             </div>
           </div>
+
           <div v-else-if="item==4">
-            <div style="height:76vh; flex-direction: column" class="container bg_img">
+            <div style="height:91vh; flex-direction: column" class="container bg_img">
               <div style="font-size:30px;margin-bottom:55px;font-weight:bold;color:white;">이제 시작해볼까요?</div>
               <el-button class="btn" round plain><div style="padding:5px;font-family: 'Poppins', sans-serif;" @click="clickLogin">Start Co-on</div></el-button>
             </div>
-            <div style="background-color:white; height:20vh;">
+            <div style="background-color:white; height:5vh;">
               <div style="margin-left:40px;display:flex;justify-content: space-between;" >
-                <div>
-                  <div style="font-size:20px;margin-top:10px;margin-bottom:10px;font-weight:bold">만든이</div>
-                  <div style="display: flex;align-items:center;">
-                    <div style="margin-right:10px;font-size:20px">
-                      <p>팀장/backend: 양지훈</p>
-                      <p>backend: 김윤지</p>
-                      <p>backend: 차상훈</p>
-                    </div>
-                    <div style="margin-left:10px;font-size:20px">
-                      <p>frontend: 이상엽</p>
-                      <p>frontend: 이승훈</p>
-                      <p>frontend: 정인수</p>
-                    </div>
+                <div style="display: flex;align-items:center;">
+                  <div style="margin-right:10px;font-size:20px">
+                    <p>frontend: 이상엽 이승훈 정인수 /backend: 양지훈 김윤지 차상훈</p>
                   </div>
                 </div>
                 <div style="display:flex;align-items: end;">
@@ -173,9 +163,6 @@ input.img-button {
 }
 </style>
 <script>
-import { reactive } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 export default {
   name: 'Login',
   data() {
@@ -192,22 +179,17 @@ export default {
     document.removeEventListener('wheel', this.wheelEvents);
   },
   methods: {
-    // 위화감을 느끼지 않을 200ms 간격으로 scroll 데이터를 변경하는 예
     wheelEvents() {
       this.$refs.carousel.next()
     },
     btn_off() {
-      console.log(32312)
       this.btnEvent=true
     },
     btn_on() {
-      console.log(32312)
       this.btnEvent=false
     },
   },
   setup(props, { emit }) {
-    const store = useStore()
-    const router = useRouter()
     const clickLogin = () => {
       emit('openLoginDialog')
     }
