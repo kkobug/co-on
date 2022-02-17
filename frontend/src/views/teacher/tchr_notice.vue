@@ -8,11 +8,7 @@
     </div>
     <el-row :gutter="24" style="margin : 5px; margin-bottom : 10px;" class ="el-item el-item-bgcolor1">
       <el-col :span="4" class ="li-title li-item">제목</el-col>
-      <el-col :span="12" class ="li-lesson li-item">
-        <div>
-          <span>공지</span>
-        </div>
-      </el-col>
+      <el-col :span="12" class ="li-lesson li-item"><div><span>공지</span></div></el-col>
       <el-col :span="2" class ="li-item filebar">파일</el-col>
       <el-col :span="3" class ="li-time li-item">공지일</el-col>
       <el-col :span="3" class ="li-time li-item">관리</el-col>
@@ -54,10 +50,8 @@
 
 <script>
 import ModalView from "./notice_modal"
-import { reactive, computed, ref, onMounted } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import $axios from 'axios'
 
 export default {
   name: 'Tchr_notice',
@@ -65,7 +59,6 @@ export default {
     ModalView,
   },
   setup() {
-    const router = useRouter()
     const store = useStore()
     const state = reactive({
       isupdate : false,
@@ -78,7 +71,6 @@ export default {
             studyId: store.state.root.curClassId})
         .then(res =>{
           store.state.root.TchrNoticeList = res.data
-          console.log("get data", store.state.root.TchrNoticeList)
         })
     }
     const updatenotice = function(idx){
