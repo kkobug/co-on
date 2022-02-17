@@ -37,9 +37,19 @@
               <font-awesome-icon icon="users" class="fa_icon"/>
             </el-button>
           </div>
-          <div id="sub-container" class="center_setting">
-            <user-video id="sub-video" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-            <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+          <div v-if="this.mainStreamManager">
+            <el-scrollbar style="height:auto">
+              <div style="display:flex">
+                <user-video id="sub-video" class="scrollbar-demo-item" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+                <user-video id="sub-video" class="scrollbar-demo-item" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+              </div>
+            </el-scrollbar>
+          </div>
+          <div v-else>
+            <div id="sub-container" class="center_setting">
+              <user-video id="sub-video" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+              <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+            </div>
           </div>
           <div class="center_setting">
             <div id="main-container">
@@ -394,6 +404,14 @@ export default {
 }
 </script>
 <style lang="scss">
+.scrollbar-demo-item {
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+}
 .fa_button{
   height: 100%;
 }
@@ -411,26 +429,12 @@ export default {
   width:100vw;
   height:100vh;
 }
-#session-header {
-  // height: auto;
-}
-#sub-container {
-  // width: 20% !important;
-  // width: 15% ;
-  // height: auto;
-}
 #main-container {
   width: 65%;
-  // width: calc(36%*1920/1080) ;
-  // height: 36%;
 }
 #sub-video {
   width: 15% !important;
   // height: auto;
-}
-#main-video{
-  // height: 100%;
-  // width: 50% ;
 }
 .common-layout {
   .el-header,
