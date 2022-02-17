@@ -30,7 +30,6 @@ import Calendar from './components/calendar.vue'
 export default {
   name: 'Main',
   components: {
-    // MainHeader,
     MainSidebar,
     MainFooter,
     Calendar,

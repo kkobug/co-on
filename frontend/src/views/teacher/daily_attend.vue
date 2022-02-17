@@ -47,9 +47,8 @@
   </div>
 </template>
 <script>
-import { reactive, computed, onMounted } from 'vue'
+import { reactive,} from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 
 import Tchr_nav from './tchr_nav.vue'
 import StartVideoDialog from './startvideo-dialog.vue'
@@ -57,7 +56,6 @@ import StartVideoDialog from './startvideo-dialog.vue'
 export default {
   name: 'daily_attend',
   setup() {
-    const router = useRouter()
     const store = useStore()
     const state = reactive({
       nodata: true,
@@ -99,14 +97,12 @@ export default {
 ],
     })
     const getConfAttData = function(){
-      console.log("현재시간:", state.studyDate)
       store.dispatch("root/requestConfAttData",{
         studyId : parseInt(store.state.root.curClassId),
         tchrId : store.state.root.userid,
         targetDate: String(state.studyDate)
       })
       .then(res =>{
-        console.log(res.data)
         state.STTimeRecord = res.data
       })
     }
@@ -145,7 +141,6 @@ export default {
       }
     }
     const start = function(){
-      console.log("열림")
       state.videoDialogOpen= true
     }
     const end = function(){

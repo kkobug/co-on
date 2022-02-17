@@ -7,22 +7,18 @@
       </div>
     </div>
     <el-row :gutter="24" style="margin : 5px; margin-bottom : 10px;" class ="el-item el-item-bgcolor1">
-      <el-col :span="4" class ="li-title li-item">제목</el-col>
-      <el-col :span="12" class ="li-lesson li-item">
-        <div>
-          <span>공지</span>
-        </div>
-      </el-col>
-      <el-col :span="2" class ="li-item filebar">파일</el-col>
-      <el-col :span="3" class ="li-time li-item">공지일</el-col>
-      <el-col :span="3" class ="li-time li-item">관리</el-col>
+      <el-col :span="4" class ="li-item li-title" style="height:auto">제목</el-col>
+      <el-col :span="11" class ="li-item li-lesson" style="height:auto"><div><span>공지</span></div></el-col>
+      <el-col :span="2" class ="li-item filebar" style="height:auto">파일</el-col>
+      <el-col :span="4" class ="li-item" style="height:auto">공지일</el-col>
+      <el-col :span="3" class ="li-item" style="height:auto">관리</el-col>
     </el-row>
     <ModalView style="box-shadow: 3px 3px 3px 3px gray;  z-index:11;" v-bind:isupdate= state.isupdate v-bind:pdata = state.props_data v-if ="state.isVisible" @close-modal="closemodal"></ModalView>
     <el-scrollbar style="height:31vh;">
       <div v-if="state.notices.length >= 1" style="margin:0 20px;">
         <el-row :gutter="24" v-for = "(ntice, index) in state.notices" :key = ntice.id class ="el-item">
             <el-col :span="4" class ="li-title li-item">{{ntice.noticeTitle}}</el-col>
-            <el-col :span="12" class ="li-lesson li-item">{{ntice.noticeContent}}</el-col>
+            <el-col :span="11" class ="li-lesson li-item">{{ntice.noticeContent}}</el-col>
             <el-col :span="2" class ="li-item filebar"  style="padding:10px;" v-if="ntice.noticeFile.length">
               <span><font-awesome-icon icon="file-download" /></span>
               <ul>
@@ -35,7 +31,7 @@
             </el-col>
             <el-col :span="2" class ="li-item filebar"  style="padding:10px;" v-else>
             </el-col>
-            <el-col :span="3" class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</el-col>
+            <el-col :span="4" class ="li-time li-item">{{ntice.noticePosted.substring(0, 10)}}</el-col>
             <el-col :span="1">
               <el-button type="text" class="li-item" @click="updatenotice(index)">수정</el-button>
             </el-col>
@@ -54,10 +50,8 @@
 
 <script>
 import ModalView from "./notice_modal"
-import { reactive, computed, ref, onMounted } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import $axios from 'axios'
 
 export default {
   name: 'Tchr_notice',
@@ -65,7 +59,6 @@ export default {
     ModalView,
   },
   setup() {
-    const router = useRouter()
     const store = useStore()
     const state = reactive({
       isupdate : false,
@@ -78,7 +71,6 @@ export default {
             studyId: store.state.root.curClassId})
         .then(res =>{
           store.state.root.TchrNoticeList = res.data
-          console.log("get data", store.state.root.TchrNoticeList)
         })
     }
     const updatenotice = function(idx){
@@ -135,7 +127,9 @@ export default {
     box-shadow: 1px 1px 1px 1px #C0C4CC;
   }
   .li-item{
+    height: 60px;
     padding: 5px;
+    overflow: hidden;
   }
   .sub_btn{
     padding: 5px;

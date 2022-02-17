@@ -173,7 +173,6 @@ export default {
     const onOpenHwDialog=function(item){
       state.props_hw = item
       state.hwDialogOpen = true
-      console.log("열림", state.props_hw)
     }
     const onCloseHwDialog=function(){
       state.hwDialogOpen = false
@@ -209,7 +208,6 @@ export default {
         stId : store.state.root.userid
       })
       .then(function(result){
-        console.log("rhkwp", result.data)
         state.hw=result.data
       })
       .catch(function(err){
@@ -220,7 +218,6 @@ export default {
         stId : store.state.root.userid
       })
       .then(function(result){
-        console.log(result.data)
         state.notices=result.data
       })
       .catch(function(err){

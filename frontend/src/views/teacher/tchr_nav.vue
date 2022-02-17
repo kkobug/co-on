@@ -20,9 +20,6 @@
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-
-
-
 export default {
   name: 'Tchr_Lesson',
   setup(props, { emit }) {
@@ -67,7 +64,6 @@ export default {
 }
 .topnav{
   background-color: #545c64;
-  /* position: relative; */
   color: #fff;
   display: flex;
   list-style:none;
