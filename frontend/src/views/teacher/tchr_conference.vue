@@ -124,11 +124,9 @@ export default {
   components: {
 		UserVideo,
 	},
-
   emits: [
     'click'
   ],
-
 	data () {
 		return {
 			OV: undefined,
@@ -228,7 +226,7 @@ export default {
 
 		joinSession (classitem) {
       this.nowClass=classitem
-      this.mySessionId=classitem.tchrId+classitem.confId
+      this.mySessionId=classitem.confId+classitem.tchrId
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
 

@@ -45,7 +45,6 @@
 }
 .signup-dialog .el-form-item__content {
   margin-left: 0 !important;
-  float: right;
   width: 200px;
   display: inline-block;
 }
@@ -83,12 +82,11 @@
 </style>
 
 <script>
-import { reactive, computed, ref, onMounted } from 'vue'
+import { reactive, computed, ref} from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'signup-dialog',
-
   props: {
     open: {
       type: Boolean,
@@ -98,9 +96,7 @@ export default {
 
   setup(props, { emit }) {
     const store = useStore()
-    // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const signupForm = ref(null)
-
     let reg = /(?!^(\d+|[a-zA-Z]+|[~!@#$%^&*?]+)$)^[\w~!@#$%^&*?]{8,15}$/
     const checkPasswordPattern = function(rule, value, callback) {
       if (!reg.test(value)) {
@@ -139,11 +135,6 @@ export default {
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
     })
-
-    onMounted(() => {
-
-    })
-
     const clickStSignup = function () {
       signupForm.value.validate((valid) => {
         if (valid) {
@@ -161,16 +152,14 @@ export default {
             handleClose()
           })
           .catch(function (err) {
-            alert(err)
+            alert('Form에 맞는 양식으로 작성해 주세요!')
           })
         } else {
           alert('Form에 맞는 양식으로 작성해 주세요!')
         }
       });
     }
-
     const clickTchrSignup = function () {
-      // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       signupForm.value.validate((valid) => {
         if (valid) {
           store.dispatch('root/requestTchrSignup', {
@@ -183,19 +172,17 @@ export default {
             tchr_birthday: state.form.birthday
           })
           .then(function (result) {
-            // alert('accessToken: ' + result.data.accessToken)
             alert('회원가입(교사) 성공')
             handleClose()
           })
           .catch(function (err) {
-            alert(err)
+            alert('Form에 맞는 양식으로 작성해 주세요!')
           })
         } else {
           alert('Form에 맞는 양식으로 작성해 주세요!')
         }
       });
     }
-
     const handleClose = function () {
       state.form.id = ''
       state.form.password = '',

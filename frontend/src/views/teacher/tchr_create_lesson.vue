@@ -88,7 +88,7 @@ export default {
   }
   .addbtn {
     width: 20%;
-    background-color: #6B3BE3;
+    background-color: #91847A;
     border-radius: 12px;
     text-align: center;
     color: #fff;
