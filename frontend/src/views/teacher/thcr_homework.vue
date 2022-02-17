@@ -10,13 +10,7 @@
       <el-col :span="4" class ="li-title li-item">교과명</el-col>
       <el-col :span="11" class ="li-lesson li-item">
         <div>
-          <span>과제</span>&nbsp;
-          <el-tooltip
-            content="제목을 클릭해 과제를 확인하세요"
-            raw-content
-          >
-            <span><font-awesome-icon icon="question-circle" /></span>
-          </el-tooltip>
+          <span>과제</span>
         </div>
       </el-col>
       <el-col :span="2" class ="li-item filebar">파일</el-col>
@@ -106,13 +100,17 @@ export default {
       state.props_data={}
     }
     const downHWFile = function(fileName, filePath, fileOriginName) {
-      const fileurl = `http://localhost:8080/api/v1/homework/download-file?fileName=${fileName}&filePath=${filePath}`
-      const anchor = document.createElement('a')
-      anchor.href = fileurl
-      anchor.download = fileOriginName
-      document.body.appendChild(anchor)
-      anchor.click()
-      document.body.removeChild(anchor)
+      store.dispatch('root/requestHomeworkFileDown', {
+        fileName: fileName
+      })
+      .then(res => {
+        const anchor = document.createElement('a')
+        anchor.href = res.data
+        anchor.download = fileOriginName
+        document.body.appendChild(anchor)
+        anchor.click()
+        document.body.removeChild(anchor)
+      })
     }
     const isWork = function(dead){
       let now = new Date();
@@ -174,11 +172,12 @@ export default {
   }
   .filebar>ul {
     display: none;
+    overflow: hidden;
     height: auto;
     position: absolute;
     z-index: 10;
     min-width: 150px;
-    background-color: #6B3BE3;
+    background-color: #CFBCAE;
     padding: 8px;
     color: #fff;
     border-radius: 10px;

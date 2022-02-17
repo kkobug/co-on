@@ -226,7 +226,10 @@ export default {
           state.form.birthday = res.data.tchrBirthday
           state.form.name = res.data.tchrName
           if (res.data.tchrProfName) {
-            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+            $axios.get(`/teacher/profile-img?fileName=${res.data.tchrProfName}`)
+            .then(res => {
+              state.imgpath = res.data
+            })
           }
         })
         .catch(err => {
@@ -243,7 +246,10 @@ export default {
           state.form.birthday = res.data.stBirthday
           state.form.name = res.data.stName
           if (res.data.stProfName) {
-            state.imgpath = require('@/assets/images/' + res.data.stProfPath + res.data.stProfName)
+            $axios.get(`/student/profile-img?fileName=${res.data.stProfName}`)
+            .then(res => {
+              state.imgpath = res.data
+            })
           }
         })
       }

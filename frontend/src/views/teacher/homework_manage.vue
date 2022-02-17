@@ -94,13 +94,17 @@ export default {
       })
     }
     const downStHomeworkFile = function(fileName, filePath, fileOriginName) {
-      const fileurl = `http://localhost:8080/api/v1/studenthomework/download-file?fileName=${fileName}&filePath=${filePath}`
-      const anchor = document.createElement('a')
-      anchor.href = fileurl
-      anchor.download = fileOriginName
-      document.body.appendChild(anchor)
-      anchor.click()
-      document.body.removeChild(anchor)
+      store.dispatch('root/requestStHomeworkFileDown', {
+        fileName: fileName
+      })
+      .then(res => {
+        const anchor = document.createElement('a')
+        anchor.href = res.data
+        anchor.download = fileOriginName
+        document.body.appendChild(anchor)
+        anchor.click()
+        document.body.removeChild(anchor)
+      })
     }
     const ent = function(changed, origin, id, idx){
       console.log(changed, origin, id)

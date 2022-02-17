@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -152,11 +153,12 @@ public class NoticeController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<byte[]> download(
+	public ResponseEntity<URL> download(
 			@ApiParam(value = "파일 정보", required = true)
 			@RequestParam
 					String fileName
 	) throws IOException {
-		return noticeService.loadAsResource(fileName);
+		URL url = noticeService.loadAsResource(fileName);
+		return ResponseEntity.status(200).body(url);
 	}
 }

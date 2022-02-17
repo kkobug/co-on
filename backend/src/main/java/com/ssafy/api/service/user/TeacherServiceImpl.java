@@ -1,9 +1,14 @@
 package com.ssafy.api.service.user;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.api.request.user.TeacherModifyPutReq;
 import com.ssafy.api.request.user.TeacherProfilePutReq;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +22,9 @@ import com.ssafy.db.repository.user.TeacherRepositorySupport;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service("teacherService")
@@ -29,6 +37,12 @@ public class TeacherServiceImpl implements TeacherService {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private AmazonS3 amazonS3;
+
+	@Value("${cloud.aws.s3.bucket}")
+	private String bucket;
 
 	@Override
 	public Teacher createTeacher(TeacherRegisterPostReq teacherRegisterInfo) {
@@ -92,39 +106,48 @@ public class TeacherServiceImpl implements TeacherService {
 
 	@Override
 	@CacheEvict(value = "findById",key = "#teacherProfilePutReq.tchrId")
-	public Teacher changeTeacherProfile(TeacherProfilePutReq teacherProfilePutReq) {
+	public Teacher changeTeacherProfile(TeacherProfilePutReq teacherProfilePutReq) throws IOException{
 		Teacher teacher = teacherRepositorySupport.findById(teacherProfilePutReq.getTchrId()).get();
 
 		if (teacherProfilePutReq.getTchrProfFile().get(0).isEmpty()) {
-			System.out.println("!!!!!!!!!!!!!!");
 			teacher.setTchrProfName(null);
 			teacher.setTchrProfPath(null);
 			teacher.setTchrOriginProfName(null);
 			teacherRepository.save(teacher);
 			return teacher;
 		} else {
-			System.out.println("????????????????");
 			String sourceFileName = teacherProfilePutReq.getTchrProfFile().get(0).getOriginalFilename();
-			File destinationProfile;
 			String destinationProfileName;
-			String teacherprofPath = "../frontend/src/assets/images/tchr_profiles/";
 
-			destinationProfileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
-			destinationProfile = new File(teacherprofPath + destinationProfileName);
+			String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMddHHmmssSSS"));
+			destinationProfileName = "Tprof" + today + sourceFileName;
 
-			destinationProfile.getParentFile().mkdirs();
-			try {
-				teacherProfilePutReq.getTchrProfFile().get(0).transferTo(destinationProfile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			ObjectMetadata objectMetadata = new ObjectMetadata();
+			objectMetadata.setContentLength(teacherProfilePutReq.getTchrProfFile().get(0).getSize());
+			objectMetadata.setContentType(teacherProfilePutReq.getTchrProfFile().get(0).getContentType());
+			amazonS3.putObject(new PutObjectRequest(
+					bucket,
+					destinationProfileName,
+					teacherProfilePutReq.getTchrProfFile().get(0).getInputStream(),
+					objectMetadata
+			).withCannedAcl(CannedAccessControlList.PublicRead));
+//			destinationProfile.getParentFile().mkdirs();
+//			try {
+//				teacherProfilePutReq.getTchrProfFile().get(0).transferTo(destinationProfile);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 
 			teacher.setTchrProfName(destinationProfileName);
 			teacher.setTchrOriginProfName(sourceFileName);
-			teacher.setTchrProfPath("tchr_profiles/");
 			teacherRepository.save(teacher);
 			return teacher;
 		}
+	}
+
+	@Override
+	public URL loadimg(String fileName){
+		return amazonS3.getUrl(bucket, fileName);
 	}
 }
 

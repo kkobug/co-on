@@ -7,16 +7,10 @@
       </div>
     </div>
     <el-row :gutter="24" style="margin : 5px; margin-bottom : 10px;" class ="el-item el-item-bgcolor1">
-      <el-col :span="4" class ="li-title li-item">교과명</el-col>
+      <el-col :span="4" class ="li-title li-item">제목</el-col>
       <el-col :span="12" class ="li-lesson li-item">
         <div>
-          <span>공지</span>&nbsp;
-          <el-tooltip
-            content="제목을 클릭해 공지를 확인하세요"
-            raw-content
-          >
-            <span><font-awesome-icon icon="question-circle" /></span>
-          </el-tooltip>
+          <span>공지</span>
         </div>
       </el-col>
       <el-col :span="2" class ="li-item filebar">파일</el-col>
@@ -101,13 +95,17 @@ export default {
         })
     }
     const downNoticeFile = function(fileName, filePath, fileOriginName) {
-      const fileurl = `http://localhost:8080/api/v1/notice/download-file?fileName=${fileName}&filePath=${filePath}`
-      const anchor = document.createElement('a')
-      anchor.href = fileurl
-      anchor.download = fileOriginName
-      document.body.appendChild(anchor)
-      anchor.click()
-      document.body.removeChild(anchor)
+      store.dispatch('root/requestNoticeFileDown', {
+        fileName: fileName
+      })
+      .then(res => {
+        const anchor = document.createElement('a')
+        anchor.href = res.data
+        anchor.download = fileOriginName
+        document.body.appendChild(anchor)
+        anchor.click()
+        document.body.removeChild(anchor)
+      })
     }
     const closemodal = function(){
       state.isVisible = false

@@ -26,6 +26,8 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -117,7 +119,7 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> teacherprof(
 			@ModelAttribute
 					TeacherProfilePutReq teacherProfilePutReq
-	) {
+	) throws IOException {
 		teacherService.changeTeacherProfile(teacherProfilePutReq);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -155,7 +157,7 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> studentprof(
 			@ModelAttribute
 					StudentProfilePutReq studentProfilePutReq
-	) {
+	) throws IOException {
 		studentService.changeStudentProfile(studentProfilePutReq);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -296,5 +298,39 @@ public class UserController {
 	public ResponseEntity<List<Object[]>> list(){
 		List<Object[]> list = teacherService.findstIdAndstName();
 		return ResponseEntity.status(200).body(list);
+	}
+
+	@GetMapping("/teacher/profile-img")
+	@ApiOperation(value = "프로필사진", notes = "<strong>프로필사진 정보</strong>조회")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<URL> loadtchrimg(
+			@ApiParam(value = "파일 정보", required = true)
+			@RequestParam
+					String fileName
+	) throws IOException {
+		URL url = teacherService.loadimg(fileName);
+		return ResponseEntity.status(200).body(url);
+	}
+
+	@GetMapping("/student/profile-img")
+	@ApiOperation(value = "프로필사진", notes = "<strong>프로필사진 정보</strong>조회")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<URL> loadstimg(
+			@ApiParam(value = "파일 정보", required = true)
+			@RequestParam
+					String fileName
+	) throws IOException {
+		URL url = studentService.loadimg(fileName);
+		return ResponseEntity.status(200).body(url);
 	}
 }

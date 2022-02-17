@@ -13,7 +13,7 @@
             :span="4"
             >
               <el-card :body-style="{ padding: '5px' }" style="border-radius:5px; width: 100%; position:relative; padding: 7px; margin-bottom : 2vh;">
-                <el-avatar :size="80" fit=cover :src="require('@/assets/images/' + o[9] + o[7])" v-if="o[7]"></el-avatar>
+                <el-avatar :size="80" fit=cover :src="state.profiles.o[0]" v-if="o[7]"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
                 <div style="padding: 14px">
                   <span>{{o[1]}}</span>
@@ -79,7 +79,8 @@ export default {
       testDate: new Date(),
       classtitle: computed(() => store.getters['root/getStudyName']),
       classId : computed(() => store.getters['root/getStudyId']),
-      id: store.state.root.userid
+      id: store.state.root.userid,
+      profiles: {},
     })
     const test = function () {
       let month = String(state.testDate.getUTCMonth()+1)
@@ -99,6 +100,16 @@ export default {
         state.students = res.data
         if(res.data.length){
           state.isdata=false
+          for (let i=0; i<res.data.length; i++) {
+            if (res.data[i][7]) {
+              store.dispatch("root/requestStProf", {
+                fileName: res.data[i][7],
+              })
+              .then(resp => {
+                state.profiles[res.data[i][0]] = resp
+              })
+            }
+          }
         }else{
           state.isdata=true
         }

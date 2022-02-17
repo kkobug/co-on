@@ -151,13 +151,17 @@ export default {
     })
     // 공지사항
     const downNoticeFile = function(fileName, filePath, fileOriginName) {
-      const fileurl = `http://localhost:8080/api/v1/notice/download-file?fileName=${fileName}&filePath=${filePath}`
-      const anchor = document.createElement('a')
-      anchor.href = fileurl
-      anchor.download = fileOriginName
-      document.body.appendChild(anchor)
-      anchor.click()
-      document.body.removeChild(anchor)
+      store.dispatch('root/requestNoticeFileDown', {
+        fileName: fileName
+      })
+      .then(res => {
+        const anchor = document.createElement('a')
+        anchor.href = res.data
+        anchor.download = fileOriginName
+        document.body.appendChild(anchor)
+        anchor.click()
+        document.body.removeChild(anchor)
+      })
     }
     // 과제
     const delStHw = function(hwid){
@@ -176,13 +180,17 @@ export default {
       state.props_hw={}
     }
     const downHWFile = function(fileName, filePath, fileOriginName) {
-      const fileurl = `http://localhost:8080/api/v1/homework/download-file?fileName=${fileName}&filePath=${filePath}`
-      const anchor = document.createElement('a')
-      anchor.href = fileurl
-      anchor.download = fileOriginName
-      document.body.appendChild(anchor)
-      anchor.click()
-      document.body.removeChild(anchor)
+      store.dispatch('root/requestHomeworkFileDown', {
+        fileName: fileName
+      })
+      .then(res => {
+        const anchor = document.createElement('a')
+        anchor.href = res.data
+        anchor.download = fileOriginName
+        document.body.appendChild(anchor)
+        anchor.click()
+        document.body.removeChild(anchor)
+      })
     }
     const isWork = function(dead){
       let now = new Date();

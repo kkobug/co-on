@@ -25,11 +25,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.service.RequestBody;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -68,41 +70,24 @@ public class NoticeServiceImpl implements NoticeService{
         if (!noticeRegisterPostReq.getNoticeFile().get(0).isEmpty()) {
             List<MultipartFile> noticeFile = noticeRegisterPostReq.getNoticeFile();
             for (MultipartFile multipartFile : noticeFile) {
+                LocalDateTime now = LocalDateTime.now();
                 NoticeFile newFile = new NoticeFile();
                 newFile.setNoticeId(notice.getNoticeId());
 
                 String sourceFileName = multipartFile.getOriginalFilename();
                 String destinationNoticeFileName;
 
-                LocalDateTime now = LocalDateTime.now();
-                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmss"));
+                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmssSSS"));
                 destinationNoticeFileName = "NT" + today + sourceFileName;
-
-                String noticePath = "temp";
-//                File destinationNoticeFile;
-//                destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
-//                destinationNoticeFile.getParentFile().mkdirs();
-//                multipartFile.transferTo(destinationNoticeFile);
-//                try {
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
 
                 ObjectMetadata objectMetadata = new ObjectMetadata();
                 objectMetadata.setContentLength(multipartFile.getSize());
                 objectMetadata.setContentType(multipartFile.getContentType());
                 amazonS3.putObject(new PutObjectRequest(bucket, destinationNoticeFileName, multipartFile.getInputStream(), objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
-//                try (InputStream inputStream = multipartFile.getInputStream()) {
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
 
                 newFile.setFileName(destinationNoticeFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(noticePath);
-
                 noticeFileRepository.save(newFile);
             }
         }
@@ -135,15 +120,16 @@ public class NoticeServiceImpl implements NoticeService{
         if (!noticeUpdatePutReq.getNoticeFile().get(0).isEmpty()) {
             List<MultipartFile> noticeFile = noticeUpdatePutReq.getNoticeFile();
             for (MultipartFile multipartFile : noticeFile) {
+                LocalDateTime now = LocalDateTime.now();
                 NoticeFile newFile = new NoticeFile();
                 newFile.setNoticeId(notice.getNoticeId());
 
                 String sourceFileName = multipartFile.getOriginalFilename();
                 String destinationNoticeFileName;
 
-                LocalDateTime now = LocalDateTime.now();
-                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmss"));
+                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmssSSS"));
                 destinationNoticeFileName = "NT" + today + sourceFileName;
+
                 ObjectMetadata objectMetadata = new ObjectMetadata();
                 objectMetadata.setContentLength(multipartFile.getSize());
                 objectMetadata.setContentType(multipartFile.getContentType());
@@ -174,17 +160,7 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public ResponseEntity<byte[]> loadAsResource(String fileName) throws IOException{
-        S3Object s3Object = amazonS3.getObject(new GetObjectRequest(bucket, fileName));
-        S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
-        byte[] bytes = IOUtils.toByteArray(s3ObjectInputStream);
-
-        String newFileName = URLEncoder.encode(fileName, "UTF-8");
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        httpHeaders.setContentLength(bytes.length);
-        httpHeaders.setContentDispositionFormData("attachment", newFileName);
-
-        return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
+    public URL loadAsResource(String fileName){
+        return amazonS3.getUrl(bucket, fileName);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -30,5 +31,7 @@ public interface NoticeService {
 	//공지사항 수정
 	Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) throws IOException;
 
-	ResponseEntity<byte[]> loadAsResource(String fileName) throws IOException;
+	URL loadAsResource(String fileName);
+
+//	ResponseEntity<byte[]> loadAsResource(String fileName) throws IOException;
 }

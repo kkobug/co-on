@@ -354,3 +354,22 @@ export function requestSoonLesson ({ state }, payload) {
   return $axios.get(url)
 }
 
+export function requestNoticeFileDown ({ state }, payload) {
+  const url = `/notice/download-file?fileName=${payload.fileName}`
+  return $axios.get(url)
+}
+
+export function requestHomeworkFileDown ({ state }, payload) {
+  const url = `/homework/download-file?fileName=${payload.fileName}`
+  return $axios.get(url)
+}
+
+export function requestStHomeworkFileDown ({ state }, payload) {
+  const url = `/studenthomework/download-file?fileName=${payload.fileName}`
+  return $axios.get(url)
+}
+
+export function requestStProf ({ state }, payload) {
+  const url = `/student/profile-img?fileName=${payload.fileName}`
+  return $axios.get(url)
+}
