@@ -80,9 +80,19 @@
               <font-awesome-icon icon="users" class="fa_icon"/>
             </el-button>
           </div>
-          <div id="sub-container" class="center_setting">
-            <user-video id="sub-video" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-            <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+          <div v-if="this.mainStreamManager">
+            <el-scrollbar style="height:auto">
+              <div style="display:flex">
+                <user-video id="sub-video" class="scrollbar-demo-item" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+                <user-video id="sub-video" class="scrollbar-demo-item" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+              </div>
+            </el-scrollbar>
+          </div>
+          <div v-else>
+            <div id="sub-container" class="center_setting">
+              <user-video id="sub-video" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+              <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+            </div>
           </div>
           <div class="center_setting">
             <div id="main-container">
@@ -336,7 +346,7 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: this.micOn,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: this.camOn,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480',  // The resolution of your video
+							resolution: '1920x1080',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false       	// Whether to mirror your local video or not
@@ -461,6 +471,14 @@ export default {
 }
 </script>
 <style lang="scss">
+.scrollbar-demo-item {
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+}
 .fa_button{
   height: 100%;
 }
