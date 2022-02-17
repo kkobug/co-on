@@ -80,9 +80,19 @@
               <font-awesome-icon icon="users" class="fa_icon"/>
             </el-button>
           </div>
-          <div id="sub-container" class="center_setting">
-            <user-video id="sub-video" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-            <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+          <div v-if="this.mainStreamManager">
+            <el-scrollbar style="height:auto">
+              <div style="display:flex">
+                <user-video id="sub-video" class="scrollbar-demo-item" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+                <user-video id="sub-video" class="scrollbar-demo-item" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+              </div>
+            </el-scrollbar>
+          </div>
+          <div v-else>
+            <div id="sub-container" class="center_setting">
+              <user-video id="sub-video" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+              <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+            </div>
           </div>
           <div class="center_setting">
             <div id="main-container">
@@ -128,7 +138,6 @@
             </div>
           </div>
         </el-col>
-
         <!-- chat -->
       </el-row>
     </div>
@@ -144,12 +153,10 @@ import { useRouter } from 'vue-router'
 import axios from 'axios';
 import { OpenVidu, StreamManager } from 'openvidu-browser';
 import UserVideo from '../../video/UserVideo.vue';
-
-
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = "https://i6e207.p.ssafy.io:4443";
+const OPENVIDU_SERVER_SECRET = "aemvLK7Xruld";
 
 export default {
   name: 'Lesson',
@@ -186,7 +193,6 @@ export default {
       textInput:'',
 		}
 	},
-
   setup () {
     const router = useRouter()
     const store = useStore()
@@ -218,6 +224,9 @@ export default {
       }else{
         return 2
       }
+    },
+    viewAll(){
+      this.mainStreamManager=undefined
     },
     getClasses(){
       this.$store.dispatch('root/requeststLesson2', this.userId)
@@ -337,7 +346,7 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: this.micOn,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: this.camOn,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480',  // The resolution of your video
+							resolution: '1920x1080',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false       	// Whether to mirror your local video or not
@@ -462,6 +471,14 @@ export default {
 }
 </script>
 <style lang="scss">
+.scrollbar-demo-item {
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+}
 .fa_button{
   height: 100%;
 }
@@ -479,14 +496,6 @@ export default {
   width:100vw;
   height:100vh;
 }
-#session-header {
-  // height: auto;
-}
-#sub-container {
-  // width: 20% !important;
-  // width: 15% ;
-  // height: auto;
-}
 .con-btn{
   cursor:pointer;
 }
@@ -498,10 +507,6 @@ export default {
 #sub-video {
   width: 15% !important;
   // height: auto;
-}
-#main-video{
-  // height: 100%;
-  // width: 50% ;
 }
 .common-layout {
   .el-header,
