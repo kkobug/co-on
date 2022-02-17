@@ -25,4 +25,10 @@ public class HomeworkFile {
 
     @Column(name= "file_path")
     String filePath;
+
+    @Column(name= "file_ext")
+    String fileExt;
+
+    @Column(name = "file_size")
+    String fileSize;
 }

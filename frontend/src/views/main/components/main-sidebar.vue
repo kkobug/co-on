@@ -1,17 +1,17 @@
 <template>
   <div style="height: 100%;">
     <el-row style="height: 100%">
-      <el-col :span="24" style="heght: 100%">
+      <el-col :span="24" style="height: 100%">
         <el-menu
           default-active="0"
           active-text-color="#ffd04b"
-          background-color="#4267D6"
+          background-color="#83B1C9"
           text-color="#fff"
-          style="height: 100%; position: fixed; border-color: #4267D6; width: 240px"
+          style="height: 100%; position: fixed; width: 241px;"
           class="el-menu-vertical-demo"
           @select="menuSelect">
           <el-container class="profile-card">
-            <el-card style="text-align: center; width: 220px; border: none; margin: 5px; background-color: #1B2A57; border-radius: 20px">
+            <el-card style="text-align: center; width: 220px; border: none; margin-top: 10px; background-color: #b2d1e4; border-radius: 20px">
               <p>
                 <el-avatar :size="80" fit=cover :src="state.imgpath" v-if="state.imgpath"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
@@ -21,7 +21,7 @@
               </div>
               <el-button
                 color="#626aef"
-                style="margin-top: 5px; background-color: #6B3BE3; color: white; border-color: #6B3BE3"
+                style="margin-top: 5px; background-color: #91847A; color: white; font-weight:bold; border-color: #91847A"
                 @click="goMypage"
                 >마이페이지
               </el-button>
@@ -29,7 +29,7 @@
           </el-container>
 
           <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
-            <font-awesome-icon v-if="index==0" icon="home" style="font-size:25px"/>&nbsp;
+            <font-awesome-icon v-if="index==0" icon="home" style="font-size:20px"/>&nbsp;
             <span>{{ item.title }}</span>
           </el-menu-item>
           <div v-if="whetherTchr">
@@ -48,7 +48,7 @@
             </el-menu-item>
           <ModalView class="li_zindex" v-if ="state.isVisible" @close-modal="closeModal"></ModalView>
           </div>
-          <el-menu-item class="mt-auto" style="bottom: 0; width: 240px; position : fixed" @click="logout">
+          <el-menu-item class="mt-auto" style="bottom: 0; width: 240px; position : fixed; border:none;" @click="logout">
             <font-awesome-icon icon="running" style="font-size:25px"/>&nbsp;
             <p>로그아웃</p>
           </el-menu-item>
@@ -144,6 +144,7 @@ export default {
     const whetherTchr = store.state.root.whetherTchr
 
     const state = reactive({
+      isOnAir:computed(() => store.getters['root/getStudyName']),
       isVisible: false,
       isteacher :false,
       tchr_scha: computed(() => store.getters['root/getStudy']),
@@ -174,15 +175,21 @@ export default {
       store.commit('root/setMenuActive', index)
       const MenuItems = store.getters['root/getMenus']
       let keys = Object.keys(MenuItems)
+      store.commit('root/changeClassName', "")
+      store.commit('root/changeClassId', 0)
       router.push({
         name: keys[index]
       })
+      getConference();
     }
 
     const goMypage = function(){
+      store.commit('root/changeClassName', "")
+      store.commit('root/changeClassId', 0)
       router.push({
         name: 'Mypage'
       })
+      getConference();
     }
 
     const logout = function(){
@@ -194,7 +201,7 @@ export default {
       router.push({
         name: 'Tchr_main',
       })
-      getConference()
+      getConference();
     }
     const MoveConference = function(){
       store.commit('root/changeTchrConference', state.conference)
@@ -206,6 +213,7 @@ export default {
       store.dispatch('root/requestGetTchrClass', {
             tchrId: store.state.root.userid})
         .then(res =>{
+          console.log(res.data, "++++++++++++++++++")
           store.state.root.classList = res.data
           state.tchr_scha = res.data
         })
@@ -236,7 +244,10 @@ export default {
         $axios.get(`/teacher/${store.state.root.userid}?tchrId=` + store.state.root.userid )
         .then(res => {
           if (res.data.tchrProfName) {
-            state.imgpath = require('@/assets/images/' + res.data.tchrProfPath + res.data.tchrProfName)
+            $axios.get(`/teacher/profile-img?fileName=${res.data.tchrProfName}`)
+            .then(res => {
+              state.imgpath = res.data
+            })
           }
           getClass();
           getConference()
@@ -248,7 +259,10 @@ export default {
         $axios.get(`/student/${store.state.root.userid}?stId=` + store.state.root.userid )
         .then(res => {
           if (res.data.stProfName) {
-            state.imgpath = require('@/assets/images/' + res.data.stProfPath + res.data.stProfName)
+            $axios.get(`/student/profile-img?fileName=${res.data.stProfName}`)
+            .then(res => {
+              state.imgpath = res.data
+            })
           }
           getClass();
         })

@@ -4,9 +4,12 @@ html, body {
   background-repeat : no-repeat;
   background-size : cover;
   background-image: url("background.jpg");
+  /* background-color: #F5FDFF; */
   background-attachment: fixed;
 }
-
+@media screen and (max-width : 800px) {
+  body{display: none;}
+}
 body {
   margin: 0;
   font-family: SpoqaHanSansNeo;

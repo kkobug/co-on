@@ -7,6 +7,8 @@ import com.ssafy.api.request.user.TeacherProfilePutReq;
 import com.ssafy.db.entity.Student;
 import com.ssafy.db.entity.Teacher;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -20,5 +22,8 @@ public interface StudentService {
 	Student changeStudentPassword(Student student);
 	String findstIdBystName(String stName);
 
-	Student changeStudentProfile(StudentProfilePutReq studentProfilePutReq);
+	Student changeStudentProfile(StudentProfilePutReq studentProfilePutReq) throws IOException;
+
+	URL loadimg(String fileName);
+
 }

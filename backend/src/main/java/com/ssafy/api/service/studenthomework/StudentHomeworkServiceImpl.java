@@ -1,5 +1,9 @@
 package com.ssafy.api.service.studenthomework;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.api.request.studenthomework.StudentHomeworkPutReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkRegisterPostReq;
 import com.ssafy.api.request.studenthomework.StudentHomeworkUpdatePutReq;
@@ -10,6 +14,7 @@ import com.ssafy.db.repository.studenthomework.StudentHomeworkRepository;
 import com.ssafy.db.repository.studenthomework.StudentHomeworkRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,9 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service("StudentHomeworkService")
@@ -37,76 +44,41 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     @Autowired
     StudentHomeworkRepositorySupport studenthomeworkRepositorySupport;
 
+    @Autowired
+    private AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
     @Override
-    @CachePut(value = "findSubmittedHw",key = "#studentHomeworkRegisterPostReq.stId")
-    public StudentHomework createStudentHomework(StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq) {
-        StudentHomework studenthomework = studenthomeworkRepositorySupport.findByIds(studentHomeworkRegisterPostReq.getStId(), studentHomeworkRegisterPostReq.getHwId());
+    public StudentHomework createStudentHomework(StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq) throws IOException{
+        StudentHomework studenthomework = new StudentHomework();
         studenthomework.setStHwcontent(studentHomeworkRegisterPostReq.getStHwContent());
         studenthomework.setStHwposted(LocalDateTime.now());
-        System.out.println("!!!!!!!!!!!!!createStu service in!!!!!!!!!!!!!");
-        System.out.println(studentHomeworkRegisterPostReq.getStHwId());
-        studentHomeworkFileRepository.deleteStudentHomeworkFileByStHwId(studentHomeworkRegisterPostReq.getStHwId());
+        studenthomeworkRepository.save(studenthomework);
         if (!studentHomeworkRegisterPostReq.getStHwFile().get(0).isEmpty()){
             List<MultipartFile> sthwFile = studentHomeworkRegisterPostReq.getStHwFile();
             for (MultipartFile multipartFile : sthwFile) {
+                LocalDateTime now = LocalDateTime.now();
                 StudentHomeworkFile newFile = new StudentHomeworkFile();
                 newFile.setStHwId(studenthomework.getStHwId());
 
                 String sourceFileName = multipartFile.getOriginalFilename();
-                File destinationNoticeFile;
-                String destinationNoticeFileName;
-                String noticePath = "./assets/homework/student_homework/";
-
-                destinationNoticeFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
-                destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
-
-                destinationNoticeFile.getParentFile().mkdirs();
-                try {
-                    multipartFile.transferTo(destinationNoticeFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                newFile.setFileName(destinationNoticeFileName);
-                newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(noticePath);
-                studentHomeworkFileRepository.save(newFile);
-
-            }
-        }
-        studenthomeworkRepository.save(studenthomework);
-        return studenthomework;
-    }
-
-    @Override
-    @CacheEvict(value = "findSubmittedHw", key = "stId")
-    public void deleteStudentHomework(Integer hwId, String stId) {
-        studenthomeworkRepositorySupport.deleteStudentHomeworkByStHwIdAndStId(hwId, stId);
-    }
-
-//    @Override
-//    public StudentHomework updateStudentHomework(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) {
-//        StudentHomework studenthomework = new StudentHomework();
-//        studenthomework.setStHwId(StudentHomeworkUpdatePutReq.getStHwId());
-//        studenthomework.setStHwcontent(StudentHomeworkUpdatePutReq.getStHwContent());
-//        studenthomework.setStHwposted(LocalDateTime.now());
-//        if (!Objects.equals(StudentHomeworkUpdatePutReq.getStHwId(), stHwId)) return studenthomework;
-//        studenthomeworkRepository.save(studenthomework);
-//        studentHomeworkFileRepository.deleteStudentHomeworkFileByStHwId(stHwId);
-//        if (!StudentHomeworkUpdatePutReq.getStHwFile().get(0).isEmpty()){
-//            List<MultipartFile> sthwFile = StudentHomeworkUpdatePutReq.getStHwFile();
-//            for (MultipartFile multipartFile : sthwFile) {
-//                StudentHomeworkFile newFile = new StudentHomeworkFile();
-//                newFile.setStHwId(studenthomework.getStHwId());
-//
-//                String sourceFileName = multipartFile.getOriginalFilename();
 //                File destinationNoticeFile;
-//                String destinationNoticeFileName;
-//                String noticePath = "D:/";
-//                LocalDateTime nowtime = LocalDateTime.now();
-//
-//                destinationNoticeFileName = nowtime + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
-//                destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
+                String destinationStHomeworkFileName;
+//                String noticePath = "./assets/homework/student_homework/";
+
+                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmssSSS"));
+                destinationStHomeworkFileName = "STHW" + today + sourceFileName;
+
+                ObjectMetadata objectMetadata = new ObjectMetadata();
+                objectMetadata.setContentLength(multipartFile.getSize());
+                objectMetadata.setContentType(multipartFile.getContentType());
+                amazonS3.putObject(new PutObjectRequest(bucket, destinationStHomeworkFileName, multipartFile.getInputStream(), objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+
+//                destinationStHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+//                destinationNoticeFile = new File(noticePath + destinationStHomeworkFileName);
 //
 //                destinationNoticeFile.getParentFile().mkdirs();
 //                try {
@@ -114,16 +86,70 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
 //                } catch (IOException e) {
 //                    e.printStackTrace();
 //                }
-//
-//                newFile.setFileName(destinationNoticeFileName);
-//                newFile.setFileOriginName(sourceFileName);
+
+                newFile.setFileName(destinationStHomeworkFileName);
+                newFile.setFileOriginName(sourceFileName);
 //                newFile.setFilePath(noticePath);
-//                studentHomeworkFileRepository.save(newFile);
+                studentHomeworkFileRepository.save(newFile);
+            }
+        }
+        return studenthomework;
+    }
+
+    @Override
+    @CacheEvict(value = "findSubmittedHw", key = "#stId")
+    public void deleteStudentHomework(Integer hwId, String stId) {
+        studenthomeworkRepositorySupport.deleteStudentHomeworkByStHwIdAndStId(hwId, stId);
+    }
+
+    @Override
+    @CachePut(value = "findSubmittedHw",key = "#studentHomeworkRegisterPostReq.stId")
+    public StudentHomework updateStudentHomework(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) throws IOException{
+        StudentHomework studenthomework = studenthomeworkRepositorySupport.findBystHwId(stHwId).get();
+        studenthomework.setStHwId(StudentHomeworkUpdatePutReq.getStHwId());
+        studenthomework.setStHwcontent(StudentHomeworkUpdatePutReq.getStHwContent());
+        studenthomework.setStHwposted(LocalDateTime.now());
+        studenthomeworkRepository.save(studenthomework);
+        studentHomeworkFileRepository.deleteStudentHomeworkFileByStHwId(stHwId);
+        if (!StudentHomeworkUpdatePutReq.getStHwFile().get(0).isEmpty()){
+            List<MultipartFile> sthwFile = StudentHomeworkUpdatePutReq.getStHwFile();
+            for (MultipartFile multipartFile : sthwFile) {
+                LocalDateTime now = LocalDateTime.now();
+                StudentHomeworkFile newFile = new StudentHomeworkFile();
+                newFile.setStHwId(studenthomework.getStHwId());
+
+                String sourceFileName = multipartFile.getOriginalFilename();
+//                File destinationNoticeFile;
+                String destinationStHomeworkFileName;
+//                String noticePath = "./assets/homework/student_homework/";
+
+                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmssSSS"));
+                destinationStHomeworkFileName = "STHW" + today + sourceFileName;
+
+                ObjectMetadata objectMetadata = new ObjectMetadata();
+                objectMetadata.setContentLength(multipartFile.getSize());
+                objectMetadata.setContentType(multipartFile.getContentType());
+                amazonS3.putObject(new PutObjectRequest(bucket, destinationStHomeworkFileName, multipartFile.getInputStream(), objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+
+//                destinationStHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
+//                destinationNoticeFile = new File(noticePath + destinationStHomeworkFileName);
 //
-//            }
-//        }
-//        return studenthomework;
-//    }
+//                destinationNoticeFile.getParentFile().mkdirs();
+//                try {
+//                    multipartFile.transferTo(destinationNoticeFile);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+
+                newFile.setFileName(destinationStHomeworkFileName);
+                newFile.setFileOriginName(sourceFileName);
+//                newFile.setFilePath(noticePath);
+                studentHomeworkFileRepository.save(newFile);
+            }
+        }
+        return studenthomework;
+    }
 
     //과제에 포함된 학생 과제 조회
     @Override
@@ -149,6 +175,7 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
     }
 
     @Override
+    @CacheEvict(value = "findStudent")
     public void updateScore(StudentHomeworkPutReq studentHomeworkPutReq) {
         int stHwId = studentHomeworkPutReq.getStHwId();
         int stScore = studentHomeworkPutReq.getStHwscore();
@@ -164,24 +191,11 @@ public class StudentHomeworkServiceImpl implements StudentHomeworkService{
         studentHomework.setStHwscore(score);
         studenthomeworkRepository.save(studentHomework);
         String st = studentHomework.getStId();
-        studenthomeworkRepository.updatePoint(num, studyId,st);
+        studenthomeworkRepositorySupport.updatePoint(num, studyId,st);
     }
 
     @Override
-    public Resource loadAsResource(String fileName, String filePath) {
-        try {
-            System.out.println("loadAsResource run!!!!!!!!!!!!!!");
-            Path file = Paths.get(filePath).resolve(fileName);
-            System.out.println(file);
-            System.out.println("file run!!!!!!!!!!!!!!");
-            System.out.println(file.toUri());
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public URL loadAsResource(String fileName){
+        return amazonS3.getUrl(bucket, fileName);
     }
 }

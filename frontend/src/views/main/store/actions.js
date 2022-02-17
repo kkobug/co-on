@@ -343,4 +343,33 @@ export function requestPlusMil ({ state }, payload) {
   let body = payload
   return $axios.put(url, body)
 }
+export function requeststLesson2 ({ state }, payload) {
+  console.log('requestPlusMil', payload)
+  const url = `/studyRoomDetail/student/studyroomdetailinfo/${payload}`
+  return $axios.get(url)
+}
+export function requestSoonLesson ({ state }, payload) {
+  console.log('requestSoonLesson', payload)
+  const url = `/conference/impendingconferenceinfo?tchrId=${payload.tchrId}`
+  return $axios.get(url)
+}
 
+export function requestNoticeFileDown ({ state }, payload) {
+  const url = `/notice/download-file?fileName=${payload.fileName}`
+  return $axios.get(url)
+}
+
+export function requestHomeworkFileDown ({ state }, payload) {
+  const url = `/homework/download-file?fileName=${payload.fileName}`
+  return $axios.get(url)
+}
+
+export function requestStHomeworkFileDown ({ state }, payload) {
+  const url = `/studenthomework/download-file?fileName=${payload.fileName}`
+  return $axios.get(url)
+}
+
+export function requestStProf ({ state }, payload) {
+  const url = `/student/profile-img?fileName=${payload.fileName}`
+  return $axios.get(url)
+}

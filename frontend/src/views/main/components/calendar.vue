@@ -8,147 +8,137 @@
         <!-- 대시보드 -->
         <el-row id="dashboard">
           <el-col :span="6">
-            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashHw">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left; background-color:#EADDFF;">
-                <font-awesome-icon icon="clock" style="font-size:20px"/>
-                <span style="font-weight:bold; color:#21005D; font-size:20px">
-                  곧 마감인 과제
-                </span>
-                <div class="bottom">
-                  <el-button type="text" class="button" @click="drawerHW = true">{{this.dashHw.title}}</el-button>
-                  <div>
-                    <time class="time">{{ this.dashHw.end.substring(0, 10) }}</time>
-                  </div>
+                <div>
+                  <font-awesome-icon icon="clock" style="font-size:20px"/>
+                  <span style="font-weight:bold; color:#21005D; font-size:20px">
+                    곧 마감인 과제
+                  </span>
                 </div>
-              </div>
-              <el-drawer v-model="drawerHW" direction="ttb" size="50%">
-                <template #title>
-                  <h1 style="font-size: 25px; color: black">{{this.dashHw.title}}</h1>
-                </template>
-                <h4>수업: {{ this.dashHw.className }}</h4>
-                <h4>내용: {{ this.dashHw.content }}</h4>
-                <h4>제출 기한: {{ this.dashHw.end }}</h4>
-                <h4>첨부파일: {{ this.dashHw.fileName }}</h4>
-              </el-drawer>
-            </el-card>
-
-            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
-              <div style="padding: 14px; text-align:left; background-color:#EADDFF">
-                <font-awesome-icon icon="clock" />
-                <span style="font-weight:bold; color:#21005D; font-size:20px">
-                  곧 마감인 과제
-                </span>
-                <div class="bottom">
+                <div class="bottom" v-if="this.dashHw">
+                  <p>{{ this.dashHw.className }} / {{this.dashHw.title}}</p>
+                  <p><time class="time">{{ this.dashHw.end.substring(0, 10) }}</time></p>
+                </div>
+                <div class="bottom" v-else>
                   <p>등록된 과제가 없습니다</p>
                 </div>
               </div>
             </el-card>
-
           </el-col>
+
+
           <el-col :span="6">
-            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-if="this.dashNotice">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-                <font-awesome-icon icon="bell" />
-                <span style="font-weight:bold; color:#273420; font-size:20px">
-                  최신 공지
-                </span>
-                <div class="bottom">
-                  <el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button>
-                  <div>
-                    <time class="time">{{ this.dashNotice.noticePosted }}</time>
-                  </div>
+                <div>
+                  <font-awesome-icon icon="bell" />
+                  <span style="font-weight:bold; color:#273420; font-size:20px">
+                    최신 공지
+                  </span>
                 </div>
-              </div>
-              <el-drawer v-model="drawer" direction="ttb" size="50%">
-                <template #title>
-                  <h1 style="font-size: 25px; color: black">{{this.dashNotice.noticeTitle}}</h1>
-                </template>
-                <h4>내용: {{ this.dashNotice.noticeContent }}</h4>
-                <h4>제출 기한: {{ this.dashNotice.noticePosted }}</h4>
-                <h4>첨부 파일: {{ this.dashNotice.noticeFile[0].fileOriginName }}</h4>
-              </el-drawer>
-            </el-card>
-            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always" v-else>
-              <div style="padding: 14px; text-align:left;background-color:#D9E7CB">
-                <font-awesome-icon icon="bell" />
-                <span style="font-weight:bold; color:#273420; font-size:20px">
-                  최신 공지
-                </span>
-                <div class="bottom">
+                <div class="bottom" v-if="this.dashNotice">
+                  <p><el-button type="text" class="button" @click="drawer = true">{{this.dashNotice.noticeTitle}}</el-button></p>
+                  <p><time class="time">{{ this.dashNotice.noticePosted }}</time></p>
+                </div>
+                <div class="bottom" v-else>
                   <p>등록된 공지가 없습니다</p>
                 </div>
               </div>
             </el-card>
           </el-col>
+
+
           <el-col :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#F9DEDC" class="">
-                <font-awesome-icon icon="calendar-check" />
-                <span style="font-weight:bold; color:#410E08; font-size:20px">
-                  출석 확인
-                </span>
-                <div class="bottom">
-                  <el-button type="text" class="button">Operating</el-button>
-                  <div>
-                    <time class="time">{{ this.today }}</time>
-                  </div>
+                <div>
+                  <font-awesome-icon icon="calendar-check" />
+                  <span style="font-weight:bold; color:#410E08; font-size:20px">
+                    최근 종료된 과제
+                  </span>
+                </div>
+                <div class="bottom"  v-if="this.endhw">
+                  <p><el-button type="text" class="button">{{this.endhw.title}}</el-button></p>
+                  <p><time class="time">{{ this.endhw.end.substring(0, 10) }}</time></p>
+                </div>
+                <div class="bottom" v-else>
+                  <p>기한이 지난 과제가 없습니다</p>
                 </div>
               </div>
             </el-card>
           </el-col>
-          <el-col :span="6">
+
+          <el-col v-if="!this.tchrOrNot" :span="6">
             <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
               <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
-                <font-awesome-icon icon="chalkboard-teacher" />
-                <span style="font-weight:bold; color:#31111D; font-size:20px">
-                  진행중인 수업
-                </span>
+                <div>
+                  <font-awesome-icon icon="chalkboard-teacher" />
+                  <span style="font-weight:bold; color:#31111D; font-size:20px">
+                    마일리지
+                  </span>
+                </div>
                 <div class="bottom">
-                  <el-button type="text" class="button">{{ this.progresstitle }}</el-button>
-                  <div>
-                    <time class="time">~{{ this.progressend.substring(0, 16) }}</time>
-                  </div>
+                  <p><el-button type="text" class="button">{{ this.mil_title }}</el-button></p>
+                  <p><time class="time">{{ this.max_mil }}</time></p>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+
+          <el-col v-else :span="6">
+            <el-card :body-style="{ padding: '0px' }" id="dash" shadow="always">
+              <div style="padding: 14px; text-align:left;background-color:#FFD8E4" class="">
+                <div>
+                  <font-awesome-icon icon="chalkboard-teacher" />
+                  <span style="font-weight:bold; color:#31111D; font-size:20px">
+                    진행중인 수업
+                  </span>
+                </div>
+                <div class="bottom">
+                  <p><el-button type="text" class="button">{{ this.soonlessontitle }}</el-button></p>
+                  <p><time class="time">~{{ this.soonlessontime.substring(0, 16) }}</time></p>
                 </div>
               </div>
             </el-card>
           </el-col>
         </el-row>
-        <el-row >
+        <el-row style="padding-bottom: 15px">
         <!-- 달력 -->
-          <el-col :span="17" style="margin-left: 1vh">
-            <div class="calendar" style="margin-left: 10px">
-              <vue-cal
-                class="vuecal--blue-theme cal"
-                :selected-date="this.today"
-                :disable-views="['years', 'year','week','day']"
-                active-view="month"
-                events-on-month-view="short"
-                overlaps-per-time-step
-                :events="events"
-                style="height: auto;border-radius:20px;overflow:hidden;"
-              >
-              </vue-cal>
-            </div>
+          <el-col :span="18" style="padding:12px;">
+              <div class="calendar" style="margin-left: 10px; border-radius:20px; box-shadow: 0px 4px 10px 2px #C0C4CC;">
+                <vue-cal
+                  class="vuecal--blue-theme cal"
+                  :selected-date="this.today"
+                  :disable-views="['years', 'year','week','day']"
+                  active-view="month"
+                  events-on-month-view="short"
+                  overlaps-per-time-step
+                  :events="events"
+                  style="height: auto; overflow: hidden; border-radius:20px;"
+                >
+                </vue-cal>
+              </div>
           </el-col>
         <!-- 원형 그래프 -->
-          <el-col :span="6" style="margin-left: 2vh">
-            <div style="background-color: #1B2A57; margin-bottom: 4vh; margin-top: 1vh; text-color: #fff; border-radius: 10px;">
+          <el-col :span="6" style="padding:12px;">
+            <div style="margin-bottom: 4vh; margin-top: 0.5vh; border-radius: 10px; box-shadow: 0px 4px 10px 2px #C0C4CC; background-color:#F5FDFF;">
               <canvas id="myChart" style="padding-top: 10px; padding-bottom: 20px"></canvas>
-              <div v-if="this.tchrOrNot" style="color: #fff">
+              <div v-if="this.tchrOrNot">
                 <h4 style="margin-top: 2px; padding-bottom: 15px;">출제한 과제 비율</h4>
               </div>
-              <div v-else style="color: #fff">
+              <div v-else>
                 <h4 style="margin-top: 2px; padding-bottom: 15px;">Todo Homework</h4>
               </div>
             </div>
-            <div style="background-color: #1B2A57; border-radius: 10px;">
+            <div style="margin-bottom: 4vh; border-radius: 10px; box-shadow: 0px 4px 10px 2px #C0C4CC; background-color:#F5FDFF;">
               <el-progress type="dashboard" :percentage="this.percentageHW" style="padding-top: 10px; margin-top: 3%">
                 <template #default="{ percentage }">
                   <span class="percentage-value">{{ percentage }}%</span>
                   <span class="percentage-label">과제 제출률</span>
                 </template>
               </el-progress>
-              <h4 style="margin-top: 2px; padding-bottom: 15px; color: #fff">제출한 과제: {{ this.doneHW }}  /  미제출 과제: {{ this.notyetHW }}</h4>
+              <h4 style="margin-top: 2px; padding-bottom: 15px;">제출한 과제: {{ this.doneHW }}  /  미제출 과제: {{ this.notyetHW }}</h4>
             </div>
           </el-col>
         </el-row>
@@ -184,14 +174,20 @@ export default {
     myTchr: [],
     inProgressClass: [],
     progresstitle: '',
-    progressend: ''
+    progressend: '',
+    endhw:undefined,
+    max_mil:0,
+    mil_title:undefined,
+    soonlessontitle:"예정된 수업이 없습니다.",
+    soonlessontime:"",
+
  }),
   methods: {
     getNotice(){
       this.$store.dispatch('root/requestGetSTNotice',this.userId)
       .then(result =>{
         this.notices=result.data
-        this.dashNotice=this.notices[this.notices.length-1]
+        this.dashNotice=this.notices[0]
         if (result.data.length >= 1) {
             this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
         }
@@ -201,7 +197,7 @@ export default {
       this.$store.dispatch('root/requestGetTchrNotice')
       .then(result => {
         this.notices=result.data
-        this.dashNotice=this.notices[this.notices.length-1]
+        this.dashNotice=this.notices[0]
         if (result.data.length >= 1) {
             this.dashNotice.noticePosted=this.dashNotice.noticePosted.substring(0,10)
         }
@@ -212,10 +208,37 @@ export default {
       .then(result =>{
         console.log("ddddata:", result.data)
         for (var j = 0; j < result.data.length; j++) {
+          console.log(this.events)
           if (this.events.length >= 3) {
             console.log("there is no impending HW")
           }
           var hw = result.data[j];
+          if (this.isWork(hw.hwDeadline)){
+            this.dashHw = {
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: ["a","b","c","d","e","f","g"][j%3],
+                split: 2
+              }
+          }else if(!this.isWork(hw.hwDeadline) && !this.endhw){
+            console.log("inin")
+            this.endhw = {
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: ["a","b","c","d","e","f","g"][j%3],
+                split: 2
+              }
+          }
           if (hw.hwDeadline > this.today) {
             if (hw.hwFile.length){
               this.events.push({
@@ -244,18 +267,44 @@ export default {
             }
           }
         }
-        this.dashHw=this.events[0]
       })
-      console.log('과제:', this.dashHw)
     },
     getTchtHW(){
       this.$store.dispatch('root/requestTchrListHomework')
       .then(result =>{
+        console.log("data", result.data)
         for (var j = 0; j < result.data.length; j++) {
-          if (this.events.length >= 3) {
-            break
-          }
+
           var hw = result.data[j];
+          if (this.isWork(hw.hwDeadline)){
+            this.dashHw = {
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: ["a","b","c","d","e","f","g"][j%3],
+                split: 2
+              }
+          }else if(!this.endhw){
+            console.log("inin")
+            this.endhw = {
+                start: hw.hwPosted.substring(0, 16), //"2022-02-08 14:00"
+                end: hw.hwDeadline.substring(0,16),
+                title: hw.hwTitle,
+                className :hw.studyroom.studyName,
+                content: hw.hwContent,
+                teacher: hw.tchrId,
+                fileName: "none",
+                class: ["a","b","c","d","e","f","g"][j%3],
+                split: 2
+              }
+          }
+          // if (this.events.length >= 3) {
+          //   continue
+          // }
           if (hw.hwDeadline > this.today) {
             if (hw.hwFile.length){
               this.events.push({
@@ -284,9 +333,8 @@ export default {
             }
           }
         }
-        this.dashHw=this.events[0]
+        console.log('선생님 과제:', this.dashHw)
       })
-      console.log('선생님 과제:', this.events)
     },
     getProgress(){
       this.$store.dispatch('root/requestRateHW')
@@ -345,9 +393,47 @@ export default {
         }
       })
     },
+    isWork(dead){
+      let now = new Date();
+      var year = now.getFullYear();
+      var month = ('0' + (now.getMonth() + 1)).slice(-2);
+      var day = ('0' + now.getDate()).slice(-2);
+      var hour = now.getHours();
+      var minute = now.getMinutes();
+      var dateString = year + '-' + month  + '-' + day +" "+hour+":"+minute;
+
+      console.log(dead.substring(0, 16), dateString, dead.substring(0, 16) >= dateString)
+      return dead.substring(0, 16) >= dateString
+    },
+    getmil(){
+      const localvuex=JSON.parse(localStorage.getItem('vuex'))
+      this.$store.dispatch("root/requeststLesson2", localvuex["root"]["userid"])
+      .then(res=>{
+        for (var ele of res.data) {
+          if (ele[0].stPoint >= this.max_mil){
+            this.max_mil = ele[0].stPoint
+            this.mil_title = ele[0].studyroom.studyName
+          }
+        }
+      })
+    },
+    getsoon(){
+      const localvuex=JSON.parse(localStorage.getItem('vuex'))
+      this.$store.dispatch("root/requestSoonLesson", {tchrId : localvuex["root"]["userid"]})
+      .then(res=>{
+        console.log("dlrjek!", res.data)
+        if(res.data.length>0){
+          console.log(res.data)
+          this.soonlessontitle=res.data[0][0].studyName
+          this.soonlessontime=res.data[0][1].confStart
+        }
+      })
+    },
 
   },
   created:function(){
+    this.getmil()
+    this.getsoon()
     const localvuex=JSON.parse(localStorage.getItem('vuex'))
     this.userId = localvuex["root"]["userid"]
     this.tchrOrNot = localvuex["root"]["whetherTchr"]
@@ -373,12 +459,11 @@ export default {
     console.log(this.inProgressClass, '진행중인 수업 테스트')
   },
   mounted() {
+      this.getmil()
       // cdn chart.js
       let recaptchaScript = document.createElement('script')
       recaptchaScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
       document.head.appendChild(recaptchaScript)
-
-      this.dashHw=this.events[0]
 
       let hwlabels = []
       let hwdata = []
@@ -495,7 +580,6 @@ p{
 }
 .cal{
   background-color: white;
-
 }
 
 #dashboard{
@@ -513,9 +597,17 @@ p{
   height: 80px;
 }
 
+.vuecal--blue-theme .vuecal__cell-events-count, .vuecal--blue-theme .vuecal__menu {
+    background-color: #83B1C9;
+}
+
+.vuecal--blue-theme .vuecal__title-bar {
+    background-color: #b2d1e4;
+}
+
 .vuecal--month-view .vuecal__cell-content {
   justify-content: flex-start;
-  height: calc(100%+80px);
+  /* height: calc(100%+80px); */
   align-items: flex-end;
 }
 
@@ -530,6 +622,7 @@ p{
 .vuecal__cell{
   height:94px !important;
   overflow: hidden;
+
 }
 .vuecal__event.a {
    background-color: rgb(3, 126, 243, 0.8);
@@ -570,14 +663,12 @@ p{
   display: block;
   margin-top: 10px;
   font-size: 28px;
-  color: #fff;
 }
 
 .percentage-label {
   display: block;
   margin-top: 10px;
   font-size: 12px;
-  color: #fff;
 }
 </style>
 

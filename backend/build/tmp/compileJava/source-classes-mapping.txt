@@ -30,6 +30,8 @@ com/ssafy/api/service/studenthomework/StudentHomeworkService.java
  com.ssafy.api.service.studenthomework.StudentHomeworkService
 com/ssafy/api/service/studyroom/StudyRoomServiceImpl.java
  com.ssafy.api.service.studyroom.StudyRoomServiceImpl
+com/ssafy/config/AwsS3Config.java
+ com.ssafy.config.AwsS3Config
 com/ssafy/GroupCallApplication.java
  com.ssafy.GroupCallApplication
 com/ssafy/api/request/user/StudentRegisterPostReq.java
@@ -70,6 +72,8 @@ com/ssafy/db/repository/notice/NoticeRepository.java
  com.ssafy.db.repository.notice.NoticeRepository
 com/ssafy/api/request/user/TeacherFindIdPostReq.java
  com.ssafy.api.request.user.TeacherFindIdPostReq
+com/ssafy/db/repository/conference/AttendanceRepositorySupport.java
+ com.ssafy.db.repository.conference.AttendanceRepositorySupport
 com/ssafy/api/request/user/StudentProfilePutReq.java
  com.ssafy.api.request.user.StudentProfilePutReq
 com/ssafy/api/request/studenthomework/StudentHomeworkUpdatePutReq.java

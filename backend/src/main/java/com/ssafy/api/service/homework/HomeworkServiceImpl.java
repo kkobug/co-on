@@ -1,5 +1,9 @@
 package com.ssafy.api.service.homework;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.api.request.homework.HomeworkModifyReq;
 import com.ssafy.api.request.homework.HomeworkRegisterPostReq;
 import com.ssafy.db.entity.Homework;
@@ -11,6 +15,7 @@ import com.ssafy.db.repository.homework.HomeworkRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -22,9 +27,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,8 +46,14 @@ public class HomeworkServiceImpl implements HomeworkService{
     @Autowired
     HomeworkRepositorySupport homeworkRepositorySupport;
 
+    @Autowired
+    private AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
     @Override
-    public Homework createHomework(HomeworkRegisterPostReq homeworkRegisterPostReq) {
+    public Homework createHomework(HomeworkRegisterPostReq homeworkRegisterPostReq) throws IOException{
         Homework homework = new Homework();
         String[] dl = homeworkRegisterPostReq.getHwDeadline().split("[/ :]");
         LocalDateTime deadline = LocalDateTime.of(
@@ -59,27 +72,35 @@ public class HomeworkServiceImpl implements HomeworkService{
         if (!homeworkRegisterPostReq.getHwFile().get(0).isEmpty()) {
             List<MultipartFile> hwFile = homeworkRegisterPostReq.getHwFile();
             for (MultipartFile multipartFile : hwFile) {
+                LocalDateTime now = LocalDateTime.now();
                 HomeworkFile newFile = new HomeworkFile();
                 newFile.setHwId(homework.getHwId());
 
                 String sourceFileName = multipartFile.getOriginalFilename();
-                File destinationHomeworkFile;
+//                File destinationHomeworkFile;
                 String destinationHomeworkFileName;
-                String homeworkPath = "./assets/homework/teacher_homework/";
+//                String homeworkPath = "./assets/homework/teacher_homework/";
+//
+                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmssSSS"));
+                destinationHomeworkFileName = "HW" + today + sourceFileName;
 
-                destinationHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
-                destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
-
-                destinationHomeworkFile.getParentFile().mkdirs();
-                try {
-                    multipartFile.transferTo(destinationHomeworkFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                ObjectMetadata objectMetadata = new ObjectMetadata();
+                objectMetadata.setContentLength(multipartFile.getSize());
+                objectMetadata.setContentType(multipartFile.getContentType());
+                amazonS3.putObject(new PutObjectRequest(bucket, destinationHomeworkFileName, multipartFile.getInputStream(), objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+//                destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
+//
+//                destinationHomeworkFile.getParentFile().mkdirs();
+//                try {
+//                    multipartFile.transferTo(destinationHomeworkFile);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
                 newFile.setFileName(destinationHomeworkFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(homeworkPath);
+//                newFile.setFilePath(homeworkPath);
                 homeworkFileRepository.save(newFile);
             }
         }
@@ -96,7 +117,7 @@ public class HomeworkServiceImpl implements HomeworkService{
     @Override
     @Cacheable(value = "HwRateBystId",key = "#stId")
     public int[] countBystId(String stId) {
-        List<Homework> homeworks = homeworkRepository.findHomeworkBystId(stId);
+        List<Homework> homeworks = homeworkRepositorySupport.findHomeworkBystId(stId);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime deadline;
         int[] ret = new int[6]; // 마감전, 마감후, 제출전, 제출후, 채점전, 채점후
@@ -152,7 +173,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 
     @Override
     public List<Homework> findHomeworkBystId(String stId) {
-        return homeworkRepository.findHomeworkBystId(stId);
+        return homeworkRepositorySupport.findHomeworkBystId(stId);
     }
 
     //수업에 포함된 과제 조회
@@ -176,7 +197,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 
     @Override
     @CachePut(value = "hwDetail",key = "#homeworkModifyReq.hwId")
-    public Homework updateHomework(HomeworkModifyReq homeworkModifyReq) {
+    public Homework updateHomework(HomeworkModifyReq homeworkModifyReq) throws IOException{
         Homework homework = homeworkRepositorySupport.findHomeworkByHwId(homeworkModifyReq.getHwId()).get();
         String[] dl = homeworkModifyReq.getHwDeadline().split("[/ :]");
         LocalDateTime deadline = LocalDateTime.of(
@@ -195,27 +216,35 @@ public class HomeworkServiceImpl implements HomeworkService{
         if (!homeworkModifyReq.getHwFile().get(0).isEmpty()) {
             List<MultipartFile> hwFile = homeworkModifyReq.getHwFile();
             for (MultipartFile multipartFile : hwFile) {
+                LocalDateTime now = LocalDateTime.now();
                 HomeworkFile newFile = new HomeworkFile();
                 newFile.setHwId(homework.getHwId());
 
                 String sourceFileName = multipartFile.getOriginalFilename();
-                File destinationHomeworkFile;
+//                File destinationHomeworkFile;
                 String destinationHomeworkFileName;
-                String homeworkPath = "./assets/homework/teacher_homework/";
+//                String homeworkPath = "./assets/homework/teacher_homework/";
+//
+                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmssSSS"));
+                destinationHomeworkFileName = "HW" + today + sourceFileName;
 
-                destinationHomeworkFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
-                destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
-
-                destinationHomeworkFile.getParentFile().mkdirs();
-                try {
-                    multipartFile.transferTo(destinationHomeworkFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                ObjectMetadata objectMetadata = new ObjectMetadata();
+                objectMetadata.setContentLength(multipartFile.getSize());
+                objectMetadata.setContentType(multipartFile.getContentType());
+                amazonS3.putObject(new PutObjectRequest(bucket, destinationHomeworkFileName, multipartFile.getInputStream(), objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+//                destinationHomeworkFile = new File(homeworkPath + destinationHomeworkFileName);
+//
+//                destinationHomeworkFile.getParentFile().mkdirs();
+//                try {
+//                    multipartFile.transferTo(destinationHomeworkFile);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
                 newFile.setFileName(destinationHomeworkFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(homeworkPath);
+//                newFile.setFilePath(homeworkPath);
                 homeworkFileRepository.save(newFile);
             }
         }
@@ -224,20 +253,7 @@ public class HomeworkServiceImpl implements HomeworkService{
     }
 
     @Override
-    public Resource loadAsResource(String fileName, String filePath) {
-        try {
-            System.out.println("loadAsResource run!!!!!!!!!!!!!!");
-            Path file = Paths.get(filePath).resolve(fileName);
-            System.out.println(file);
-            System.out.println("file run!!!!!!!!!!!!!!");
-            System.out.println(file.toUri());
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public URL loadAsResource(String fileName){
+        return amazonS3.getUrl(bucket, fileName);
     }
 }

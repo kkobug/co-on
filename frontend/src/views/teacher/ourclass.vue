@@ -1,7 +1,7 @@
 <template>
   <div >
     <tchr-nav @startvideo="start"></tchr-nav>
-    <ModalView style="z-index:10;" v-if ="state.isVisible" @close-modal="closemodal()"></ModalView>
+    <ModalView style="z-index:11;" v-if ="state.isVisible" @close-modal="closemodal()"></ModalView>
     <el-row :gutter="24" style="margin: auto; margin-top: 2vh;">
       <el-col :span="20" style="margin: auto; min-height: 600px;">
         <el-button class="staddbtn" style="border:none; position:absolute; right: 30px; top: 10px;" @click="state.isVisible=true">학생 추가</el-button>
@@ -13,7 +13,7 @@
             :span="4"
             >
               <el-card :body-style="{ padding: '5px' }" style="border-radius:5px; width: 100%; position:relative; padding: 7px; margin-bottom : 2vh;">
-                <el-avatar :size="80" fit=cover :src="require('@/assets/images/' + o[9] + o[7])" v-if="o[7]"></el-avatar>
+                <el-avatar :size="80" fit=cover :src="state.profiles.o[0]" v-if="o[7]"></el-avatar>
                 <el-avatar :size="80" fit=cover :src="require('@/assets/images/기본프로필.png')" v-else></el-avatar>
                 <div style="padding: 14px">
                   <span>{{o[1]}}</span>
@@ -24,7 +24,7 @@
                     <el-form-item style="margin:5px;">
                       <el-input v-model="state.mil[index]"></el-input>
                     </el-form-item>
-                    <el-button class="staddbtn" style="min-width:80px; border:none;" @click="addmil(o[0], index)">추가</el-button>
+                    <el-button class="staddbtn" style="min-width:80px; border:none;" @click="addmil(o[0], index)">적립/차감</el-button>
                   </el-form>
                 </div>
                 <el-button type="text" class="button" @click="delstudent(o[0])">X</el-button>
@@ -79,7 +79,8 @@ export default {
       testDate: new Date(),
       classtitle: computed(() => store.getters['root/getStudyName']),
       classId : computed(() => store.getters['root/getStudyId']),
-      id: store.state.root.userid
+      id: store.state.root.userid,
+      profiles: {},
     })
     const test = function () {
       let month = String(state.testDate.getUTCMonth()+1)
@@ -99,6 +100,16 @@ export default {
         state.students = res.data
         if(res.data.length){
           state.isdata=false
+          for (let i=0; i<res.data.length; i++) {
+            if (res.data[i][7]) {
+              store.dispatch("root/requestStProf", {
+                fileName: res.data[i][7],
+              })
+              .then(resp => {
+                state.profiles[res.data[i][0]] = resp
+              })
+            }
+          }
         }else{
           state.isdata=true
         }
@@ -203,8 +214,8 @@ export default {
   display: flex;
 }
 .staddbtn {
-    width: 10%;
-    background-color: #6B3BE3;
+    width: 7.5%;
+    background-color: #91847A;
     border-radius: 15px;
     text-align: end !important;
     color: #fff;

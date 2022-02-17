@@ -7,6 +7,8 @@ import com.ssafy.db.entity.StudentHomework;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -14,12 +16,12 @@ import java.util.List;
  */
 public interface StudentHomeworkService {
 	// 학생 과제 등록
-	StudentHomework createStudentHomework(StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq);
+	StudentHomework createStudentHomework(StudentHomeworkRegisterPostReq studentHomeworkRegisterPostReq) throws IOException;
 	// 과제 삭제(과제 ID와 학생 ID로 삭제)
 	@Transactional
 	void deleteStudentHomework(Integer hwId, String stId);
 	//학생 과제 수정
-//	StudentHomework updateStudentHomework(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq);
+	StudentHomework updateStudentHomework(Integer stHwId, StudentHomeworkUpdatePutReq StudentHomeworkUpdatePutReq) throws IOException;
 
     //학생 과제 조회 (학생ID에 따라, 과제ID에 따라, 학생 조회)
 	List<StudentHomework> findStudentHomeworkByHwId(Integer hwId);
@@ -31,6 +33,6 @@ public interface StudentHomeworkService {
 	@Transactional
 	void updateScore(StudentHomeworkPutReq studentHomeworkPutReq);
 
-	Resource loadAsResource(String fileName, String filePath);
+	URL loadAsResource(String fileName);
 
 }

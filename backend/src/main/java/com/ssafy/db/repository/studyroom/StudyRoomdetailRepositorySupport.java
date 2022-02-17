@@ -38,4 +38,10 @@ public class StudyRoomdetailRepositorySupport {
     public void deleteStudyRoomDetail(Integer studyId, String stId){
         jpaQueryFactory.delete(qStudyroomDetail).where(qStudyroomDetail.studyId.eq(studyId).and(qStudyroomDetail.stId.eq(stId))).execute();
     }
+
+    public List<StudyroomDetail> findStudyroomDetailbystId(String stId) {
+        return jpaQueryFactory.select(qStudyroomDetail).from(qStudyroomDetail)
+                .where(qStudyroomDetail.stId.eq(stId)).fetch();
+    }
+
 }

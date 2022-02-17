@@ -31,7 +31,7 @@
       <th>입장시간</th>
       <th>퇴장시간</th>
       <th>출결여부</th>
-      <tr v-for="tr in state.conferList.attendances" :key ="tr.confId">
+      <tr v-for="tr in state.conferList.attendances" :key ="tr.confId" style="line-height: 30px;">
         <td>{{tr.stId}}</td>
         <td><p v-for="(Rin, index) in makereco(tr).rstart" :key="index">{{Rin}}</p></td>
         <td><p v-for="(Rin, index) in makereco(tr).rend" :key="index">{{Rin}}</p></td>
@@ -195,7 +195,7 @@ export default {
   flex-wrap: wrap;
 }
 .demo-date-picker .block {
-  padding: 30px 0;
+  padding: 30px 0px;
   display: flex;
   text-align: center;
   margin: auto;
@@ -203,11 +203,11 @@ export default {
   align-items: center;
 }
 .datepickbtn{
-  margin-right: 55vh;
+  margin-right: 69vh;
   margin-left: 1vh;
   width: 50px;
   height: 30px;
-  background-color: #6B3BE3;
+  background-color: #91847A;
   color:#fff;
   border-radius: 10px;
 }
@@ -221,10 +221,10 @@ export default {
   border-collapse: collapse;
 }
 .recotable>tr:nth-child(2n){
-  background-color: #c8bfdf;
+  background-color: #ebfbff;
 }
 .recotable th{
-  background-color: #6B3BE3;
+  background-color: #83B1C9;
   color:#fff;
   padding:12px;
 }

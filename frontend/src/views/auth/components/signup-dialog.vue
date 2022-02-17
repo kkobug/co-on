@@ -74,7 +74,7 @@
   margin-top: 40px;
 }
 .signup-row .el-button {
-  background-color: #6B3BE3;
+  background-color: #91847A;
   color: #fff;
   height: 45px;
   width: 40%;
@@ -130,7 +130,10 @@ export default {
           { validator: checkPasswordPattern, trigger: 'blur'}
         ],
         email: [
-          { type: 'email', message: "Please input correct email address", trigger: ['blur', 'change'] }
+          { required: true, type: 'email', message: "Please input correct email address", trigger: ['blur', 'change'] }
+        ],
+        name: [
+          { required: true,}
         ]
       },
       dialogVisible: computed(() => props.open),

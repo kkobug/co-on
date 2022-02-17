@@ -1,5 +1,5 @@
 <template>
-  <div class ="modal" style="box-shadow: 3px 3px 3px 3px gray; z-index:11;">
+  <div class ="modal" style="box-shadow: 3px 3px 3px 3px gray;">
     <el-button type="text" class="overlay" @click="closeModal" style="margin-right: 5px">❌</el-button>
     <h2 style="margin-top: 4vh"><strong>학생 등록</strong></h2>
     <el-row>
@@ -12,7 +12,7 @@
       </el-col>
     </el-row>
     <!-- <div><label for="studid">학생 아이디</label><input v-model="state.studId"  name="studid" type="text"></div> -->
-    <el-button class="addbtn" @click="addstudent">등록</el-button>
+    <el-button class="addbtn" @click="addstudent">추가</el-button>
   </div>
 </template>
 
@@ -80,7 +80,7 @@ export default {
   }
   .addbtn {
     width: 20%;
-    background-color: #6B3BE3;
+    background-color: #91847A;
     border-radius: 12px;
     text-align: center;
     color: #fff;

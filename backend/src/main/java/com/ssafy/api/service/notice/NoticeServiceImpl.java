@@ -1,5 +1,8 @@
 package com.ssafy.api.service.notice;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import com.ssafy.api.request.notice.NoticeRegisterPostReq;
 import com.ssafy.api.request.notice.NoticeUpdatePutReq;
 import com.ssafy.db.entity.Notice;
@@ -8,20 +11,32 @@ import com.ssafy.db.repository.notice.NoticeFileRepository;
 import com.ssafy.db.repository.notice.NoticeRepository;
 import com.ssafy.db.repository.notice.NoticeRepositorySupport;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.service.RequestBody;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service("noticeService")
@@ -35,8 +50,14 @@ public class NoticeServiceImpl implements NoticeService{
     @Autowired
     NoticeRepositorySupport noticeRepositorySupport;
 
+    @Autowired
+    private AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
     @Override // 공지사항 등록
-    public Notice createNotice(NoticeRegisterPostReq noticeRegisterPostReq) {
+    public Notice createNotice(NoticeRegisterPostReq noticeRegisterPostReq) throws IOException{
         System.out.println("run service!!!!!!!!!");
         Notice notice = new Notice();
         notice.setStudyId(noticeRegisterPostReq.getStudyId());
@@ -49,28 +70,24 @@ public class NoticeServiceImpl implements NoticeService{
         if (!noticeRegisterPostReq.getNoticeFile().get(0).isEmpty()) {
             List<MultipartFile> noticeFile = noticeRegisterPostReq.getNoticeFile();
             for (MultipartFile multipartFile : noticeFile) {
+                LocalDateTime now = LocalDateTime.now();
                 NoticeFile newFile = new NoticeFile();
                 newFile.setNoticeId(notice.getNoticeId());
 
                 String sourceFileName = multipartFile.getOriginalFilename();
-                File destinationNoticeFile;
                 String destinationNoticeFileName;
-                String noticePath = "./assets/notice/";
 
-                destinationNoticeFileName = "tchr" + RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
-                destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
+                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmssSSS"));
+                destinationNoticeFileName = "NT" + today + sourceFileName;
 
-                destinationNoticeFile.getParentFile().mkdirs();
-                try {
-                    multipartFile.transferTo(destinationNoticeFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                ObjectMetadata objectMetadata = new ObjectMetadata();
+                objectMetadata.setContentLength(multipartFile.getSize());
+                objectMetadata.setContentType(multipartFile.getContentType());
+                amazonS3.putObject(new PutObjectRequest(bucket, destinationNoticeFileName, multipartFile.getInputStream(), objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
 
                 newFile.setFileName(destinationNoticeFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(noticePath);
-
                 noticeFileRepository.save(newFile);
             }
         }
@@ -78,7 +95,7 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override // 공지사항 삭제
-    @Cacheable(value = "findNotice",key ="#noticeId")
+    @CacheEvict(value = "findNotice",key ="#noticeId")
     public void deleteNotice(Integer noticeId, String tchrId) {
         noticeRepositorySupport.deleteNoticeByNoticeIdAndTchrId(noticeId, tchrId);
     }
@@ -93,7 +110,7 @@ public class NoticeServiceImpl implements NoticeService{
 
     @Override
     @CachePut(value = "findNotcie",key = "#noticeUpdatePutReq.noticeId")
-    public Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) {
+    public Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) throws IOException{
         Notice notice = noticeRepositorySupport.findByNoticeId(noticeUpdatePutReq.getNoticeId()).get();
         notice.setNoticeTitle(noticeUpdatePutReq.getNoticeTitle());
         notice.setNoticeContent(noticeUpdatePutReq.getNoticeContent());
@@ -103,27 +120,24 @@ public class NoticeServiceImpl implements NoticeService{
         if (!noticeUpdatePutReq.getNoticeFile().get(0).isEmpty()) {
             List<MultipartFile> noticeFile = noticeUpdatePutReq.getNoticeFile();
             for (MultipartFile multipartFile : noticeFile) {
+                LocalDateTime now = LocalDateTime.now();
                 NoticeFile newFile = new NoticeFile();
                 newFile.setNoticeId(notice.getNoticeId());
 
                 String sourceFileName = multipartFile.getOriginalFilename();
-                File destinationNoticeFile;
                 String destinationNoticeFileName;
-                String noticePath = "./assets/notice/";
 
-                destinationNoticeFileName = RandomStringUtils.randomAlphanumeric(8) + sourceFileName;
-                destinationNoticeFile = new File(noticePath + destinationNoticeFileName);
+                String today = now.format(DateTimeFormatter.ofPattern("MMddHHmmssSSS"));
+                destinationNoticeFileName = "NT" + today + sourceFileName;
 
-                destinationNoticeFile.getParentFile().mkdirs();
-                try {
-                    multipartFile.transferTo(destinationNoticeFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                ObjectMetadata objectMetadata = new ObjectMetadata();
+                objectMetadata.setContentLength(multipartFile.getSize());
+                objectMetadata.setContentType(multipartFile.getContentType());
+                amazonS3.putObject(new PutObjectRequest(bucket, destinationNoticeFileName, multipartFile.getInputStream(), objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
 
                 newFile.setFileName(destinationNoticeFileName);
                 newFile.setFileOriginName(sourceFileName);
-                newFile.setFilePath(noticePath);
                 noticeFileRepository.save(newFile);
             }
         }
@@ -142,24 +156,11 @@ public class NoticeServiceImpl implements NoticeService{
 
     @Override
     public List<Notice> findNoticeBystId(String stId) {
-        return noticeRepository.findNoticeBystId(stId);
+        return noticeRepositorySupport.findNoticeBystId(stId);
     }
 
     @Override
-    public Resource loadAsResource(String fileName, String filePath) {
-        try {
-            System.out.println("loadAsResource run!!!!!!!!!!!!!!");
-            Path file = Paths.get(filePath).resolve(fileName);
-            System.out.println(file);
-            System.out.println("file run!!!!!!!!!!!!!!");
-            System.out.println(file.toUri());
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public URL loadAsResource(String fileName){
+        return amazonS3.getUrl(bucket, fileName);
     }
 }

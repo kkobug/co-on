@@ -4,9 +4,11 @@ import com.ssafy.api.request.notice.NoticeUpdatePutReq;
 import com.ssafy.db.entity.Notice;
 import com.ssafy.api.request.notice.NoticeRegisterPostReq;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -29,5 +31,7 @@ public interface NoticeService {
 	//공지사항 수정
 	Notice updateNotice(NoticeUpdatePutReq noticeUpdatePutReq) throws IOException;
 
-	Resource loadAsResource(String fileName, String filePath);
+	URL loadAsResource(String fileName);
+
+//	ResponseEntity<byte[]> loadAsResource(String fileName) throws IOException;
 }

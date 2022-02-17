@@ -19,6 +19,8 @@ public class QHomeworkFile extends EntityPathBase<HomeworkFile> {
 
     public static final QHomeworkFile homeworkFile = new QHomeworkFile("homeworkFile");
 
+    public final StringPath fileExt = createString("fileExt");
+
     public final NumberPath<Integer> fileId = createNumber("fileId", Integer.class);
 
     public final StringPath fileName = createString("fileName");
@@ -26,6 +28,8 @@ public class QHomeworkFile extends EntityPathBase<HomeworkFile> {
     public final StringPath fileOriginName = createString("fileOriginName");
 
     public final StringPath filePath = createString("filePath");
+
+    public final StringPath fileSize = createString("fileSize");
 
     public final NumberPath<Integer> hwId = createNumber("hwId", Integer.class);
 

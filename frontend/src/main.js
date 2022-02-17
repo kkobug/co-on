@@ -33,6 +33,8 @@ import {
   faUsers,
   faHome,
   faArrowCircleUp,
+  faFileDownload,
+  faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons'
 library.add(
   faUserSecret,
@@ -54,6 +56,8 @@ library.add(
   faUsers,
   faHome,
   faArrowCircleUp,
+  faFileDownload,
+  faQuestionCircle,
   )
 
 
@@ -251,19 +255,7 @@ app.use(VCalendar)
 app.component('font-awesome-icon', FontAwesomeIcon)
 
 
-// app.use(googleAuth, {
-//   clientId: process.env.VUE_APP_CLIENT_ID,
-//   scope: 'profile email https://www.googleapis.com/auth/plus.login'
-// });
-// const prompt = 'select_account'
-// const GoogleAuthConfig = Object.assign({ scope: 'profile email' }, {
-//   clientId: process.env.VUE_APP_CLIENT_ID,
-//   scope: 'profile email https://www.googleapis.com/auth/plus.login',
-// });
 
-// // Install Vue plugin
-// app.config.globalProperties.$gAuth = googleAuth;
-// app.config.globalProperties.$gAuth.load(GoogleAuthConfig, prompt)
 
 components.forEach(component => {
   app.component(component.name, component)

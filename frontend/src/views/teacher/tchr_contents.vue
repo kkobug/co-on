@@ -116,10 +116,10 @@ export default {
   bottom:10px;
   padding: 5px;
   margin: 20px;
-  background-color: #db1d1d;
+  background-color: #F56C6C;
   border-radius: 15px;
-  width: 15vh;
-  height: 50px;
+  width: 100px;
+  height: 40px;
   text-align: center;
   color: #fff;
 }

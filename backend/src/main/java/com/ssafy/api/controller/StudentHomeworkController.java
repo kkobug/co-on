@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -140,17 +141,12 @@ public class StudentHomeworkController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Resource> download(
+	public ResponseEntity<URL> download(
 			@ApiParam(value = "파일 정보", required = true)
 			@RequestParam
-					String fileName,
-			@RequestParam
-					String filePath
+					String fileName
 	) throws IOException {
-		Resource file = studentHomeworkService.loadAsResource(fileName, filePath);
-
-		return ResponseEntity.ok().header(
-				HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\""
-		).body(file);
+		URL url = studentHomeworkService.loadAsResource(fileName);
+		return ResponseEntity.status(200).body(url);
 	}
 }

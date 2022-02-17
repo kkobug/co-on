@@ -13,22 +13,29 @@
           <el-scrollbar height="80%;" >
             <el-main style="line-height: 70px">
               <el-row :gutter="20" v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
-                <el-col :span="3"><div class="grid-content ">{{classitem[2]}}</div></el-col>
+                <el-col :span="3"><div class="grid-content ">{{classitem[0].studyroom.studyName}}</div></el-col>
                 <el-col :span="3"><div class="grid-content ">{{classitem[1]}}</div></el-col>
-                <el-col :span="2"><div class="grid-content ">{{classitem[11]}}</div></el-col>
-                <el-col :span="8"><div class="grid-content ">{{classitem[3]}}</div></el-col>
-                <el-col :span="4">
-                  <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content " >{{classitem[8].substr(0, 16)}}</div>
-                  <div v-else class="grid-content ">{{classitem[9].substr(0, 16)}}</div>
+                <el-col :span="2"><div class="grid-content ">{{classitem[0].stPoint}}</div></el-col>
+                <el-col :span="8"><div class="grid-content ">{{classitem[0].studyroom.studyDesc}}</div></el-col>
+                <el-col v-if="classitem.length>2" :span="4">
+                  <div v-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 2" class="grid-content " >{{classitem[2].confStart.substr(0, 16)}} 부터</div>
+                  <div v-else-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 3" class="grid-content ">수업이 없습니다.</div>
+                  <div v-else class="grid-content ">{{classitem[2].confEnd.substr(0, 16)}}까지</div>
                 </el-col>
-                <el-col :span="4">
-                  <div v-if="this.compareDate(classitem[8],classitem[9])" class="grid-content con-btn" @click="joinSession(classitem)">
+                <el-col v-else :span="4">
+                  <div>수업이 없습니다.</div>
+                </el-col>
+                <el-col v-if="classitem.length>2" :span="4">
+                  <div v-if="this.compareDate(classitem[2].confStart,classitem[2].confEnd) == 2" class="grid-content con-btn" @click="joinSession(classitem[2])">
                     <el-button style="background-color:red; color:white; border-radius:10px;">ON-AIR</el-button>
                   </div>
-                  <div v-else class="grid-content con-btn" @click="joinSession(classitem)">
+                  <div v-else-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 1" class="grid-content con-btn">
                     <el-button style="background-color:grey; color:white; border-radius:10px;">WAIT</el-button>
                   </div>
+                  <div v-else-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 3" class="grid-content con-btn">
+                  </div>
                 </el-col>
+                <el-col v-else :span="4"></el-col>
               </el-row>
             </el-main>
           </el-scrollbar>
@@ -204,14 +211,18 @@ export default {
       event.returnValue = '';
     },
     compareDate(Date1,Date2){
-      if (new Date(Date1) < new Date())
-        if (new Date() < new Date(Date2))
-          return true
-      return false
+      if (new Date(Date1) > new Date()){
+        return 1
+      }else if(new Date() > new Date(Date2)){
+        return 3
+      }else{
+        return 2
+      }
     },
     getClasses(){
-      this.$store.dispatch('root/requestGetClassConfStudyId',this.userId)
+      this.$store.dispatch('root/requeststLesson2', this.userId)
       .then(result =>{
+        console.log("1111111111111", result.data)
         this.classes=result.data
       })
       .catch(function(err){
@@ -271,9 +282,9 @@ export default {
 
 		joinSession (classitem) {
       this.nowClass=classitem
-      this.mySessionId=classitem[1]+classitem[4]
+      this.mySessionId=classitem.confId+classitem.tchrId
       // 수업 입실 axios
-      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem[4]})
+      this.$store.dispatch('root/requestConfEnter',{stId:this.userId,confId:classitem.confId})
       .catch(function(err){
         alert(err)
       })
@@ -355,7 +366,7 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-      this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass[4]})
+      this.$store.dispatch('root/requestConfExit',{stId:this.userId,confId:this.nowClass.confId})
       .then(result =>{
         console.log('퇴실 완료')
       })
@@ -532,7 +543,7 @@ export default {
     line-height: 320px;
   }
   .el-row {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   .el-row:last-child {
     margin-bottom: 0;

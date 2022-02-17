@@ -4,17 +4,22 @@ import com.ssafy.api.request.conference.ConferenceRegisterReq;
 import com.ssafy.db.entity.Attendance;
 import com.ssafy.db.entity.AttendanceRecord;
 import com.ssafy.db.entity.Conference;
+import com.ssafy.db.entity.Studyroom;
 import com.ssafy.db.repository.conference.AttendanceRecordRepository;
 import com.ssafy.db.repository.conference.AttendanceRepository;
 import com.ssafy.db.repository.conference.ConferenceRepository;
 import com.ssafy.db.repository.conference.ConferenceRepositorySupport;
+import com.ssafy.db.repository.studyroom.StudyRoomRepositorySupport;
+
+import com.ssafy.db.repository.conference.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("ConferenceService")
@@ -30,6 +35,11 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Autowired
     AttendanceRecordRepository attendanceRecordRepository;
+
+    @Autowired
+    StudyRoomRepositorySupport studyRoomRepositorySupport;
+    @Autowired
+    AttendanceRepositorySupport attendanceRepositorySupport;
 
     @Override
     public Conference createConference(ConferenceRegisterReq conferenceRegisterReq) {
@@ -56,7 +66,7 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Override
     public Conference findConference(Integer studyId, String tchrId) {
-        return conferenceRepository.findConference(studyId, tchrId);
+        return conferenceRepositorySupport.findConference(studyId, tchrId);
     }
 
     @Override
@@ -66,7 +76,7 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Override
     public AttendanceRecord findAttendanceRecord(String stId, Integer confId) {
-        return attendanceRecordRepository.findAttendanceRecordByIds(stId, confId);
+        return attendanceRepositorySupport.findAttendanceRecordByIds(stId, confId);
     }
 
     @Override
@@ -95,10 +105,9 @@ public class ConferenceServiceImpl implements ConferenceService{
         LocalDateTime now = LocalDateTime.now();
         attendanceRecord.setRecOut(now);
 
-        List<AttendanceRecord> attendanceRecords = attendanceRecordRepository.findAllAttendanceRecordByIds(stId, confId);
-
+        List<AttendanceRecord> attendanceRecords = attendanceRepositorySupport.findAttendanceRecord(stId,confId);
         if (attendanceRecords != null) {
-            Conference conference = conferenceRepository.findConferenceById(confId);
+            Conference conference = conferenceRepositorySupport.findConferenceById(confId);
             LocalDateTime st, ed, confIn, confOut;
             long atttime = 0;  // 출석시간
             st = conference.getConfStart();
@@ -143,5 +152,24 @@ public class ConferenceServiceImpl implements ConferenceService{
         return conferenceRepository.findConferenceByDate(studyId, tchrId, targetDate);
     }
 
+    @Override
+    public List<Object[]> findImpendingConferenceByTeacherId(String tchrId) {
+        List<Studyroom> studyrooms = studyRoomRepositorySupport.findStudyroomsByTchrId(tchrId);
+        List<Object[]> ret = new ArrayList<>();
+        LocalDateTime temp = LocalDateTime.now().plusYears(1000);
+        for (Studyroom studyroom : studyrooms) {
+            List<Conference> conferences = conferenceRepositorySupport.findConferencesByStudyId(studyroom.getStudyId());
+            for (Conference conference : conferences) {
+                if (conference.getConfStart().isBefore(temp)) {
+                    temp = conference.getConfStart();
+                    Object[] objects = new Object[2];
+                    objects[0] = studyroom;
+                    objects[1] = conference;
+                    ret.add(0, objects);
+                }
+            }
+        }
+        return ret;
+    }
 
 }

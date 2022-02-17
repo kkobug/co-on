@@ -14,10 +14,9 @@ public class StudentRepositorySupport {
     private JPAQueryFactory jpaQueryFactory;
     QStudent qStudent = QStudent.student;
 
-    public  Optional<Student> findById(String stId) {
-        Student student = jpaQueryFactory.select(qStudent).from(qStudent)
+    public  Student findById(String stId) {
+        return jpaQueryFactory.select(qStudent).from(qStudent)
                 .where(qStudent.stId.eq(stId)).fetchOne();
-        return Optional.ofNullable(student);
     }
 
     public String findstIdBystName(String stName) {

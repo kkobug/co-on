@@ -5,6 +5,8 @@ import com.ssafy.api.request.user.TeacherProfilePutReq;
 import com.ssafy.api.request.user.TeacherRegisterPostReq;
 import com.ssafy.db.entity.Teacher;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -19,5 +21,7 @@ public interface TeacherService {
 	String findByName(String tchrName);
 	List<Object[]> findstIdAndstName();
 
-	Teacher changeTeacherProfile(TeacherProfilePutReq teacherProfilePutReq);
+	Teacher changeTeacherProfile(TeacherProfilePutReq teacherProfilePutReq) throws IOException;
+
+	URL loadimg(String fileName);
 }

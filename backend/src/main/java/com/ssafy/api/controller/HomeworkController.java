@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 @Api(value = "과제 API", tags = {"Homework"})
@@ -36,7 +37,7 @@ public class HomeworkController {
             @ApiParam(value = "과제 출제 정보", required = true)
             @ModelAttribute
                     HomeworkRegisterPostReq homeworkRegisterPostReq
-    ) {
+    ) throws IOException {
         homeworkService.createHomework(homeworkRegisterPostReq);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
@@ -108,7 +109,7 @@ public class HomeworkController {
     })
     public  ResponseEntity<? extends BaseResponseBody> modifyHomework(
             @ApiParam(value = "과제 수정")
-            @ModelAttribute HomeworkModifyReq homeworkModifyReq) {
+            @ModelAttribute HomeworkModifyReq homeworkModifyReq) throws IOException {
         Homework homework = homeworkService.updateHomework(homeworkModifyReq);
 //        if (homework.getHwId() != hwId) return ResponseEntity.status(404).body(BaseResponseBody.of(404,"False"));
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -162,17 +163,12 @@ public class HomeworkController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Resource> download(
+    public ResponseEntity<URL> download(
             @ApiParam(value = "파일 정보", required = true)
             @RequestParam
-                    String fileName,
-            @RequestParam
-                    String filePath
+                    String fileName
     ) throws IOException {
-        Resource file = homeworkService.loadAsResource(fileName, filePath);
-
-        return ResponseEntity.ok().header(
-                HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\""
-        ).body(file);
+        URL url = homeworkService.loadAsResource(fileName);
+        return ResponseEntity.status(200).body(url);
     }
 }
