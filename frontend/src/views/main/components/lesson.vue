@@ -6,8 +6,8 @@
           <el-row :gutter="20" style="line-height: 60px; height: 5vh; font-size: 20px; font-weight: bold">
             <el-col :span="3"><div class="grid-content ">과목명</div></el-col>
             <el-col :span="3"><div class="grid-content ">교사</div></el-col>
-            <el-col :span="2"><div class="grid-content ">마일리지</div></el-col>
-            <el-col :span="8"><div class="grid-content ">수업설명</div></el-col>
+            <el-col :span="3"><div class="grid-content ">마일리지</div></el-col>
+            <el-col :span="7"><div class="grid-content ">수업설명</div></el-col>
             <el-col :span="4"><div class="grid-content ">화상회의</div></el-col>
           </el-row>
           <el-scrollbar height="80%;" >
@@ -15,8 +15,8 @@
               <el-row :gutter="20" v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
                 <el-col :span="3"><div class="grid-content ">{{classitem[0].studyroom.studyName}}</div></el-col>
                 <el-col :span="3"><div class="grid-content ">{{classitem[1]}}</div></el-col>
-                <el-col :span="2"><div class="grid-content ">{{classitem[0].stPoint}}</div></el-col>
-                <el-col :span="8"><div class="grid-content ">{{classitem[0].studyroom.studyDesc}}</div></el-col>
+                <el-col :span="3"><div class="grid-content ">{{classitem[0].stPoint}}</div></el-col>
+                <el-col :span="7"><div class="grid-content ">{{classitem[0].studyroom.studyDesc}}</div></el-col>
                 <el-col v-if="classitem.length>2" :span="4">
                   <div v-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 2" class="grid-content " >{{classitem[2].confStart.substr(0, 16)}} 부터</div>
                   <div v-else-if="this.compareDate(classitem[2].confStart, classitem[2].confEnd) == 3" class="grid-content ">수업이 없습니다.</div>
@@ -80,8 +80,9 @@
               <font-awesome-icon icon="users" class="fa_icon"/>
             </el-button>
           </div>
+
           <div v-if="this.mainStreamManager">
-            <el-scrollbar style="height:auto">
+            <el-scrollbar>
               <div style="display:flex">
                 <user-video id="sub-video" class="scrollbar-demo-item" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
                 <user-video id="sub-video" class="scrollbar-demo-item" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
@@ -94,6 +95,7 @@
               <user-video id="sub-video" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
             </div>
           </div>
+
           <div class="center_setting">
             <div id="main-container">
               <user-video id="main-video" :stream-manager="mainStreamManager"/>
@@ -473,7 +475,6 @@ export default {
 .center_setting{
   display: flex;
   flex-wrap: wrap;
-  // flex-direction: column;
   align-content: center;
   justify-content: center;
 }
@@ -486,12 +487,9 @@ export default {
 }
 #main-container {
   width: 80%;
-  // width: calc(36%*1920/1080) ;
-  // height: 36%;
 }
 #sub-video {
   width: 15% !important;
-  // height: auto;
 }
 .common-layout {
   .el-header,

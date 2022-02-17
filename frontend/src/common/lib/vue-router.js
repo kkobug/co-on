@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/home/home'
 import Login from '@/views/auth/login'
 import ConferencesDetail from '@/views/conferences/conference-detail'
 import App from '@/App'
