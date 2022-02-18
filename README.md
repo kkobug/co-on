@@ -1,4 +1,4 @@
-![apple-icon-120x120](C:\Users\SSAFY\Desktop\ssafy2\공통\S06P12E207\images\apple-icon-120x120.png)
+![apple-icon-120x120](images\apple-icon-120x120.png)
 
 # Co-on : 교육용 화상회의 플랫폼
 
@@ -22,7 +22,7 @@ https://i6e207.p.ssafy.io/
 
 ### 🛠 아키텍처 & 기술스택
 
-![arc](C:\Users\SSAFY\Desktop\ssafy2\공통\S06P12E207\images\arc.png)
+![arc](images\arc.png)
 
 <img src="https://img.shields.io/badge/vue-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white">
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
@@ -42,11 +42,11 @@ https://i6e207.p.ssafy.io/
 
 ### 📄Pages
 
-![d959c9d095fd8f02](C:\Users\SSAFY\Desktop\ssafy2\공통\S06P12E207\images\d959c9d095fd8f02.gif)
+![d959c9d095fd8f02](images\d959c9d095fd8f02.gif)
 
-![8d650b108510f1d7](C:\Users\SSAFY\Desktop\ssafy2\공통\S06P12E207\images\8d650b108510f1d7.gif)
+![8d650b108510f1d7](images\8d650b108510f1d7.gif)
 
-![d1b099b94ec9b3ef](C:\Users\SSAFY\Desktop\ssafy2\공통\S06P12E207\images\d1b099b94ec9b3ef.gif)
+![d1b099b94ec9b3ef](images\d1b099b94ec9b3ef.gif)
 
 ### 📝 산출물
 
