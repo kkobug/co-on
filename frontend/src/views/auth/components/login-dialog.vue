@@ -11,15 +11,15 @@
       </el-form>
 
       <el-row class="row-btn" style="margin-top: 40px">
-        <el-button @click="clickStLogin" style="width: 48%">학생 로그인</el-button>
-        <el-button @click="clickTchrLogin" style="width: 48%">교사 로그인</el-button>
-      </el-row>
-      <el-row class="row-btn-text">
-        <el-button @click="clickFindid" type="text">회원 ID 찾기</el-button>
-        <el-button @click="clickChangePassword" type="text">비밀번호 재설정</el-button>
+        <el-button @click="clickStLogin" style="width: 48%">등교하기</el-button>
+        <el-button @click="clickTchrLogin" style="width: 48%">출근하기</el-button>
       </el-row>
       <el-row class="row-btn">
-        <el-button @click="clickSignup" style="width: 100%">회원가입</el-button>
+        <el-button @click="clickFindid" style="width: 48%">ID 찾기</el-button>
+        <el-button @click="clickSignup" style="width: 48%">입학하기</el-button>
+      </el-row>
+      <el-row class="row-btn">
+        <!-- <el-button @click="clickChangePassword" type="text">비밀번호 재설정</el-button> -->
       </el-row>
     </el-dialog>
   </div>

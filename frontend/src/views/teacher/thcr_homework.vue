@@ -7,7 +7,7 @@
       </div>
     </div>
     <el-row :gutter="24" style="margin : 5px; margin-bottom : 10px;" class ="el-item el-item-bgcolor1">
-      <el-col :span="4" class ="li-title li-item">교과명</el-col>
+      <el-col :span="4" class ="li-title li-item">제목</el-col>
       <el-col :span="11" class ="li-lesson li-item"><div><span>과제</span></div></el-col>
       <el-col :span="2" class ="li-item filebar">파일</el-col>
       <el-col :span="4" class ="li-time li-item">제출기한</el-col>

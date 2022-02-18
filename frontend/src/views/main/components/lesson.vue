@@ -5,14 +5,14 @@
       <div class="common-layout" style="margin-top: 3vh; padding:10px; " v-if="!session">
           <el-row :gutter="20" style="line-height: 60px; height: 5vh; font-size: 20px; font-weight: bold">
             <el-col :span="3"><div class="grid-content ">&ensp;&ensp;&ensp;과목명</div></el-col>
-            <el-col :span="3"><div class="grid-content ">&ensp;&ensp;교사</div></el-col>
+            <el-col :span="3"><div class="grid-content ">&ensp;&ensp;선생님</div></el-col>
             <el-col :span="3"><div class="grid-content ">마일리지</div></el-col>
             <el-col :span="7"><div class="grid-content ">수업설명</div></el-col>
             <el-col :span="4"><div class="grid-content ">수업시간</div></el-col>
           </el-row>
           <el-scrollbar height="80%;" >
             <el-main style="line-height: 70px">
-              <el-row :gutter="20" v-for="classitem in this.classes" :key="classitem" style="background-color: #ecf0f1; border-radius: 20px">
+              <el-row :gutter="20" v-for="classitem in this.classes" :key="classitem" style="background-color: #F5FdFF; box-shadow: 1px 1px 1px 1px #C0C4CC; border-radius: 20px">
                 <el-col :span="3"><div class="grid-content ">{{classitem[0].studyroom.studyName}}</div></el-col>
                 <el-col :span="3"><div class="grid-content ">{{classitem[1]}}</div></el-col>
                 <el-col :span="3"><div class="grid-content ">{{classitem[0].stPoint}}</div></el-col>
