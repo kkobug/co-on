@@ -125,7 +125,6 @@ fabric.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -176,5 +175,9 @@ node_modules/
 dist/
 npm-debug.log
 yarn-error.log
+st_profiles/
+tchr_profiles/
+student_homework/
+
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij,vuejs,vue,java

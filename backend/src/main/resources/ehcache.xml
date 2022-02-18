@@ -1,0 +1,149 @@
+<!--https://www.ehcache.org/documentation/2.8/configuration/configuration.html-->
+<ehcache>
+    <diskStore path="java.io.tmpdir"/>
+
+    <defaultCache
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+
+    <!-- 학생, 교사 StudentServiceImpl TeacherServiceImpl-->
+    <!-- 회원 정보 조회시 캐싱, 정보 수정시 CachePut, 계정 탈퇴, 비밀번호 변경,프로필 사진 변경시 CacheEvict-->
+    <cache  name="findById"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+
+    <!-- HomeworkServiceImpl-->
+    <!-- 과제ID로 과제 조회시 캐싱, 과제 수정시 CachePut,과제 삭제 시 CacheEvict -->
+    <cache  name="hwDetail"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- HomeworkServiceImpl-->
+    <!-- 학생ID로 과제 제출률 조회시 캐싱, 10분 뒤 만료 -->
+    <cache  name="HwRateBystId"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- HomeworkServiceImpl-->
+    <!-- 교사ID로 과제 제출률 조회시 캐싱, 10분 뒤 만료 -->
+    <cache  name="HwRateBytchrId"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!--NoticeServiceImpl -->
+    <!-- Notice ID로 공지사항 상세 조회 시 캐싱, 공지사항 수정시 CachePut, 공지사항 삭제 시 CachEvict-->
+    <cache  name="findNotice"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- StudyRoomDetailServiceImpl -->
+    <!-- Study ID로 우리반 조회시 캐싱, 학생 Score 수정,학생 추가, 삭제 시 CacheEvict -->
+    <!-- StudentHomeworkServiceImpl updateScore시 CacheEvict-->
+    <cache  name="findStudent"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- StudyRoomDetailServiceImpl -->
+    <!-- 학생ID로 학생 수업 조회 시 캐싱, 학생 추가,삭제 시 CacheEvict-->
+    <cache  name="findStudyroomBystId"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- StudyRoomServiceImpl -->
+    <!-- 교사 ID로 교사 수업 조회 시 캐싱, 수업 추가, 삭제 시 CacheEvict-->
+    <cache  name="TchrClassList"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- AttendanceServiceImpl-->
+    <!-- 학생ID로 수업참석률 조회시 캐싱, 10분 뒤 만료-->
+    <cache  name="countStudentAtt"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- AttendanceServiceImpl-->
+    <!-- 교사ID로 출석률 조회시 캐싱, 10분 뒤 만료-->
+    <cache  name="countTchrtAtt"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- StudentHomeworkServiceImpl-->
+    <!-- 과제제출ID로 과제 세부 조회시 캐싱, 10분 뒤 만료 -->
+    <cache  name="findStHw"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- StudentHomeworkServiceImpl-->
+    <!-- 학생ID로 제출한 과제 조회시 캐싱, 과제 제출시 CachePut,제출과제 삭제시 CacheEvict-->
+    <cache  name="findSubmittedHw"
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="3600"
+            maxEntriesLocalDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    />
+</ehcache>
